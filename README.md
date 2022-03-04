@@ -1,2 +1,0 @@
-# PX
- Cube Payroll System
