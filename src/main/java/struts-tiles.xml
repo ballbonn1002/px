@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+   "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+   "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<!-- Tutorial : https://www.tutorialspoint.com/struts_2/struts_tiles.htm -->
+
+<tiles-definitions>
+	<!-- OLD BASE LAYOUT [NOT USE] -->
+	<definition name="baseLayout"
+		template="/pages-back/_layout/baseLayout.jsp">
+		<put-attribute name="title" value="Base Layout" />
+		<put-attribute name="menu"
+			value="/pages-back/_layout/menu.jsp" />
+		<put-attribute name="body"
+			value="/pages-back/_layout/body.jsp" />
+		<put-attribute name="footer"
+			value="/pages-back/_layout/footer.jsp" />
+	</definition>
+	
+	<!-- BASE MASTER LAYOUT -->
+	
+	<definition name="masterLayout"
+		template="/pages-back/_base/masterLayout.jsp">
+		<put-attribute name="title" value="Base Layout" />
+		<put-attribute name="body"
+			value="/pages-back/_layout/body.jsp" />
+		<put-attribute name="menu"
+			value="/pages-back/_base/menu.jsp" />
+	</definition>
+	
+	<!-- TEST -->
+	
+	<definition name="page.blank" extends="masterLayout">
+		<put-attribute name="title" value="Page Blank" />
+		<put-attribute name="body"
+			value="/pages-back/common/page-blank.jsp" />
+	</definition>
+
+
+	<!-- USER -->
+	<definition name="user.list" extends="masterLayout">
+		<put-attribute name="title" value="User Management" />
+		<put-attribute name="body"
+			value="/pages-back/user/user_list.jsp" />
+	</definition>
+	<definition name="user.edit" extends="masterLayout">
+		<put-attribute name="title" value="User Profile" />
+		<put-attribute name="body"
+			value="/pages-back/user/user_edit.jsp" />
+	</definition>
+	<definition name="user.add" extends="masterLayout">
+		<put-attribute name="title" value="User Add" />
+		<put-attribute name="body"
+			value="/pages-back/user/user_add.jsp" />
+	</definition>
+	<definition name="user.edit.profile" extends="masterLayout">
+		<put-attribute name="title" value="User Edit Profile" />
+		<put-attribute name="body"
+			value="/pages-back/user/user_edit_profile.jsp" />
+	</definition>
+	
+	<!-- ROLE -->
+	<definition name="role.list" extends="masterLayout">
+		<put-attribute name="title" value="Role Management" />
+		<put-attribute name="body"
+			value="/pages-back/role/role_list.jsp" />
+	</definition>
+	<definition name="department_list" extends="masterLayout">
+		<put-attribute name="title"
+			value="Department Management" />
+		<put-attribute name="body"
+			value="/pages-back/department/department_list.jsp" />
+	</definition>
+	<definition name="department_add" extends="masterLayout">
+		<put-attribute name="title" value="Add Department" />
+		<put-attribute name="body"
+			value="/pages-back/department/department_add.jsp" />
+	</definition>
+	<definition name="department_edit" extends="masterLayout">
+		<put-attribute name="title" value="Edit Department" />
+		<put-attribute name="body"
+			value="/pages-back/department/department_edit.jsp" />
+	</definition>
+	<definition name="role.edit" extends="masterLayout">
+		<put-attribute name="title" value="Role Edit" />
+		<put-attribute name="body"
+			value="/pages-back/role/role_edit.jsp" />
+	</definition>
+	<definition name="role.add" extends="masterLayout">
+		<put-attribute name="title" value="Role Add" />
+		<put-attribute name="body"
+			value="/pages-back/role/role_add.jsp" />
+	</definition>
+	
+	<!-- User_Profile -->
+	<definition name="admin_edit_userprofile"
+		extends="masterLayout">
+		<put-attribute name="title"
+			value="Admin_Edit_Userprofile" />
+		<put-attribute name="body"
+			value="/pages-back/user/admin_edit_userprofile.jsp" />
+	</definition>
+
+	<definition name="change_password" extends="masterLayout">
+		<put-attribute name="title" value="Change password" />
+		<put-attribute name="body"
+			value="/pages-back/personal/change_password.jsp" />
+	</definition>
+	
+	<!-- Position -->
+	<definition name="position_list" extends="masterLayout">
+		<put-attribute name="title" value="Position list" />  <!-- title value ชื่อ tab บน -->
+		<put-attribute name="body"
+			value="/pages-back/position/position_list.jsp" />
+	</definition>
+
+	<definition name="position_add" extends="masterLayout">
+		<put-attribute name="title" value="Add Position" />
+		<put-attribute name="body"
+			value="/pages-back/position/position_add.jsp" />
+	</definition>
+
+	<definition name="position_edit" extends="masterLayout">
+		<put-attribute name="title" value="Edit Position" />
+		<put-attribute name="body"
+			value="/pages-back/position/position_edit.jsp" />
+	</definition>
+	
+	
+	<!-- Holiday -->
+
+	<definition name="holiday_newlist" extends="masterLayout">
+		<put-attribute name="title" value="holiday list" />
+		<put-attribute name="body"
+			value="/pages-back/holiday/holiday_newlist.jsp" />
+	</definition>
+
+	<definition name="holiday_charts" extends="masterLayout">
+		<put-attribute name="title" value="holiday Charts" />
+		<put-attribute name="body"
+			value="/pages-back/charts/holidaycharts.jsp" />
+	</definition>
+
+	<definition name="holiday_add" extends="masterLayout">
+		<put-attribute name="title" value="Holiday add" />
+		<put-attribute name="body"
+			value="/pages-back/holiday/holiday_add.jsp" />
+	</definition>
+
+	<definition name="holiday_edit" extends="masterLayout">
+		<put-attribute name="title" value="Holiday Calendar" />
+		<put-attribute name="body"
+			value="/pages-back/holiday/holiday_edit.jsp" />
+	</definition>
+
+	<definition name="holiday_calendar" extends="masterLayout">
+		<put-attribute name="title" value="Holiday Calendar" />
+		<put-attribute name="body"
+			value="/pages-back/holiday/holiday_calendar.jsp" />
+	</definition>
+	
+
+</tiles-definitions>
