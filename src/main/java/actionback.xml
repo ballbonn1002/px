@@ -20,7 +20,7 @@
 		
 		<action name="authorization"
 			class="com.cubesofttech.action.LoginAction" method="login">
-			<result name="success" type="tiles" >page.blank</result>
+			<result name="success" type="tiles" >page.test</result>
 			<result name="error">/index.jsp</result>
 		</action>
 

@@ -37,6 +37,12 @@
 		<put-attribute name="body"
 			value="/pages-back/common/page-blank.jsp" />
 	</definition>
+	
+	<definition name="page.test" extends="masterLayout">
+		<put-attribute name="title" value="TEST" />
+		<put-attribute name="body"
+			value="/pages-back/common/page-test.jsp" />
+	</definition>
 
 
 	<!-- USER -->
