@@ -345,46 +345,7 @@
     
     <div id="main-content">
         <div class="container">
-            <div class="block-header">
-                <div class="row">
-                    <div class="col-lg-6 col-md-8 col-sm-12">
-                        <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a><tiles:insertAttribute name="title" ignore="true" /></h2>
-                    </div>            
-                    <div class="col-lg-6 col-md-4 col-sm-12 text-right">
-                        <div class="bh_chart hidden-xs">
-                            <div class="float-left m-r-15">
-                                <small>Employee</small>
-                                <h6 class="mb-0 mt-1"><i class="icon-user"></i> 1,784</h6>
-                            </div>
-                            <span class="bh_visitors float-right">2,5,1,8,3,6,7,5</span>
-                        </div>
-                        <div class="bh_chart hidden-sm">
-                            <div class="float-left m-r-15">
-                                <small>Expense</small>
-                                <h6 class="mb-0 mt-1"><i class="icon-globe"></i> 47.5M </h6>
-                            </div>
-                            <span class="bh_visits float-right">10,8,9,3,5,8,5</span>
-                        </div>
-                        <div class="bh_chart hidden-sm">
-                            <div class="float-left m-r-15">
-                                <small>YTD</small>
-                                <h6 class="mb-0 mt-1"><i class="icon-bubbles"></i> 13</h6>
-                            </div>
-                            <span class="bh_chats float-right">1,8,5,6,2,4,3,2</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row clearfix">
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="body">
-                            <tiles:insertAttribute name="body" ignore="true" />
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <tiles:insertAttribute name="body" ignore="true" />
         </div>
     </div>
     

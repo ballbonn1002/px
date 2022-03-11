@@ -41,20 +41,33 @@ tr{
 								
 				</script>
 ${description}
+
+
+<div class="block-header">
+                <div class="row">
+                    <div class="col-lg-6 col-md-8 col-sm-12">
+                        <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a><tiles:insertAttribute name="title" ignore="true" /></h2>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#"><i class="icon-home"></i></a></li> 
+                            <li class="breadcrumb-item"><a href="#"><tiles:insertAttribute name="title" ignore="true" /></a></li>                         
+                        </ul>
+                    </div>            
+                </div>
+            </div>
+
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="body">
+                        
 <div class="portlet light bordered">
-<div class="portlet-title" style="margin-left: 2%;">
-		<div class="caption">
-			<i class="fa fa-list font-red"></i> <span
-				class="caption-subject font-red sbold uppercase">Position</span> <span
-				class="caption-helper font-red"> ${role.name}
-			</span>
-		</div>
-		<div class="actions right">
-			<a href="position_add" class="btn green-meadow">
-			<i class="fa fa-plus"></i>&nbsp;Add Position</a>
-			<a class="btn btn-circle btn-icon-only btn-default fullscreen"
-				href="javascript:;" data-original-title="" title=""> </a>
-		</div>
+	<div class="portlet-title">
+		<div class="header">
+        	<h2 style="font-size: 20px;">Position</h2>
+        	<ul class="header-dropdown">
+            	<li><a href="position_add" class="btn btn-info">Add Position</a></li>
+            </ul>
+        </div>
 	</div>
 		<div class="portlet-body">
 			<!-- BEGIN FORM-->
@@ -70,27 +83,19 @@ ${description}
 						title=""> </a>
 				</div>
 				<!-- </div> -->
-				<div class="portlet-body" style="text-align: center;">
+				<div class="body">
 					<div class="table-responsive">
-						<table
-							class="table table-striped table-condensed flip-content table-hover">
+						<table class="table table-hover js-basic-example dataTable table-custom m-b-0 no-footer">
 							<thead>
-								<tr class = "text-center" style="background-color:rgb(59, 63, 81);color:white">
-									<th height="41" style="width: 5%;"><center>No</center></th>
-									<th height="41" style="width: 5%;"><center>PositionID</center></th>
-									<th height="41" style="width: 10%;"><center>DepartmentID</center></th>
-									<th height="41" style="text-align: center; width: 10%;">Name</th>
-									<th height="41" style="text-align: center; width: 5%;">Description</th>
-									<%--
-									<th style="text-align: center; width: 10%;">User Create</th>
-									<th style="text-align: center; width: 10%;">User Update</th>
-									<th style="text-align: center; width: 10%;">Time Create</th>
-									<th style="text-align: center; width: 10%;">Time Update</th>
-									--%>
-									<th height="41" style="text-align: center; width: 5%;">Edit</th>
-									<th height="41" style="text-align: center; width: 5%;">Delete</th>
-								</tr>
-							</thead>
+                            	<tr>
+                            		<th height="41" style="width: 10%;">No</th>
+									<th height="41" style="width: 10%;">ID</th>
+									<th height="41" style="width: 10%;">Department ID</th>
+									<th height="41" style="width: 10%;">Name</th>
+									<th height="41" style="width: 10%;">Description</th>
+									<th height="41" style="width: 5%;"></th>
+                                </tr>
+                            </thead>
 							<tbody>
 	 							<c:forEach var="test" items="${positionList}">
 									<c:set var="counter" value="${counter + 1}" />
@@ -108,15 +113,22 @@ ${description}
 										<td style="padding-top: 10px;"><fmt:formatDate
 												value="${test.time_update}" pattern=" dd-MM-yyyy" /></td>
 										--%>
+										<td style="text-align:right;">                                            
+                                        	<a class="btn btn-outline-success" title="Edit" href="editPosition?position_id=${test.position_id}">
+                                        	<i class="fa fa-pencil"></i></a>
+                                        	<a class="btn btn-outline-danger sweet-${test.position_id}" title="Delete"
+                                        		onclick="_gaq.push(['_trackEvent', 'example', 'try', 'Primary']);">
+                                        	<i class="fa fa-trash-o"></i></a>
+                                        </td>
 										
-										<td style="text-align:center; padding-top: 10px;">
+										<!-- <td style="text-align:center; padding-top: 10px;">
 												<a class="btn btn-outline btn-circle btn-sm sbold blue editsweet-${test.position_id}" title="Edit"
 												href="editPosition?position_id=${test.position_id}">
 												<i class="fa fa-pencil"></i></a></td>
 										<td style="text-align:center; padding-top: 10px;">
 												<a class="btn btn-outline btn-circle btn-sm sbold red-mint sweet-${test.position_id}" 
 												onclick="_gaq.push(['_trackEvent', 'example', 'try', 'Primary']);" title="Delete">
-												<i class="fa fa-trash"></i></a></td>
+												<i class="fa fa-trash"></i></a></td> -->
 												
 										
 									</tr>
@@ -147,6 +159,10 @@ document.querySelector('.sweet-${test.position_id}').onclick = function(){
 			<!-- END FORM-->
 		</div>
 	</div>
+	</div>
+                    </div>
+                </div>
+            </div>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script>
