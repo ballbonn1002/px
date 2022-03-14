@@ -4,6 +4,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="/WEB-INF/tlds/permission.tld" prefix="perm"%>
+
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+
 <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 <c:set var="now" value="<%=new java.util.Date()%>" />
 <style type="text/css">
@@ -40,79 +43,89 @@ tr{
 					}); 
 								
 				</script>
-<div class="portlet light bordered">
-	<div class="portlet-title" style="margin-left: 2%;">
-		<div class="caption">
-			<i class="fa fa-list font-red"></i> <span
-				class="caption-subject font-red sbold uppercase">Department</span> <span
-				class="caption-helper font-red"> <%-- ${role.name} --%>
-			</span>
-		</div>
-		<div class="actions right">
-	<a href="department_add" class="btn green-meadow"><i
-				class="fa fa-plus"></i>&nbsp;Add Department</a> <a
-				class="btn btn-circle btn-icon-only btn-default fullscreen"
-				href="javascript:;" data-original-title="" title=""> </a>
-		</div>
-	</div>
-		<div class="portlet-body">
-			<!-- BEGIN FORM-->
-			<div class="portlet box white">
-				<!-- <div class="portlet-title"> -->
-				<div class="caption"></div>
-				<div class="tools">
-					<a href="javascript:;" class="collapse" data-original-title=""
-						title=""> </a> <a href="#portlet-config" data-toggle="modal"
-						class="config" data-original-title="" title=""> </a> <a
-						href="javascript:;" class="reload" data-original-title="" title="">
-					</a> <a href="javascript:;" class="remove" data-original-title=""
-						title=""> </a>
-				</div>
-				<!-- </div> -->
-				<div class="portlet-body" style="text-align: center;">
-					<div class="table-responsive">
-						<table
-							class="table table-striped table-condensed flip-content table-hover ">
-							<thead>
-								<tr class="text-center"
-									style="background-color: rgb(59, 63, 81); color: white">
-									<th style="width: 5%;"><center>No</center></th>
-									<th style="width: 5%;"><center>ID</center></th>
-									<th style="width: 10%;"><center>Name</center></th>
-									<th style="text-align: center; width: 10%;">Description</th>
-									<th style="text-align: center; width: 5%;">Prefix ID</th>
-									<th style="text-align: center; width: 10%;">User Create</th>
-									<th style="text-align: center; width: 10%;">User Update</th>
-									<th style="text-align: center; width: 10%;">Time Create</th>
-									<th style="text-align: center; width: 10%;">Time Update</th>
-									<th style="text-align: center; width: 5%;">Edit</th>
-									<th style="text-align: center; width: 5%;">Delete</th>
-								</tr>
-							</thead>
-							<tbody>
-								<c:forEach var="test" items="${departmentList}">
-									<c:set var="counter" value="${counter + 1}" />
+<div class="block-header">
+    <div class="row">
+        <div class="col-lg-6 col-md-8 col-sm-12">
+              <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> เเผนก</h2>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="page.blank"><i class="icon-home"></i></a></li>                            
+                    <li class="breadcrumb-item">Master</li>
+                    <li class="breadcrumb-item active">เเผนก</li>
+                </ul>
+        </div>            
+    </div>
+</div>
+
+<div class="row clearfix">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="body">    
+				
+				<div class="portlet light bordered">
+					<div class="portlet-title" >
+						<div class="caption">
+							 <span style="font-weight: bold; font-size: 20px"
+								   class="caption-subject font-red sbold uppercase" >เเผนก</span> 
+							 <span class="caption-helper font-red"> <%-- ${role.name} --%> </span>
+						</div>
+		
+						<div class="actions right" style="text-align: right; ">
+							<a href="department_add" class="btn btn-info" style="margin-bottom: 30px;"  >&nbsp;เพิ่มเเผนก</a><!--  <a
+								class="btn btn-circle btn-icon-only btn-default fullscreen"
+								href="javascript:;" data-original-title="" title=""> </a> -->  <!--  class="btn green-meadow"-->  <!-- <i
+								class="fa fa-plus"></i> -->
+						</div>
+					</div>
+		
+			<div class="portlet-body">
+				<!-- BEGIN FORM-->
+				<div class="portlet box white">
+					<!-- <div class="portlet-title"> -->
+					<div class="caption"></div>
+						<div class="tools">
+							<a href="javascript:;" class="collapse" data-original-title=""
+							   title=""> </a> <a href="#portlet-config" data-toggle="modal"
+						       class="config" data-original-title="" title=""> </a> <a
+							   href="javascript:;" class="reload" data-original-title="" title="">
+							</a> 
+							<a href="javascript:;" class="remove" data-original-title="" title=""> </a>
+						</div>
+						<!-- </div> -->
+						<div class="table-responsive">
+							<table  class="table table-hover js-basic-example table-custom m-b-0 no-footer ">
+								<thead>
 									<tr>
-										<td>${counter}</td>
-										<td style="padding-top: 10px;">${test.id}</td>
-										<td style="padding-top: 10px;">${test.name}</td>
-										<td style="padding-top: 10px; text-align: left;">${test.description}</td>
-										<td style="padding-top: 10px;">${test.prefix_id}</td>
-										<td style="padding-top: 10px;">${test.user_create}</td>
-										<td style="padding-top: 10px;">${test.user_update}</td>
-										<td style="padding-top: 10px;"><fmt:formatDate
-												value="${test.time_create}" pattern=" dd-MMM-yyyy" /></td>
-										<td style="padding-top: 10px;"><fmt:formatDate
-												value="${test.time_update}" pattern=" dd-MMM-yyyy" /></td>
-										<td style="text-align: center; padding-top: 10px;"><a
-											class="btn btn-outline btn-circle btn-sm sbold blue editsweet-${test.id}"
-											title="Edit" href="Department_edit?id=${test.id}"> <i
-												class="fa fa-pencil"></i></a></td>
-										<td style="text-align: center; padding-top: 10px;"><a
-											class="btn btn-outline btn-circle btn-sm sbold red-intense sweet-${test.id}"
-											onclick="_gaq.push(['_trackEvent', 'example, 'try', 'Primary']);"
-											title="Delete"> <i class="fa fa-trash"></i></a></td>
+										<th style="text-align: left; width: 10%">ลำดับ</th>
+										<th style="text-align: left; width: 15%">ID</th>
+										<th style="text-align: left; width: 20% ">ชื่อเเผนก</th>
+										<th style="text-align: left; width: 20% ">รายละเอียด</th>
+										<th style="text-align: left; width: 20% ">Prefix ID</th>
+										<th style="text-align: center;width: 5% "></th>
 									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="test" items="${departmentList}">
+									<c:set var="counter" value="${counter + 1}" />
+										<tr>
+											<td style= "text-align: left; padding-left: 20px ">${counter}</td>
+											<td style="text-align: left; padding-top: 10px;">${test.id}</td>
+											<td style="text-align: left; padding-top: 10px;">${test.name}</td>
+											<td style="text-align: left; padding-top: 10px; text-align: left;">${test.description}</td>
+											<td style="text-align: left; padding-top: 10px;">${test.prefix_id}</td>
+											<!-- <td style="padding-top: 10px;">${test.user_create}</td>
+											<td style="padding-top: 10px;">${test.user_update}</td>
+											<td style="padding-top: 10px;"><fmt:formatDate
+												value="${test.time_create}" pattern=" dd-MMM-yyyy" /></td>
+											<td style="padding-top: 10px;"><fmt:formatDate
+												value="${test.time_update}" pattern=" dd-MMM-yyyy" /></td>-->
+											<td style="text-align:right;">                                            
+                                        		<a class="btn btn-outline-success" title="Edit" href="Department_edit?id=${test.id}">
+                                        		<i class="fa fa-pencil"></i></a>
+                                        		<a class="btn btn-outline-danger sred-intense sweet-${test.id}" title="Delete"
+                                        			onclick="_gaq.push(['_trackEvent', 'example', 'try', 'Primary']);">
+                                        		<i class="fa fa-trash-o"></i></a>
+                                       		</td>
+										</tr>
 									<script>
 document.querySelector('.sweet-${test.id}').onclick = function(){
 	swal({
@@ -140,6 +153,10 @@ document.querySelector('.sweet-${test.id}').onclick = function(){
 			<!-- END FORM-->
 		</div>
 	</div>
+	</div>
+	</div>
+</div>
+	
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script>

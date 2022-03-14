@@ -59,7 +59,7 @@ public class DepartmentAction extends ActionSupport {
 			String idDepart = request.getParameter("id");
 			Department departmentList = new Department();
 			departmentList = departmentDAO.findById(idDepart);
-			request.setAttribute(Department, departmentList);  //ส่งค่าจากหลังไปหน้า
+			request.setAttribute(Department, departmentList);  //à¸ªà¹ˆà¸‡à¸„à¹ˆà¸²à¸ˆà¸²à¸�à¸«à¸¥à¸±à¸‡à¹„à¸›à¸«à¸™à¹‰à¸²
 			return SUCCESS;
 		}catch (Exception e){
 			
@@ -76,21 +76,23 @@ public class DepartmentAction extends ActionSupport {
 			String idDepart = request.getParameter("ID");
 			depart = departmentDAO.findById(idDepart);
 			
-//			ส่วนของ GET PARAMETER
+//			à¸ªà¹ˆà¸§à¸™à¸‚à¸­à¸‡ GET PARAMETER
 			String name = request.getParameter("name");
 			String deptdes = request.getParameter("deptdes");
 			String prefixId = request.getParameter("testnaja");
 			
 			String date = request.getParameter("date");
-			String time = request.getParameter("time");
+			//String time = request.getParameter("time");
 
-			Timestamp ts = DateUtil.dateToTimestamp(date, time);
+			//Timestamp ts = DateUtil.dateToTimestamp(date, time);
 			
 			depart.setUserupdate(logonUser);
 			depart.setName(name);
 			depart.setDescription(deptdes);
 			depart.setPrefixId(prefixId);
-			depart.setTimeUpdate(ts);
+			depart.setTimeCreate(DateUtil.getCurrentTime());
+			depart.setTimeUpdate(DateUtil.getCurrentTime());
+			//depart.setTimeUpdate(ts);
 			
 			departmentDAO.update(depart);
 			
@@ -124,14 +126,15 @@ public class DepartmentAction extends ActionSupport {
 			String deptpre = request.getParameter("deptpre");
 			
 			String date = request.getParameter("date");
-			String time = request.getParameter("time");
+			//String time = request.getParameter("time");
 			
-			Timestamp ts = DateUtil.dateToTimestamp(date, time);
+			//Timestamp ts = DateUtil.dateToTimestamp(date, time);
 			
 			Department departmentCheck =  departmentDAO.findById(idDepart); // ทำการหา ID
 			if(departmentCheck == null){ // Check ว่า Id มีการซ้ำไหม ถ้าไม่ซ้ำ Save
 				
-			depart.setTimeCreate(ts);
+			depart.setTimeCreate(DateUtil.getCurrentTime());
+			depart.setTimeUpdate(DateUtil.getCurrentTime());
 			depart.setId(idDepart);
 			depart.setName(name);
 			depart.setUsercreate(logonUser);
