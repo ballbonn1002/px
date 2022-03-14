@@ -69,9 +69,12 @@ public class PositionAction extends ActionSupport {
 		
 			
 			String date = request.getParameter("date");
-			String time = request.getParameter("time");
+			//String time = request.getParameter("time");
+			log.debug(date);
+			//log.debug(time);
 			
-			Timestamp ts = DateUtil.dateToTimestamp(date, time);
+			//Timestamp ts = DateUtil.dateToTimestamp(date, time);
+			//log.debug(ts);
 			
 			Position positionCheck =  positionDAO.findById(positionId); // ทำการหา ID
 			if(positionCheck == null){ // Check ว่า Id มีการซ้ำไหม ถ้าไม่ซ้ำ Save
@@ -82,8 +85,8 @@ public class PositionAction extends ActionSupport {
 				position.setDescription(description);
 				position.setUserCreate(logonUser);
 				position.setUserUpdate(logonUser);
-				position.setTimeCreate(ts);
-				position.setTimeUpdate(ts);
+				position.setTimeCreate(DateUtil.getCurrentTime());
+				position.setTimeUpdate(DateUtil.getCurrentTime());
 				
 			positionDAO.save(position);
 			}else{ // ถ้าซ้ำ ทำการ Alert โดยสร้าง Flag ไว้ในหน้า department_add
@@ -136,16 +139,17 @@ public class PositionAction extends ActionSupport {
 			String name = request.getParameter("name");
 			String description = request.getParameter("description");
 			String date = request.getParameter("date");
-			String time = request.getParameter("time");
+			//String time = request.getParameter("time");
 
-			Timestamp ts = DateUtil.dateToTimestamp(date, time);
+			//Timestamp ts = DateUtil.dateToTimestamp(date, time);
 			
 			position.setName(logonUser);
 			position.setPositionId(positionId);
 			position.setName(name);
 			position.setDepartmentId(departmentId);
 			position.setDescription(description);
-			position.setTimeUpdate(ts);
+			position.setTimeUpdate(DateUtil.getCurrentTime());
+			position.setUserUpdate(logonUser);
 			
 			positionDAO.update(position);
 			
