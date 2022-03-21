@@ -21,17 +21,32 @@ public class Employee_type implements Serializable {
     public  Employee_type(
             String employee_type_id 	
             , String name	
-            , String description	
+            , String description
+            , String usercreate	
+            , String userupdate
             , java.sql.Timestamp timeCreate	
             , java.sql.Timestamp timeUpdate	
         ) {
         this.employee_type_id  = employee_type_id ;	
         this.name = name;	
         this.description = description;	
+        this.usercreate = usercreate;
+        this.userupdate = userupdate;
         this.timeCreate = timeCreate;	
         this.timeUpdate = timeUpdate;	
     }
-
+    public String getUsercreate() {
+		return usercreate;
+	}
+	public void setUsercreate(String usercreate) {
+		this.usercreate = usercreate;
+	}
+	public String getUserupdate() {
+		return userupdate;
+	}
+	public void setUserupdate(String userupdate) {
+		this.userupdate = userupdate;
+	}
 
 	@Id
     @Column(name = "employee_type_id ")
@@ -40,6 +55,10 @@ public class Employee_type implements Serializable {
     private String name;	
     @Column(name = "description")
     private String description;	
+    @Column(name = "user_create")
+    private String usercreate;
+    @Column(name = "user_update")
+    private String userupdate;	
     @Column(name = "time_create")
     private java.sql.Timestamp timeCreate;	
     @Column(name = "time_update")

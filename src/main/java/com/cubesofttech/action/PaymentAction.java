@@ -29,6 +29,18 @@ public class PaymentAction extends ActionSupport {
 	HttpServletResponse response = ServletActionContext.getResponse();
 	public static final String Employee_type = "emptypeList";
 	
+	
+	public String listPaymentEmp() {
+		try {
+					List<Employee_type> emptypeList = employee_typeDAO.findAll();
+					request.setAttribute(Employee_type, emptypeList);
+					return SUCCESS;
+				} catch (Exception e) {
+					log.error(e);
+					
+					return ERROR;
+				}
+		   }
 	public String listPayment() {
 		try {
 					List<Employee_type> emptypeList = employee_typeDAO.findAll();
@@ -40,7 +52,7 @@ public class PaymentAction extends ActionSupport {
 					return ERROR;
 				}
 		   }
-	public String deletePayment(){
+	public String deletePaymentEmp(){
 		try{
 			String idEmptype = request.getParameter("employee_type_id");
 			Employee_type emptype = new Employee_type();
@@ -56,7 +68,7 @@ public class PaymentAction extends ActionSupport {
 		}
 		
 	}
-	public String updatePayment(){
+	public String updatePaymentEmp(){
 		try{
 			String idEmptype = request.getParameter("employee_type_id");
 			Employee_type emptypeList = new Employee_type();
@@ -69,10 +81,10 @@ public class PaymentAction extends ActionSupport {
 		}
 	}
 	
-	public String editPayment(){
+	public String editPaymentEmp(){
 		try{
-			//User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login 
-			//String logonUser = ur.getId(); // Username login 
+			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login 
+			String logonUser = ur.getId(); // Username login 
 			
 			Employee_type emptype = new Employee_type();
 			String idEmptype = request.getParameter("employee_type_id");
@@ -89,11 +101,12 @@ public class PaymentAction extends ActionSupport {
 
 			//Timestamp ts = DateUtil.dateToTimestamp(date, time);
 			
-			//emptype.setUserupdate(logonUser);
+			
 			emptype.setemployee_type_id(idEmptype);
 			emptype.setName(name);
 			emptype.setDescription(deptdes);
-		
+			emptype.setUserupdate(logonUser);
+			emptype.setUserupdate(logonUser);
 			emptype.setTimeCreate(DateUtil.getCurrentTime());
 			emptype.setTimeUpdate(DateUtil.getCurrentTime());
 			//depart.setTimeUpdate(ts);
@@ -109,7 +122,7 @@ public class PaymentAction extends ActionSupport {
 			return ERROR;
 		}
 	}
-	public String addPayment(){
+	public String addPaymentEmp(){
 		try{
 			return SUCCESS;
 			
@@ -118,10 +131,10 @@ public class PaymentAction extends ActionSupport {
 			return ERROR;
 		}
 	}
-	public String savePayment() {
+	public String savePaymentEmp() {
 		try{
-			//User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login 
-			//String logonUser = ur.getId(); // Username login 
+			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login 
+			String logonUser = ur.getId(); // Username login 
 
 			Employee_type emptype  = new Employee_type();
 			String idEmptype = request.getParameter("employee_type_id");
@@ -135,7 +148,8 @@ public class PaymentAction extends ActionSupport {
 			
 			Employee_type employee_typeCheck =  employee_typeDAO.findById(idEmptype); // ทำการหา ID
 			if(employee_typeCheck == null){ // Check ว่า Id มีการซ้ำไหม ถ้าไม่ซ้ำ Save
-				
+				emptype.setUsercreate(logonUser);
+				emptype.setUserupdate(logonUser);
 				emptype.setTimeCreate(DateUtil.getCurrentTime());
 				emptype.setTimeUpdate(DateUtil.getCurrentTime());
 				emptype.setemployee_type_id(idEmptype);

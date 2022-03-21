@@ -27,7 +27,7 @@
                                         	<ul class="list-unstyled">
                                                 <li><label>Payroll</label></li>
                                                 <li class="active"><a href="#">Payroll Management</a></li>
-                                                <li ><a href=#">Payroll History</a></li>
+                                                <li ><a href="#">Payroll History</a></li>
                                             </ul>
                                       
                                         </div>
@@ -67,7 +67,7 @@
                                         <div class="mega-list">
                                         	<ul class="list-unstyled">
                                                 <li><label>Payment</label></li>
-                                                <li><a href="#">Payment Type</a></li>
+                                                <li><a href="paymentemp_list">Payment Type</a></li>
                                                 <li><a href="#">Payment Group</a></li>
                                                 <li><a href="/payment_term">Payment Term</a></li>
                                             </ul>
