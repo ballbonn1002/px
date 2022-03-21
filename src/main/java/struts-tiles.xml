@@ -167,5 +167,11 @@
 			value="/pages-back/holiday/holiday_calendar.jsp" />
 	</definition>
 	
+	<definition name="payment_term" extends="masterLayout">
+		<put-attribute name="title" value="Payment Term" />
+		<put-attribute name="body"
+			value="/pages-back/payment/payment_term.jsp" />
+	</definition>
+	
 
 </tiles-definitions>

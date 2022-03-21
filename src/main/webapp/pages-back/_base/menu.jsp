@@ -69,7 +69,7 @@
                                                 <li><label>Payment</label></li>
                                                 <li><a href="#">Payment Type</a></li>
                                                 <li><a href="#">Payment Group</a></li>
-                                                <li><a href="#">Payment Term</a></li>
+                                                <li><a href="/payment_term">Payment Term</a></li>
                                             </ul>
                                         </div>
                                     </div>

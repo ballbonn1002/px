@@ -328,5 +328,12 @@
 			<result name="success" type="tiles">payment_list</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
 			<result name="error">/index.jsp</result>
 		</action>
+		
+		<action name="payment_term"
+			class="com.cubesofttech.action.PaymentAction" method="listPayment">
+			<result name="success" type="tiles">payment_term</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
+			<result name="error">/index.jsp</result>
+		</action>
+		
 	</package>
 </struts>
