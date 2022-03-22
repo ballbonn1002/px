@@ -30,7 +30,9 @@
 			value="/pages-back/_base/menu.jsp" />
 	</definition>
 	
+
 	<!-- TEST -->
+	
 	
 	<definition name="page.blank" extends="masterLayout">
 		<put-attribute name="title" value="Page Blank" />
@@ -194,11 +196,23 @@
 	</definition>
 	
 	<!-- Employee -->
-	
+
 	<definition name="employee_list" extends="masterLayout">
 		<put-attribute name="title" value="รายชื่อพนักงาน" />
 		<put-attribute name="body"
 			value="/pages-back/employee/employee_list.jsp" />
 	</definition>
+
+	<definition name="dataemployee" extends="masterLayout">
+		<put-attribute name="title" value="Employee Data" />
+		<put-attribute name="body"
+			value="/pages-back/employee/dataemployee.jsp" />
+	</definition>
+		<definition name="employment" extends="masterLayout">
+		<put-attribute name="title" value="Employee Data" />
+		<put-attribute name="body"
+			value="/pages-back/employee/employment.jsp" />
+	</definition>
+	
 
 </tiles-definitions>

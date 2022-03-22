@@ -1316,6 +1316,23 @@ public class UserAction extends ActionSupport {
 		}
 	}
 	
-	
+	public String dataemployee(){
+		try{
+			return SUCCESS;
+			
+		}catch (Exception e){
+			
+			return ERROR;
+		}
+	}
+	public String dataEmployment(){
+		try{
+			return SUCCESS;
+			
+		}catch (Exception e){
+			
+			return ERROR;
+		}
+	}
 
 }
