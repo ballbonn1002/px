@@ -255,7 +255,7 @@ public class UserDAOImpl implements UserDAO {
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Map<String, Object>> user = null;
 		try {
-			String sql = "SELECT user.id,user.name,user.flag_search,user.role_id,user.department_id,user.email,user.enable ,CONCAT(user.id), user.position_id,user.start_date,job_site.name_site FROM user LEFT JOIN job_site ON user.id_sitejob = job_site.id_sitejob WHERE flag_search = 1 ORDER BY id ASC";
+			String sql = "SELECT user.id,user.title_name_th,user.name,user.flag_search,user.role_id,user.employee_id,user.department_id,user.email,user.enable ,CONCAT(user.id), user.position_id,user.start_date,job_site.name_site FROM user LEFT JOIN job_site ON user.id_sitejob = job_site.id_sitejob WHERE flag_search = 1 ORDER BY id ASC";
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 			user = query.list();

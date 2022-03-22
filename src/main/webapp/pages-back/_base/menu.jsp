@@ -58,7 +58,7 @@
                                         <div class="mega-list">
                                             <ul class="list-unstyled">
                                                 <li><label>Employee</label></li>
-                                                <li><a href="#">Employee Profile</a></li>
+                                                <li><a href="employee_list">Employee Profile</a></li>
                                                 <li><a href="#">Employee Type</a></li>
                                             </ul>
                                         </div>

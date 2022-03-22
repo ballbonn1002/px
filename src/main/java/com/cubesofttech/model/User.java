@@ -17,7 +17,10 @@ import javax.persistence.Table;
     @NamedQuery(name = "User.findAll", query = "SELECT t FROM User t")})
 public class User implements Serializable {
     
-    /** Creates a new instance of User */
+
+
+
+	/** Creates a new instance of User */
     public User() {
     }
     public User(
@@ -76,6 +79,8 @@ public class User implements Serializable {
             , String phone_num
             , String gender
             , Integer id_sitejob
+            , String title_name_th
+
         ) {
         this.id = id;	
         this.roleId = roleId;	
@@ -132,6 +137,7 @@ public class User implements Serializable {
         this.phone_num = phone_num;
         this.gender = gender;
         this.id_sitejob = id_sitejob;
+        this.title_name_th = title_name_th;
     }
     
     @Id
@@ -248,6 +254,8 @@ public class User implements Serializable {
     private String username;
     @Column(name = "id_sitejob")
     private Integer id_sitejob;
+    @Column(name = "title_name_th")
+    private String title_name_th;
 
 
 
@@ -589,6 +597,13 @@ public class User implements Serializable {
     public void setGender(String gender) {
         this.gender = gender;
     }
+    public String gettitle_name_th() {
+        return this.gender;
+    }		
+    public void settitle_name_th(String title_name_th) {
+        this.title_name_th = title_name_th;
+    }
+    
 
 
     

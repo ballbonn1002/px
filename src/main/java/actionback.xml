@@ -335,5 +335,13 @@
 			<result name="error">/index.jsp</result>
 		</action>
 		
+		<!-- Employee -->
+		
+		<action name="employee_list"
+			class="com.cubesofttech.action.UserAction" method="list">
+			<result name="success" type="tiles">employee_list</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
 	</package>
 </struts>

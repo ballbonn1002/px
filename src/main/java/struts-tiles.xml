@@ -192,6 +192,13 @@
 		<put-attribute name="body"
 			value="/pages-back/payment/paymentemp_add.jsp" />
 	</definition>
-
+	
+	<!-- Employee -->
+	
+	<definition name="employee_list" extends="masterLayout">
+		<put-attribute name="title" value="รายชื่อพนักงาน" />
+		<put-attribute name="body"
+			value="/pages-back/employee/employee_list.jsp" />
+	</definition>
 
 </tiles-definitions>
