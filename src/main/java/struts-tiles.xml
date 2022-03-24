@@ -203,15 +203,11 @@
 			value="/pages-back/employee/employee_list.jsp" />
 	</definition>
 
-	<definition name="dataemployee" extends="masterLayout">
+	
+	<definition name="informationemp" extends="masterLayout">
 		<put-attribute name="title" value="Employee Data" />
 		<put-attribute name="body"
-			value="/pages-back/employee/dataemployee.jsp" />
-	</definition>
-		<definition name="employment" extends="masterLayout">
-		<put-attribute name="title" value="Employee Data" />
-		<put-attribute name="body"
-			value="/pages-back/employee/employment.jsp" />
+			value="/pages-back/employee/informationemp.jsp" />
 	</definition>
 	
 

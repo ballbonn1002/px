@@ -90,7 +90,7 @@ input[type="checkbox"] {
 														</div>
 													</td>
 													<td>                                            
-				                                        <a style="text-align: center;" class="btn btn-outline-success" title="Edit" href="#">
+				                                        <a style="text-align: center;" class="btn btn-outline-success" title="Edit" href="informationemp">
 				                                        	<i class="fa fa-pencil"></i>
 				                                        </a>
 				                                    </td>

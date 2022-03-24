@@ -344,18 +344,11 @@
 			<result name="error">/index.jsp</result>
 		</action>
 		
-
-		<action name="dataemployee"
-			class="com.cubesofttech.action.UserAction" method="dataemployee">
-			<result name="success" type="tiles">dataemployee</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
+		<action name="informationemp"
+			class="com.cubesofttech.action.UserAction" method="informationEmp">
+			<result name="success" type="tiles">informationemp</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
 			<result name="error">/index.jsp</result>
 		</action>
 		
-		<action name="employment"
-			class="com.cubesofttech.action.UserAction" method="dataEmployment">
-			<result name="success" type="tiles">employment</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
-			<result name="error">/index.jsp</result>
-		</action>
-
 	</package>
 </struts>
