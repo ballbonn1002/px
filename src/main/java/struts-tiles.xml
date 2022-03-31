@@ -195,6 +195,12 @@
 			value="/pages-back/payment/paymentemp_add.jsp" />
 	</definition>
 	
+	<definition name="payment_type" extends="masterLayout">
+		<put-attribute name="title" value="รายการ รายได้/รายการหัก" />
+		<put-attribute name="body"
+			value="/pages-back/payment/payment_type.jsp" />
+	</definition>
+	
 	<!-- Employee -->
 
 	<definition name="employee_list" extends="masterLayout">
