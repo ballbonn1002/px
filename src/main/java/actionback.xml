@@ -335,6 +335,7 @@
 			<result name="error">/index.jsp</result>
 		</action>
 		
+
 		<action name="payment_type"
 			class="com.cubesofttech.action.PaymentTypeAction" method="listPaymentType">
 			<result name="success" type="tiles">payment_type</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
@@ -347,6 +348,48 @@
 			<result name="error">/index.jsp</result>
 		</action>
 		
+
+		
+		
+		<action name="payment_type"
+			class="com.cubesofttech.action.PaymentTypeAction" method="listPaymentType"  >
+			<result name="success" type="tiles">payment_type</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
+			<result name="error">/index.jsp</result>
+		</action>
+				
+			<action name="deleteIncome"
+			class="com.cubesofttech.action.PaymentTypeAction" method="deleteIncome">
+			<result name="success" type="tiles">payment_type</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="deleteExpenses"
+			class="com.cubesofttech.action.PaymentTypeAction" method="deleteExpenses">
+			<result name="success" type="tiles">payment_type</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="paymenttype_add"
+			class="com.cubesofttech.action.PaymentTypeAction" method="addPaymentType">
+			<result name="success" type="tiles">paymenttype_add</result>
+			<result name="error">/index.jsp</result>
+		</action>
+				<action name="savePaymentTypetest"
+			class="com.cubesofttech.action.PaymentTypeAction" method="savePaymentTypetest">
+			<result name="success" type="tiles">payment_type</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
+			<result name="error">/index.jsp</result>
+			<result name="input" type="tiles">payment_type</result>
+		</action>
+		<action name="updateIncome"
+			class="com.cubesofttech.action.PaymentTypeAction" method="editIncome">
+			<result name="success" type="tiles">payment_type</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
+			<result name="error">/index.jsp</result>
+		</action>
+				<action name="updateExpenses"
+			class="com.cubesofttech.action.PaymentTypeAction" method="editExpenses">
+			<result name="success" type="tiles">payment_type</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
+			<result name="error">/index.jsp</result>
+		</action>
+			
+
 		<!-- Employee -->
 
 		
@@ -361,7 +404,5 @@
 			<result name="success" type="tiles">information_emp</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
 			<result name="error">/index.jsp</result>
 		</action>
-		
-	
 	</package>
 </struts>

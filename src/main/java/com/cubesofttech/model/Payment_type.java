@@ -36,7 +36,7 @@ public class Payment_type implements Serializable {
         this.type = type;
         this.system = system;
         this.sequence = sequence;	
-        this.config_flag = config_flag;	
+        this.config_flag = config_flag;
         this.description = description;	
         this.usercreate = usercreate;
         this.userupdate = userupdate;

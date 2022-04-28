@@ -13,7 +13,7 @@ public interface Payment_typeDAO {
 	 public List<Payment_type> findAll() throws Exception;
 	public List<Payment_type> findtype1() throws Exception;
 	public List<Payment_type> findtype0() throws Exception;
-	public List<Payment_type> findcount() throws Exception;
+
 	
 	 
 	 public List<Map<String, Object>> findAllList() throws Exception;
@@ -23,7 +23,7 @@ public interface Payment_typeDAO {
 	 public Payment_type findById(String Payment_type_id ) throws Exception;
 	 
 	 public void update(Payment_type payment_type) throws Exception;
-	 
+	
 	    
 	 public void delete(Payment_type payment_type) throws Exception;
 	 

@@ -74,19 +74,9 @@ public class Payment_typeDAOImpl implements Payment_typeDAO{
 		}
 		return paymentTypeList00;
 	}
-    public List<Payment_type> findcount() throws Exception {
-		Session session = this.sessionFactory.getCurrentSession();
-		List<Payment_type> paymentTypeList = null;
-		try {
-			String sql = "SELECT sequence FROM `payment_type` order by `sequence` DESC LIMIT 1" ;
-			SQLQuery query = session.createSQLQuery(sql);
-			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
-			paymentTypeList = query.list();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return paymentTypeList;
-	}
+  
+    
+    
     
     @Override
     public List<Map<String, Object>> findAllList() throws Exception {
@@ -112,6 +102,10 @@ public class Payment_typeDAOImpl implements Payment_typeDAO{
         session.flush();
         //session.close();
     }
+    
+    
+	
+
     
     @Override
     public void delete(Payment_type payment_type) throws Exception {
