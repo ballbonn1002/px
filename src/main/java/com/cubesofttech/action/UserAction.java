@@ -596,7 +596,7 @@ public class UserAction extends ActionSupport {
 					u.setLeaveQuota1(user.getLeaveQuota1());
 					u.setLeaveQuota4(user.getLeaveQuota4());
 					u.setLeaveQuota3(user.getLeaveQuota3());
-					u.setPhonenum(user.getPhonenum());
+					u.setPhoneNum(user.getPhoneNum());
 					u.setGender(user.getGender());
 					userDAO.update(u);
 					userId = user.getId();
@@ -720,7 +720,7 @@ public class UserAction extends ActionSupport {
 				u.setLeaveQuota1(user.getLeaveQuota1());
 				u.setLeaveQuota4(user.getLeaveQuota4());
 				u.setLeaveQuota3(user.getLeaveQuota3());
-				u.setPhonenum(user.getPhonenum());
+				u.setPhoneNum(user.getPhoneNum());
 				u.setGender(user.getGender());
 
 				userDAO.update(u);
@@ -815,7 +815,7 @@ public class UserAction extends ActionSupport {
 			user.setName(user.getName().trim());
 			user.setEmail(email);
 //			user.setEmailPassword(emailpass);
-			user.setPhonenum(phone);
+			user.setPhoneNum(phone);
 			user.setNickName(nickname);
 //			user.setEmailHost(emailhost);
 			user.setGender(gender);
@@ -851,7 +851,7 @@ public class UserAction extends ActionSupport {
 			u.setName(user_name);
 			u.setNickName(user_nickName);
 			u.setAddress(user_address);
-			u.setPhonenum(user_phonenum);
+			u.setPhoneNum(user_phonenum);
 			u.setGender(user_gender);
 
 			String bd = birthDate;

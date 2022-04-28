@@ -76,11 +76,16 @@ public class User implements Serializable {
             , String line_id
             , String facebookid
             , String flagSearch
-            , String phone_num
             , String gender
             , Integer id_sitejob
             , String title_name_th
-
+            , String phoneNum
+            , String title_name_en
+            , String nameEN
+            , String nameEmer
+            , String nicknameEN
+            , String phoneEmer
+            
         ) {
         this.id = id;	
         this.roleId = roleId;	
@@ -134,10 +139,16 @@ public class User implements Serializable {
         this.line_id = line_id;
         this.facebookid = facebookid;
         this.flagSearch = flagSearch;
-        this.phone_num = phone_num;
         this.gender = gender;
         this.id_sitejob = id_sitejob;
         this.title_name_th = title_name_th;
+        this.phoneNum = phoneNum;
+        this.title_name_th = title_name_en;
+        this.nameEN = nameEN;
+        this.nameEmer = nameEmer;
+        this.nicknameEN = nicknameEN;
+        this.phoneEmer = phoneEmer;
+        
     }
     
     @Id
@@ -246,8 +257,6 @@ public class User implements Serializable {
     //line
     @Column(name = "line_id")
     private String line_id;
-    @Column(name = "phone_num")
-    private String phone_num;
     @Column(name = "gender")
     private String gender;
     @Column(name = "username")
@@ -256,9 +265,19 @@ public class User implements Serializable {
     private Integer id_sitejob;
     @Column(name = "title_name_th")
     private String title_name_th;
-
-
-
+    @Column(name = "phone_num")
+    private String phoneNum;
+    @Column(name = "title_name_en")
+    private String title_name_en;
+    @Column(name = "name_en")
+    private String nameEN;
+    @Column(name = "emergency_contact")
+    private String nameEmer;
+    @Column(name = "nick_name_en")
+    private String nicknameEN;
+    @Column(name = "emergency_phone")
+    private String phoneEmer;
+    
     public Integer getId_sitejob() {
 		return id_sitejob;
 	}
@@ -578,37 +597,93 @@ public class User implements Serializable {
         this.facebookid = facebookid;
     }
     
-//    line
+	//    line
 	public String getLine_id() {
 		return line_id;
 	}
 	public void setLine_id(String line_id) {
 		this.line_id = line_id;
 	}
-	public String getPhonenum() {
-        return this.phone_num;
-    }		
-    public void setPhonenum(String phone_num) {
-        this.phone_num = phone_num;
-    }
+	
 	public String getGender() {
         return this.gender;
     }		
     public void setGender(String gender) {
         this.gender = gender;
     }
-    public String gettitle_name_th() {
-        return this.gender;
-    }		
-    public void settitle_name_th(String title_name_th) {
-        this.title_name_th = title_name_th;
-    }
-    
 
-
-    
-    public String toString() {
-        return super.toString() + "id=[" + id + "]\n" + "roleId=[" + roleId + "]\n" + "departmentId=[" + departmentId + "]\n" + "managerId=[" + managerId + "]\n" + "positionId=[" + positionId + "]\n" + "employeeId=[" + employeeId + "]\n" + "name=[" + name + "]\n" + "nickName=[" + nickName + "]\n" + "password=[" + password + "]\n" + "email=[" + email + "]\n" + "emailPassword=[" + emailPassword + "]\n" + "emailEnable=[" + emailEnable + "]\n" + "birthDate=[" + birthDate + "]\n" + "address=[" + address + "]\n" + "startDate=[" + startDate + "]\n" + "endDate=[" + endDate + "]\n" + "workDayStart=[" + workDayStart + "]\n" + "workDayEnd=[" + workDayEnd + "]\n" + "workTimeStart=[" + workTimeStart + "]\n" + "workTimeEnd=[" + workTimeEnd + "]\n" + "latestSalary=[" + latestSalary + "]\n" + "eduInstitute1=[" + eduInstitute1 + "]\n" + "eduInstitute2=[" + eduInstitute2 + "]\n" + "eduInstitute3=[" + eduInstitute3 + "]\n" + "eduInstitute4=[" + eduInstitute4 + "]\n" + "eduDurStart1=[" + eduDurStart1 + "]\n" + "eduDurStart2=[" + eduDurStart2 + "]\n" + "eduDurStart3=[" + eduDurStart3 + "]\n" + "eduDurStart4=[" + eduDurStart4 + "]\n" + "eduDurEnd1=[" + eduDurEnd1 + "]\n" + "eduDurEnd2=[" + eduDurEnd2 + "]\n" + "eduDurEnd3=[" + eduDurEnd3 + "]\n" + "eduDurEnd4=[" + eduDurEnd4 + "]\n" + "eduDegree1=[" + eduDegree1 + "]\n" + "eduDegree2=[" + eduDegree2 + "]\n" + "eduDegree3=[" + eduDegree3 + "]\n" + "eduDegree4=[" + eduDegree4 + "]\n" + "enable=[" + enable + "]\n" + "leaveQuota1=[" + leaveQuota1 + "]\n" + "leaveQuota2=[" + leaveQuota2 + "]\n" + "leaveQuota3=[" + leaveQuota3 + "]\n" + "timeCreate=[" + timeCreate + "]\n" + "timeUpdate=[" + timeUpdate + "]\n" + "emailHost=[" + emailHost + "]\n" + "passwordUpdate=[" + passwordUpdate + "]\n" + "loginFailed=[" + loginFailed + "]\n" + "lastLoginFailedTime=[" + lastLoginFailedTime + "]\n" + "path=[" + path + "]\n"+ "facebookid=[" + facebookid + "]\n"+ "line_id=[" + line_id + "]\n";
+    public String getTitle_name_th() {
+		return title_name_th;
+	}
+	public void setTitle_name_th(String title_name_th) {
+		this.title_name_th = title_name_th;
+	}
+	
+    public String getPhoneNum() {
+		return phoneNum;
+	}
+	public void setPhoneNum(String phoneNum) {
+		this.phoneNum = phoneNum;
+	}	
+	public String getTitle_name_en() {
+		return title_name_en;
+	}
+	public void setTitle_name_en(String title_name_en) {
+		this.title_name_en = title_name_en;
+	}
+	public String getNameEN() {
+		return nameEN;
+	}
+	public void setNameEN(String nameEN) {
+		this.nameEN = nameEN;
+	}
+	public String getNameEmer() {
+		return nameEmer;
+	}
+	public void setNameEmer(String nameEmer) {
+		this.nameEmer = nameEmer;
+	}
+	public String getNicknameEN() {
+		return nicknameEN;
+	}
+	public void setNicknameEN(String nicknameEN) {
+		this.nicknameEN = nicknameEN;
+	}
+	public String getPhoneEmer() {
+		return phoneEmer;
+	}
+	public void setPhoneEmer(String phoneEmer) {
+		this.phoneEmer = phoneEmer;
+	}
+	public String toString() {
+        return super.toString() + "id=[" + id + "]\n" + "roleId=[" + roleId + "]\n" + "departmentId=[" + departmentId + "]\n" 
+        						+ "managerId=[" + managerId + "]\n" + "positionId=[" + positionId + "]\n" 
+        						+ "employeeId=[" + employeeId + "]\n" + "name=[" + name + "]\n" 
+        						+ "nickName=[" + nickName + "]\n" + "password=[" + password + "]\n" + "email=[" + email + "]\n" 
+        						+ "emailPassword=[" + emailPassword + "]\n" + "emailEnable=[" + emailEnable + "]\n" 
+        						+ "birthDate=[" + birthDate + "]\n" + "address=[" + address + "]\n" 
+        						+ "startDate=[" + startDate + "]\n" + "endDate=[" + endDate + "]\n" 
+        						+ "workDayStart=[" + workDayStart + "]\n" + "workDayEnd=[" + workDayEnd + "]\n" 
+        						+ "workTimeStart=[" + workTimeStart + "]\n" + "workTimeEnd=[" + workTimeEnd + "]\n" 
+        						+ "latestSalary=[" + latestSalary + "]\n" + "eduInstitute1=[" + eduInstitute1 + "]\n" 
+        						+ "eduInstitute2=[" + eduInstitute2 + "]\n" + "eduInstitute3=[" + eduInstitute3 + "]\n" 
+        						+ "eduInstitute4=[" + eduInstitute4 + "]\n" + "eduDurStart1=[" + eduDurStart1 + "]\n" 
+        						+ "eduDurStart2=[" + eduDurStart2 + "]\n" + "eduDurStart3=[" + eduDurStart3 + "]\n" 
+        						+ "eduDurStart4=[" + eduDurStart4 + "]\n" + "eduDurEnd1=[" + eduDurEnd1 + "]\n" 
+        						+ "eduDurEnd2=[" + eduDurEnd2 + "]\n" + "eduDurEnd3=[" + eduDurEnd3 + "]\n" 
+        						+ "eduDurEnd4=[" + eduDurEnd4 + "]\n" + "eduDegree1=[" + eduDegree1 + "]\n" 
+        						+ "eduDegree2=[" + eduDegree2 + "]\n" + "eduDegree3=[" + eduDegree3 + "]\n" 
+        						+ "eduDegree4=[" + eduDegree4 + "]\n" + "enable=[" + enable + "]\n" 
+        						+ "leaveQuota1=[" + leaveQuota1 + "]\n" + "leaveQuota2=[" + leaveQuota2 + "]\n" 
+        						+ "leaveQuota3=[" + leaveQuota3 + "]\n" + "timeCreate=[" + timeCreate + "]\n" 
+        						+ "timeUpdate=[" + timeUpdate + "]\n" + "emailHost=[" + emailHost + "]\n" 
+        						+ "passwordUpdate=[" + passwordUpdate + "]\n" + "loginFailed=[" + loginFailed + "]\n" 
+        						+ "lastLoginFailedTime=[" + lastLoginFailedTime + "]\n" + "path=[" + path + "]\n"
+        						+ "facebookid=[" + facebookid + "]\n"+ "line_id=[" + line_id + "]\n"
+        						+ "phoneNum=[" + phoneNum + "]\n" + "title_name_th=[" + title_name_th + "]\n"
+        						+ "title_name_en=[" + title_name_en + "]\n" + "nameEN=[" + nameEN + "]\n"
+        						+ "nameEmer=[" + nameEmer + "]\n" + "nicknameEN=[" + nicknameEN + "]\n"
+        						+ "phoneNum=[" + phoneEmer + "]\n";
     }
 
     public boolean equals(Object obj) {
@@ -815,12 +890,37 @@ public class User implements Serializable {
                 : that.getFacebookid().equals(this.getFacebookid()))) {
         return false;
         }
-        if (!(that.getPhonenum() == null ? this.getPhonenum() == null
-                : that.getPhonenum().equals(this.getPhonenum()))) {
-        return false;
-        }
+
         if (!(that.getGender() == null ? this.getGender() == null
                 : that.getGender().equals(this.getGender()))) {
+        return false;
+        }
+        if (!(that.getTitle_name_th() == null ? this.getTitle_name_th() == null
+                : that.getTitle_name_th().equals(this.getTitle_name_th()))) {
+        return false;
+        }
+        if (!(that.getPhoneNum() == null ? this.getPhoneNum() == null
+                : that.getPhoneNum().equals(this.getPhoneNum()))) {
+        return false;
+        }
+        if (!(that.getTitle_name_en() == null ? this.getTitle_name_en() == null
+                : that.getTitle_name_en().equals(this.getTitle_name_en()))) {
+        return false;
+        }
+        if (!(that.getNameEN() == null ? this.getNameEN() == null
+                : that.getNameEN().equals(this.getNameEN()))) {
+        return false;
+        }
+        if (!(that.getNameEmer() == null ? this.getNameEmer() == null
+                : that.getNameEmer().equals(this.getNameEmer()))) {
+        return false;
+        }
+        if (!(that.getNicknameEN() == null ? this.getNicknameEN() == null
+                : that.getNicknameEN().equals(this.getNicknameEN()))) {
+        return false;
+        }
+        if (!(that.getPhoneEmer() == null ? this.getPhoneEmer() == null
+                : that.getPhoneEmer().equals(this.getPhoneEmer()))) {
         return false;
         }
     return true;

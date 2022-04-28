@@ -210,10 +210,16 @@
 	</definition>
 
 	
-	<definition name="informationemp" extends="masterLayout">
+	<definition name="information_emp" extends="masterLayout">
 		<put-attribute name="title" value="Employee Data" />
 		<put-attribute name="body"
 			value="/pages-back/employee/informationemp.jsp" />
+	</definition>
+	
+	<definition name="test_test" extends="masterLayout">
+		<put-attribute name="title" value="test" />
+		<put-attribute name="body"
+			value="/pages-back/employee/testtest.jsp" />
 	</definition>
 	
 
