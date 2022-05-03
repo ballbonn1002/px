@@ -295,61 +295,62 @@
 			<result name="error">/index.jsp</result>
 		</action>
 		
-		<!-- Payment -->
+		<!-- Employee -->
 
-		<action name="paymentemp_list"
-			class="com.cubesofttech.action.PaymentAction" method="listPaymentEmp">
-			<result name="success" type="tiles">paymentemp_list</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
+		<action name="employeeType_list"
+			class="com.cubesofttech.action.EmployeeTypeAction" method="listEmployeeType">
+			<result name="success" type="tiles">employeeType_list</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
 			<result name="error">/index.jsp</result>
 		</action>
-		<action name="paymentemp_edit"
-			class="com.cubesofttech.action.PaymentAction" method="updatePaymentEmp">
-			<result name="success" type="tiles">paymentemp_edit</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
+		<action name="employeeType_edit"
+			class="com.cubesofttech.action.EmployeeTypeAction" method="updateEmployeeType">
+			<result name="success" type="tiles">employeeType_edit</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
 			<result name="error">/index.jsp</result>
 		</action>
-		<action name="paymentemp_delete"
-			class="com.cubesofttech.action.PaymentAction" method="deletePaymentEmp">
-			<result name="success" type="tiles">paymentemp_list</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
+		<action name="employeeType_delete"
+			class="com.cubesofttech.action.EmployeeTypeAction" method="deleteEmployeeType">
+			<result name="success" type="tiles">employeeType_list</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
 			<result name="error">/index.jsp</result>
 		</action>
-		<action name="paymentemp_add"
-			class="com.cubesofttech.action.PaymentAction" method="addPaymentEmp">
-			<result name="success" type="tiles">paymentemp_add</result>
+		<action name="employeeType_add"
+			class="com.cubesofttech.action.EmployeeTypeAction" method="addEmployeeType">
+			<result name="success" type="tiles">employeeType_add</result>
 			<result name="error">/index.jsp</result>
 		</action>
-				<action name="savePaymentEmp"
-			class="com.cubesofttech.action.PaymentAction" method="savePaymentEmp">
-			<result name="success" type="tiles">paymentemp_list</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
+				<action name="saveEmployeeType"
+			class="com.cubesofttech.action.EmployeeTypeAction" method="saveEmployeeType">
+			<result name="success" type="tiles">employeeType_list</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
 			<result name="error">/index.jsp</result>
-			<result name="input" type="tiles">payment_add</result>
+			<result name="input" type="tiles">employeeType_add</result>
 		</action>
-				<action name="updatePaymentEmp"
-			class="com.cubesofttech.action.PaymentAction" method="editPaymentEmp">
-			<result name="success" type="tiles">paymentemp_list</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
-			<result name="error">/index.jsp</result>
-		</action>
-		
-		<action name="payment_term"
-			class="com.cubesofttech.action.UserPaymentConfigAction" method="list">
-			<result name="success" type="tiles">payment_term</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
+				<action name="updateEmployeeType"
+			class="com.cubesofttech.action.EmployeeTypeAction" method="editEmployeeType">
+			<result name="success" type="tiles">employeeType_list</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
 			<result name="error">/index.jsp</result>
 		</action>
-		
 
-		<action name="payment_type"
-			class="com.cubesofttech.action.PaymentTypeAction" method="listPaymentType">
-			<result name="success" type="tiles">payment_type</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
-			<result name="error">/index.jsp</result>
-		</action>
-		
 		<action name="updateInfoEmp"
 			class="com.cubesofttech.action.InfoEmpAction" method="editInfoEmp">
 			<result name="success" type="tiles">information_emp</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		<action name="employee_list"
+			class="com.cubesofttech.action.UserAction" method="list">
+			<result name="success" type="tiles">employee_list</result>
+			<result name="error">/index.jsp</result>
+		</action>
 		
-
-		
+		<action name="information_emp"
+			class="com.cubesofttech.action.InfoEmpAction" method="openInfoEmp">
+			<result name="success" type="tiles">information_emp</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
+			<result name="error">/index.jsp</result>
+		</action>
+		<!-- Payment -->
+			<action name="payment_term"
+			class="com.cubesofttech.action.UserPaymentConfigAction" method="list">
+			<result name="success" type="tiles">payment_term</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
+			<result name="error">/index.jsp</result>
+		</action>
 		
 		<action name="payment_type"
 			class="com.cubesofttech.action.PaymentTypeAction" method="listPaymentType"  >
@@ -388,21 +389,6 @@
 			<result name="success" type="tiles">payment_type</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
 			<result name="error">/index.jsp</result>
 		</action>
-			
-
-		<!-- Employee -->
-
 		
-		<action name="employee_list"
-			class="com.cubesofttech.action.UserAction" method="list">
-			<result name="success" type="tiles">employee_list</result>
-			<result name="error">/index.jsp</result>
-		</action>
-		
-		<action name="information_emp"
-			class="com.cubesofttech.action.InfoEmpAction" method="openInfoEmp">
-			<result name="success" type="tiles">information_emp</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
-			<result name="error">/index.jsp</result>
-		</action>
 	</package>
 </struts>

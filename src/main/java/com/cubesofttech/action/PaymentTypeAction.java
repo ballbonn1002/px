@@ -279,7 +279,7 @@ public class PaymentTypeAction extends ActionSupport {
 			Payment_type paymentTypeList = new Payment_type();
 
 			int test1 = Integer.parseInt(LastSeq1);
-			log.debug(test1);
+			
 			for(int i = 0; i < test1; i++) {
 				paymentTypeList = payment_typeDAO.findById(PaymentTypeID1[i]);	
 				paymentTypeList.setSequence(Position1[i]);

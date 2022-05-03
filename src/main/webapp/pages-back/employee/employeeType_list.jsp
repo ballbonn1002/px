@@ -46,11 +46,11 @@ tr{
 <div class="block-header">
     <div class="row">
         <div class="col-lg-6 col-md-8 col-sm-12">
-              <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> ประเภทการจ้าง</h2>
+              <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> ประเภทพนักงาน</h2>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href="page.blank"><i class="icon-home"></i></a></li>                            
                     <li class="breadcrumb-item">Master</li>
-                    <li class="breadcrumb-item active">ประเภทการจ้าง</li>
+                    <li class="breadcrumb-item active">ประเภทพนักงาน</li>
                 </ul>
         </div>            
     </div>
@@ -65,12 +65,12 @@ tr{
 					<div class="portlet-title" >
 						<div class="caption">
 							 <span style="font-weight: bold; font-size: 20px"
-								   class="caption-subject font-red sbold uppercase" >ประเภทการจ้าง</span> 
+								   class="caption-subject font-red sbold uppercase" >ประเภทพนักงาน</span> 
 							 <span class="caption-helper font-red"> <%-- ${role.name} --%> </span>
 						</div>
 		
 						<div class="actions right" style="text-align: right; ">
-							<a href="paymentemp_add" class="btn btn-info" style="margin-bottom: 30px;"  >&nbsp;เพิ่มประเภทการจ้าง</a><!--  <a
+							<a href="employeeType_add" class="btn btn-info" style="margin-bottom: 30px;"  >&nbsp;เพิ่มประเภทพนักงาน</a><!--  <a
 								class="btn btn-circle btn-icon-only btn-default fullscreen"
 								href="javascript:;" data-original-title="" title=""> </a> -->  <!--  class="btn green-meadow"-->  <!-- <i
 								class="fa fa-plus"></i> -->
@@ -98,7 +98,9 @@ tr{
 										<th style="text-align: left; width: 10%">ลำดับ</th>
 										<th style="text-align: left; width: 15%">ID</th>
 										<th style="text-align: left; width: 20% ">ประเภทการจ้าง</th>
-										
+										<th style="text-align: left; width: 20% ">ประเภทการจ่ายเงิน</th>
+										<th style="text-align: left; width: 20% ">งวดการจ่ายเงิน</th>
+										<th style="text-align: left; width: 20% ">จำนวนวันต่องวด</th>
 										<th style="text-align: center;width: 5% "></th>
 									</tr>
 								</thead>
@@ -109,7 +111,9 @@ tr{
 											<!--  --><td style= "text-align: left; padding-left: 20px ">${counter}</td>
 											<td style="text-align: left; padding-top: 10px;">${test.employee_type_id}</td>
 											<td style="text-align: left; padding-top: 10px;">${test.name}</td>
-											
+											<td style="text-align: left; padding-top: 10px;">${test.payout_type}</td>
+											<td style="text-align: left; padding-top: 10px;">${test.pay_period}</td>
+											<td style="text-align: left; padding-top: 10px;">${test.day_period}</td>
 											<!-- <td style="padding-top: 10px;">${test.user_create}</td>
 											<td style="padding-top: 10px;">${test.user_update}</td>
 											<td style="padding-top: 10px;"><fmt:formatDate
@@ -117,7 +121,7 @@ tr{
 											<td style="padding-top: 10px;"><fmt:formatDate
 												value="${test.time_update}" pattern=" dd-MMM-yyyy" /></td>-->
 											<td style="text-align:right;">                                            
-                                        		<a class="btn btn-outline-success" title="Edit" href="paymentemp_edit?employee_type_id=${test.employee_type_id}">
+                                        		<a class="btn btn-outline-success" title="Edit" href="employeeType_edit?employee_type_id=${test.employee_type_id}">
                                         		<i class="fa fa-pencil"></i></a>
                                         		<a class="btn btn-outline-danger sred-intense sweet-${test.employee_type_id}" title="Delete"
                                         			onclick="_gaq.push(['_trackEvent', 'example', 'try', 'Primary']);">
@@ -138,7 +142,7 @@ document.querySelector('.sweet-${test.employee_type_id}').onclick = function(){
         if (inputValue === "") {
           return false
         }
-        document.location = "paymentemp_delete?employee_type_id=${test.employee_type_id}";   //?id คือ parameter
+        document.location = "employeeType_delete?employee_type_id=${test.employee_type_id}";   //?id คือ parameter
       });
 };
 </script>

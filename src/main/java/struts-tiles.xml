@@ -170,6 +170,12 @@
 	</definition>
 	
 
+	<!-- Payment -->
+	<definition name="payment_type" extends="masterLayout">
+		<put-attribute name="title" value="รายการ รายได้/รายการหัก" />
+		<put-attribute name="body"
+			value="/pages-back/payment/payment_type.jsp" />
+	</definition>
 	<definition name="payment_term" extends="masterLayout">
 		<put-attribute name="title" value="Payment Term" />
 		<put-attribute name="body"
@@ -177,29 +183,7 @@
 	</definition>
 	
 
-	<definition name="paymentemp_list" extends="masterLayout">
-		<put-attribute name="title" value="Payment List" />
-		<put-attribute name="body"
-			value="/pages-back/payment/paymentemp_list.jsp" />
-	</definition>
-	
-	<definition name="paymentemp_edit" extends="masterLayout">
-		<put-attribute name="title" value="Payment Edit" />
-		<put-attribute name="body"
-			value="/pages-back/payment/paymentemp_edit.jsp" />
-	</definition>
-		
-	<definition name="paymentemp_add" extends="masterLayout">
-		<put-attribute name="title" value="Add Payment" />
-		<put-attribute name="body"
-			value="/pages-back/payment/paymentemp_add.jsp" />
-	</definition>
-	
-	<definition name="payment_type" extends="masterLayout">
-		<put-attribute name="title" value="รายการ รายได้/รายการหัก" />
-		<put-attribute name="body"
-			value="/pages-back/payment/payment_type.jsp" />
-	</definition>
+
 	
 	<!-- Employee -->
 
@@ -222,5 +206,24 @@
 			value="/pages-back/employee/testtest.jsp" />
 	</definition>
 	
+	<definition name="employeeType_list" extends="masterLayout">
+		<put-attribute name="title" value="Employee Type List" />
+		<put-attribute name="body"
+			value="/pages-back/employee/employeeType_list.jsp" />
+	</definition>
+	
+		
+	<definition name="employeeType_edit" extends="masterLayout">
+		<put-attribute name="title" value="Employee Type Edit" />
+		<put-attribute name="body"
+			value="/pages-back/employee/employeeType_edit.jsp" />
+	</definition>
+		
+	<definition name="employeeType_add" extends="masterLayout">
+		<put-attribute name="title" value="Add Employee Type" />
+		<put-attribute name="body"
+			value="/pages-back/employee/employeeType_add.jsp" />
+	</definition>
+
 
 </tiles-definitions>

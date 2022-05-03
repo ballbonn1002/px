@@ -57,7 +57,7 @@
 				</div>
 				<div class="portlet-body">
 					<div class="panel-body">
-						<form action="updatePaymentEmp" method="POST">
+						<form action="updateEmployeeType" method="POST">
 		
 						<!-- Start Hidden ID เอาไว้ไม่ใช้โชว์ใน view -->
 							<!--  <input type="hidden" name="ID" value="${emptypeList.employee_type_id}">

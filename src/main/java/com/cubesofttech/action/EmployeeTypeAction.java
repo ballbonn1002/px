@@ -10,17 +10,15 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.cubesofttech.dao.DepartmentDAO;
-import com.cubesofttech.model.Department;
 import com.cubesofttech.dao.Employee_typeDAO;
 import com.cubesofttech.model.Employee_type;
 import com.cubesofttech.model.User;
 import com.cubesofttech.util.DateUtil;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class PaymentAction extends ActionSupport {
+public class EmployeeTypeAction extends ActionSupport {
 
-	private static final Logger log = Logger.getLogger(PaymentAction.class);
+	private static final Logger log = Logger.getLogger(EmployeeTypeAction.class);
 	private static final long serialVersionUID = 1L;
 	@Autowired
 	public Employee_typeDAO employee_typeDAO;
@@ -30,7 +28,7 @@ public class PaymentAction extends ActionSupport {
 	public static final String Employee_type = "emptypeList";
 	
 	
-	public String listPaymentEmp() {
+	public String listEmployeeType() {
 		try {
 					List<Employee_type> emptypeList = employee_typeDAO.findAll();
 					request.setAttribute(Employee_type, emptypeList);
@@ -52,7 +50,7 @@ public class PaymentAction extends ActionSupport {
 					return ERROR;
 				}
 		   }
-	public String deletePaymentEmp(){
+	public String deleteEmployeeType(){
 		try{
 			String idEmptype = request.getParameter("employee_type_id");
 			Employee_type emptype = new Employee_type();
@@ -68,7 +66,7 @@ public class PaymentAction extends ActionSupport {
 		}
 		
 	}
-	public String updatePaymentEmp(){
+	public String updateEmployeeType(){
 		try{
 			String idEmptype = request.getParameter("employee_type_id");
 			Employee_type emptypeList = new Employee_type();
@@ -81,7 +79,7 @@ public class PaymentAction extends ActionSupport {
 		}
 	}
 	
-	public String editPaymentEmp(){
+	public String editEmployeeType(){
 		try{
 			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login 
 			String logonUser = ur.getId(); // Username login 
@@ -122,7 +120,7 @@ public class PaymentAction extends ActionSupport {
 			return ERROR;
 		}
 	}
-	public String addPaymentEmp(){
+	public String addEmployeeType(){
 		try{
 			return SUCCESS;
 			
@@ -131,7 +129,7 @@ public class PaymentAction extends ActionSupport {
 			return ERROR;
 		}
 	}
-	public String savePaymentEmp() {
+	public String saveEmployeeType() {
 		try{
 			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login 
 			String logonUser = ur.getId(); // Username login 
@@ -139,6 +137,9 @@ public class PaymentAction extends ActionSupport {
 			Employee_type emptype  = new Employee_type();
 			String idEmptype = request.getParameter("employee_type_id");
 			String name = request.getParameter("name");
+			String PayoutType = request.getParameter("PayoutType");
+			String PayPeriod = request.getParameter("PayPeriod");
+			String DayPeriod= request.getParameter("DayPeriod");
 			String deptdes = request.getParameter("deptdes");
 		
 			String date = request.getParameter("date");
@@ -154,6 +155,9 @@ public class PaymentAction extends ActionSupport {
 				emptype.setTimeUpdate(DateUtil.getCurrentTime());
 				emptype.setemployee_type_id(idEmptype);
 				emptype.setName(name);
+				emptype.setpayout_type(PayoutType);
+				emptype.setpay_period(PayPeriod);
+				emptype.setday_period(DayPeriod);
 				emptype.setDescription(deptdes);
 		
 			employee_typeDAO.save(emptype);
