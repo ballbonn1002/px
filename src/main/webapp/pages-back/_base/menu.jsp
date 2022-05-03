@@ -59,7 +59,7 @@
                                             <ul class="list-unstyled">
                                                 <li><label>Employee</label></li>
                                                 <li><a href="employee_list">Employee Profile</a></li>
-                                                <li><a href="#">Employee Type</a></li>
+                                                <li><a href="employeeType_list">Employee Type</a></li>
                                             </ul>
                                         </div>
                                     </div>
