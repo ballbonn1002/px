@@ -141,7 +141,7 @@ input[type="checkbox"] {
 									<div class="form-group" style="margin-top: 15px">
 										<label for="recipient-name" class="control-label"
 										 style="font-weight: lighter; font-size: 14px;">เลขบัตรประชาชน</label> 
-										 <input type="text" name="IDcard"  class="form-control">
+										 <input type="text" name="IDcard" value="${selectUser.citizen_id}" class="form-control">
 									</div>
 							
 									<div class="form-group">
@@ -196,13 +196,13 @@ input[type="checkbox"] {
 									
 										<div class="form-group">
 											<label for="recipient-name" class="control-label" style="font-weight: lighter; font-size: 14px;">วันเกิด</label>
-											<input  data-provide="datepicker" data-date-autoclose="true" data-date-format="dd/mm/yyyy" name="bday" 
+											<input  data-provide="datepicker" data-date-autoclose="true" data-date-format="dd-mm-yyyy" name="bday" 
 													value="<fmt:formatDate value="${selectUser.birthDate}" pattern=" dd-MM-yyyy" />" class="form-control" style="width: 95%;">
 										</div>
 									
 										<div class="form-group">
 											<label for="recipient-name" class="control-label" style="font-weight: lighter; font-size: 14px;">เลขหนังสือเดินทาง</label> 
-											<input type="text" name="passportID"  class="form-control" style="width: 95%;">
+											<input type="text" name="passportID" value="${selectUser.passport_id}" class="form-control" style="width: 95%;">
 										</div>
 									
 										<div class="form-group">
@@ -227,37 +227,57 @@ input[type="checkbox"] {
                                   		   	 		
                                   		<div class="form-group">
 											<label for="recipient-name" class="control-label" style="font-weight: lighter; font-size: 14px;">เเผนก</label>
-											<input type="text" name="depart" class="form-control">
+											<select class="form-control" name="depart">
+												<c:forEach var="department" items="${departmentList}">
+													<option value="${department.id}"
+														<c:if test="${selectUser.departmentId eq department.id }"> selected </c:if>>${department.id}</option>
+												</c:forEach>
+											</select>
 										</div>
 													
 										<div class="form-group">
 											<label for="recipient-name" class="control-label" style="font-weight: lighter; font-size: 14px;">วันที่จ้างงาน</label>
-											<input type="text" name="startday" class="form-control">
+											<input  data-provide="datepicker" data-date-autoclose="true" data-date-format="dd-mm-yyyy" name="startday" 
+													value="<fmt:formatDate value="${selectUser.startDate}" pattern=" dd-MM-yyyy" />" class="form-control">
 										</div>
 													
 										<div class="form-group">
 											<label for="recipient-name" class="control-label" style="font-weight: lighter; font-size: 14px;">วันทำงาน</label> 
 										 	<div class="form-inline">
-												<select id="" name="startworkday" size="1" class="form-control" style="width: 47%; height: 35px;">
-													<option disabled selected>เลือกวัน</option>
-    												<option value="">จันทร์</option>
-    												<option value="">อังคาร</option>
-    												<option value="">พุธ</option>
-    												<option value="">พฤหัสบดี</option>
-    												<option value="">ศุกร์</option>
-    												<option value="">เสาร์</option>
-    												<option value="">อาทิตย์</option>
+										 		<select value="${selectUser.title_name_th}" name="startworkday" size="1" class="form-control" 
+													style="width: 47%; height: 35px;" >
+    												<option value="0"
+    													<c:if test="${selectUser.workDayStart eq '0'}"> selected </c:if>>อาทิตย์</option>
+    												<option value="1"
+    													<c:if test="${selectUser.workDayStart eq '1'}"> selected </c:if>>จันทร์</option>
+    												<option value="2"
+    													<c:if test="${selectUser.workDayStart eq '2'}"> selected </c:if>>อังคาร</option>
+    												<option value="3"
+    													<c:if test="${selectUser.workDayStart eq '3'}"> selected </c:if>>พุธ</option>
+    												<option value="4"
+    													<c:if test="${selectUser.workDayStart eq '4'}"> selected </c:if>>พฤหัสบดี</option>
+    												<option value="5"
+    													<c:if test="${selectUser.workDayStart eq '5'}"> selected </c:if>>ศุกร์</option>
+    												<option value="6"
+    													<c:if test="${selectUser.workDayStart eq '6'}"> selected </c:if>>เสาร์</option>
  												</select>
  												&nbsp;&nbsp;ถึง&nbsp;&nbsp;
-												<select id="" name="startworkday" size="1" class="form-control" style="width: 47%; height: 35px;">
-													<option disabled selected>เลือกวัน</option>
-    								    			<option value="">จันทร์</option>
-    												<option value="">อังคาร</option>
-    												<option value="">พุธ</option>
-    												<option value="">พฤหัสบดี</option>
-    												<option value="">ศุกร์</option>
-    												<option value="">เสาร์</option>
-    												<option value="">อาทิตย์</option>
+												<select value="${selectUser.title_name_th}" name="endworkday" size="1" class="form-control" 
+													style="width: 47%; height: 35px;" >
+    												<option value="0"
+    													<c:if test="${selectUser.workDayEnd	 eq '0'}"> selected </c:if>>อาทิตย์</option>
+    												<option value="1"
+    													<c:if test="${selectUser.workDayEnd	 eq '1'}"> selected </c:if>>จันทร์</option>
+    												<option value="2"
+    													<c:if test="${selectUser.workDayEnd	 eq '2'}"> selected </c:if>>อังคาร</option>
+    												<option value="3"
+    													<c:if test="${selectUser.workDayEnd	 eq '3'}"> selected </c:if>>พุธ</option>
+    												<option value="4"
+    													<c:if test="${selectUser.workDayEnd	 eq '4'}"> selected </c:if>>พฤหัสบดี</option>
+    												<option value="5"
+    													<c:if test="${selectUser.workDayEnd	 eq '5'}"> selected </c:if>>ศุกร์</option>
+    												<option value="6"
+    													<c:if test="${selectUser.workDayEnd	 eq '6'}"> selected </c:if>>เสาร์</option>
  												</select>
 											</div>
 										</div>
@@ -267,20 +287,26 @@ input[type="checkbox"] {
                                   		   	 	
                                   		<div class="form-group">
 											<label for="recipient-name" class="control-label" style="font-weight: lighter; font-size: 14px;">ตำเเหน่ง</label>
-											<input type="text" name="position"  class="form-control" style="width: 95%;">
+											<select class="form-control" name="positsion" style="width: 95%;">
+												<c:forEach var="position" items="${positionList}">
+													<option value="${position.position_id}"
+														<c:if test="${selectUser.positionId eq position.position_id }"> selected </c:if>>${position.name}</option>
+												</c:forEach>
+											</select>
 										</div>
 													
 										<div class="form-group">
 											<label for="recipient-name" class="control-label" style="font-weight: lighter; font-size: 14px;">วันที่สิ้นสุดการจ้าง</label>
-											<input type="text" name="endemploy"  class="form-control" style="width: 95%;">
+											<input  data-provide="datepicker" data-date-autoclose="true" data-date-format="dd-mm-yyyy" name="endday" 
+													value="<fmt:formatDate value="${selectUser.endDate}" pattern=" dd-MM-yyyy" />" class="form-control" style="width: 95%;">
 										</div>
 													
 										<div class="form-group">
 											<label for="recipient-name" class="control-label" style="font-weight: lighter; font-size: 14px;">เวลาทำงาน</label> 
 										 	<div class="form-inline">
-												<input type="text" name="starttimework"  class="form-control" style="width: 45%;">
+												<input type="text" name="starttimework" value="${selectUser.workTimeStart}" class="form-control timepicker timepicker-24" style="width: 45%;">
  												&nbsp;&nbsp;ถึง&nbsp;&nbsp;
-												<input type="text" name="endtimework"  class="form-control" style="width: 45%;">
+												<input type="text" name="endtimework" value="${selectUser.workTimeEnd}" class="form-control" style="width: 45%;">
 											</div>
 							  			</div>
                                 	</div>
@@ -295,56 +321,71 @@ input[type="checkbox"] {
 									<div class="row clearfix" style="padding-top:20px;">
 										<div class="col-md-6 col-sm-12">
 											<label for="recipient-name" class="control-label" style="font-weight: lighter; font-size: 14px;">ประเภทพนักงาน</label> 
-										    <select class="form-control show-tick">
-												<option>พนักงานประจำ</option>
-												<option>พนักงานอัตราจ้าง</option>
+										    <select class="form-control show-tick" name="emp_type">
+										    	<c:forEach var="employee_type" items="${emptypeList}">
+													<option value="${employee_type.employee_type_id}"
+														<c:if test="${selectUser.employee_type_id eq employee_type.employee_type_id }"> selected </c:if>>${employee_type.name}</option>
+												</c:forEach>
 										   	</select>
 										</div>
 										<div class="col-md-6 col-sm-12">
 											<label for="recipient-name" class="control-label"
 												style="font-weight: lighter; font-size: 14px;">เงินเดือน</label> 
 										    <div class="input-group mb-3">
-												<input type="text" name="salary" required class="form-control" aria-describedby="basic-addon2" value="20000">
+												<input type="text" id ="salary" name="salary" class="form-control" aria-describedby="basic-addon2" >
 												<div class="input-group-append">
-													<button href="#defaultModal" data-toggle="modal" data-target="#defaultModal" class="btn btn-outline-secondary" type="button">แก้ไข</button>
+													<button data-toggle="modal" data-target="#defaultModal" class="btn btn-outline-secondary editsalary" type="button">ปรับเงินเดือน</button>
 												</div>
 											</div>
 										</div>
 										<div class="col-md-6 col-sm-12" style="padding-top: 16px;">
 											<p> สิทธิ์ประกันสังคม</p>
 										    
-				                            	<input type="radio" name="chkright" id="yes" onclick="EnableDisableTxtright()" checked style="accent-color: #0275d8;">
+				                            	<input type="radio" name="chkright" 
+				                            		<c:if test="${selectUser.social_security eq '1' }">
+                                          				checked
+                                     				</c:if> value="1" style="accent-color: #0275d8;">
 				                                <span><i></i>ยื่นสิทธิ์ประกันสังคม</span>
 				                             
 				                             
-				                             	<input type="radio" name="chkright" id="no" onclick="EnableDisableTxtright()" style="accent-color: #0275d8;">
+				                             	<input type="radio" name="chkright" 
+				                             		<c:if test="${selectUser.social_security eq '0' }">
+                                          				checked
+                                     				</c:if> value="0" style="accent-color: #0275d8;">
 				                                <span><i></i>ไม่ยื่นสิทธิ์ประกันสังคม</span>
 				                             
 										</div>
-										<div class="col-md-6 col-sm-12" style="padding-top: 10px;">
-											<label for="recipient-name" class="control-label"
-												style="font-weight: lighter; font-size: 14px;">ประกันสังคม</label> 
-										    <input type="text" id="txtright" class="form-control" value="750" disabled="disabled">
-										</div>
+										<div class="col-md-6 col-sm-12" style="padding-top: 10px;"></div>
 										<div class="col-md-6 col-sm-12" style="padding-top: 20px;">
 											<label class="control-label"
 												style="font-weight: lighter; font-size: 14px;">หัก ณ ที่จ่าย</label> 
-										    <input type="text" id="txttax" class="form-control" disabled="disabled">
+											<c:if test="${selectUser.withholding_auto eq '1'}">
+                                          		<input type="text" id="txttax" name="withholding" class="form-control" disabled="disabled">
+                                     		</c:if>
+                                     		<c:if test="${selectUser.withholding_auto eq '0' || selectUser.withholding_auto == null}">
+                                          		<input type="text" id="txttax" name="withholding" value="${selectUser.withholding}" class="form-control" required>
+                                     		</c:if>
 										</div>
 										<div class="col-md-6 col-sm-12" style="padding-top: 10px;">
 											<br><br>
 											<label>
-				                            	<input type="checkbox" id="chktax" name="tax" onclick="EnableDisnableTxttax(this)" checked>
+				                            	<input type="checkbox" id="chktax" name="tax" 
+				                            		<c:if test="${selectUser.withholding_auto eq '1' }">
+                                          				checked
+                                     				</c:if>  onclick="EnableDisnableTxttax(this)">
 				                            	<span>คำนวนภาษีหัก ณ ที่จ่ายอัตโนมัติ</span>
 				                            </label>
 										</div>
 										<div class="col-md-6 col-sm-12" style="padding-top: 20px;">
 											<label for="recipient-name" class="control-label"
 												style="font-weight: lighter; font-size: 14px;">เงื่อนไขการหักภาษี</label> 
-										    <select class="form-control show-tick">
-												<option>หัก ณ ที่จ่าย</option>
-												<option>2</option>
-												<option>3</option>
+										    <select class="form-control show-tick" name="tax_deduction">
+										    	<option value="0"
+		    										<c:if test="${selectUser.tax_deduction eq '0'}"> selected </c:if>>หัก ณ ที่จ่าย</option>
+		    									<option value="1"
+		    										<c:if test="${selectUser.tax_deduction eq '1'}"> selected </c:if>>ออกให้ตลอดไป</option>
+		    									<option value="2"
+		    										<c:if test="${selectUser.tax_deduction eq '2'}"> selected </c:if>>ออกให้ครั้งเดียว</option>
 										   	</select>
 										</div>
 									</div>
@@ -360,8 +401,13 @@ input[type="checkbox"] {
 							            </div>
 							            <div class="col-md-12" style="padding-top: 10px;">
 											<label for="recipient-name" class="control-label"
+												style="font-weight: lighter; font-size: 14px;">วันที่เงินเดือนปรับใช้</label> 
+										    <input type="text" name="salaryDate" class="form-control">
+										</div>
+							            <div class="col-md-12" style="padding-top: 10px;">
+											<label for="recipient-name" class="control-label"
 												style="font-weight: lighter; font-size: 14px;">จำนวนเงินเดือน</label> 
-										    <input type="text" name="amountsalary" class="form-control" value="20000">
+										    <input type="text" name="amountsalary" class="form-control">
 										</div>
 										<div class="col-md-12" style="padding-top: 10px;padding-bottom: 20px;">
 											<label for="recipient-name" class="control-label"
@@ -460,41 +506,60 @@ input[type="checkbox"] {
 									<div class="row clearfix" style="margin-top:20px;">
 										<div class="col-md-6 col-sm-12">
 											<label for="recipient-name" class="control-label" style="font-weight: lighter; font-size: 14px;">ประเภทการจ่ายเงิน</label> 
-						    				<select class="form-control show-tick">
-												<option>โอนเงิน</option>
-												<option>เงินสด</option>
+						    				<select class="form-control show-tick" name="transfer">
+						    					<option value="0"
+		    										<c:if test="${selectUser.transfer_type eq '0'}"> selected </c:if>>โอนเงิน</option>
+		    									<option value="1"
+		    										<c:if test="${selectUser.transfer_type eq '1'}"> selected </c:if>>เงินสด</option>
 						   					</select>
 										</div>
 											
 										<div class="col-md-6 col-sm-12"></div>
 										
-										<div class="col-md-6 col-sm-12" style="padding-top: 10px;">
+										<div class="col-md-6 col-sm-12" style="padding-top: 20px;">
 												<label for="recipient-name" class="control-label" style="font-weight: lighter; font-size: 14px;">ธนาคาร</label> 
-						    					<select class="form-control show-tick">
-						    						<option disabled selected>เลือกธนาคาร</option>
-													<option>กสิกร</option>
-													<option>ไทยพานิช</option>
+						    					<select class="form-control show-tick" name="bank">
+						    						<option value="กรุงเทพ"
+		    											<c:if test="${selectUser.bank eq 'กรุงเทพ'}"> selected </c:if>>ธนาคารกรุงเทพ</option>
+		    										<option value="กรุงไทย"
+		    											<c:if test="${selectUser.bank eq 'กรุงไทย'}"> selected </c:if>>ธนาคารกรุงไทย</option>
+		    										<option value="กรุงศรีอยุธยา"
+		    											<c:if test="${selectUser.bank eq 'กรุงศรีอยุธยา'}"> selected </c:if>>ธนาคารกรุงศรีอยุธยา</option>
+		    										<option value="กสิกรไทย"
+		    											<c:if test="${selectUser.bank eq 'กสิกรไทย'}"> selected </c:if>>ธนาคารกสิกรไทย</option>
+		    										<option value="ทหารไทยธนชาต"
+		    											<c:if test="${selectUser.bank eq 'ทหารไทยธนชาต'}"> selected </c:if>>ธนาคารทหารไทยธนชาต</option>
+		    										<option value="ซีไอเอ็มบี"
+		    											<c:if test="${selectUser.bank eq 'ซีไอเอ็มบี'}"> selected </c:if>>ธนาคารซีไอเอ็มบีไทย</option>
+		    										<option value="ไทยพาณิชย์ "
+		    											<c:if test="${selectUser.bank eq 'ไทยพาณิชย์ '}"> selected </c:if>>ธนาคารไทยพาณิชย์ </option>
 						   						</select>
 											</div>
 											
-										<div class="col-md-6 col-sm-12" style="padding-top: 10px;">
-												<label for="recipient-name" class="control-label"
-												style="font-weight: lighter; font-size: 14px;">เลขที่บัญชี</label> 
-						   						<input type="text" name="accountnum" class="form-control">
-											</div>
-											
-										<div class="col-md-6 col-sm-12" style="padding-top: 10px;">
-											<p> สิทธิประกันสังคม</p>
-							    				<input type="radio" id="Choice1" name="right" value="yes" checked>
+										<div class="col-md-6 col-sm-12" style="padding-top: 20px;">
+											<p> ประเภทบัญชี</p>
+							    				<input type="radio" id="Choice1" name="banktype" 
+							    					<c:if test="${selectUser.bank_type eq '0' }">
+                                          				checked
+                                     				</c:if> value="0">
 	    										<label for="Choice1" style="font-weight: lighter; font-size: 14px;">บัญชีออมทรัพย์</label>&nbsp;&nbsp;&nbsp;
 								
-	    										<input type="radio" id="Choice2" name="right" value="no">
+	    										<input type="radio" id="Choice2" name="banktype" 
+	    											<c:if test="${selectUser.bank_type eq '1' }">
+                                          				checked
+                                     				</c:if> value="1">
 	    										<label for="Choice2" style="font-weight: lighter; font-size: 14px;">บัญชีกระแสรายวัน</label>
-											</div>
+										</div>
 										
-										<div class="col-md-6 col-sm-12" style="padding-top: 10px;">
+										<div class="col-md-6 col-sm-12" style="padding-top: 20px;">
+												<label for="recipient-name" class="control-label"
+												style="font-weight: lighter; font-size: 14px;">เลขที่บัญชี</label> 
+						   						<input type="text" name="banknum" value="${selectUser.bank_number}" class="form-control">
+										</div>
+										
+										<div class="col-md-6 col-sm-12" style="padding-top: 20px;">
 											<label for="recipient-name" class="control-label" style="font-weight: lighter; font-size: 14px;">สาขาธนาคาร</label> 
-							    			<input type="text" name="branch" class="form-control">
+							    			<input type="text" name="branch" value="${selectUser.bank_branch}" class="form-control">
 										</div>
 									</div>
 								</div>
@@ -533,6 +598,8 @@ input[type="checkbox"] {
 <script src="pages-back/assets/bundles/vendorscripts.bundle.js"></script>  
 <script src="pages-back/assets/bundles/mainscripts.bundle.js"></script>
 <script src="pages-back/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="pages-back/assets/vendor/bootstrap-timepicker/js/bootstrap-timepicker.min.js" type="text/javascript"></script>
+<script src="pages-back/assets/pages/scripts/components-date-time-pickers.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script>
 
@@ -571,17 +638,6 @@ $(document).ready(function(){
 
 });
 
-function EnableDisableTxtright() {
-    var no = document.getElementById("no");
-    var txtright = document.getElementById("txtright");
-    txtright.disabled = no.checked ? false : true;
-    txtright.value="";
-    if (!txtright.disabled) {
-    	txtright.focus();
-    }else{
-    	txtright.value="750";
-    }
-}
 	
 function EnableDisnableTxttax(chktax)
 {
@@ -589,8 +645,10 @@ function EnableDisnableTxttax(chktax)
 	txttax.disabled = chktax.checked?true:false;
 	if(!txttax.disabled){
 		txttax.focus();
+	}else{
+		txttax.value=""
 	}
-	}
+}
 
 </script>
 </html>

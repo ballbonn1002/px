@@ -85,6 +85,18 @@ public class User implements Serializable {
             , String nameEmer
             , String nicknameEN
             , String phoneEmer
+            , String citizen_id
+            , String passport_id
+            , String employee_type_id
+            , String social_security
+            , BigDecimal withholding
+            , String withholding_auto
+            , String tax_deduction
+            , String transfer_type
+            , String bank
+            , String bank_number
+            , String bank_branch
+            , String bank_type
             
         ) {
         this.id = id;	
@@ -148,6 +160,18 @@ public class User implements Serializable {
         this.nameEmer = nameEmer;
         this.nicknameEN = nicknameEN;
         this.phoneEmer = phoneEmer;
+        this.nicknameEN = citizen_id;
+        this.phoneEmer = passport_id;
+        this.employee_type_id = employee_type_id;
+        this.social_security = social_security;
+        this.withholding = withholding;
+        this.withholding_auto = withholding_auto;
+        this.tax_deduction = tax_deduction;
+        this.transfer_type = transfer_type;
+        this.bank = bank;
+        this.bank_number = bank_number;
+        this.bank_branch = bank_branch;
+        this.bank_type = bank_type;
         
     }
     
@@ -277,7 +301,31 @@ public class User implements Serializable {
     private String nicknameEN;
     @Column(name = "emergency_phone")
     private String phoneEmer;
-    
+    @Column(name = "citizen_id")
+    private String citizen_id;
+    @Column(name = "passport_id")
+    private String passport_id;  
+    @Column(name = "employee_type_id")
+    private String employee_type_id;
+    @Column(name = "social_security")
+    private String social_security;
+    @Column(name = "withholding")
+    private BigDecimal withholding;
+    @Column(name = "withholding_auto")
+    private String withholding_auto;
+    @Column(name = "tax_deduction")
+    private String tax_deduction; 
+    @Column(name = "transfer_type")
+    private String transfer_type;
+    @Column(name = "bank")
+    private String bank;
+    @Column(name = "bank_number")
+    private String bank_number;
+    @Column(name = "bank_branch")
+    private String bank_branch;
+    @Column(name = "bank_type")
+    private String bank_type;
+
     public Integer getId_sitejob() {
 		return id_sitejob;
 	}
@@ -655,6 +703,78 @@ public class User implements Serializable {
 	public void setPhoneEmer(String phoneEmer) {
 		this.phoneEmer = phoneEmer;
 	}
+	public String getCitizen_id() {
+		return citizen_id;
+	}
+	public void setCitizen_id(String citizen_id) {
+		this.citizen_id = citizen_id;
+	}
+	public String getPassport_id() {
+		return passport_id;
+	}
+	public void setPassport_id(String passport_id) {
+		this.passport_id = passport_id;
+	}
+	public String getEmployee_type_id() {
+		return employee_type_id;
+	}
+	public void setEmployee_type_id(String employee_type_id) {
+		this.employee_type_id = employee_type_id;
+	}
+	public String getSocial_security() {
+		return social_security;
+	}
+	public void setSocial_security(String social_security) {
+		this.social_security = social_security;
+	}
+	public BigDecimal getWithholding() {
+		return withholding;
+	}
+	public void setWithholding(BigDecimal withholding) {
+		this.withholding = withholding;
+	}
+	public String getWithholding_auto() {
+		return withholding_auto;
+	}
+	public void setWithholding_auto(String withholding_auto) {
+		this.withholding_auto = withholding_auto;
+	}
+	public String getTax_deduction() {
+		return tax_deduction;
+	}
+	public void setTax_deduction(String tax_deduction) {
+		this.tax_deduction = tax_deduction;
+	}
+	public String getTransfer_type() {
+		return transfer_type;
+	}
+	public void setTransfer_type(String transfer_type) {
+		this.transfer_type = transfer_type;
+	}
+	public String getBank() {
+		return bank;
+	}
+	public void setBank(String bank) {
+		this.bank = bank;
+	}
+	public String getBank_number() {
+		return bank_number;
+	}
+	public void setBank_number(String bank_number) {
+		this.bank_number = bank_number;
+	}
+	public String getBank_branch() {
+		return bank_branch;
+	}
+	public void setBank_branch(String bank_branch) {
+		this.bank_branch = bank_branch;
+	}
+	public String getBank_type() {
+		return bank_type;
+	}
+	public void setBank_type(String bank_type) {
+		this.bank_type = bank_type;
+	}
 	public String toString() {
         return super.toString() + "id=[" + id + "]\n" + "roleId=[" + roleId + "]\n" + "departmentId=[" + departmentId + "]\n" 
         						+ "managerId=[" + managerId + "]\n" + "positionId=[" + positionId + "]\n" 
@@ -683,7 +803,13 @@ public class User implements Serializable {
         						+ "phoneNum=[" + phoneNum + "]\n" + "title_name_th=[" + title_name_th + "]\n"
         						+ "title_name_en=[" + title_name_en + "]\n" + "nameEN=[" + nameEN + "]\n"
         						+ "nameEmer=[" + nameEmer + "]\n" + "nicknameEN=[" + nicknameEN + "]\n"
-        						+ "phoneNum=[" + phoneEmer + "]\n";
+        						+ "phoneNum=[" + phoneEmer + "]\n" + "citizen_id=[" + citizen_id + "]\n" + "passport_id=[" + passport_id + "]\n"
+        						+ "employee_type_id=[" + employee_type_id + "]\n" + "social_security=[" + social_security + "]\n"
+        						+ "withholding=[" + withholding + "]\n" + "withholding_auto=[" + withholding_auto + "]\n"
+        						+ "tax_deduction=[" + tax_deduction + "]\n" + "transfer_type=[" + transfer_type + "]\n"
+        						+ "bank=[" + bank + "]\n" + "bank_number=[" + bank_number + "]\n"
+        						+ "bank_branch=[" + bank_branch + "]\n" + "bank_type=[" + bank_type + "]\n";
+        
     }
 
     public boolean equals(Object obj) {
@@ -921,6 +1047,54 @@ public class User implements Serializable {
         }
         if (!(that.getPhoneEmer() == null ? this.getPhoneEmer() == null
                 : that.getPhoneEmer().equals(this.getPhoneEmer()))) {
+        return false;
+        }
+        if (!(that.getCitizen_id() == null ? this.getCitizen_id() == null
+                : that.getCitizen_id().equals(this.getCitizen_id()))) {
+        return false;
+        }
+        if (!(that.getPassport_id() == null ? this.getPassport_id() == null
+                : that.getPassport_id().equals(this.getPassport_id()))) {
+        return false;
+        }
+        if (!(that.getEmployee_type_id() == null ? this.getEmployee_type_id() == null
+                : that.getEmployee_type_id().equals(this.getEmployee_type_id()))) {
+        return false;
+        }      
+        if (!(that.getSocial_security() == null ? this.getSocial_security() == null
+                : that.getSocial_security().equals(this.getSocial_security()))) {
+        return false;
+        }       
+        if (!(that.getWithholding() == null ? this.getWithholding() == null
+                : that.getWithholding().equals(this.getWithholding()))) {
+        return false;
+        }
+        if (!(that.getWithholding_auto() == null ? this.getWithholding_auto() == null
+                : that.getWithholding_auto().equals(this.getWithholding_auto()))) {
+        return false;
+        }
+        if (!(that.getTax_deduction() == null ? this.getTax_deduction() == null
+                : that.getTax_deduction().equals(this.getTax_deduction()))) {
+        return false;
+        }   
+        if (!(that.getTransfer_type() == null ? this.getTransfer_type() == null
+                : that.getTransfer_type().equals(this.getTransfer_type()))) {
+        return false;
+        }
+        if (!(that.getBank() == null ? this.getBank() == null
+                : that.getBank().equals(this.getBank()))) {
+        return false;
+        }
+        if (!(that.getBank_number() == null ? this.getBank_number() == null
+                : that.getBank_number().equals(this.getBank_number()))) {
+        return false;
+        }
+        if (!(that.getBank_branch() == null ? this.getBank_branch() == null
+                : that.getBank_branch().equals(this.getBank_branch()))) {
+        return false;
+        }
+        if (!(that.getBank_type() == null ? this.getBank_type() == null
+                : that.getBank_type().equals(this.getBank_type()))) {
         return false;
         }
     return true;
