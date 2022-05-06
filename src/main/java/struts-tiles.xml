@@ -68,7 +68,16 @@
 		<put-attribute name="body"
 			value="/pages-back/user/user_edit_profile.jsp" />
 	</definition>
-	
+	<definition name="SystemUser_list" extends="masterLayout">
+		<put-attribute name="title" value="System List User" />
+		<put-attribute name="body"
+			value="/pages-back/user/SystemUser_list.jsp" />
+	</definition>
+	<definition name="SystemUser_add" extends="masterLayout">
+		<put-attribute name="title" value="System Add User" />
+		<put-attribute name="body"
+			value="/pages-back/user/SystemUser_add.jsp" />
+	</definition>
 	<!-- ROLE -->
 	<definition name="role.list" extends="masterLayout">
 		<put-attribute name="title" value="Role Management" />

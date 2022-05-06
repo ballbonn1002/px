@@ -141,6 +141,7 @@
                                         <div class="mega-list">
                                             <ul class="list-unstyled">
                                                 <li><label>User</label></li>
+                                                <li><a href="SystemUser_list">System User</a> </li>
                                                 <li><a href="/user-list">User Management</a> </li>
                                             </ul>
                                         </div>

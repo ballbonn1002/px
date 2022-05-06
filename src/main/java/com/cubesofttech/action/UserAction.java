@@ -1325,4 +1325,23 @@ public class UserAction extends ActionSupport {
 			return ERROR;
 		}
 	}
+
+public String SystemUserList(){
+	try{
+		return SUCCESS;
+		
+	}catch (Exception e){
+		
+		return ERROR;
+	}
+}
+public String SystemUserAdd(){
+	try{
+		return SUCCESS;
+		
+	}catch (Exception e){
+		
+		return ERROR;
+	}
+}
 }
