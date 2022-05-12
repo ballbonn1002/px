@@ -68,8 +68,17 @@
 			<result name="success" type="tiles">user.add</result>
 			<result name="error">/index.jsp</result>
 		</action>
-		
-
+		<!-- System User -->
+		<action name="SystemUser_list"
+			class="com.cubesofttech.action.UserAction" method="SystemUserList">
+			<result name="success" type="tiles">SystemUser_list</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="SystemUser_add"
+			class="com.cubesofttech.action.UserAction" method="SystemUserAdd">
+			<result name="success" type="tiles">SystemUser_add</result>
+			<result name="error">/index.jsp</result>
+		</action>
 		<!-- Test json -->
 		<action name="time_list"
 			class="com.cubesofttech.action.TimesheetAction" method="timeList">
