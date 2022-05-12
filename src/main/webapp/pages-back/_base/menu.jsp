@@ -109,6 +109,7 @@
                                                 <li><a href="page-timeline.html">Report 5</a></li>
                                                 <li><a href="page-timeline-h.html">Report 6</a></li>
                                                 <li><a href="page-pricing.html">Report 7</a></li>
+                                                <li><a href="report_work">รายงานข้อมูลการทำงาน</a></li>
                                             </ul>
                                         </div>
                                     </div>

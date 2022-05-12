@@ -390,5 +390,23 @@
 			<result name="error">/index.jsp</result>
 		</action>
 		
+		<action name="information_emp"
+			class="com.cubesofttech.action.InfoEmpAction" method="openInfoEmp">
+			<result name="success" type="tiles">information_emp</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
+			<result name="error">/index.jsp</result>
+		</action>
+		
+		<!-- Report -->
+		
+		<action name="report_work"
+			class="com.cubesofttech.action.WorkHoursAction" method="reportWorkAllList">
+			<result name="success" type="tiles">report_work</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="reportWorkSum"
+			class="com.cubesofttech.action.WorkHoursAction" method="reportWorkSum">
+			<result name="success" type="tiles">report_worksum</result>
+			<result name="error">/index.jsp</result>
+		</action>
 	</package>
 </struts>

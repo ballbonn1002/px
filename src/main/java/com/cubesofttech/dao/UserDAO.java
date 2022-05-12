@@ -64,6 +64,8 @@ public interface UserDAO {
 	public List<Map<String, Object>> UserCountEnable();
 
 	public List<Map<String, Object>> UserEnable(String enable);
+	
+	public List<Map<String, Object>> UserEnable();
 
 	public List<Map<String, Object>> UserDisable();
 

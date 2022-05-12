@@ -225,5 +225,17 @@
 			value="/pages-back/employee/employeeType_add.jsp" />
 	</definition>
 
+	<!-- Report -->
+	
+	<definition name="report_work" extends="masterLayout">
+		<put-attribute name="title" value="รายงานข้อมูลการทำงาน"/>
+		<put-attribute name="body"
+			value="/pages-back/report/report_work.jsp"/>
+	</definition>
+	<definition name="report_worksum" extends="masterLayout">
+		<put-attribute name="title" value="รายงานข้อมูลการทำงาน"/>
+		<put-attribute name="body"
+			value="/pages-back/report/report_worksum.jsp"/>
+	</definition>
 
 </tiles-definitions>

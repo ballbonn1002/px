@@ -499,6 +499,20 @@ public class UserDAOImpl implements UserDAO {
 		return UserActive;
 	}
 	
+	public List<Map<String, Object>> UserEnable() {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Map<String, Object>> UserActive = null;
+		try {
+			String sql = "SELECT name, id, department_id, enable FROM user WHERE enable = '1'";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			UserActive = query.list();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
+		return UserActive;
+	}
+	
 	public List<Map<String,Object>> AllUserEnable()
 	{
 		Session session = this.sessionFactory.getCurrentSession();
