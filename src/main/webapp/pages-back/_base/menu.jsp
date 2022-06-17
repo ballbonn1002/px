@@ -49,6 +49,10 @@
                             </div>
                         </li>
                         
+                        <li class="nav-item dropdown mega-menu active">
+                            <a href="/payroll_list" class="nav-link"><i class="icon-docs"></i> <span> รายการจ่ายเงินเดือน </span></a>
+                        </li>
+                        
                         <li class="nav-item dropdown mega-menu">
                             <a href="javascript:void(0)" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="icon-grid"></i> 
                             <span>Master Data</span></a>
@@ -151,13 +155,33 @@
                                         <div class="mega-list">
                                             <ul class="list-unstyled">
                                                 <li><label>Role</label></li>
-                                                <li><a href="/role-list">Role Management</a> </li>
+                                                <li><a href="/role_management">Role Management</a> </li>
                                             </ul>
                                         </div>
                                     </div>
+                                 </div>
+                             </div>
+                        </li>
+                        <li class="nav-item dropdown mega-menu">
+                            <a href="javascript:void(0)" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="icon-docs"></i> <span>Function</span></a>
+                            <div class="dropdown-menu mega-main padding-0 animated fadeIn">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-4 hidden-sm">
+                                        <div class="img-box" style="background-image: url(/pages-back/assets/images/menu-img/7.jpg)"></div>
                                     </div>
-                                </div>
-                            </div>
+                                    <div class="col-lg-2 col-lg-auto col-md-4 col-sm-4">
+                                        <div class="mega-list">
+                                            <ul class="list-unstyled">
+                                                <li><label>Function</label></li>
+                                                <li><a href="#">Actual - วันทำงานจริง</a> </li>
+                                                <li><a href="#">Salary - เงินเดือน</a> </li>
+                                                <li><a href="#">SSI - ประกันสังคม</a> </li>
+                                                <li><a href="#">Tax - ภาษี</a> </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                 </div>
+                             </div>
                         </li>
                     </ul>
                 </div>
