@@ -87,7 +87,7 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Map<String, Object>> department_id = null;
 		try {
-			String sql = " SELECT id, CONCAT(id) FROM department  ORDER BY id ASC  ";
+			String sql = " SELECT department_id, CONCAT(department_id) FROM department  ORDER BY department_id ASC  ";
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 			department_id = query.list();
