@@ -95,13 +95,13 @@ tr{
 							<table  class="table table-hover js-basic-example table-custom m-b-0 no-footer ">
 								<thead>
 									<tr>
-										<th style="text-align: left; width: 10%">ลำดับ</th>
-										<th style="text-align: left; width: 15%">ID</th>
-										<th style="text-align: left; width: 20% ">ประเภทการจ้าง</th>
-										<th style="text-align: left; width: 20% ">ประเภทการจ่ายเงิน</th>
-										<th style="text-align: left; width: 20% ">งวดการจ่ายเงิน</th>
-										<th style="text-align: left; width: 20% ">จำนวนวันต่องวด</th>
-										<th style="text-align: center;width: 5% "></th>
+									
+										<th style="text-align: left; width: 10%">ID</th>
+										<th style="text-align: left; width: 20% ">User Name</th>
+										<th style="text-align: left; width: 20% ">Role</th>
+										<th style="text-align: left; width: 20% ">Name</th>
+										<th style="text-align: left; width: 20% ">Active</th>
+										<th style="text-align: left; width: 10%"></th>
 									</tr>
 								</thead>
 								<tbody>

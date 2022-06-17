@@ -110,6 +110,14 @@
 		<put-attribute name="body"
 			value="/pages-back/role/role_add.jsp" />
 	</definition>
+	<definition name="role_management" extends="masterLayout">
+		<put-attribute name="title" value="Role Management" />
+		<put-attribute name="body" value="/pages-back/role/role_management.jsp"/>
+	</definition>
+	<definition name="role_management_add" extends="masterLayout">
+		<put-attribute name="title" value="Role Management Add" />
+		<put-attribute name="body" value="/pages-back/role/role_management_add.jsp"/>
+	</definition>
 	
 	<!-- User_Profile -->
 	<definition name="admin_edit_userprofile"
