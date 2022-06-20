@@ -50,7 +50,6 @@
 				class="org.apache.struts2.views.tiles.TilesResult" />
 		</result-types>
 
-
 		<action name="user-list"
 			class="com.cubesofttech.action.UserAction" method="list">
 			<result name="success" type="tiles">user.list</result>
@@ -68,6 +67,11 @@
 			<result name="success" type="tiles">user.add</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		<action name="user_profile"
+			class="com.cubesofttech.action.UserAction" method="">
+			<result name="success" type="tiles">user_profile</result>
+			<result name="error">index.jsp</result>
+		</action>		
 		<!-- System User -->
 		<action name="SystemUser_list"
 			class="com.cubesofttech.action.UserAction" method="SystemUserList">
@@ -77,6 +81,50 @@
 		<action name="SystemUser_add"
 			class="com.cubesofttech.action.UserAction" method="SystemUserAdd">
 			<result name="success" type="tiles">SystemUser_add</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="SystemUser_add"
+			class="com.cubesofttech.action.UserAction" method="listuser">
+			<result name="success" type="tiles">SystemUser_add</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="CheckID"
+			class="com.cubesofttech.action.UserAction" method="CheckIDuser">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="save_sysuser"
+			class="com.cubesofttech.action.UserAction" method="save_sysuser">
+			<result name="success" type="tiles">SystemUser_add</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="SystemUser_list"
+			class="com.cubesofttech.action.UserAction" method="sys_userList">
+			<result name="success" type="tiles">SystemUser_list</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="sysuser_delete"
+			class="com.cubesofttech.action.UserAction" method="Userdelete">
+			<result name="success" type="tiles">SystemUser_list</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="sysuser_edit"
+			class="com.cubesofttech.action.UserAction" method="SysuserEdit">
+			<result name="success" type="tiles">SystemUser_add</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="CheckUserID"
+			class="com.cubesofttech.action.UserAction" method="CheckUserID">
+		</action>
+		<action name="password"
+			class="com.cubesofttech.action.UserAction" method="save_sysuser">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
+		<action name="Changecheckbox"
+			class="com.cubesofttech.action.UserAction" method="Changecheckbox">
+			<result name="success" >/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
 		<!-- Test json -->
@@ -117,6 +165,16 @@
 			<result name="success" type="tiles">role.add</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		<action name="role_management"
+			class="com.cubesofttech.action.RoleAction" method="">
+			<result name="success" type="tiles">role_management</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="role_management_add"
+			class="com.cubesofttech.action.RoleAction" method="">
+			<result name="success" type="tiles">role_management_add</result>
+			<result name="error">/index.jsp</result>
+		</action>
 
 		<!-- เพิ่ม function add -->
 		<action name="role-perform-add"
@@ -140,6 +198,28 @@
 			<result name="success" type="chain">role-list</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั้นทำงาน -->
 			<result name="error">/index.jsp</result>
 		</action>
+		
+		<!-- page_menu -->
+		<action name="page_menu"
+			class="com.cubesofttech.action.PagemenuAction" method="">
+			<result name="success" type="tiles">page_menu</result> 
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="page_menu" 
+			class="com.cubesofttech.action.PagemenuAction" method="list">
+			<result name="success" type="tiles">page_menu</result>
+			<result name="error">/index.jsp</result>
+		</action>
+	 	<action name="StatusCheckbox" 
+			class="com.cubesofttech.action.PagemenuAction" method="updatecheckbox">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>   
+		<action name="StatusCheckbox1" 
+			class="com.cubesofttech.action.PagemenuAction" method="updatecheckbox1">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>  
 		
 		<!-- Holiday -->
 		<action name="holiday_list"
@@ -274,12 +354,6 @@
 			<result name="success" type="tiles">position_list</result>
 			<result name="error">/index.jsp</result>
 		</action>
-
-		<action name="editPosition"
-			class="com.cubesofttech.action.PositionAction" method="PositionEdit">
-			<result name="success" type="tiles">position_edit</result>
-			<result name="error">/index.jsp</result>
-		</action>
 		
 		<!-- Department -->
 		<action name="department_list"
@@ -399,6 +473,78 @@
 		<action name="reportWorkSum"
 			class="com.cubesofttech.action.WorkHoursAction" method="reportWorkSum">
 			<result name="success" type="tiles">report_worksum</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
+		<!-- SYS_ROLE -->
+		<action name="role_management"
+			class="com.cubesofttech.action.Sys_roleAction" method="list">
+			<result name="success" type="tiles">role_management</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="role_management_add"
+			class="com.cubesofttech.action.PageGroupAction" method="list">
+			<result name="success" type="tiles">role_management_add</result>
+			<result name="error">/index.jsp</result>
+		  </action>
+	  	  <!--  <action name="role_management_add2"
+			class="com.cubesofttech.action.PageAction" method="listPage">
+			<result name="success" type="tiles">role_management_add</result>
+			<result name="error">/index.jsp</result>
+		</action>  -->
+		<action name="changeActive" class="com.cubesofttech.action.PermissionAction" method="changePerActive">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="changeView" class="com.cubesofttech.action.PermissionAction" method="changeView">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="changeCreateUpdate" class="com.cubesofttech.action.PermissionAction" method="changeCreateUpdate">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="changeDelete" class="com.cubesofttech.action.PermissionAction" method="changeDelete">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="changeApprove" class="com.cubesofttech.action.PermissionAction" method="changeApprove">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="saveSys_role"
+			class="com.cubesofttech.action.Sys_roleAction" method="saveSys_role">
+			<result name="success" type="tiles">role_management_add</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="delete_SysRole"
+			class="com.cubesofttech.action.Sys_roleAction" method="deleteSys_role">
+			<result name="success" type="tiles">role_management</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="edit_SysRole"
+			class="com.cubesofttech.action.Sys_roleAction" method="editSys_role">
+			<result name="success" type="tiles">role_management_add</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="changeStatus"
+			class="com.cubesofttech.action.PermissionAction" method="changeStatus">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="checkName"
+			class="com.cubesofttech.action.Sys_roleAction" method="checkName">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="updateSys_role"
+			class="com.cubesofttech.action.Sys_roleAction" method="updateSys_role">
+			<result name="success" type="tiles">role_management_add</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="findName"
+			class="com.cubesofttech.action.Sys_roleAction" method="findName">
+			<result name="success" type="tiles">role_management_add</result>
 			<result name="error">/index.jsp</result>
 		</action>
 	</package>

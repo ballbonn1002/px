@@ -155,8 +155,10 @@
                                         <div class="mega-list">
                                             <ul class="list-unstyled">
                                                 <li><label>Role</label></li>
-                                                <li><a href="/role-list">Role Management</a> </li>
-                                            </ul>
+												<li><a href="/role_management">Role Management</a> </li>
+												<li><a href="/role-list">Role Management</a> </li>
+                                                <li><a href="/page_menu">Page Menu</a> </li>
+											</ul>
                                         </div>
                                     </div>
                                  </div>

@@ -63,6 +63,11 @@
 		<put-attribute name="body"
 			value="/pages-back/user/user_add.jsp" />
 	</definition>
+	<definition name="user_profile" extends="masterLayout">
+		<put-attribute name="title" value="User Profile" />
+		<put-attribute name="body"
+			value="/pages-back/user/user_profile.jsp" />
+	</definition>
 	<definition name="user.edit.profile" extends="masterLayout">
 		<put-attribute name="title" value="User Edit Profile" />
 		<put-attribute name="body"
@@ -111,6 +116,22 @@
 			value="/pages-back/role/role_add.jsp" />
 	</definition>
 	
+	<definition name="role_management" extends="masterLayout">
+		<put-attribute name="title" value="Role Management" />
+		<put-attribute name="body" value="/pages-back/role/role_management.jsp"/>
+	</definition>
+	<definition name="role_management_add" extends="masterLayout">
+		<put-attribute name="title" value="Role Management Add" />
+		<put-attribute name="body" value="/pages-back/role/role_management_add.jsp"/>
+	</definition>
+	
+
+	<definition name="page_menu" extends="masterLayout">
+		<put-attribute name="title" value="Menu page" />
+		<put-attribute name="body"
+			value="/pages-back/common/page_menu.jsp" />
+	</definition>
+
 	<!-- User_Profile -->
 	<definition name="admin_edit_userprofile"
 		extends="masterLayout">
