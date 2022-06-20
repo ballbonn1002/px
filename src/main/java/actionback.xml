@@ -50,7 +50,6 @@
 				class="org.apache.struts2.views.tiles.TilesResult" />
 		</result-types>
 
-
 		<action name="user-list"
 			class="com.cubesofttech.action.UserAction" method="list">
 			<result name="success" type="tiles">user.list</result>
@@ -68,6 +67,11 @@
 			<result name="success" type="tiles">user.add</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		<action name="user_profile"
+			class="com.cubesofttech.action.UserAction" method="">
+			<result name="success" type="tiles">user_profile</result>
+			<result name="error">index.jsp</result>
+		</action>		
 		<!-- System User -->
 		<action name="SystemUser_list"
 			class="com.cubesofttech.action.UserAction" method="SystemUserList">
@@ -77,6 +81,50 @@
 		<action name="SystemUser_add"
 			class="com.cubesofttech.action.UserAction" method="SystemUserAdd">
 			<result name="success" type="tiles">SystemUser_add</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="SystemUser_add"
+			class="com.cubesofttech.action.UserAction" method="listuser">
+			<result name="success" type="tiles">SystemUser_add</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="CheckID"
+			class="com.cubesofttech.action.UserAction" method="CheckIDuser">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="save_sysuser"
+			class="com.cubesofttech.action.UserAction" method="save_sysuser">
+			<result name="success" type="tiles">SystemUser_add</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="SystemUser_list"
+			class="com.cubesofttech.action.UserAction" method="sys_userList">
+			<result name="success" type="tiles">SystemUser_list</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="sysuser_delete"
+			class="com.cubesofttech.action.UserAction" method="Userdelete">
+			<result name="success" type="tiles">SystemUser_list</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="sysuser_edit"
+			class="com.cubesofttech.action.UserAction" method="SysuserEdit">
+			<result name="success" type="tiles">SystemUser_add</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="CheckUserID"
+			class="com.cubesofttech.action.UserAction" method="CheckUserID">
+		</action>
+		<action name="password"
+			class="com.cubesofttech.action.UserAction" method="save_sysuser">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
+		<action name="Changecheckbox"
+			class="com.cubesofttech.action.UserAction" method="Changecheckbox">
+			<result name="success" >/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
 		<!-- Test json -->
@@ -138,6 +186,28 @@
 			<result name="success" type="chain">role-list</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั้นทำงาน -->
 			<result name="error">/index.jsp</result>
 		</action>
+		
+		<!-- page_menu -->
+		<action name="page_menu"
+			class="com.cubesofttech.action.PagemenuAction" method="">
+			<result name="success" type="tiles">page_menu</result> 
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="page_menu" 
+			class="com.cubesofttech.action.PagemenuAction" method="list">
+			<result name="success" type="tiles">page_menu</result>
+			<result name="error">/index.jsp</result>
+		</action>
+	 	<action name="StatusCheckbox" 
+			class="com.cubesofttech.action.PagemenuAction" method="updatecheckbox">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>   
+		<action name="StatusCheckbox1" 
+			class="com.cubesofttech.action.PagemenuAction" method="updatecheckbox1">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>  
 		
 		<!-- Holiday -->
 
@@ -271,12 +341,6 @@
 			class="com.cubesofttech.action.PositionAction"
 			method="PositionUpdate">
 			<result name="success" type="tiles">position_list</result>
-			<result name="error">/index.jsp</result>
-		</action>
-
-		<action name="editPosition"
-			class="com.cubesofttech.action.PositionAction" method="PositionEdit">
-			<result name="success" type="tiles">position_edit</result>
 			<result name="error">/index.jsp</result>
 		</action>
 		

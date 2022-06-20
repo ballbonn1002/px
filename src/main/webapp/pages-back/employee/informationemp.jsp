@@ -288,6 +288,7 @@ input[type="checkbox"] {
                                   		<div class="form-group">
 											<label for="recipient-name" class="control-label" style="font-weight: lighter; font-size: 14px;">ตำเเหน่ง</label>
 											<select class="form-control" name="positsion" style="width: 95%;">
+											
 												<c:forEach var="position" items="${positionList}">
 													<option value="${position.position_id}"
 														<c:if test="${selectUser.positionId eq position.position_id }"> selected </c:if>>${position.name}</option>

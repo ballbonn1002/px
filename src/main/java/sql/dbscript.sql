@@ -9,7 +9,13 @@ UPDATE `user_payment_config` SET `config_flag`='1' WHERE user_id = 'sirung.t';
 
 ALTER TABLE `permission` CHANGE `time_update` `time_update` TIMESTAMP on update CURRENT_TIMESTAMP NULL DEFAULT NULL;
 ALTER TABLE `permission` CHANGE `name` `page_name` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;
-INSERT INTO `page` (`page_id`, `page_group_id`, `page_name`, `is_active`, `is_page`, `redirect`, `check_view`, `check_create_update`, `check_delete`, `check_approve`, `description`, `user_create`, `user_update`, `time_create`, `time_update`) VALUES ('P11', 'GP03', 'รายงานข้อมูลการทำงาน', '1', '1', '', '1', '1', '1', '0', '', '', '', NULL, NULL)
+INSERT INTO `page` (`page_id`, `page_group_id`, `page_name`, `is_active`, `is_page`, `redirect`, `check_view`, `check_create_update`, `check_delete`, `check_approve`, `description`, `user_create`, `user_update`, `time_create`, `time_update`) VALUES ('P11', 'GP03', 'Report working', '1', '1', '', '1', '1', '1', '0', '', '', '', NULL, NULL)
 INSERT INTO `page` (`page_id`, `page_group_id`, `page_name`, `is_active`, `is_page`, `redirect`, `check_view`, `check_create_update`, `check_delete`, `check_approve`, `description`, `user_create`, `user_update`, `time_create`, `time_update`) VALUES ('P12', 'GP05', 'Page menu', '1', '1', '', '0', '0', '0', '0', '', '', '', NULL, NULL)
 INSERT INTO `page` (`page_id`, `page_group_id`, `page_name`, `is_active`, `is_page`, `redirect`, `check_view`, `check_create_update`, `check_delete`, `check_approve`, `description`, `user_create`, `user_update`, `time_create`, `time_update`) VALUES ('P13', 'GP05', 'User', '1', '1', '', '0', '0', '0', '0', '', '', '', NULL, NULL)
 INSERT INTO `page` (`page_id`, `page_group_id`, `page_name`, `is_active`, `is_page`, `redirect`, `check_view`, `check_create_update`, `check_delete`, `check_approve`, `description`, `user_create`, `user_update`, `time_create`, `time_update`) VALUES ('P14', 'GP05', 'Role', '1', '1', '', '0', '0', '0', '0', '', '', '', NULL, NULL)
+
+ALTER TABLE sys_user CHANGE user_id user_id VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+CHANGE name_th name_th VARCHAR(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL, 
+CHANGE email email VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL, 
+CHANGE phone phone VARCHAR(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL, 
+CHANGE is_active is_active CHAR(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;

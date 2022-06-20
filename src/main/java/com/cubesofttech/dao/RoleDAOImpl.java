@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.cubesofttech.model.Role;
+import com.cubesofttech.model.User;
 
 @Repository
 public class RoleDAOImpl implements RoleDAO{
@@ -31,16 +32,17 @@ public class RoleDAOImpl implements RoleDAO{
 
     @Override
     public List<Role> findAll() throws Exception {
-        Session session = this.sessionFactory.getCurrentSession();
-        List<Role> list = null;
-        try {
-            list = session.createCriteria(Role.class).list();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally{
-            //session.close();
-        }        
-        return list;
+    	Session session = this.sessionFactory.getCurrentSession();
+		List<Role> roleList = null;
+		try {
+			String sql = "SELECT * FROM role" ; 
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			roleList = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return roleList;
     }
 
 
@@ -127,5 +129,18 @@ public class RoleDAOImpl implements RoleDAO{
 		return department_id;
 	}
     
-
+	@Override
+	public List<Map<String, Object>> findAllList() throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Map<String, Object>> roleList = null;
+		try {
+			String sql = "SELECT * FROM role";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			roleList = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return roleList;
+	}
 }
