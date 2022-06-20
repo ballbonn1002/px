@@ -48,6 +48,8 @@ public interface UserDAO {
 	public List<Map<String, Object>> findById3(String ur) throws Exception;
 
 	public List<Map<String, Object>> positionuser(String logonUser) throws Exception;
+	
+
 
 	public int[] count_user(); // PieCharts
 
@@ -100,4 +102,5 @@ public interface UserDAO {
 	public List<Map<String,Object>> findUserChat(String name)throws Exception;
 
 	public List<Map<String,Object>> HappyBirthday(String month, String day)throws Exception;
+
 }

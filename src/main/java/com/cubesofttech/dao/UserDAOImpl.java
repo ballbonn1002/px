@@ -17,8 +17,11 @@ import org.jfree.util.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.cubesofttech.model.Page;
+import com.cubesofttech.model.Pagemenu;
 import com.cubesofttech.model.User;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -39,12 +42,13 @@ public class UserDAOImpl implements UserDAO {
 		Session session = this.sessionFactory.getCurrentSession();
 		List<User> userList = null;
 		try {
-			userList = session.createCriteria(User.class).list();
+			String sql = "SELECT * FROM user" ; 
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			userList = query.list();
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			// session.close();
-		}
+		} 
 		return userList;
 	}
 	@Override
@@ -861,5 +865,4 @@ public class UserDAOImpl implements UserDAO {
 		}
 		return UserActive;
 	}
-
 }

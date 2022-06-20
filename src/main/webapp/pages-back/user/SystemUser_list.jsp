@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="/WEB-INF/tlds/permission.tld" prefix="perm"%>
-
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 
 <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
@@ -33,6 +33,10 @@ tr{
   to {
     opacity: 1;
   }
+}
+
+input[type="checkbox"] {
+	accent-color: #0275d8;
 }
 
 </style>
@@ -70,10 +74,7 @@ tr{
 						</div>
 		
 						<div class="actions right" style="text-align: right; ">
-							<a href="SystemUser_add" class="btn btn-info" style="margin-bottom: 30px;"  >&nbsp;เพิ่มพนักงาน</a><!--  <a
-								class="btn btn-circle btn-icon-only btn-default fullscreen"
-								href="javascript:;" data-original-title="" title=""> </a> -->  <!--  class="btn green-meadow"-->  <!-- <i
-								class="fa fa-plus"></i> -->
+							<a href="SystemUser_add" class="btn btn-info" style="margin-bottom: 30px;"  >&nbsp;เพิ่มพนักงาน</a>
 						</div>
 					</div>
 		
@@ -95,41 +96,39 @@ tr{
 							<table  class="table table-hover js-basic-example table-custom m-b-0 no-footer ">
 								<thead>
 									<tr>
-									
-										<th style="text-align: left; width: 10%">ID</th>
-										<th style="text-align: left; width: 20% ">User Name</th>
+										<th style="text-align: left; width: 10%">#</th>
+										<th style="text-align: left; width: 20%">UserID</th>
 										<th style="text-align: left; width: 20% ">Role</th>
 										<th style="text-align: left; width: 20% ">Name</th>
-										<th style="text-align: left; width: 20% ">Active</th>
-										<th style="text-align: left; width: 10%"></th>
+										<th style="text-align: center; width: 20% ">Is Active</th>
+										<th style="text-align: left; width: 10% "> </th>
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="test" items="${emptypeList}">
+									<c:forEach var="sysuser" items="${sysuserList}">
 									<c:set var="counter" value="${counter + 1}" />
 										<tr>
-											<!--  --><td style= "text-align: left; padding-left: 20px ">${counter}</td>
-											<td style="text-align: left; padding-top: 10px;">${test.employee_type_id}</td>
-											<td style="text-align: left; padding-top: 10px;">${test.name}</td>
-											<td style="text-align: left; padding-top: 10px;">${test.payout_type}</td>
-											<td style="text-align: left; padding-top: 10px;">${test.pay_period}</td>
-											<td style="text-align: left; padding-top: 10px;">${test.day_period}</td>
-											<!-- <td style="padding-top: 10px;">${test.user_create}</td>
-											<td style="padding-top: 10px;">${test.user_update}</td>
-											<td style="padding-top: 10px;"><fmt:formatDate
-												value="${test.time_create}" pattern=" dd-MMM-yyyy" /></td>
-											<td style="padding-top: 10px;"><fmt:formatDate
-												value="${test.time_update}" pattern=" dd-MMM-yyyy" /></td>-->
+											<td style="text-align: left; padding-left: 20px ">${counter}</td>
+											<td style="text-align: left; padding-top: 10px;">${sysuser.sys_user_id}</td>
+											<td style="text-align: left; padding-top: 10px;">${sysuser.sys_role_id}</td>
+											<td style="text-align: left; padding-top: 10px;">${sysuser.user_id}</td>
+											<td style="align-item: center;" data-order="${sysuser.is_active}">
+													<div class="md-checkbox" style="margin-left: 45%;">
+															<input id="chk${sysuser.sys_user_id}" type="checkbox" class="md-check status" onchange = "Change('${sysuser.sys_user_id}')"
+															<c:if test ="${fn:contains(sysuser.is_active, '1')}">checked</c:if>>
+													</div>
+												
+											</td>
 											<td style="text-align:right;">                                            
-                                        		<a class="btn btn-outline-success" title="Edit" href="employeeType_edit?employee_type_id=${test.employee_type_id}">
+                                        		<a id="edit" class="btn btn-outline-success" title="Edit" href="sysuser_edit?sysuser_id=${sysuser.sys_user_id}">
                                         		<i class="fa fa-pencil"></i></a>
-                                        		<a class="btn btn-outline-danger sred-intense sweet-${test.employee_type_id}" title="Delete"
+                                        		<a class="btn btn-outline-danger sred-intense sweet-${sysuser.sys_user_id}" title="Delete"
                                         			onclick="_gaq.push(['_trackEvent', 'example', 'try', 'Primary']);">
                                         		<i class="fa fa-trash-o"></i></a>
                                        		</td>
 										</tr>
-									<script>
-document.querySelector('.sweet-${test.employee_type_id}').onclick = function(){
+<script>
+document.querySelector('.sweet-${sysuser.sys_user_id}').onclick = function(){
 	swal({
 	      title: "Are you sure!",
 	      text: "You will be deleting this id!",
@@ -142,10 +141,12 @@ document.querySelector('.sweet-${test.employee_type_id}').onclick = function(){
         if (inputValue === "") {
           return false
         }
-        document.location = "employeeType_delete?employee_type_id=${test.employee_type_id}";   //?id คือ parameter
+        document.location = "sysuser_delete?sys_user_id=${sysuser.sys_user_id}";   //?id คือ parameter
       });
 };
 </script>
+
+
 								</c:forEach>
 							</tbody>
 						</table>
@@ -158,25 +159,34 @@ document.querySelector('.sweet-${test.employee_type_id}').onclick = function(){
 	</div>
 	</div>
 </div>
-	
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script>
-$(document).ready(function(){	
-
-	var value="${myselect}" ; 
-	var d = new Date();
-	if(value == 0 ){
-		document.getElementById(d.getFullYear()).selected = "true";	
-	}else if(value == 2 ){  
-		document.getElementById("all").selected = "true";
-	}else{
-	document.getElementById(value).selected = "true";
-   }
-});
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+function Change(userId){
+	//console.log(userId);
+	const x = document.querySelector('#chk'+userId);
+	//console.log(x.checked);
+	var Isactive;
+	if(x.checked){
+		Isactive = 1; 
+	}
+	else{
+		Isactive = 0;	
+	}
+	//console.log(Isactive);
+	 $.ajax({
+     	url: "Changecheckbox",
+     	method : "POST",
+		type : "JSON",
+         data: {		
+         			"Isactive" : Isactive,
+         			"userId" : userId
+         		},
+         success: function(data){
+             //console.log(data); 
+ 	}
+  }) 
+}
 </script>
-
-
 	<link
 		href="../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css"
 		rel="stylesheet" type="text/css" />
