@@ -191,7 +191,19 @@
 			value="/pages-back/payment/payment_term.jsp" />
 	</definition>
 	
-
+	<!-- Payroll -->
+	
+	<definition name="payroll_list" extends="masterLayout">
+		<put-attribute name="title" value="Payroll List" />
+		<put-attribute name="body"
+			value="/pages-back/payroll/payroll_list.jsp" />
+	</definition>
+	
+	<definition name="payroll_form" extends="masterLayout">
+		<put-attribute name="title" value="Payroll Form" />
+		<put-attribute name="body"
+			value="/pages-back/payroll/payroll_form.jsp" />
+	</definition>
 
 	
 	<!-- Employee -->

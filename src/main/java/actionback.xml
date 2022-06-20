@@ -87,6 +87,18 @@
 		</action>
 		<!-- json -->
 		
+		<!-- Payroll -->
+		<action name="payroll_list"
+			class="com.cubesofttech.action.PayrollAction" method="listPayroll"  >
+			<result name="success" type="tiles">payroll_list</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
+		<action name="payroll_form"
+			class="com.cubesofttech.action.PayrollAction" method="addPayroll"  >
+			<result name="success" type="tiles">payroll_form</result>
+			<result name="error">/index.jsp</result>
+		</action>
 		
 		<!-- Role -->
 		<action name="role-list"
@@ -130,7 +142,6 @@
 		</action>
 		
 		<!-- Holiday -->
-
 		<action name="holiday_list"
 			class="com.cubesofttech.action.HolidayAction" method="List">
 			<result name="success" type="tiles">holiday_newlist</result>
@@ -230,7 +241,7 @@
 			<result name="error">/index.jsp</result>
 		</action>
 
-<!-- Position -->
+		<!-- Position -->
 		<action name="position_list"
 			class="com.cubesofttech.action.PositionAction" method="list">
 			<result name="success" type="tiles">position_list</result>
@@ -305,39 +316,12 @@
 		</action>
 		
 		<!-- Employee -->
-
 		<action name="employeeType_list"
 			class="com.cubesofttech.action.EmployeeTypeAction" method="listEmployeeType">
 			<result name="success" type="tiles">employeeType_list</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
 			<result name="error">/index.jsp</result>
 		</action>
-		<action name="employeeType_edit"
-			class="com.cubesofttech.action.EmployeeTypeAction" method="updateEmployeeType">
-			<result name="success" type="tiles">employeeType_edit</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
-			<result name="error">/index.jsp</result>
-		</action>
-		<action name="employeeType_delete"
-			class="com.cubesofttech.action.EmployeeTypeAction" method="deleteEmployeeType">
-			<result name="success" type="tiles">employeeType_list</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
-			<result name="error">/index.jsp</result>
-		</action>
-		<action name="employeeType_add"
-			class="com.cubesofttech.action.EmployeeTypeAction" method="addEmployeeType">
-			<result name="success" type="tiles">employeeType_add</result>
-			<result name="error">/index.jsp</result>
-		</action>
-				<action name="saveEmployeeType"
-			class="com.cubesofttech.action.EmployeeTypeAction" method="saveEmployeeType">
-			<result name="success" type="tiles">employeeType_list</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
-			<result name="error">/index.jsp</result>
-			<result name="input" type="tiles">employeeType_add</result>
-		</action>
-				<action name="updateEmployeeType"
-			class="com.cubesofttech.action.EmployeeTypeAction" method="editEmployeeType">
-			<result name="success" type="tiles">employeeType_list</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
-			<result name="error">/index.jsp</result>
-		</action>
-
+		
 		<action name="updateInfoEmp"
 			class="com.cubesofttech.action.InfoEmpAction" method="editInfoEmp">
 			<result name="success" type="tiles">information_emp</result>
@@ -354,8 +338,9 @@
 			<result name="success" type="tiles">information_emp</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
 			<result name="error">/index.jsp</result>
 		</action>
+		
 		<!-- Payment -->
-			<action name="payment_term"
+		<action name="payment_term"
 			class="com.cubesofttech.action.UserPaymentConfigAction" method="list">
 			<result name="success" type="tiles">payment_term</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
 			<result name="error">/index.jsp</result>
@@ -367,7 +352,7 @@
 			<result name="error">/index.jsp</result>
 		</action>
 				
-			<action name="deleteIncome"
+		<action name="deleteIncome"
 			class="com.cubesofttech.action.PaymentTypeAction" method="deleteIncome">
 			<result name="success" type="tiles">payment_type</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
 			<result name="error">/index.jsp</result>
@@ -406,7 +391,6 @@
 		</action>
 		
 		<!-- Report -->
-		
 		<action name="report_work"
 			class="com.cubesofttech.action.WorkHoursAction" method="reportWorkAllList">
 			<result name="success" type="tiles">report_work</result>
