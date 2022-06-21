@@ -476,6 +476,18 @@
 			<result name="error">/index.jsp</result>
 		</action>
 		
+		<action name="employee_add" class="com.cubesofttech.action.AddEmpAction" method="addEmployee">
+			<result name="success" type="tiles">employee_add</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="addInfoEmp" class="com.cubesofttech.action.AddEmpAction" method="addEmployeeInfo">
+			<result name="success" type="tiles">employeeInfo_add</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
+		
+		
+		
 		<!-- SYS_ROLE -->
 		<action name="role_management"
 			class="com.cubesofttech.action.Sys_roleAction" method="list">

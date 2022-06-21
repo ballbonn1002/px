@@ -266,6 +266,16 @@
 		<put-attribute name="body"
 			value="/pages-back/employee/employeeType_add.jsp" />
 	</definition>
+	
+	<definition name="employee_add" extends="masterLayout">
+		<put-attribute name="title" value="เพิ่มพนักงาน" />
+		<put-attribute name="body" value="/pages-back/employee/employee_add.jsp" />
+	</definition>
+	
+	<definition name="employeeInfo_add" extends="masterLayout">
+		<put-attribute name="title" value="เพิ่มพนักงาน" />
+		<put-attribute name="body" value="/pages-back/employee/employee_list.jsp" />
+	</definition>
 
 	<!-- Report -->
 	
