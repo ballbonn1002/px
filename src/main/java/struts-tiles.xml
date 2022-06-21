@@ -247,4 +247,11 @@
 			value="/pages-back/report/report_worksum.jsp"/>
 	</definition>
 
+	<!-- Function -->
+	<definition name="actual_work" extends="masterLayout">
+		<put-attribute name="title" value="ข้อมูลการทำงานจริง"/>
+		<put-attribute name="body"
+			value="/pages-back/function/actual_work.jsp"/>
+	</definition>
+
 </tiles-definitions>

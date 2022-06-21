@@ -173,7 +173,7 @@
                                         <div class="mega-list">
                                             <ul class="list-unstyled">
                                                 <li><label>Function</label></li>
-                                                <li><a href="#">Actual - วันทำงานจริง</a> </li>
+                                                <li><a href="actual_work">Actual - วันทำงานจริง</a> </li>
                                                 <li><a href="#">Salary - เงินเดือน</a> </li>
                                                 <li><a href="#">SSI - ประกันสังคม</a> </li>
                                                 <li><a href="#">Tax - ภาษี</a> </li>
