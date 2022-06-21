@@ -44,7 +44,7 @@ input[type="checkbox"] {
 						<div class="header">
 				        	<h2 style="font-size: 20px;">รายชื่อพนักงาน</h2>
 				        	<ul class="header-dropdown">
-				            	<li><a href="#" class="btn btn-info">เพิ่มพนักงาน</a></li>
+				            	<li><a href="employee_add" class="btn btn-info">เพิ่มพนักงาน</a></li>
 				            </ul>
 				        </div>
 				     </div>
