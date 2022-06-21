@@ -70,7 +70,7 @@ tr{
 						</div>
 		
 						<div class="actions right" style="text-align: right; ">
-							<a href="employeeType_add" class="btn btn-info" style="margin-bottom: 30px;"  >&nbsp;เพิ่มประเภทพนักงาน</a><!--  <a
+							<a href="#" class="btn btn-info" style="margin-bottom: 30px;"  >&nbsp;เพิ่มประเภทพนักงาน</a><!--  <a
 								class="btn btn-circle btn-icon-only btn-default fullscreen"
 								href="javascript:;" data-original-title="" title=""> </a> -->  <!--  class="btn green-meadow"-->  <!-- <i
 								class="fa fa-plus"></i> -->
@@ -96,7 +96,6 @@ tr{
 								<thead>
 									<tr>
 										<th style="text-align: left; width: 10%">ลำดับ</th>
-										<th style="text-align: left; width: 15%">ID</th>
 										<th style="text-align: left; width: 20% ">ประเภทการจ้าง</th>
 										<th style="text-align: left; width: 20% ">ประเภทการจ่ายเงิน</th>
 										<th style="text-align: left; width: 20% ">งวดการจ่ายเงิน</th>
@@ -105,11 +104,10 @@ tr{
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="test" items="${emptypeList}">
+									<c:forEach var="test" items="${employee_type}">
 									<c:set var="counter" value="${counter + 1}" />
 										<tr>
 											<!--  --><td style= "text-align: left; padding-left: 20px ">${counter}</td>
-											<td style="text-align: left; padding-top: 10px;">${test.employee_type_id}</td>
 											<td style="text-align: left; padding-top: 10px;">${test.name}</td>
 											<td style="text-align: left; padding-top: 10px;">${test.payout_type}</td>
 											<td style="text-align: left; padding-top: 10px;">${test.pay_period}</td>
@@ -121,7 +119,7 @@ tr{
 											<td style="padding-top: 10px;"><fmt:formatDate
 												value="${test.time_update}" pattern=" dd-MMM-yyyy" /></td>-->
 											<td style="text-align:right;">                                            
-                                        		<a class="btn btn-outline-success" title="Edit" href="employeeType_edit?employee_type_id=${test.employee_type_id}">
+                                        		<a class="btn btn-outline-success" title="Edit" href="#">
                                         		<i class="fa fa-pencil"></i></a>
                                         		<a class="btn btn-outline-danger sred-intense sweet-${test.employee_type_id}" title="Delete"
                                         			onclick="_gaq.push(['_trackEvent', 'example', 'try', 'Primary']);">
