@@ -175,7 +175,7 @@
                                                 <li><label>Function</label></li>
                                                 <li><a href="#">Actual - วันทำงานจริง</a> </li>
                                                 <li><a href="#">Salary - เงินเดือน</a> </li>
-                                                <li><a href="#">SSI - ประกันสังคม</a> </li>
+                                                <li><a href="function_ssi">SSI - ประกันสังคม</a> </li>
                                                 <li><a href="#">Tax - ภาษี</a> </li>
                                             </ul>
                                         </div>

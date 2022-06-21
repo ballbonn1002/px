@@ -246,5 +246,12 @@
 		<put-attribute name="body"
 			value="/pages-back/report/report_worksum.jsp"/>
 	</definition>
+	
+	<!-- Function -->
+	<definition name="function_ssi" extends="masterLayout">
+		<put-attribute name="title" value="SSI ประกันสังคม" />
+		<put-attribute name="body"
+			value="/pages-back/function/function_ssi.jsp" />
+	</definition>
 
 </tiles-definitions>
