@@ -31,8 +31,8 @@ public class Payment_type implements Serializable {
 			java.sql.Timestamp timeUpdate	
 			
 	) {
-        this.Payment_type_id  = payment_type_id ;	
-        this.Payment_type_name = payment_type_name;
+        this.payment_type_id  = payment_type_id ;	
+        this.payment_type_name = payment_type_name;
         this.type = type;
         this.system = system;
         this.sequence = sequence;	
@@ -44,10 +44,10 @@ public class Payment_type implements Serializable {
         this.timeUpdate = timeUpdate;	
 	}
 	@Id
-    @Column(name = "Payment_type_id ")
-    private String Payment_type_id ;	
-    @Column(name = "Payment_type_name")
-    private String Payment_type_name;
+    @Column(name = "payment_type_id ")
+    private String payment_type_id ;	
+    @Column(name = "payment_type_name")
+    private String payment_type_name;
     @Column(name = "type")
     private String type;
     @Column(name = "system")
@@ -59,17 +59,18 @@ public class Payment_type implements Serializable {
     @Column(name = "description")
     private String description;	
    
-    public String getPayment_type_id() {
-		return Payment_type_id;
+    
+	public String getPayment_type_id() {
+		return payment_type_id;
 	}
 	public void setPayment_type_id(String payment_type_id) {
-		Payment_type_id = payment_type_id;
+		this.payment_type_id = payment_type_id;
 	}
 	public String getPayment_type_name() {
-		return Payment_type_name;
+		return payment_type_name;
 	}
 	public void setPayment_type_name(String payment_type_name) {
-		Payment_type_name = payment_type_name;
+		this.payment_type_name = payment_type_name;
 	}
 	public String getType() {
 		return type;
@@ -140,7 +141,7 @@ public class Payment_type implements Serializable {
     
     
     public String toString() {
-        return super.toString() + "Payment_type_id  =[" + Payment_type_id  + "]\n" + "Payment_type_name=[" + Payment_type_name + "]\n" 
+        return super.toString() + "Payment_type_id  =[" + payment_type_id  + "]\n" + "Payment_type_name=[" + payment_type_name + "]\n" 
         						+ "type=[" + type + "]\n" + "system=[" + system + "]\n" + "sequence=[" + sequence + "]\n"
         						+ "config_flag=[" + config_flag + "]\n" + "description=[" + description + "]\n" + "timeCreate=[" + timeCreate + "]\n" 
         						+ "timeUpdate=[" + timeUpdate + "]\n";

@@ -25,152 +25,17 @@ public class EmployeeTypeAction extends ActionSupport {
 	
 	HttpServletRequest request = ServletActionContext.getRequest();
 	HttpServletResponse response = ServletActionContext.getResponse();
-	public static final String Employee_type = "emptypeList";
 	
 	
 	public String listEmployeeType() {
 		try {
 					List<Employee_type> emptypeList = employee_typeDAO.findAll();
-					request.setAttribute(Employee_type, emptypeList);
+					request.setAttribute("employee_type", emptypeList);
 					return SUCCESS;
 				} catch (Exception e) {
 					log.error(e);
 					
 					return ERROR;
 				}
-		   }
-	public String listPayment() {
-		try {
-					List<Employee_type> emptypeList = employee_typeDAO.findAll();
-					request.setAttribute(Employee_type, emptypeList);
-					return SUCCESS;
-				} catch (Exception e) {
-					log.error(e);
-					
-					return ERROR;
-				}
-		   }
-	public String deleteEmployeeType(){
-		try{
-			String idEmptype = request.getParameter("employee_type_id");
-			Employee_type emptype = new Employee_type();
-			emptype = employee_typeDAO.findById(idEmptype);
-			log.debug(emptype);
-			employee_typeDAO.delete(emptype);
-			List<Employee_type> emptypeList = employee_typeDAO.findAll();
-			request.setAttribute(Employee_type, emptypeList);
-			return SUCCESS;
-		}catch (Exception e){
-			
-			return ERROR;
-		}
-		
-	}
-	public String updateEmployeeType(){
-		try{
-			String idEmptype = request.getParameter("employee_type_id");
-			Employee_type emptypeList = new Employee_type();
-			emptypeList = employee_typeDAO.findById(idEmptype);
-			request.setAttribute(Employee_type, emptypeList);  //à¸ªà¹ˆà¸‡à¸„à¹ˆà¸²à¸ˆà¸²à¸�à¸«à¸¥à¸±à¸‡à¹„à¸›à¸«à¸™à¹‰à¸²
-			return SUCCESS;
-		}catch (Exception e){
-			
-			return ERROR;
-		}
-	}
-	
-	public String editEmployeeType(){
-		try{
-			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login 
-			String logonUser = ur.getId(); // Username login 
-			
-			Employee_type emptype = new Employee_type();
-			String idEmptype = request.getParameter("employee_type_id");
-			emptype = employee_typeDAO.findById(idEmptype);
-			
-//			à¸ªà¹ˆà¸§à¸™à¸‚à¸­à¸‡ GET PARAMETER
-	
-			String name = request.getParameter("name");
-			String deptdes = request.getParameter("deptdes");
-			
-			
-			String date = request.getParameter("date");
-			//String time = request.getParameter("time");
-
-			//Timestamp ts = DateUtil.dateToTimestamp(date, time);
-			
-			
-			emptype.setemployee_type_id(idEmptype);
-			emptype.setName(name);
-			emptype.setDescription(deptdes);
-			emptype.setUserupdate(logonUser);
-			emptype.setUserupdate(logonUser);
-			emptype.setTimeCreate(DateUtil.getCurrentTime());
-			emptype.setTimeUpdate(DateUtil.getCurrentTime());
-			//depart.setTimeUpdate(ts);
-			
-			employee_typeDAO.update(emptype);
-			
-			List<Employee_type> emptypeList = employee_typeDAO.findAll();
-			request.setAttribute(Employee_type, emptypeList);
-			
-			return SUCCESS;
-		}catch (Exception e){
-			
-			return ERROR;
-		}
-	}
-	public String addEmployeeType(){
-		try{
-			return SUCCESS;
-			
-		}catch (Exception e){
-			
-			return ERROR;
-		}
-	}
-	public String saveEmployeeType() {
-		try{
-			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login 
-			String logonUser = ur.getId(); // Username login 
-
-			Employee_type emptype  = new Employee_type();
-			String idEmptype = request.getParameter("employee_type_id");
-			String name = request.getParameter("name");
-			String PayoutType = request.getParameter("PayoutType");
-			String PayPeriod = request.getParameter("PayPeriod");
-			String DayPeriod= request.getParameter("DayPeriod");
-			String deptdes = request.getParameter("deptdes");
-		
-			String date = request.getParameter("date");
-			//String time = request.getParameter("");
-			
-			//Timestamp ts = DateUtil.dateToTimestamp(date, time);
-			
-			Employee_type employee_typeCheck =  employee_typeDAO.findById(idEmptype); // ทำการหา ID
-			if(employee_typeCheck == null){ // Check ว่า Id มีการซ้ำไหม ถ้าไม่ซ้ำ Save
-				emptype.setUsercreate(logonUser);
-				emptype.setUserupdate(logonUser);
-				emptype.setTimeCreate(DateUtil.getCurrentTime());
-				emptype.setTimeUpdate(DateUtil.getCurrentTime());
-				emptype.setemployee_type_id(idEmptype);
-				emptype.setName(name);
-				emptype.setpayout_type(PayoutType);
-				emptype.setpay_period(PayPeriod);
-				emptype.setday_period(DayPeriod);
-				emptype.setDescription(deptdes);
-		
-			employee_typeDAO.save(emptype);
-			}else{ // ถ้าซ้ำ ทำการ Alert โดยสร้าง Flag ไว้ในหน้า department_add
-				request.setAttribute("flag", "1");
-				return INPUT;
-			}
-			List<Employee_type> emptypeList = employee_typeDAO.findAll();
-			request.setAttribute(Employee_type, emptypeList);
-			return SUCCESS;
-		}catch (Exception e){
-			
-			return ERROR;
-		}
 	}
 }

@@ -108,7 +108,7 @@ tr{
 									<c:set var="counter" value="${counter + 1}" />
 										<tr>
 											<td style= "text-align: left; padding-left: 20px ">${counter}</td>
-											<td style="text-align: left; padding-top: 10px;">${test.id}</td>
+											<td style="text-align: left; padding-top: 10px;">${test.department_id}</td>
 											<td style="text-align: left; padding-top: 10px;">${test.name}</td>
 											<td style="text-align: left; padding-top: 10px; text-align: left;">${test.description}</td>
 											<td style="text-align: left; padding-top: 10px;">${test.prefix_id}</td>
@@ -119,15 +119,15 @@ tr{
 											<td style="padding-top: 10px;"><fmt:formatDate
 												value="${test.time_update}" pattern=" dd-MMM-yyyy" /></td>-->
 											<td style="text-align:right;">                                            
-                                        		<a class="btn btn-outline-success" title="Edit" href="Department_edit?id=${test.id}">
+                                        		<a class="btn btn-outline-success" title="Edit" href="Department_edit?id=${test.department_id}">
                                         		<i class="fa fa-pencil"></i></a>
-                                        		<a class="btn btn-outline-danger sred-intense sweet-${test.id}" title="Delete"
+                                        		<a class="btn btn-outline-danger sred-intense sweet-${test.department_id}" title="Delete"
                                         			onclick="_gaq.push(['_trackEvent', 'example', 'try', 'Primary']);">
                                         		<i class="fa fa-trash-o"></i></a>
                                        		</td>
 										</tr>
 									<script>
-document.querySelector('.sweet-${test.id}').onclick = function(){
+document.querySelector('.sweet-${test.department_id}').onclick = function(){
 	swal({
 	      title: "Are you sure!",
 	      text: "You will be deleting this id!",
@@ -140,7 +140,7 @@ document.querySelector('.sweet-${test.id}').onclick = function(){
         if (inputValue === "") {
           return false
         }
-        document.location = "Department_delete?id=${test.id}";   //?id คือ parameter
+        document.location = "Department_delete?id=${test.department_id}";   //?id คือ parameter
       });
 };
 </script>

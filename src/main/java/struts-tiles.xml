@@ -212,7 +212,19 @@
 			value="/pages-back/payment/payment_term.jsp" />
 	</definition>
 	
-
+	<!-- Payroll -->
+	
+	<definition name="payroll_list" extends="masterLayout">
+		<put-attribute name="title" value="Payroll List" />
+		<put-attribute name="body"
+			value="/pages-back/payroll/payroll_list.jsp" />
+	</definition>
+	
+	<definition name="payroll_form" extends="masterLayout">
+		<put-attribute name="title" value="Payroll Form" />
+		<put-attribute name="body"
+			value="/pages-back/payroll/payroll_form.jsp" />
+	</definition>
 
 	
 	<!-- Employee -->
@@ -266,6 +278,13 @@
 		<put-attribute name="title" value="รายงานข้อมูลการทำงาน"/>
 		<put-attribute name="body"
 			value="/pages-back/report/report_worksum.jsp"/>
+	</definition>
+	
+	<!-- Function -->
+	
+	<definition name="tax" extends="masterLayout">
+		<put-attribute name="title" value="Tax Function" />
+		<put-attribute name="body" value="/pages-back/payment/tax.jsp"/>
 	</definition>
 
 </tiles-definitions>
