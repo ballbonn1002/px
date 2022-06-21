@@ -246,5 +246,17 @@
 		<put-attribute name="body"
 			value="/pages-back/report/report_worksum.jsp"/>
 	</definition>
+	
+	<!-- Report -->
+	
+	<!-- Function -->
+
+	<definition name="salary_tiles" extends="masterLayout">
+		<put-attribute name="title" value="Salary" />
+		<put-attribute name="body"
+			value="/pages-back/function/Salary.jsp" />
+	</definition>
+	
+	<!-- Function -->
 
 </tiles-definitions>

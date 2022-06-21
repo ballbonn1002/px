@@ -417,5 +417,18 @@
 			<result name="success" type="tiles">report_worksum</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		
+		
+		<!-- Function -->
+		
+		<action name="salary"
+			class="com.cubesofttech.action.FunctionAction" method="salaryAction">
+			<result name="success" type="tiles">salary_tiles</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
+		<!-- Function -->
+		
+		
 	</package>
 </struts>
