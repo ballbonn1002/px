@@ -65,11 +65,11 @@
 									<td><i class="table-dragger-handle sindu_handle"></i></td>
 									<td  id="Sequence" style= "text-align: left; padding-left: 20px ">${test.sequence}						
 									</td>
-											<td id="${test.Payment_type_id}" style="text-align: left; padding-top: 10px;">${test.Payment_type_id}</td>
-											<td style="text-align: left; padding-top: 10px;">${test.Payment_type_name}</td>
+											<td id="${test.payment_type_id}" style="text-align: left; padding-top: 10px;">${test.payment_type_id}</td>
+											<td style="text-align: left; padding-top: 10px;">${test.payment_type_name}</td>
 																						<td style="text-align:right;" >       
 			                                  <c:if test = "${test.system == 1 }">                                         		
-                                        		<a class="btn btn-outline-danger sred-intense sweet-${test.Payment_type_id}" title="Delete"
+                                        		<a class="btn btn-outline-danger sred-intense sweet-${test.payment_type_id}" title="Delete"
                                         			onclick="_gaq.push(['_trackEvent', 'example', 'try', 'Primary']);">
 
                                         		<i class="fa fa-trash-o"></i></a>                                  		
@@ -77,7 +77,7 @@
                  
                     	 
 
-document.querySelector('.sweet-${test.Payment_type_id}').onclick = function(){
+document.querySelector('.sweet-${test.payment_type_id}').onclick = function(){
 	swal({
 	      title: "Are you sure!",
 	      text: "You will be deleting this id!",
@@ -90,7 +90,7 @@ document.querySelector('.sweet-${test.Payment_type_id}').onclick = function(){
         if (inputValue === "") {
           return false
         }
-       var Payment_type_id = "${test.Payment_type_id}";
+       var Payment_type_id = "${test.payment_type_id}";
      
         $.ajax({
 
@@ -108,7 +108,7 @@ document.querySelector('.sweet-${test.Payment_type_id}').onclick = function(){
    	 //$("td#Sequence").empty();
       });/*.done(function() {
   	location.reload();
-  //document.location = "paymenttype_delete?Payment_type_id=${test.Payment_type_id}";
+  //document.location = "paymenttype_delete?Payment_type_id=${test.payment_type_id}";
       });*/
 	 //$("td#Sequence").empty();
 };
@@ -152,7 +152,7 @@ $(".row_position").sortable({
     stop: function() {
         var selectedData = new Array();
         $('.row_position>tr').each(function() {
-            selectedData.push($(this).attr("${test.Payment_type_id}"));
+            selectedData.push($(this).attr("${test.payment_type_id}"));
             
         });
     	
@@ -238,18 +238,18 @@ $(".row_position").sortable({
 									<tr>
 									<td><i class="table-dragger-handle sindu_handle"></i></td>
 									<td id="Sequence1" style= "text-align: left; padding-left: 20px ">${test.sequence}</td>
-											<td style="text-align: left; padding-top: 10px;">${test.Payment_type_id}</td>
-											<td style="text-align: left; padding-top: 10px;">${test.Payment_type_name}</td>
+											<td style="text-align: left; padding-top: 10px;">${test.payment_type_id}</td>
+											<td style="text-align: left; padding-top: 10px;">${test.payment_type_name}</td>
 											
 											
 											<td style="text-align:right;" >       
 			                                  <c:if test = "${test.system == 1 }">                                         		
-                                        		<a class="btn btn-outline-danger sred-intense sweet-${test.Payment_type_id}" title="Delete"
+                                        		<a class="btn btn-outline-danger sred-intense sweet-${test.payment_type_id}" title="Delete"
                                         			onclick="_gaq.push(['_trackEvent', 'example', 'try', 'Primary']);">
 
                                         		<i class="fa fa-trash-o"></i></a>                                  		
                      <script>
-document.querySelector('.sweet-${test.Payment_type_id}').onclick = function(){
+document.querySelector('.sweet-${test.payment_type_id}').onclick = function(){
 	swal({
 	      title: "Are you sure!",
 	      text: "You will be deleting this id!",
@@ -262,7 +262,7 @@ document.querySelector('.sweet-${test.Payment_type_id}').onclick = function(){
         if (inputValue === "") {
           return false
         }
-        var Payment_type_id = "${test.Payment_type_id}";
+        var Payment_type_id = "${test.payment_type_id}";
         
         $.ajax({
 
@@ -320,7 +320,7 @@ $(".row_position1").sortable({
     stop: function() {
         var selectedData1 = new Array();
         $('.row_position1>tr').each(function() {
-            selectedData1.push($(this).attr("${test.Payment_type_id}"));
+            selectedData1.push($(this).attr("${test.payment_type_id}"));
             
         });
     	

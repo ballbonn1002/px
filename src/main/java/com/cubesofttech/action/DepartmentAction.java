@@ -135,7 +135,7 @@ public class DepartmentAction extends ActionSupport {
 				
 			depart.setTimeCreate(DateUtil.getCurrentTime());
 			depart.setTimeUpdate(DateUtil.getCurrentTime());
-			depart.setId(idDepart);
+			depart.setDepartment_id(idDepart);
 			depart.setName(name);
 			depart.setUsercreate(logonUser);
 			depart.setDescription(deptdes);

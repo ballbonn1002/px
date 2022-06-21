@@ -23,5 +23,6 @@ public interface RoleDAO {
     public void delete(Role role) throws Exception;
 
 	List<Map<String, Object>> sequense2() throws Exception;
-    
+	
+	public List<Map<String, Object>> findAllList() throws Exception;
 }
