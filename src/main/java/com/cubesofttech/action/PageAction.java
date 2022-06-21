@@ -1,6 +1,5 @@
 package com.cubesofttech.action;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,32 +9,32 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.cubesofttech.dao.Employee_typeDAO;
-import com.cubesofttech.model.Employee_type;
-import com.cubesofttech.model.User;
-import com.cubesofttech.util.DateUtil;
+import com.cubesofttech.dao.PageDAO;
 import com.opensymphony.xwork2.ActionSupport;
+import com.cubesofttech.model.Page;
 
-public class EmployeeTypeAction extends ActionSupport {
-
-	private static final Logger log = Logger.getLogger(EmployeeTypeAction.class);
+public class PageAction extends ActionSupport{
+	private static final Logger log = Logger.getLogger(PageAction.class);
 	private static final long serialVersionUID = 1L;
+	
 	@Autowired
-	public Employee_typeDAO employee_typeDAO;
+	public PageDAO pageDAO;
 	
 	HttpServletRequest request = ServletActionContext.getRequest();
 	HttpServletResponse response = ServletActionContext.getResponse();
+	public static final String Page = "pageList";
 	
-	
-	public String listEmployeeType() {
+	public String listPage() {
 		try {
-					List<Employee_type> emptypeList = employee_typeDAO.findAll();
-					request.setAttribute("employee_type", emptypeList);
+					List<Page> pageList = pageDAO.findAll();
+					request.setAttribute(Page, pageList);
+					log.debug(pageList);
 					return SUCCESS;
 				} catch (Exception e) {
 					log.error(e);
 					
 					return ERROR;
 				}
-	}
+		   }
+
 }

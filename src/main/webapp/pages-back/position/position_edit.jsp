@@ -54,15 +54,19 @@
 							<form action="updatePosition" method="POST">
 							
 								<!-- Start Hidden ID เอาไว้ไม่ใช้โชว์ใน view -->
-								<input type="hidden" name="positionId" value="${positionList.positionId}">
+								<div class="form-group">
+									<label class="control-label" id="idlabel">Position ID :</label>
+									<input type="text" name="positionId" class="form-control" value="${positionList.positionId}" disabled>
+									<input type="hidden" name="positionId" value="${positionList.positionId}">
+								</div>
 								<!-- End Hidden -->
 					
 								<div class="form-group">
-									<label class="control-label" id="namelabel">Description ID :</label>
+									<label class="control-label" id="namelabel">Department ID :</label>
 									<select class="bs-select form-control" name="departmentId" id="departmentId">
 										<c:forEach var="department" items="${departmentList}">
-											<option value="${department.id}"
-												<c:if test="${positionList.departmentId eq department.id }"> selected </c:if>>${department.id}
+											<option value="${department.department_id}"
+												<c:if test="${positionList.departmentId eq department.department_id }"> selected </c:if>>${department.department_id}
 											</option>
 										</c:forEach>
 									</select>

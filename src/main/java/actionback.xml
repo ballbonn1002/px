@@ -425,5 +425,13 @@
 			<result name="success" type="tiles">report_worksum</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		
+		<!-- Function    ssiAction-->
+		
+		<action name="function_ssi"
+			class="com.cubesofttech.action.FunctionAction" method="ssiAction">
+			<result name="success" type="tiles">function_ssi</result>
+			<result name="error">/index.jsp</result>
+		</action>
 	</package>
 </struts>

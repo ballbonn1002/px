@@ -277,6 +277,7 @@
 		<li class="nav-item"><a href="role-list" class="nav-link"> <i
 				class="fa fa-users"></i> <span class="title">Role management</span></a></li>
 	</perm:permission>
+	
 
 	<!-- 	<li class="nav-item"><a href="user-salary" class="nav-link"> <i
 				class="fa fa-money"></i> <span class="title">User Salary</span></a></li> -->
