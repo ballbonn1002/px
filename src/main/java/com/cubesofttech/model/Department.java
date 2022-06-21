@@ -32,7 +32,7 @@ public class Department implements Serializable {
             , java.sql.Timestamp timeCreate	
             , java.sql.Timestamp timeUpdate	
         ) {
-        this.id = id;	
+        this.department_id = id;	
         this.name = name;	
         this.description = description;	
         this.prefixId = prefixId;
@@ -56,8 +56,8 @@ public class Department implements Serializable {
 	}
 
 	@Id
-    @Column(name = "id")
-    private String id;	
+    @Column(name = "department_id")
+    private String department_id;	
     @Column(name = "name")
     private String name;	
     @Column(name = "description")
@@ -76,13 +76,14 @@ public class Department implements Serializable {
 
 
 
-    public String getId() {
-        return this.id;
-    }		
-    public void setId(String id) {
-        this.id = id;
-    }
-    public String getName() {
+    
+    public String getDepartment_id() {
+		return department_id;
+	}
+	public void setDepartment_id(String department_id) {
+		this.department_id = department_id;
+	}
+	public String getName() {
         return this.name;
     }		
     public void setName(String name) {
@@ -117,7 +118,7 @@ public class Department implements Serializable {
 
     
     public String toString() {
-        return super.toString() + "id=[" + id + "]\n" + "name=[" + name + "]\n" + "description=[" + description + "]\n" + "prefixId=[" + prefixId + "]\n" + "timeCreate=[" + timeCreate + "]\n" + "timeUpdate=[" + timeUpdate + "]\n";
+        return super.toString() + "department_id=[" + department_id + "]\n" + "name=[" + name + "]\n" + "description=[" + description + "]\n" + "prefixId=[" + prefixId + "]\n" + "timeCreate=[" + timeCreate + "]\n" + "timeUpdate=[" + timeUpdate + "]\n";
     }
 
     public boolean equals(Object obj) {
@@ -128,8 +129,8 @@ public class Department implements Serializable {
                 return false;
         }
         Department that = (Department) obj;
-        if (!(that.getId() == null ? this.getId() == null
-                        : that.getId().equals(this.getId()))) {
+        if (!(that.getDepartment_id() == null ? this.getDepartment_id() == null
+                        : that.getDepartment_id().equals(this.getDepartment_id()))) {
                 return false;
         }
         if (!(that.getName() == null ? this.getName() == null

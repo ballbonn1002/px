@@ -48,7 +48,7 @@
 									<label for="recipient-name" class="control-label">Department ID:</label> 
 									<select class="bs-select form-control" name="user.departmentId">
 											<c:forEach var="department" items="${departmentList}">
-												<option value="${department.id}" <c:if test="true">  </c:if>>${department.id}</option>
+												<option value="${department.department_id}" <c:if test="true">  </c:if>>${department.department_id}</option>
 											</c:forEach>
 										</select>
 								</div>
@@ -63,7 +63,7 @@
 								</div>
 								<div class="form-group">
 									<label for="recipient-name" class="control-label">Prefix
-										ID:</label> <input type="text" name="deptpre" required
+										ID:</label> <input type="text" name="prefix" required
 										class="form-control">
 								</div>				
 								<input type="hidden" name="logonUser" value="${logonUser}">

@@ -19,23 +19,23 @@ public class Employee_type implements Serializable {
     public  Employee_type() {
     }
     public  Employee_type(
-            String employee_type_id 	
+            Integer employee_type_id 	
             , String name
-            , String payout_type	
-            , String pay_period	
-            , String day_period	
             , String description
+            , String payment
+            , String term
+            , String term_day
             , String usercreate	
             , String userupdate
             , java.sql.Timestamp timeCreate	
             , java.sql.Timestamp timeUpdate	
         ) {
         this.employee_type_id  = employee_type_id ;	
-        this.name = name;
-        this.payout_type = payout_type;
-        this.pay_period = pay_period;	
-        this.day_period	 =day_period;	
+        this.name = name;	
         this.description = description;	
+        this.payment = payment;
+        this.term = term;
+        this.term_day = term_day;
         this.usercreate = usercreate;
         this.userupdate = userupdate;
         this.timeCreate = timeCreate;	
@@ -56,19 +56,17 @@ public class Employee_type implements Serializable {
 
 	@Id
     @Column(name = "employee_type_id ")
-    private String employee_type_id ;	
+    private Integer employee_type_id ;	
     @Column(name = "name")
-    private String name;
-    
-    @Column(name = "payout_type")
-    private String payout_type;
-    @Column(name = "pay_period")
-    private String pay_period;	
-    @Column(name = "day_period")
-    private String day_period;	
-    
+    private String name;	
     @Column(name = "description")
     private String description;	
+    @Column(name = "payment")
+    private String payment;	
+    @Column(name = "term")
+    private String term;
+    @Column(name = "term_day")
+    private String term_day;	
     @Column(name = "user_create")
     private String usercreate;
     @Column(name = "user_update")
@@ -80,36 +78,17 @@ public class Employee_type implements Serializable {
     
 
 
-
-    public String getemployee_type_id () {
-        return this.employee_type_id ;
-    }		
-    public void setemployee_type_id (String employee_type_id ) {
-        this.employee_type_id  = employee_type_id ;
-    }
-    public String getName() {
+    public Integer getEmployee_type_id() {
+		return employee_type_id;
+	}
+	public void setEmployee_type_id(Integer employee_type_id) {
+		this.employee_type_id = employee_type_id;
+	}
+	public String getName() {
         return this.name;
     }		
     public void setName(String name) {
         this.name = name;
-    }
-    public String getpayout_type () {
-        return this.payout_type ;
-    }		
-    public void setpayout_type (String payout_type ) {
-        this.payout_type  = payout_type ;
-    }
-    public String getpay_period () {
-        return this.pay_period ;
-    }		
-    public void setpay_period (String pay_period ) {
-        this.pay_period  = pay_period ;
-    }
-    public String getday_period () {
-        return this.day_period ;
-    }		
-    public void setday_period (String day_period ) {
-        this.day_period  = day_period ;
     }
     public String getDescription() {
         return this.description;
@@ -117,7 +96,25 @@ public class Employee_type implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-    public java.sql.Timestamp getTimeCreate() {
+    public String getPayment() {
+		return payment;
+	}
+	public void setPayment(String payment) {
+		this.payment = payment;
+	}
+	public String getTerm() {
+		return term;
+	}
+	public void setTerm(String term) {
+		this.term = term;
+	}
+	public String getTerm_day() {
+		return term_day;
+	}
+	public void setTerm_day(String term_day) {
+		this.term_day = term_day;
+	}
+	public java.sql.Timestamp getTimeCreate() {
         return this.timeCreate;
     }		
     public void setTimeCreate(java.sql.Timestamp timeCreate) {
@@ -135,9 +132,9 @@ public class Employee_type implements Serializable {
     
     public String toString() {
         return super.toString() + "employee_type_id =[" + employee_type_id  + "]\n"
-        						+ "name=[" + name + "]\n" 
-        						+ "payout_type=[" + payout_type + "]\n" + "pay_period=[" + pay_period + "]\n"+ "day_period=[" + day_period + "]\n"
-        						+ "description=[" + description + "]\n" + "timeCreate=[" + timeCreate + "]\n" + "timeUpdate=[" + timeUpdate + "]\n";
+        						+ "name=[" + name + "]\n" + "description=[" + description + "]\n"
+        						+ "payment=[" + payment + "]\n" + "term=[" + term + "]\n"+ "term_day=[" + term_day + "]\n"
+        						+ "timeCreate=[" + timeCreate + "]\n" + "timeUpdate=[" + timeUpdate + "]\n";
     }
 
     public boolean equals(Object obj) {
@@ -148,25 +145,25 @@ public class Employee_type implements Serializable {
                 return false;
         }
         Employee_type that = (Employee_type) obj;
-        if (!(that.getemployee_type_id () == null ? this.getemployee_type_id () == null
-                        : that.getemployee_type_id ().equals(this.getemployee_type_id ()))) {
+        if (!(that.getEmployee_type_id()== null ? this.getEmployee_type_id() == null
+                        : that.getEmployee_type_id().equals(this.getEmployee_type_id()))) {
                 return false;
         }
         if (!(that.getName() == null ? this.getName() == null
                         : that.getName().equals(this.getName()))) {
                 return false;
         }
-        if (!(that.getpayout_type() == null ? this.getpayout_type() == null
-                : that.getpayout_type().equals(this.getpayout_type()))) {
-        return false;
+        if (!(that.getPayment() == null ? this.getPayment() == null
+                		: that.getPayment().equals(this.getPayment()))) {
+        		return false;
         }
-        if (!(that.getpay_period() == null ? this.getpay_period() == null
-                : that.getpay_period().equals(this.getpay_period()))) {
-        return false;
+        if (!(that.getTerm() == null ? this.getTerm() == null
+                		: that.getTerm().equals(this.getTerm()))) {
+        		return false;
         }
-        if (!(that.getday_period() == null ? this.getday_period() == null
-                : that.getday_period().equals(this.getday_period()))) {
-        return false;
+        if (!(that.getTerm_day() == null ? this.getTerm_day() == null
+                		: that.getTerm_day().equals(this.getTerm_day()))) {
+        		return false;
         }
         if (!(that.getDescription() == null ? this.getDescription() == null
                         : that.getDescription().equals(this.getDescription()))) {

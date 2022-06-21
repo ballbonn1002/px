@@ -66,6 +66,7 @@ public class PositionAction extends ActionSupport {
 			String departmentId = request.getParameter("user.departmentId");
 			String name = request.getParameter("name");
 			String description = request.getParameter("description");
+			String prefix = request.getParameter("prefix");
 		
 			
 			String date = request.getParameter("date");
@@ -83,6 +84,7 @@ public class PositionAction extends ActionSupport {
 				position.setDepartmentId(departmentId);
 				position.setName(name);
 				position.setDescription(description);
+				position.setPrefixId(prefix);
 				position.setUserCreate(logonUser);
 				position.setUserUpdate(logonUser);
 				position.setTimeCreate(DateUtil.getCurrentTime());
@@ -143,8 +145,8 @@ public class PositionAction extends ActionSupport {
 
 			//Timestamp ts = DateUtil.dateToTimestamp(date, time);
 			
-			position.setName(logonUser);
-			position.setPositionId(positionId);
+			
+			
 			position.setName(name);
 			position.setDepartmentId(departmentId);
 			position.setDescription(description);

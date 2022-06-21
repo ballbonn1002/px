@@ -60,7 +60,13 @@
 						<form action="updateDepart" method="POST">
 		
 						<!-- Start Hidden ID เอาไว้ไม่ใช้โชว์ใน view -->
-							<input type="hidden" name="ID" value="${departmentList.id}">
+						<div class="form-group form-lg-line-input col-md-12">
+								<label class="control-label col-md-3" id="idlabel">ID : </label>
+							<div class="col-md-12">
+								<input type="text" name="ID" class="form-control" value="${departmentList.department_id}" disabled>
+								<input type="hidden" name="ID" value="${departmentList.department_id}">
+							</div>
+						</div>
 						<!-- End Hidden -->
 		
 							<div class="form-group form-lg-line-input col-md-12">

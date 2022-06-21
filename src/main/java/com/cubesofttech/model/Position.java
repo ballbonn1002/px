@@ -23,7 +23,8 @@ public class Position implements Serializable {
             String positionId
             , String departmentId	
             , String name	
-            , String description	
+            , String description
+            , String prefixId
             , String userCreate	
             , String userUpdate	
             , java.sql.Timestamp timeCreate	
@@ -33,6 +34,7 @@ public class Position implements Serializable {
         this.departmentId = departmentId;	
         this.name = name;	
         this.description = description;	
+        this.prefixId = prefixId;
         this.userCreate = userCreate;	
         this.userUpdate = userUpdate;	
         this.timeCreate = timeCreate;	
@@ -48,6 +50,8 @@ public class Position implements Serializable {
     private String name;	
     @Column(name = "description")
     private String description;	
+    @Column(name = "prefix_id")
+    private String prefixId;
     @Column(name = "user_create")
     private String userCreate;	
     @Column(name = "user_update")
@@ -83,7 +87,13 @@ public class Position implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-    public String getUserCreate() {
+    public String getPrefixId() {
+		return prefixId;
+	}
+	public void setPrefixId(String prefixId) {
+		this.prefixId = prefixId;
+	}
+	public String getUserCreate() {
         return this.userCreate;
     }		
     public void setUserCreate(String userCreate) {
@@ -111,7 +121,7 @@ public class Position implements Serializable {
 
     
     public String toString() {
-        return super.toString() + "positionId=[" + positionId + "]\n" + "departmentId=[" + departmentId + "]\n" + "name=[" + name + "]\n" + "description=[" + description + "]\n" + "userCreate=[" + userCreate + "]\n" + "userUpdate=[" + userUpdate + "]\n" + "timeCreate=[" + timeCreate + "]\n" + "timeUpdate=[" + timeUpdate + "]\n";
+        return super.toString() + "positionId=[" + positionId + "]\n" + "departmentId=[" + departmentId + "]\n" + "name=[" + name + "]\n" + "description=[" + description + "]\n" + "prefixId=[" + prefixId + "]\n" + "userCreate=[" + userCreate + "]\n" + "userUpdate=[" + userUpdate + "]\n" + "timeCreate=[" + timeCreate + "]\n" + "timeUpdate=[" + timeUpdate + "]\n";
     }
 
     public boolean equals(Object obj) {
@@ -137,6 +147,10 @@ public class Position implements Serializable {
         if (!(that.getDescription() == null ? this.getDescription() == null
                         : that.getDescription().equals(this.getDescription()))) {
                 return false;
+        }
+        if (!(that.getPrefixId() == null ? this.getPrefixId() == null
+                		: that.getPrefixId().equals(this.getPrefixId()))) {
+        		return false;
         }
         if (!(that.getUserCreate() == null ? this.getUserCreate() == null
                         : that.getUserCreate().equals(this.getUserCreate()))) {
