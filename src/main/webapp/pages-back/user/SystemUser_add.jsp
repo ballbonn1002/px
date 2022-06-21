@@ -36,8 +36,8 @@ input[type="checkbox"] {
             
 				<div class="portlet light bordered">
 					<div class="portlet-title" style = "padding-bottom: 40px;">
-						<div class="caption">
-							<span class="caption-subject font-red sbold uppercase" style="padding-left: 13px;" >เพิ่มผู้ใช้งานระบบ</span> 
+						<div class="caption" style="padding-left: 13px;" >
+							<h5>เพิ่มผู้ใช้งานระบบ</h5>
 						</div>
 					</div>
 				
@@ -136,7 +136,7 @@ input[type="checkbox"] {
 
 		<div class="portlet-title" style = "padding-bottom: 30px; padding-top: 15px; padding-left: 13px;">
 			<div class="caption">
-				<span class="caption-subject font-red sbold uppercase" style="font-weight: bold; font-size: 18px" >ตั้งรหัสผ่าน</span> 
+				<h5>ตั้งรหัสผ่าน</h5>
 			</div>
 		</div>
 	<div class="container">
@@ -234,6 +234,18 @@ input[type="checkbox"] {
 		 $('#edit').fadeIn();
 		 $('#bt').hide();
 	 });
+	 
+	 $("#reset").on("click", function () {
+		 $('#username')[0].selectedIndex = 0; 
+			if(sysuserID != null && userRole != null ){
+			$('#bt').fadeIn();
+			 $('#resetpass').show();
+			 $('#pass').hide();
+			 $('#chkpass').hide();
+			 $('#sub').hide();
+			 $('#edit').hide();
+			}
+		});
  });
 </script>
 
@@ -364,6 +376,7 @@ $(document).ready(function () {
 </script>
 <script>
 $("#reset").on("click", function () {
+	if()
 	$('#username')[0].selectedIndex = 0; 
 	$('#bt').fadeIn();
 	 $('#resetpass').show();
