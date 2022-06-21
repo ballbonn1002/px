@@ -79,11 +79,6 @@
 			<result name="error">/index.jsp</result>
 		</action>
 		<action name="SystemUser_add"
-			class="com.cubesofttech.action.UserAction" method="SystemUserAdd">
-			<result name="success" type="tiles">SystemUser_add</result>
-			<result name="error">/index.jsp</result>
-		</action>
-		<action name="SystemUser_add"
 			class="com.cubesofttech.action.UserAction" method="listuser">
 			<result name="success" type="tiles">SystemUser_add</result>
 			<result name="error">/index.jsp</result>
@@ -355,6 +350,12 @@
 			<result name="error">/index.jsp</result>
 		</action>
 		
+		<action name="editPosition"
+			class="com.cubesofttech.action.PositionAction" method="PositionEdit">
+			<result name="success" type="tiles">position_edit</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
 		<!-- Department -->
 		<action name="department_list"
 			class="com.cubesofttech.action.DepartmentAction" method="list">
@@ -410,6 +411,16 @@
 		<action name="information_emp"
 			class="com.cubesofttech.action.InfoEmpAction" method="openInfoEmp">
 			<result name="success" type="tiles">information_emp</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
+			<result name="error">/index.jsp</result>
+		</action>
+		
+		<action name="employee_add" class="com.cubesofttech.action.AddEmpAction" method="addEmployee">
+			<result name="success" type="tiles">employee_add</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
+		<action name="addInfoEmp" class="com.cubesofttech.action.AddEmpAction" method="addEmployeeInfo">
+			<result name="success" type="tiles">employeeInfo_add</result>
 			<result name="error">/index.jsp</result>
 		</action>
 		
@@ -476,17 +487,30 @@
 			<result name="error">/index.jsp</result>
 		</action>
 		
-		<action name="employee_add" class="com.cubesofttech.action.AddEmpAction" method="addEmployee">
-			<result name="success" type="tiles">employee_add</result>
+		<!-- Function -->
+		<action name="actual_work"
+			class="com.cubesofttech.action.FunctionAction" method="">
+			<result name="success" type="tiles">actual_work</result>
 			<result name="error">/index.jsp</result>
 		</action>
-		<action name="addInfoEmp" class="com.cubesofttech.action.AddEmpAction" method="addEmployeeInfo">
-			<result name="success" type="tiles">employeeInfo_add</result>
+		
+		<action name="function_ssi"
+			class="com.cubesofttech.action.FunctionAction" method="ssiAction">
+			<result name="success" type="tiles">function_ssi</result>
 			<result name="error">/index.jsp</result>
 		</action>
 		
+		<action name="salary"
+			class="com.cubesofttech.action.FunctionAction" method="salaryAction">
+			<result name="success" type="tiles">salary_tiles</result>
+			<result name="error">/index.jsp</result>
+		</action>
 		
-		
+		<action name="tax"
+			class="com.cubesofttech.action.PaymentTypeAction" method="">
+			<result name="success" type="tiles">tax</result>
+			<result name="error">/index.jsp</result>
+		</action>
 		
 		<!-- SYS_ROLE -->
 		<action name="role_management"
