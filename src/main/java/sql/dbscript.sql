@@ -82,3 +82,12 @@ UPDATE `payment_type` SET `Payment_type_name` = 'ล่วงเวลา 1.5 �
 UPDATE `payment_type` SET `description` = NULL WHERE `payment_type`.`payment_type_id` = 'SL'; UPDATE `payment_type` SET `user_create` = 'thanet.s', `user_update` = 'thanet.s', `time_create` = '2022-04-01 08:58:00', `time_update` = '2022-04-01 08:58:00' WHERE `payment_type`.`payment_type_id` = 'EQUIPMENT'; UPDATE `payment_type` SET `user_create` = 'thanet.s', `user_update` = 'thanet.s', `time_create` = '2022-04-01 08:58:00', `time_update` = '2022-04-01 08:58:00' WHERE `payment_type`.`payment_type_id` = 'ABSENT'; UPDATE `payment_type` SET `user_create` = 'thanet.s', `user_update` = 'thanet.s', `time_create` = '2022-04-01 08:58:00', `time_update` = '2022-04-01 08:58:00' WHERE `payment_type`.`payment_type_id` = 'ABSENCE';
 UPDATE payment_type SET sequence = '9' WHERE payment_type.payment_type_id = 'SSI';
 UPDATE payment_type SET system = '0' WHERE payment_type.payment_type_id = 'StudentLoan';
+
+
+
+
+-- 23/06/2022 Tan  Update user:
+UPDATE `user` SET `time_create` = NULL, `time_update` = NULL, `password_update` = NULL, `last_login_failed_time` = NULL, `withholding_auto` = '1' WHERE `user`.`id` = 'test.data1';
+UPDATE `user` SET `time_create` = NULL, `time_update` = NULL, `password_update` = NULL, `last_login_failed_time` = NULL, `withholding_auto` = '1' WHERE `user`.`id` = 'test.data2';
+UPDATE `user` SET `time_create` = NULL, `time_update` = NULL, `password_update` = NULL, `last_login_failed_time` = NULL, `withholding_auto` = '0' WHERE `user`.`id` = 'test.data3';
+UPDATE `user` SET `time_create` = NULL, `time_update` = NULL, `password_update` = NULL, `last_login_failed_time` = NULL, `withholding_auto` = '1' WHERE `user`.`id` = 'test.data4';
