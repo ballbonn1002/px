@@ -500,6 +500,12 @@
 			<result name="error">/index.jsp</result>
 		</action>
 		
+		<action name="findData"
+			class="com.cubesofttech.action.FunctionAction" method="findSsiAction">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
 		<action name="salary"
 			class="com.cubesofttech.action.FunctionAction" method="salaryAction">
 			<result name="success" type="tiles">salary_tiles</result>

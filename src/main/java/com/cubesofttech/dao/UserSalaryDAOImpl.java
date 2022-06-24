@@ -1,9 +1,12 @@
 package com.cubesofttech.dao;
 
 import java.util.List;
+import java.util.Map;
 
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -55,6 +58,36 @@ public class UserSalaryDAOImpl implements UserSalaryDAO{
 		session.flush();
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public List<Map<String, Object>> findSsi(String uId) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Map<String, Object>> userSocialSecure = null;
+		try {
+			String sql = "SELECT * FROM user WHERE user.enable=1 ORDER BY id";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			userSocialSecure = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return userSocialSecure;
+	}
+	
+	@Override
+	public List<Map<String, Object>> findSsiById(String uId) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Map<String, Object>> userSocialSecureById = null;
+		try {
+			String sql = "SELECT user.id,user.social_security,user.enable,user_salary.amount FROM user LEFT JOIN user_salary ON user.id = user_salary.user_id  WHERE user.enable=1 AND user.id = '"+uId+"' ORDER BY id";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			userSocialSecureById = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return userSocialSecureById;
 	}
 
 }
