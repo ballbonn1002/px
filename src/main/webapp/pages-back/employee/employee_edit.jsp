@@ -12,7 +12,7 @@
 	href="pages-back/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
 <style>
 input[type=radio] {
-	accent-color: #0275d8; 
+	accent-color: #0275d8;
 	border: 0px;
 	width: 5%;
 	height: 1.2em;
@@ -29,6 +29,9 @@ input[type="checkbox"] {
 	accent-color: #0275d8;
 }
 
+.expenses-box {
+	display: none;
+}
 </style>
 </head>
 
@@ -45,7 +48,7 @@ input[type="checkbox"] {
 						class="icon-home"></i></a></li>
 				<li class="breadcrumb-item">Master</li>
 				<li class="breadcrumb-item active">รายชื่อพนักงาน</li>
-				<li class="breadcrumb-item active">เพิ่มพนักงาน</li>
+				<li class="breadcrumb-item active">รายละเอียดพนักงาน</li>
 			</ul>
 		</div>
 	</div>
@@ -55,18 +58,18 @@ input[type="checkbox"] {
 	<div class="col-lg-12">
 		<div class="card">
 			<div class="body">
-				<form action="addInfoEmp" method="POST">
+				<form action="updateInfoEmp" method="POST">
 					<div class="portlet light bordered">
 						<div class="portlet-title">
 							<div class="caption">
 								<span style="font-weight: bold; font-size: 20px"
 									class="caption-subject font-red sbold uppercase">รายการเงินเดือน</span>
 							</div>
-							<div class="actions right"
+							<div class="actions right" id="hidebutton"
 								style="text-align: right; margin-bottom: 30px;">
 								<button type="reset" class="btn btn-outline-secondary">
 									ยกเลิก</button>
-								<button type="submit" disabled class="btn btn-info" id = "btn-submit">บันทึก</button>
+								<button type="submit" class="btn btn-info">บันทึก</button>
 								<!--  class="btn btn-circle btn-icon-only btn-default fullscreen"
 								href="javascript:;" data-original-title="" title=""> </a> -->
 								<!--  class="btn green-meadow"-->
@@ -83,30 +86,44 @@ input[type="checkbox"] {
 								data-toggle="tab" href="#dataemployment">ข้อมูลการจ้างงาน</a></li>
 							<li class="nav-item"><a id="showbutton2" class="nav-link"
 								data-toggle="tab" href="#datasalary">ข้อมูลเงินเดือน/ค่าจ้าง</a></li>
+							<li class="nav-item"><a id="showbutton3" class="nav-link"
+								data-toggle="tab" href="#dataincome">ข้อมูลรายได้/รายจ่าย
+									เพิ่มเติม </a></li>
 							<li class="nav-item"><a id="showbutton4" class="nav-link"
 								data-toggle="tab" href="#datapayment">ข้อมูลการชำระเงินเดือน/ค่าจ้าง</a></li>
+							<li class="nav-item"><a id="History" class="nav-link"
+								data-toggle="tab" href="#historypayment">ประวัติการปรับเงินเดือน</a></li>
 						</ul>
 						<div class="tab-content">
+							<!--  Data Employee Page-->
 							<div class="tab-pane show active" id="dataemp">
-								<jsp:include page="add_employeeinformation.jsp" />
+								<jsp:include page="edit_employeeinformation.jsp" />
 							</div>
 
 							<!--  Data Employment -->
 							<div class="tab-pane" id="dataemployment">
-								<jsp:include page="add_hireinformation.jsp" />
+								<jsp:include page="edit_hireinformation.jsp" />
 							</div>
 
 							<!--  Data Salary -->
 							<div class="tab-pane" id="datasalary">
-								<jsp:include page="add_salaryinformation.jsp" />
+								<jsp:include page="edit_salaryinformation.jsp" />
 							</div>
 
+							<!--  Data income/expend-->
+							<div class="tab-pane" id="dataincome">
+								<jsp:include page="edit_dataincome.jsp" />
+							</div>
 
 							<!--  Data payroll-->
 							<div class="tab-pane" id="datapayment">
-								<jsp:include page="add_datapayment.jsp" />
+								<jsp:include page="edit_datapayment.jsp" />
 							</div>
 
+							<!--  History-->
+							<div class="tab-pane" id="historypayment">
+								<jsp:include page="edit_history.jsp" />
+							</div>
 						</div>
 					</div>
 				</form>
@@ -130,21 +147,8 @@ input[type="checkbox"] {
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script>
 
-/*$(function(){
-	$(".checkme").click(function(event) {
-		var x = $(this).is(':checked');
-		if (x == true) {
-			$(this).parents(".checkbox-card").find('.expenses-box').show();
-		}
-		else{
-			$(this).parents(".checkbox-card").find('.expenses-box').hide();
-		}
-	});
-})*/
-
 
 $(document).ready(function(){
-	
 	$(".department-type").on("change",function() {
 		$.ajax({
 			url: "getPositionByDepartmentId",
@@ -162,7 +166,6 @@ $(document).ready(function(){
 			}
 		);
 	});
-	
   $("#History").click(function(){
     $("#hidebutton").hide();
   });
@@ -192,39 +195,50 @@ $(document).ready(function(){
 	  $('#defaultModal').modal('hide');
 	});
   
-  $('#add_emp_username').on("input",function() {
-	  $("#validateUser").show();
-	  var id = $('#add_emp_username').val();
-	  if(id != ""){
-		  $.ajax({
-				url: "CheckUserName",
+  $(".checkme").click(function(event) {
+		if ($(this).is(':checked')) {
+			$(this).closest("tr").find(".form-control").prop( "disabled", false );
+		}
+		else{
+			$.ajax({
+				url: "deleteUser",
 				method: "POST" ,
 				type: "JSON" ,
 				data: {
-					"username" : id
+					"username" : $("#edit-username").val(),
+					"payment" : $(this).closest("tr").find(".form-control").attr('name'),
 				},
 				success:function(data){
-					if (data.toString().indexOf("1") != -1) {
-						$('#validateUser').css('color', 'red');
-						$("#validateUser").text("You can not use this id")
-						$("#validateUser").show();
-						$( "#btn-submit" ).prop( "disabled", true );
-						
-					} else {
-						$('#validateUser').css('color', 'green');
-						$("#validateUser").text("You can use this id")
-						$("#validateUser").show();
-						$( "#btn-submit" ).prop( "disabled", false );
-				} 
+					console.log(data)
+					} 
 				}
-			});
-	  }
-	  else {
-		  $( "#btn-submit" ).prop( "disabled", true );
-		  $("#validateUser").hide();
-	  }
-  })
-	  
+			);
+			$(this).closest("tr").find(".form-control").prop( "disabled", true );
+			$(this).closest("tr").find(".form-control").val('');
+		}
+	});
+  
+  $(".data-income").on("change",function() {
+	  /*console.log($(this).attr('name'));
+	  console.log($("#edit-username").val());
+	  console.log($(this).val());*/
+	  console.log("Enter");
+	  if($(this).val() != ""){
+		  console.log("Enter");
+	  $.ajax({
+			url: "saveorupdateUser",
+			method: "POST" ,
+			type: "JSON" ,
+			data: {
+				"username" : $("#edit-username").val(),
+				"payment" : $(this).attr('name'),
+				"amount" : $(this).val()
+			},
+			success:function(data){console.log(data)
+				} 
+			}
+		);
+  }})
 
 });
 
@@ -239,9 +253,6 @@ function EnableDisnableTxttax(chktax)
 		txttax.value=""
 	}
 }
-
-
-
 
 </script>
 </html>

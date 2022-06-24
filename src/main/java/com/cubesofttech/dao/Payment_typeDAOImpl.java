@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.cubesofttech.model.Payment_type;
+import com.cubesofttech.model.UserPaymentConfig;
 
 /**
  * @author Peerakit
@@ -184,6 +185,22 @@ public class Payment_typeDAOImpl implements Payment_typeDAO{
 
 	        }
 	        return list;
+		}
+
+		@Override
+		public List<Payment_type> findByTypenFlag(String type,String flag) throws Exception {
+			Session session = this.sessionFactory.getCurrentSession();
+			List <Payment_type> allPayment = null;
+			try {
+				String hqlUpdate = "select p From Payment_type p where p.type = :type and p.config_flag = :config_flag";
+				allPayment = session.createQuery( hqlUpdate )
+						.setParameter("type", type)
+						.setParameter("config_flag", flag)
+						.list();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return allPayment;
 		}    
 
 }

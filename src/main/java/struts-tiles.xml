@@ -236,7 +236,7 @@
 	<definition name="information_emp" extends="masterLayout">
 		<put-attribute name="title" value="Employee Data" />
 		<put-attribute name="body"
-			value="/pages-back/employee/informationemp.jsp" />
+			value="/pages-back/employee/employee_edit.jsp" />
 	</definition>
 	
 	<definition name="test_test" extends="masterLayout">
@@ -304,6 +304,11 @@
 		<put-attribute name="title" value="Salary" />
 		<put-attribute name="body"
 			value="/pages-back/function/Salary.jsp" />
+	</definition>
+	<definition name="tax" extends="masterLayout">
+		<put-attribute name="title" value="Tax" />
+		<put-attribute name="body"
+			value="/pages-back/function/tax.jsp" />
 	</definition>
 
 </tiles-definitions>

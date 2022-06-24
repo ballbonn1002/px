@@ -13,6 +13,7 @@ public interface Payment_typeDAO {
 	 public List<Payment_type> findAll() throws Exception;
 	public List<Payment_type> findtype1() throws Exception;
 	public List<Payment_type> findtype0() throws Exception;
+	public List<Payment_type> findByTypenFlag(String type,String flag) throws Exception;
 
 	
 	 

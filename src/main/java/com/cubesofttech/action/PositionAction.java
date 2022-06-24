@@ -1,6 +1,8 @@
 package com.cubesofttech.action;
 
+import java.io.PrintWriter;
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,9 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.cubesofttech.dao.DepartmentDAO;
 import com.cubesofttech.dao.PositionDAO;
+import com.cubesofttech.model.Department;
 import com.cubesofttech.model.Position;
 import com.cubesofttech.model.User;
 import com.cubesofttech.util.DateUtil;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class PositionAction extends ActionSupport {
@@ -181,6 +186,24 @@ public class PositionAction extends ActionSupport {
 			return ERROR;
 		}
 		
+	}
+	
+	public String getPositionbyDId() {
+		try {
+			String departmentId = request.getParameter("departmentId");
+			List<Position> position = positionDAO.searchByDepartment(departmentId);
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	        String json = gson.toJson(position);
+	        PrintWriter out = response.getWriter();
+			out.print(json);
+			out.flush();
+			out.close(); 
+			
+	        //return null;
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 		
 		

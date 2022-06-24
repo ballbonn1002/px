@@ -2,9 +2,12 @@ package com.cubesofttech.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -20,7 +23,7 @@ public class UserPaymentConfig implements Serializable{
 	public UserPaymentConfig() {
     }
     public UserPaymentConfig(
-            String paymentconfigId	
+            BigDecimal paymentconfigId	
             , String paymentypeId	
             , String userId	
             , BigDecimal amount
@@ -42,9 +45,25 @@ public class UserPaymentConfig implements Serializable{
 		this.timeUpdate = timeUpdate;
     }
     
-    @Id
+    
+    public UserPaymentConfig(String paymentypeId, String userId, BigDecimal amount, String configFlag,
+			String userCreate, String userUpdate, Timestamp timeCreate, Timestamp timeUpdate) {
+		super();
+		this.paymentypeId = paymentypeId;
+		this.userId = userId;
+		this.amount = amount;
+		this.configFlag = configFlag;
+		this.userCreate = userCreate;
+		this.userUpdate = userUpdate;
+		this.timeCreate = timeCreate;
+		this.timeUpdate = timeUpdate;
+	}
+
+
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_payment_config_id")
-	private String paymentconfigId;
+	private BigDecimal paymentconfigId;
 	@Column(name = "payment_type_id")
 	private String paymentypeId;
 	@Column(name = "user_id")
@@ -64,10 +83,10 @@ public class UserPaymentConfig implements Serializable{
 	
 	
 	
-	public String getPaymentconfigId() {
+	public BigDecimal getPaymentconfigId() {
 		return paymentconfigId;
 	}
-	public void setPaymentconfigId(String paymentconfigId) {
+	public void setPaymentconfigId(BigDecimal paymentconfigId) {
 		this.paymentconfigId = paymentconfigId;
 	}
 	public String getPaymentypeId() {

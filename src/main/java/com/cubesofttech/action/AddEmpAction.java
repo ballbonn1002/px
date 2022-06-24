@@ -36,18 +36,18 @@ public class AddEmpAction extends ActionSupport {
 
 	@Autowired
 	private PositionDAO positionDAO;
-	
-	
+
+
 	@Autowired
 	private Employee_typeDAO employeetypeDAO;
-	
+
 	@Autowired
 	private UserDAO userDAO;
-	
+
 	@Autowired
 	private UserSalaryDAO userSalaryDAO;
-	
-	
+
+
 	public static final String EmptypeList = "emptypeList";
 
 	HttpServletRequest request = ServletActionContext.getRequest();
@@ -57,17 +57,15 @@ public class AddEmpAction extends ActionSupport {
 		try {
 
 			List<Map<String, Object>> departmentList = departmentDAO.sequense2();
-			List<Map<String, Object>> positionList = positionDAO.sequense();
 			//List<Map<String, Object>> roleList = roleDAO.sequense2();
 			request.setAttribute("departmentList", departmentList);
-			request.setAttribute("positionList", positionList);
 			//request.setAttribute("roleList", roleList);
-			
-			
-			
+
+
+
 			List<Employee_type> emptypeList = employeetypeDAO.findAll();
 			request.setAttribute(EmptypeList , emptypeList);
-			
+
 
 			return SUCCESS;
 		} catch (Exception e) {
@@ -75,16 +73,16 @@ public class AddEmpAction extends ActionSupport {
 			return ERROR;
 		}
 	}
-	
+
 	public String addEmployeeInfo() {
 		try {
-			
-			
-        	User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login 
-        	String logonUser = ur.getId(); // Username login 
-        	
+
+
+        	User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login
+        	String logonUser = ur.getId(); // Username login
+
         	User user = new User();
-        	
+
         	//tab1
         	String userId = request.getParameter("username");
         	String employeeId = request.getParameter("empId");
@@ -103,7 +101,7 @@ public class AddEmpAction extends ActionSupport {
         	String passportID = request.getParameter("passportID");
         	String phoneNum = request.getParameter("phoneNum");
         	String phoneEmer = request.getParameter("phoneEmer");
-        	
+
         	//Tab2
         	String department = request.getParameter("depart");
         	String positsion = request.getParameter("positsion");
@@ -115,7 +113,7 @@ public class AddEmpAction extends ActionSupport {
         	String endWorkDay = request.getParameter("endworkday");
         	String startTime = request.getParameter("starttimework");
         	String endTime = request.getParameter("endtimework");
-        	
+
         	//Tab3
         	String empType = request.getParameter("emp_type");
         	String Salary = request.getParameter("salary");
@@ -123,26 +121,26 @@ public class AddEmpAction extends ActionSupport {
         	String tax = request.getParameter("tax");
         	String tax_deduction = request.getParameter("tax_deduction");
         	//BigDecimal withholding = new BigDecimal(request.getParameter("withholding"));
-        	
-        	log.debug(tax);
+
+        	//log.debug(tax);
         	//log.debug(withholding);
-        	
+
         	//Tab5
         	String transfer = request.getParameter("transfer");
         	String bank = request.getParameter("bank");
         	String banktype = request.getParameter("banktype");
         	String banknum = request.getParameter("banknum");
         	String branch = request.getParameter("branch");
-        	
+
         	//Modal
         	String sd = request.getParameter("salaryDate");
         	Date salaryDate = Convert.parseDate(sd);
         	String amountsalary = request.getParameter("amountsalary");
         	String note = request.getParameter("note");
-        	
-        	//update ข้อมูลพนักงาน
+
+        	//update เธ�เน�เธญเธกเธนเธฅเธ�เธ�เธฑเธ�เธ�เธฒเธ�
         	user.setId(userId);
-        	//user.setEmployeeId(employeeId);
+        	user.setEmployeeId(employeeId);
         	user.setTitle_name_th(prefixTH);
         	user.setName(name);
         	user.setTitle_name_en(prefixEN);
@@ -157,8 +155,8 @@ public class AddEmpAction extends ActionSupport {
 			user.setPassport_id(passportID);
         	user.setPhoneNum(phoneNum);
         	user.setPhoneEmer(phoneEmer);
-        	
-        	//update ข้อมูลจ้างงาน
+
+        	//update เธ�เน�เธญเธกเธนเธฅเธ�เน�เธฒเธ�เธ�เธฒเธ�
         	user.setDepartmentId(department);
         	user.setPositionId(positsion);
         	user.setStartDate(startDay);
@@ -167,10 +165,10 @@ public class AddEmpAction extends ActionSupport {
         	user.setWorkDayEnd(endWorkDay);
         	user.setWorkTimeStart(startTime);
         	user.setWorkTimeEnd(endTime);
-        	
-        	//update ข้อมูลเดือน / ค่าจ้าง
+
+        	//update เธ�เน�เธญเธกเธนเธฅเน€เธ”เธทเธญเธ� / เธ�เน�เธฒเธ�เน�เธฒเธ�
         	user.setEmployee_type_id(empType);
-        		//ยังไม่ได้อัพเดตเงินเดือน
+        		//เธขเธฑเธ�เน�เธกเน�เน�เธ”เน�เธญเธฑเธ�เน€เธ”เธ•เน€เธ�เธดเธ�เน€เธ”เธทเธญเธ�
         	user.setSocial_security(SocialSecurity);
         	if (tax != null ) {
         		user.setWithholding_auto("1");
@@ -181,35 +179,35 @@ public class AddEmpAction extends ActionSupport {
     			user.setWithholding(withholding);
 			}
         	user.setTax_deduction(tax_deduction);
-        	
-        	//update ประเภทการจ่ายเงิน
+
+        	//update เธ�เธฃเธฐเน€เธ เธ—เธ�เธฒเธฃเธ�เน�เธฒเธขเน€เธ�เธดเธ�
         	user.setTransfer_type(transfer);
         	user.setBank(bank);
         	user.setBank_type(banktype);
         	user.setBank_number(banknum);
         	user.setBank_branch(branch);
-        	
-        	
-        
-        	
-        	
+
+
+
+
+
             user.setTimeUpdate(DateUtil.getCurrentTime());
             user.setTimeCreate(DateUtil.getCurrentTime());
-            
-            
-            //ค่าที่ต้องตั้งค่าใหม่
-        	user.setEnable("1"); //คล้าย ๆ Config Flag
+
+
+            //เธ�เน�เธฒเธ—เธตเน�เธ•เน�เธญเธ�เธ•เธฑเน�เธ�เธ�เน�เธฒเน�เธซเธกเน�
+        	user.setEnable("1"); //เธ�เธฅเน�เธฒเธข เน� Config Flag
         	user.setRoleId("Null");
         	user.setUsername(userId);
         	user.setFlagSearch("1");
-        	
-        	
+
+
         	userDAO.save(user);
-        	
-        	
+
+
         	//update Modal
         	UserSalary userSalary = new UserSalary();
-			userSalary.setUser_salary_id("16");
+			userSalary.setUser_salary_id(16);
 			userSalary.setUser_id(userId);
 			userSalary.setPayment_type_id("SL");
 			userSalary.setAmount(new BigDecimal(amountsalary));
@@ -220,8 +218,8 @@ public class AddEmpAction extends ActionSupport {
 			userSalary.setTime_create(Timestamp.from(Instant.now()));
 			userSalary.setTime_update(Timestamp.from(Instant.now()));
 			userSalaryDAO.save(userSalary);
-			
-        	
+
+
     		List<Map<String, Object>> cubesoftUsers = userDAO.Query_Userlist();
     		request.setAttribute("cubesoftUsers", cubesoftUsers);
 
