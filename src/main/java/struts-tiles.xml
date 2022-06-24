@@ -305,5 +305,10 @@
 		<put-attribute name="body"
 			value="/pages-back/function/Salary.jsp" />
 	</definition>
+	<definition name="tax" extends="masterLayout">
+		<put-attribute name="title" value="Tax" />
+		<put-attribute name="body"
+			value="/pages-back/function/tax.jsp" />
+	</definition>
 
 </tiles-definitions>

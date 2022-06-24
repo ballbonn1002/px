@@ -140,7 +140,7 @@ public class AddEmpAction extends ActionSupport {
         	String amountsalary = request.getParameter("amountsalary");
         	String note = request.getParameter("note");
         	
-        	//update ข้อมูลพนักงาน
+        	//update เธ�เน�เธญเธกเธนเธฅเธ�เธ�เธฑเธ�เธ�เธฒเธ�
         	user.setId(userId);
         	//user.setEmployeeId(employeeId);
         	user.setTitle_name_th(prefixTH);
@@ -158,7 +158,7 @@ public class AddEmpAction extends ActionSupport {
         	user.setPhoneNum(phoneNum);
         	user.setPhoneEmer(phoneEmer);
         	
-        	//update ข้อมูลจ้างงาน
+        	//update เธ�เน�เธญเธกเธนเธฅเธ�เน�เธฒเธ�เธ�เธฒเธ�
         	user.setDepartmentId(department);
         	user.setPositionId(positsion);
         	user.setStartDate(startDay);
@@ -168,9 +168,9 @@ public class AddEmpAction extends ActionSupport {
         	user.setWorkTimeStart(startTime);
         	user.setWorkTimeEnd(endTime);
         	
-        	//update ข้อมูลเดือน / ค่าจ้าง
+        	//update เธ�เน�เธญเธกเธนเธฅเน€เธ”เธทเธญเธ� / เธ�เน�เธฒเธ�เน�เธฒเธ�
         	user.setEmployee_type_id(empType);
-        		//ยังไม่ได้อัพเดตเงินเดือน
+        		//เธขเธฑเธ�เน�เธกเน�เน�เธ”เน�เธญเธฑเธ�เน€เธ”เธ•เน€เธ�เธดเธ�เน€เธ”เธทเธญเธ�
         	user.setSocial_security(SocialSecurity);
         	if (tax != null ) {
         		user.setWithholding_auto("1");
@@ -182,7 +182,7 @@ public class AddEmpAction extends ActionSupport {
 			}
         	user.setTax_deduction(tax_deduction);
         	
-        	//update ประเภทการจ่ายเงิน
+        	//update เธ�เธฃเธฐเน€เธ เธ—เธ�เธฒเธฃเธ�เน�เธฒเธขเน€เธ�เธดเธ�
         	user.setTransfer_type(transfer);
         	user.setBank(bank);
         	user.setBank_type(banktype);
@@ -197,8 +197,8 @@ public class AddEmpAction extends ActionSupport {
             user.setTimeCreate(DateUtil.getCurrentTime());
             
             
-            //ค่าที่ต้องตั้งค่าใหม่
-        	user.setEnable("1"); //คล้าย ๆ Config Flag
+            //เธ�เน�เธฒเธ—เธตเน�เธ•เน�เธญเธ�เธ•เธฑเน�เธ�เธ�เน�เธฒเน�เธซเธกเน�
+        	user.setEnable("1"); //เธ�เธฅเน�เธฒเธข เน� Config Flag
         	user.setRoleId("Null");
         	user.setUsername(userId);
         	user.setFlagSearch("1");
@@ -209,7 +209,7 @@ public class AddEmpAction extends ActionSupport {
         	
         	//update Modal
         	UserSalary userSalary = new UserSalary();
-			userSalary.setUser_salary_id("16");
+			userSalary.setUser_salary_id(16);
 			userSalary.setUser_id(userId);
 			userSalary.setPayment_type_id("SL");
 			userSalary.setAmount(new BigDecimal(amountsalary));

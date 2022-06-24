@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,8 +15,9 @@ import javax.persistence.Table;
 public class UserSalary implements Serializable {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "user_salary_id")
-	private String user_salary_id;
+	private Integer user_salary_id;
 	
 	@Column(name = "user_id")
 	private String user_id;
@@ -43,11 +46,11 @@ public class UserSalary implements Serializable {
 	@Column(name = "time_update")
 	private java.sql.Timestamp time_update;
 
-	public String getUser_salary_id() {
+	public Integer getUser_salary_id() {
 		return user_salary_id;
 	}
 
-	public void setUser_salary_id(String user_salary_id) {
+	public void setUser_salary_id(Integer user_salary_id) {
 		this.user_salary_id = user_salary_id;
 	}
 

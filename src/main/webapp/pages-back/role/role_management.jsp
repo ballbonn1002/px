@@ -53,12 +53,6 @@
                                     </li>
                                 </ul>            
                                     
-                        
-                        <!-- <span class="pull-right"  style="text-align: right; ">
-                            	<button data-toggle="modal" data-target="#addSys_role" class="btn btn-info" style="margin-bottom: 30px;">&nbsp;เพิ่ม Role</button>
-
-                        	</span> -->
-						
         	</div>
             <div class="body">
                 <div class="portlet light bordered">

@@ -507,11 +507,20 @@
 		</action>
 		
 		<action name="tax"
-			class="com.cubesofttech.action.PaymentTypeAction" method="">
+			class="com.cubesofttech.action.FunctionAction" method="listSalary">
 			<result name="success" type="tiles">tax</result>
 			<result name="error">/index.jsp</result>
 		</action>
-		
+		<action name="taxcalculate"
+			class="com.cubesofttech.action.FunctionAction" method="calTax">
+			<result name="success" type="tiles">tax</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="autoFillSalary"
+			class="com.cubesofttech.action.FunctionAction" method="autoFill">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
 		<!-- SYS_ROLE -->
 		<action name="role_management"
 			class="com.cubesofttech.action.Sys_roleAction" method="list">
