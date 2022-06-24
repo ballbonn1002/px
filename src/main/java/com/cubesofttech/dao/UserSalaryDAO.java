@@ -31,6 +31,10 @@ public interface UserSalaryDAO {
 	    public List<UserSalary> findAllList() throws Exception;
 
 	    public UserSalary findById(String user_id) throws Exception;
+	    
+	    public List<Map<String, Object>> findAllUserSalary() throws Exception;
+	    
+	    public List<Map<String, Object>> findUserSalaryByID(String userId) throws Exception;
 
 
 }
