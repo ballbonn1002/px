@@ -207,10 +207,9 @@ public class AddEmpAction extends ActionSupport {
 
         	//update Modal
         	UserSalary userSalary = new UserSalary();
-<<<<<<< HEAD
-=======
+
 			userSalary.setUser_salary_id(16);
->>>>>>> 3664aca851ce5d357eb68e3a6215cd7ed9271381
+
 			userSalary.setUser_id(userId);
 			userSalary.setPayment_type_id("SL");
 			userSalary.setAmount(new BigDecimal(amountsalary));

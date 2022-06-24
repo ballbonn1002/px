@@ -15,15 +15,12 @@ import javax.persistence.Table;
 public class UserSalary implements Serializable {
 
 	@Id
-<<<<<<< HEAD
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "user_salary_id")
-	private BigDecimal user_salary_id;
-=======
+
+
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "user_salary_id")
 	private Integer user_salary_id;
->>>>>>> 3664aca851ce5d357eb68e3a6215cd7ed9271381
+
 
 	@Column(name = "user_id")
 	private String user_id;
@@ -52,22 +49,20 @@ public class UserSalary implements Serializable {
 	@Column(name = "time_update")
 	private java.sql.Timestamp time_update;
 
-<<<<<<< HEAD
 
 
-	public BigDecimal getUser_salary_id() {
-		return user_salary_id;
-	}
+
+	
 
 
-	public void setUser_salary_id(BigDecimal user_salary_id) {
-=======
+	
+
 	public Integer getUser_salary_id() {
 		return user_salary_id;
 	}
 
 	public void setUser_salary_id(Integer user_salary_id) {
->>>>>>> 3664aca851ce5d357eb68e3a6215cd7ed9271381
+
 		this.user_salary_id = user_salary_id;
 	}
 

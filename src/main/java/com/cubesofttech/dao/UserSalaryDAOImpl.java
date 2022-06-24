@@ -3,18 +3,18 @@ package com.cubesofttech.dao;
 import java.util.List;
 import java.util.Map;
 
-<<<<<<< HEAD
+
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
-=======
+
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.transform.AliasToEntityMapResultTransformer;
->>>>>>> 3664aca851ce5d357eb68e3a6215cd7ed9271381
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -70,7 +70,7 @@ public class UserSalaryDAOImpl implements UserSalaryDAO{
 	}
 
 	@Override
-<<<<<<< HEAD
+
 	public List<UserSalary> findByUserId(String user_id) throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();
 		List<UserSalary> results = null;
@@ -156,6 +156,6 @@ public class UserSalaryDAOImpl implements UserSalaryDAO{
         }
         return usersalary;
 	}
->>>>>>> 3664aca851ce5d357eb68e3a6215cd7ed9271381
+
 
 }

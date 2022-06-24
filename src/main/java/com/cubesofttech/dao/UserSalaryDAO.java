@@ -15,7 +15,7 @@ public interface UserSalaryDAO {
 
 	    public void delete(UserSalary userSalary) throws Exception;
 
-<<<<<<< HEAD
+
 	    public List<UserSalary> findByUserId(String user_id) throws Exception;
 
 	    public void updateUserSalary(UserSalary userSalary) throws Exception;
@@ -27,6 +27,6 @@ public interface UserSalaryDAO {
 	    public List<UserSalary> findAllList() throws Exception;
 
 	    public UserSalary findById(String user_id) throws Exception;
->>>>>>> 3664aca851ce5d357eb68e3a6215cd7ed9271381
+
 
 }
