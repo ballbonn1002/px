@@ -67,14 +67,14 @@
 			<div class="form-group" style="margin-top: 15px">
 				<label for="recipient-name" class="control-label"
 					style="font-weight: lighter; font-size: 14px;">เลขบัตรประชาชน</label>
-				<input type="text" name="IDcard" value=""
+				<input type="text" name="IDcard" maxlength="13" minlength="13" value="" required
 					class="form-control">
 			</div>
 
 			<div class="form-group">
 				<label for="recipient-name" class="control-label"
 					style="font-weight: lighter; font-size: 14px;">อีเมล</label> <input
-					type="text" name="email" value=""
+					type="email" name="email" value="" required
 					class="form-control">
 			</div>
 
@@ -110,9 +110,9 @@
 		<div class="col-6">
 			<div class="form-group">
 				<label for="recipient-name" class="control-label"
-					style="font-weight: lighter; font-size: 14px;">Username</label> <input
-					type="text" name="username" value=""
-					class="form-control" style="width: 95%;">
+					style="font-weight: lighter; font-size: 14px;">Username</label>
+					<input type="text" name="username" value="" class="form-control" id = "add_emp_username" style = "width: 95%;" />
+                    <label id = "validateUser" style="display: none;"></label>
 			</div>
 
 			<div class="form-group">
@@ -142,26 +142,27 @@
 			<div class="form-group">
 				<label for="recipient-name" class="control-label"
 					style="font-weight: lighter; font-size: 14px;">เลขหนังสือเดินทาง</label>
-				<input type="text" name="passportID"
-					value="" class="form-control"
+				<input type="text" name="passportID" required
+					value="" maxlength="10" class="form-control"
 					style="width: 95%;">
 			</div>
 
 			<div class="form-group">
 				<label for="recipient-name" class="control-label"
 					style="font-weight: lighter; font-size: 14px;">เบอร์โทร</label> <input
-					type="text" name="phoneNum" value=""
+					 type="tel" name="phoneNum" value="" pattern="[0-9]{10}" required
 					class="form-control" style="width: 95%;">
 			</div>
 
 			<div class="form-group">
 				<label for="recipient-name" class="control-label"
 					style="font-weight: lighter; font-size: 14px;">เบอร์ผู้ติดต่อฉุกเฉิน</label>
-				<input type="text" name="phoneEmer" value=""
-					class="form-control" style="width: 95%;">
+				<input type="tel" name="phoneEmer" value="" pattern="[0-9]{10}" required
+					 class="form-control" style="width: 95%;">
 			</div>
 		</div>
 	</div>
 </div>
-
+<script>
+</script>
 </html>

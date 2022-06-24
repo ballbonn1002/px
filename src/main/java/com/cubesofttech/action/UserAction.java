@@ -333,6 +333,7 @@ public class UserAction extends ActionSupport {
 		try {
 			List<Map<String, Object>> cubesoftUsers = userDAO.Query_Userlist();
 			request.setAttribute("cubesoftUsers", cubesoftUsers);
+			System.out.println(cubesoftUsers);
 			// request.setAttribute("userList", userDAO.findAll());
 			return SUCCESS;
 		} catch (Exception e) {
@@ -1533,6 +1534,32 @@ public String CheckUserID() {
 	}
 	return null;
  }
+
+public String CheckUserName() {
+	try {
+		String id = request.getParameter("username");
+		Map<String, String> obj = new HashMap<>();
+		User user = userDAO.findById(id);
+		if (user == null) {
+			obj.put("flag", "0");
+		}
+		else {
+			obj.put("flag", "1");
+		}
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(obj);
+        PrintWriter out = response.getWriter();
+		out.print(json);
+		out.flush();
+		out.close(); 
+		
+        //return null;
+	}catch (Exception e) {
+		e.printStackTrace();
+	}
+	return null;
+ }
+
 public String Changecheckbox() {
 	try {
 		Sysuser sysuser = new Sysuser();

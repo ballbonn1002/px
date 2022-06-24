@@ -1,15 +1,15 @@
 package com.cubesofttech.action;
 
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.time.LocalDate;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,20 +17,24 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.cubesofttech.dao.DepartmentDAO;
+import com.cubesofttech.dao.Employee_typeDAO;
 import com.cubesofttech.dao.Payment_typeDAO;
+import com.cubesofttech.dao.PositionDAO;
 import com.cubesofttech.dao.UserDAO;
 import com.cubesofttech.dao.UserPaymentConfigDAO;
-import com.cubesofttech.dao.DepartmentDAO;
-import com.cubesofttech.dao.PositionDAO;
-import com.cubesofttech.dao.Employee_typeDAO;
-import com.cubesofttech.model.Payment_type;
-import com.cubesofttech.model.User;
-import com.cubesofttech.model.UserPaymentConfig;
-import com.cubesofttech.model.Department;
+import com.cubesofttech.dao.UserSalaryDAO;
 import com.cubesofttech.model.Employee_type;
+import com.cubesofttech.model.Payment_type;
 import com.cubesofttech.model.Position;
+import com.cubesofttech.model.User;
+import com.cubesofttech.model.UserPayment;
+import com.cubesofttech.model.UserPaymentConfig;
+import com.cubesofttech.model.UserSalary;
 import com.cubesofttech.util.Convert;
 import com.cubesofttech.util.DateUtil;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class InfoEmpAction extends ActionSupport {
@@ -53,6 +57,15 @@ public class InfoEmpAction extends ActionSupport {
     @Autowired
 	private Employee_typeDAO employeetypeDAO;
     
+    @Autowired
+	private UserSalaryDAO userSalaryDAO;
+    
+    @Autowired
+    private Payment_typeDAO payment_typeDAO;
+    
+    @Autowired
+    private UserPaymentConfigDAO userPaymentConfigDAO;
+    
     private String userId;
     
 	public String getUserId() {
@@ -73,6 +86,7 @@ public class InfoEmpAction extends ActionSupport {
     public static final String DepartmentList = "departmentList";
     public static final String PositionList = "positionList";
     public static final String EmptypeList = "emptypeList";
+    public static final String UserSalary = "userSalary";
 
     public String openInfoEmp() {
         try {
@@ -80,23 +94,72 @@ public class InfoEmpAction extends ActionSupport {
         	request.setAttribute("selectUser", selectUser);
         	request.setAttribute("userList", userDAO.sequense());
         	
-        	List<Map<String, Object>> departmentList = departmentDAO.sequense();
-			List<Map<String, Object>> positionList = positionDAO.sequense();
+        	List<Map<String, Object>> departmentList = departmentDAO.sequense2();
+			List<Position> positionList = positionDAO.searchByDepartment(selectUser.getDepartmentId());
 			request.setAttribute("departmentList", departmentList);
 			request.setAttribute("positionList", positionList);
 			
 			List<Employee_type> emptypeList = employeetypeDAO.findAll();
 			request.setAttribute(EmptypeList , emptypeList);
-        	
-        	List<UserPaymentConfig> paymentconfigList = userpaymentconfigDAO.findAll();
-            List<UserPaymentConfig> incomeList = userpaymentconfigDAO.findIncome();
-            List<UserPaymentConfig> expendList = userpaymentconfigDAO.findExpend();
-            request.setAttribute(PaymentConfig, paymentconfigList);
-            request.setAttribute(IncomeList, incomeList);
-            request.setAttribute(ExpendList, expendList);
+			
+        	//เขียนต่อ เพิ่มในส่วน Paymentconfig
+        	List<UserPaymentConfig> paymentconfigList = userpaymentconfigDAO.findAllByUser(userId);
+        	List<Payment_type> income = payment_typeDAO.findByTypenFlag("1", "1");
+        	List<Payment_type> outcome = payment_typeDAO.findByTypenFlag("0", "1");
+            
+     
+            //request.setAttribute(PaymentConfig, paymentconfigList);
+            
+            
+            List<UserPayment> paymentIncome = new ArrayList<UserPayment>();
+            List<UserPayment> paymentOutcome = new ArrayList<UserPayment>();
+            
+            for(Payment_type pay: income) {
+            	Boolean emptyPayment = true;
+            	for (UserPaymentConfig userpay: paymentconfigList) {
+            		/*System.out.println("in");
+            		System.out.println(pay.getPayment_type_id());
+        			System.out.println(userpay.getPaymentypeId());*/
+            		if (pay.getPayment_type_id().equals(userpay.getPaymentypeId())) {
+                		paymentIncome.add(new UserPayment(pay.getPayment_type_id(),"1",pay.getPayment_type_name(),userpay.getAmount()));
+                		//System.out.println("in+1");
+                		emptyPayment = false;
+            			break;
+            		}
+            	}
+            	if (emptyPayment)
+            		paymentIncome.add(new UserPayment(pay.getPayment_type_id(),"0",pay.getPayment_type_name(),null));
+            }
+            
+            for(Payment_type pay : outcome) {
+            	Boolean emptyPayment = true;
+            	for (UserPaymentConfig userpay: paymentconfigList) {
+            		/*System.out.println("out");
+            		System.out.println(pay.getPayment_type_id());
+        			System.out.println(userpay.getPaymentypeId());*/
+            		if (pay.getPayment_type_id().equals(userpay.getPaymentypeId())) {
+            			paymentOutcome.add(new UserPayment(pay.getPayment_type_id(),"1",pay.getPayment_type_name(),userpay.getAmount()));
+                		//System.out.println(userpay.getAmount());
+                		emptyPayment = false;
+            			break;
+            		}
+            	}
+            	if (emptyPayment)
+        			paymentOutcome.add(new UserPayment(pay.getPayment_type_id(),"0",pay.getPayment_type_name(),null));
+            }
+            
+            
+            
+            request.setAttribute(IncomeList, paymentIncome);
+            request.setAttribute(ExpendList, paymentOutcome);
+            
+            //เขียนต่อ เพื่อเพิ่มส่วน Modal
+            
+            List<UserSalary> userSalary = userSalaryDAO.findByUserId(userId);
+            request.setAttribute(UserSalary , userSalary);
             return SUCCESS;
          } catch (Exception e) {
-
+        	 e.printStackTrace();
             return ERROR;
         }
     }
@@ -148,7 +211,7 @@ public class InfoEmpAction extends ActionSupport {
         	String tax_deduction = request.getParameter("tax_deduction");
         	//BigDecimal withholding = new BigDecimal(request.getParameter("withholding"));
         	
-        	log.debug(tax);
+        	//log.debug(tax);
         	//log.debug(withholding);
         	
         	//Tab5
@@ -207,61 +270,107 @@ public class InfoEmpAction extends ActionSupport {
         	user.setBank_number(banknum);
         	user.setBank_branch(branch);
         	
+        	
+        	
+        	//Modal
+        	String sd = request.getParameter("salaryDate");
+        	Date salaryDate = Convert.parseDate(sd);
+        	String amountsalary = request.getParameter("amountsalary");
+        	String note = request.getParameter("note");
+        	
             user.setTimeUpdate(DateUtil.getCurrentTime());
         	
         	userDAO.update(user);
         	
-        	User selectUser = userDAO.findById(userId);
-        	List<Map<String, Object>> userList = userDAO.sequense();
-			request.setAttribute("userList", userList);
-			request.setAttribute("selectUser", selectUser);
-			
-			List<Map<String, Object>> departmentList = departmentDAO.sequense();
-			List<Map<String, Object>> positionList = positionDAO.sequense();
-			request.setAttribute("departmentList", departmentList);
-			request.setAttribute("positionList", positionList);
-			
-			List<Employee_type> emptypeList = employeetypeDAO.findAll();
-			request.setAttribute(EmptypeList , emptypeList);
+        	//check Date from Modal
+        	List <UserSalary> listUser = userSalaryDAO.findByUserId(userId);
+        	UserSalary lastUser = listUser.get(listUser.size()-1);
+        	
+        	if (!lastUser.getDate().equals(salaryDate) || !lastUser.getAmount().equals(new BigDecimal(amountsalary)) || !lastUser.getDescription().equals(note)) {
+        	//update Modal
+        		UserSalary userSalary = new UserSalary();
+        		userSalary.setUser_id(userId);
+        		userSalary.setAmount(new BigDecimal(amountsalary));
+        		userSalary.setDate(salaryDate);
+        		userSalary.setDescription(note);
+        		userSalary.setPayment_type_id("SL");
+        		userSalary.setUser_create(logonUser);
+        		userSalary.setUser_update(logonUser);
+        		userSalary.setTime_create(Timestamp.from(Instant.now()));
+        		userSalary.setTime_update(Timestamp.from(Instant.now()));
+        		userSalaryDAO.save(userSalary);
+        	}
+        	
+			List<Map<String, Object>> cubesoftUsers = userDAO.Query_Userlist();
+    		request.setAttribute("cubesoftUsers", cubesoftUsers);
 
             return SUCCESS;
          } catch (Exception e) {
+        	 e.printStackTrace();
 
             return ERROR;
         }
     }
     
-    public String editPayment() {
-        try {
-        	User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login 
-        	String logonUser = ur.getId(); // Username login 
-        	
-        	UserPaymentConfig paymentconfig = new UserPaymentConfig();
-        	
-        	String paymentconfigId = request.getParameter("paymentconfigId");
-        	BigDecimal amount = new BigDecimal(request.getParameter("amount"));
-        	
-        	paymentconfig = userpaymentconfigDAO.findById(paymentconfigId);
-        		
-        	paymentconfig.setPaymentconfigId(paymentconfigId);
-            paymentconfig.setAmount(amount);
-            paymentconfig.setUserUpdate(logonUser);
-            paymentconfig.setTimeUpdate(DateUtil.getCurrentTime());
-            	
-            userpaymentconfigDAO.update(paymentconfig);
-        	
-            List<UserPaymentConfig> paymentconfigList = userpaymentconfigDAO.findAll();
-            List<UserPaymentConfig> incomeList = userpaymentconfigDAO.findIncome();
-            List<UserPaymentConfig> expendList = userpaymentconfigDAO.findExpend();
-            request.setAttribute(PaymentConfig, paymentconfigList);
-            request.setAttribute(IncomeList, incomeList);
-            request.setAttribute(ExpendList, expendList);
-        	
-            return SUCCESS;
-         } catch (Exception e) {
-
-            return ERROR;
-        }
+    
+    public String saveorupdateUser() {
+    	try {
+    		User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login 
+        	String logonUser = ur.getId();
+    		String userId = request.getParameter("username");
+    		String paymentId = request.getParameter("payment"); 
+    		String amount = request.getParameter("amount");
+    		Map<String, String> obj = new HashMap<>();
+    		UserPaymentConfig user = userPaymentConfigDAO.findByUsernPid(userId,paymentId);
+    		if (user == null) {
+    			obj.put("flag", "0");
+    			userPaymentConfigDAO.save(new UserPaymentConfig(paymentId,userId,new BigDecimal(amount),"1",logonUser,logonUser,Timestamp.from(Instant.now()),Timestamp.from(Instant.now())));
+    		}
+    		else {
+    			obj.put("flag", "1");
+    			user.setAmount(new BigDecimal(amount));
+    			user.setUserUpdate(logonUser);
+    			user.setTimeUpdate(Timestamp.from(Instant.now()));
+    			userPaymentConfigDAO.update(user);
+    		}
+    		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String json = gson.toJson(obj);
+            PrintWriter out = response.getWriter();
+    		out.print(json);
+    		out.flush();
+    		out.close(); 
+    	}catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    	return null;
+    }
+    
+    public String deleteUser() {
+    	try {
+    		String userId = request.getParameter("username");
+    		String paymentId = request.getParameter("payment");
+    		UserPaymentConfig user = userPaymentConfigDAO.findByUsernPid(userId,paymentId);
+    		Map<String, String> obj = new HashMap<>();
+    		if (user == null) {
+    			obj.put("flag", "0");
+    		}
+    		else {
+    			obj.put("flag", "1");
+    			//System.out.println(user);
+    			userPaymentConfigDAO.delete(user);
+    		}
+    		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String json = gson.toJson(obj);
+            PrintWriter out = response.getWriter();
+    		out.print(json);
+    		out.flush();
+    		out.close(); 
+    		
+            //return null;
+    	}catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    	return null;
     }
 
 }
