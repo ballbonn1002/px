@@ -22,5 +22,7 @@ public interface PositionDAO {
 	public Position findById(String position_id) throws Exception;
 
 	public List<Map<String, Object>> positionuser(String logonUser) throws Exception;
+	
+	public List<Position> searchByDepartment(String departmentId) throws Exception;
     
 }

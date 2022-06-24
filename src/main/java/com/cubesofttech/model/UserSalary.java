@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,8 +15,15 @@ import javax.persistence.Table;
 public class UserSalary implements Serializable {
 
 	@Id
+<<<<<<< HEAD
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_salary_id")
-	private String user_salary_id;
+	private BigDecimal user_salary_id;
+=======
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "user_salary_id")
+	private Integer user_salary_id;
+>>>>>>> 3664aca851ce5d357eb68e3a6215cd7ed9271381
 	
 	@Column(name = "user_id")
 	private String user_id;
@@ -43,85 +52,115 @@ public class UserSalary implements Serializable {
 	@Column(name = "time_update")
 	private java.sql.Timestamp time_update;
 
-	public String getUser_salary_id() {
+<<<<<<< HEAD
+	
+
+	public BigDecimal getUser_salary_id() {
 		return user_salary_id;
 	}
 
-	public void setUser_salary_id(String user_salary_id) {
+
+	public void setUser_salary_id(BigDecimal user_salary_id) {
+=======
+	public Integer getUser_salary_id() {
+		return user_salary_id;
+	}
+
+	public void setUser_salary_id(Integer user_salary_id) {
+>>>>>>> 3664aca851ce5d357eb68e3a6215cd7ed9271381
 		this.user_salary_id = user_salary_id;
 	}
+
 
 	public String getUser_id() {
 		return user_id;
 	}
 
+
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
 	}
+
 
 	public String getPayment_type_id() {
 		return payment_type_id;
 	}
 
+
 	public void setPayment_type_id(String payment_type_id) {
 		this.payment_type_id = payment_type_id;
 	}
+
 
 	public BigDecimal getAmount() {
 		return amount;
 	}
 
+
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
+
 
 	public java.sql.Date getDate() {
 		return date;
 	}
 
+
 	public void setDate(java.sql.Date date) {
 		this.date = date;
 	}
+
 
 	public String getDescription() {
 		return description;
 	}
 
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
 
 	public String getUser_create() {
 		return user_create;
 	}
 
+
 	public void setUser_create(String user_create) {
 		this.user_create = user_create;
 	}
+
 
 	public String getUser_update() {
 		return user_update;
 	}
 
+
 	public void setUser_update(String user_update) {
 		this.user_update = user_update;
 	}
+
 
 	public java.sql.Timestamp getTime_create() {
 		return time_create;
 	}
 
+
 	public void setTime_create(java.sql.Timestamp time_create) {
 		this.time_create = time_create;
 	}
+
 
 	public java.sql.Timestamp getTime_update() {
 		return time_update;
 	}
 
+
 	public void setTime_update(java.sql.Timestamp time_update) {
 		this.time_update = time_update;
 	}
+
 
 	@Override
 	public String toString() {
@@ -191,6 +230,10 @@ public class UserSalary implements Serializable {
 			return false;
 		return true;
 	}
+	
+	
+
+
 	
 	
 
