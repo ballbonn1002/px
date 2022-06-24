@@ -518,11 +518,22 @@
 			<result name="error">/index.jsp</result>
 		</action>
 		
+		<!-- Function salary -->
 		<action name="salary"
 			class="com.cubesofttech.action.FunctionAction" method="salaryAction">
 			<result name="success" type="tiles">salary_tiles</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		
+		
+ 		<action name="findSalaryDataById"
+			class="com.cubesofttech.action.FunctionAction" method="findSalaryDataById">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
+		<!-- Function salary -->
+		
 		
 		<action name="tax"
 			class="com.cubesofttech.action.FunctionAction" method="listSalary">
