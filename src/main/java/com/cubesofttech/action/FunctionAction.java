@@ -13,12 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-//import com.cubesofttech.dao.UserDAO;
+import com.cubesofttech.dao.UserDAO;
 import com.cubesofttech.dao.UserSalaryDAO;
 //import com.cubesofttech.model.User;
 
-import org.apache.log4j.Logger;
-import com.google.gson.Gson;
 //import com.google.gson.GsonBuilder;
 import com.cubesofttech.model.UserSalary;
 import com.google.gson.Gson;
@@ -30,7 +28,6 @@ public class FunctionAction extends ActionSupport {
 	HttpServletRequest request = ServletActionContext.getRequest();
 	HttpServletResponse response = ServletActionContext.getResponse();
 
-	private static final Logger log = Logger.getLogger(DepartmentAction.class);
 	private static final long serialVersionUID = 1L;
 	
 	
@@ -75,6 +72,8 @@ public class FunctionAction extends ActionSupport {
 			e.printStackTrace();
 			return ERROR;
 		}
+	}
+		
 	public String listSalary() {
 		try {
 			List<UserSalary> salaryList = userSalaryDAO.findAllList();
@@ -489,7 +488,7 @@ public class FunctionAction extends ActionSupport {
 		}
 	}
 
-	}
+	
 	
 	
 }
