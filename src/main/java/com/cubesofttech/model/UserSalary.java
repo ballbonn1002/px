@@ -24,36 +24,36 @@ public class UserSalary implements Serializable {
 	@Column(name = "user_salary_id")
 	private Integer user_salary_id;
 >>>>>>> 3664aca851ce5d357eb68e3a6215cd7ed9271381
-	
+
 	@Column(name = "user_id")
 	private String user_id;
-	
+
 	@Column(name = "payment_type_id")
 	private String payment_type_id;
-	
+
 	@Column(name = "amount")
 	private BigDecimal amount;
-	
+
 	@Column(name = "date")
 	private java.sql.Date date;
-	
+
 	@Column(name = "description")
 	private String description;
-	
+
 	@Column(name = "user_create")
 	private String user_create;
-	
+
 	@Column(name = "user_update")
 	private String user_update;
-	
+
 	@Column(name = "time_create")
 	private java.sql.Timestamp time_create;
-	
+
 	@Column(name = "time_update")
 	private java.sql.Timestamp time_update;
 
 <<<<<<< HEAD
-	
+
 
 	public BigDecimal getUser_salary_id() {
 		return user_salary_id;
@@ -230,11 +230,11 @@ public class UserSalary implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
 
 
-	
-	
+
+
+
+
 
 }

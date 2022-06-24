@@ -23,7 +23,7 @@ import com.cubesofttech.model.UserSalary;
 
 @Repository
 public class UserSalaryDAOImpl implements UserSalaryDAO{
-	
+
 	@Autowired
 	private SessionFactory sessionFactory;
 
@@ -33,7 +33,7 @@ public class UserSalaryDAOImpl implements UserSalaryDAO{
 		Session session = this.sessionFactory.getCurrentSession();
 		session.save(userSalary);
 		session.flush();
-		
+
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class UserSalaryDAOImpl implements UserSalaryDAO{
 		List<UserSalary> userSalary = null;
 		try {
 			userSalary = session.createCriteria(UserSalary.class).list();
-			
+
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -57,7 +57,7 @@ public class UserSalaryDAOImpl implements UserSalaryDAO{
 		session.update(userSalary);
 		session.flush();
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class UserSalaryDAOImpl implements UserSalaryDAO{
 		session.delete(userSalary);
 		session.flush();
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -105,12 +105,11 @@ public class UserSalaryDAOImpl implements UserSalaryDAO{
 			e.printStackTrace();
 		}
 		//tx.commit();
-		
-		
+
+
 	}
-	
-	
-=======
+
+
 	public List<UserSalary> findSalary(String user_id) throws Exception {
 		// TODO Auto-generated method stub
 		Session session = this.sessionFactory.getCurrentSession();
@@ -154,7 +153,7 @@ public class UserSalaryDAOImpl implements UserSalaryDAO{
             e.printStackTrace();
         }finally{
             //session.close();
-        }        
+        }
         return usersalary;
 	}
 >>>>>>> 3664aca851ce5d357eb68e3a6215cd7ed9271381
