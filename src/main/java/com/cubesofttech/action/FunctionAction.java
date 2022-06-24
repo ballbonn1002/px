@@ -18,7 +18,6 @@ import com.cubesofttech.dao.UserDAO;
 import com.cubesofttech.dao.Employee_typeDAO;
 import com.cubesofttech.dao.UserSalaryDAO;
 import com.cubesofttech.model.UserSalary;
-import com.cubesofttech.ms.TaxMS;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
