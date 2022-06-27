@@ -507,7 +507,7 @@
 		
 		<!-- Function -->
 		<action name="actual_work"
-			class="com.cubesofttech.action.FunctionAction" method="">
+			class="com.cubesofttech.action.FunctionAction" method="getWorkingList">
 			<result name="success" type="tiles">actual_work</result>
 			<result name="error">/index.jsp</result>
 		</action>
