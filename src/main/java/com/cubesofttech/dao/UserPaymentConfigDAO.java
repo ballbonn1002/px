@@ -19,4 +19,8 @@ public interface UserPaymentConfigDAO {
     
     public void delete(UserPaymentConfig userPaymentConfig) throws Exception;
     
+    public List<UserPaymentConfig> findAllByUser(String userId) throws Exception;
+    
+    public UserPaymentConfig findByUsernPid(String userId,String paymenttypeId) throws Exception;
+    
 }

@@ -177,7 +177,7 @@
                                                 <li><a href="actual_work">Actual - วันทำงานจริง</a> </li>
                                                 <li><a href="salary">Salary - เงินเดือน</a> </li>
                                                 <li><a href="function_ssi">SSI - ประกันสังคม</a> </li>
-                                                <li><a href="#">Tax - ภาษี</a> </li>
+                                                <li><a href="tax">Tax - ภาษี</a> </li>
                                             </ul>
                                         </div>
                                     </div>

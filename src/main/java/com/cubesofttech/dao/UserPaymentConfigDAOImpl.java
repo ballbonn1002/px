@@ -1,16 +1,16 @@
 package com.cubesofttech.dao;
 
 import java.util.List;
-import java.util.Map;
 
+import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.cubesofttech.model.Department;
 import com.cubesofttech.model.UserPaymentConfig;
 
 @Repository
@@ -107,5 +107,41 @@ public class UserPaymentConfigDAOImpl implements UserPaymentConfigDAO{
         //session.close();
 		
 	}
+
+	@Override
+	public List<UserPaymentConfig> findAllByUser(String userId) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List <UserPaymentConfig> allUser = null;
+		try {
+			String hqlUpdate = "select c From UserPaymentConfig c where c.userId = :userId";
+			allUser = session.createQuery( hqlUpdate )
+					.setParameter("userId", userId)
+					.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return allUser;
+	}
+
+	@Override
+	public UserPaymentConfig findByUsernPid(String userId, String paymenttypeId) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		UserPaymentConfig userPayment = null;
+		try {
+			Criteria cr = session.createCriteria(UserPaymentConfig.class);
+			cr.add(Restrictions.eq("paymentypeId", paymenttypeId));
+			cr.add(Restrictions.eq("userId", userId));
+			userPayment = (UserPaymentConfig) cr.list().get(0);
+			System.out.println("HELLO");
+		}
+		catch (Exception e) {
+			return null;
+		}
+		return userPayment;
+	}
+	
+
+
+
 
 }

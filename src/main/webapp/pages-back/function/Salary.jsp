@@ -36,6 +36,9 @@
 table, th, td,tr {
   border: 0px solid;
 }
+span {
+  text-align: left;
+}
 </style>
 
 
@@ -60,20 +63,19 @@ table, th, td,tr {
             </div>
             <div id="salary_left"class="body">
             
-            	<form>
+
             	<table id="salary_data_left" class="table table-borderless">
-            	<!-- <table id="salary_data" class="table">  -->
+
 
             		<tr>
 	            		<td>
 	            			<span class="text-secondary">พนักงาน</span>
-							  <select class="form-control" id="select_employee">
-							  <c:forEach var="user" items="${cubesoftUsers}" varStatus="status">
-							  <c:if test="${user.flag_search=='1'}">
+							  <select class="form-control" id="select_user_id">
+							  <option disabled hidden selected = "selected" >เลือกพนักงาน</option>
+							  <c:forEach var="user" items="${cubesoftUserSalaries}" varStatus="status">
 							    <option>
 							   ${user.id}
 							    </option>
-							  </c:if>
 							  </c:forEach>
 							  </select>
 						</td>
@@ -97,12 +99,12 @@ table, th, td,tr {
 					
 					
 					<tr>
-						<td colspan="2" style="text-align:right">
-							<button class="btn btn-info pl-3 pr-3 ml-2" onclick='asdasd'>ดึงข้อมูล</button>
-							<button class="btn btn-info pl-3 pr-3 ml-2" onclick='asdasd'>คำนวณ</button>
+						<td colspan="2" style="text-align:right">							
+							<button class="btn btn-info pl-3 pr-3 ml-2" type=button id="calculateOT" disabled>คำนวณ</button>
 						</td>
 					</tr>
 					</table>
+					
 					
 					<!--		 สูตรคำนวณ 		-->
 					<table class="table table-borderless">
@@ -129,11 +131,6 @@ table, th, td,tr {
 							</td>	
 						</tr>
 					</table>
-				
-				
-				</form>
-				
-            
             
             </div>
             
@@ -159,8 +156,8 @@ table, th, td,tr {
 		        		<td>
 		        			<span class="text-secondary">ประเภทพนักงาน</span>
 						</td>
-		        		<td>
-							<span>ประจำ</span>
+		        		<td style="width:50%;">
+							<span id="Salary_type"></span>
 						</td>
 	        		</tr>
 	        		
@@ -169,7 +166,7 @@ table, th, td,tr {
 		        			<span class="text-secondary">ประเภทการจ่ายเงิน</span>
 						</td>
 		        		<td>
-							<span>รายเดือน</span>
+							<span id="Salary_payment_type"></span>
 						</td>
 	        		</tr>
 
@@ -178,7 +175,7 @@ table, th, td,tr {
 		        			<span class="text-secondary">งวดการจ่ายเงิน</span>
 						</td>
 		        		<td>
-							<span>1</span>
+							<span id="Salary_term"></span>
 						</td>
 	        		</tr>
 
@@ -187,7 +184,7 @@ table, th, td,tr {
 		        			<span class="text-secondary">จำนวนวันต่องวด</span>
 						</td>
 		        		<td>
-							<span class="text-secondary">30</span>
+							<span class="text-secondary" id="Salary_term_day"></span>
 						</td>
 	        		</tr>
 
@@ -196,7 +193,7 @@ table, th, td,tr {
 		        			<span class="text-secondary">Salary</span>
 						</td>
 		        		<td>
-							<span class="text-dark">20000</span>
+							<span class="text-dark" id="Salary_amount"></span>
 						</td>
 	        		</tr>
 	        	</table>
@@ -217,8 +214,8 @@ table, th, td,tr {
 		        		<td>
 		        			<span class="text-secondary">salary_day</span>
 						</td>
-		        		<td>
-							<span>111</span>
+		        		<td style="width:50%;">
+							<span id="salary_day"></span>
 						</td>
 	        		</tr>
 	        		
@@ -227,7 +224,7 @@ table, th, td,tr {
 		        			<span class="text-secondary">salary_hr</span>
 						</td>
 		        		<td>
-							<span>111</span>
+							<span id="salary_hr"></span>
 						</td>
 	        		</tr>
 
@@ -236,7 +233,7 @@ table, th, td,tr {
 		        			<span class="text-secondary">OT 1.5</span>
 						</td>
 		        		<td>
-							<span>111</span>
+							<span id="salary_ot15"></span>
 						</td>
 	        		</tr>
 
@@ -245,7 +242,7 @@ table, th, td,tr {
 		        			<span class="text-secondary">OT 2</span>
 						</td>
 		        		<td>
-							<span class="text-dark">111</span>
+							<span class="text-dark" id="salary_ot2"></span>
 						</td>
 	        		</tr>
 
@@ -254,7 +251,7 @@ table, th, td,tr {
 		        			<span class="text-secondary">OT 3</span>
 						</td>
 		        		<td>
-							<span class="text-dark">111</span>
+							<span class="text-dark" id="salary_ot3"></span>
 						</td>
 	        		</tr>
 
@@ -275,12 +272,74 @@ table, th, td,tr {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
-    <!--income add and remove-->
-    function add_income()
-    {
-    	
+$(document).ready(function(){
 
-    }
+	$("#select_user_id").on('change',function(){
+		
+		$("#calculateOT").prop('disabled', false);
+		
+		var user_id = $("#select_user_id").val();
+		
+		$.ajax({
+			url: "findSalaryDataById",
+			method: "POST",
+			type: "JSON",
+			data: {
+					"user_id" : user_id ,
+				},
+				success:function(data){
+					console.log(data);
+					$("#Salary_type").text(data.employee_type_name);
+					$("#Salary_payment_type").text(data.payment == 0? "รายเดือน":"รายวัน");
+					$("#Salary_term").text(Number(data.term));
+					$("#Salary_term_day").text(data.term_day);
+					$("#Salary_amount").text(Number(data.amount).toFixed(2));
+
+				}
+		})
+	});
+	
+	
+	$("#calculateOT").click(function(){
+		
+		//รับค่าตัวแปร
+		var OT15 = $("#ot15").val();
+		var OT2 = $("#ot2").val();
+		var OT3 = $("#ot3").val();
+		var Salary_payment_type = $('#Salary_payment_type').text().trim();
+		var Salary_term = $('#Salary_term').text().trim();
+		var Salary_term_day = $('#Salary_term_day').text().trim();
+		var Salary_amount = $('#Salary_amount').text().trim();
+		
+		var salary_day = 0;
+		var salary_hr = 0;
+		var salary_ot15 = 0;
+		var salary_ot2 = 0;
+		var salary_ot3 = 0;
+		
+		
+		
+		//ตั้งเงื่อนไข
+		if (Salary_payment_type == "รายเดือน"){
+			salary_day = (Number(Salary_amount)/(Number(Salary_term)*Number(Salary_term_day))).toFixed(2)
+		}else{
+			salary_day = (Number(Salary_amount)).toFixed(2);
+		}
+		salary_hr = Number((Number(salary_day)/8).toFixed(2));
+		salary_ot15 = Number(Number(salary_hr*OT15*1.5).toFixed(2));
+		salary_ot2 = Number(Number(salary_hr*OT2*2).toFixed(2));
+		salary_ot3 = Number(Number(salary_hr*OT3*3).toFixed(2));
+		
+		//แสดงข้อมูลที่หน้าบ้าน
+		$("#salary_day").text(salary_day);
+		$("#salary_hr").text(salary_hr);
+		$("#salary_ot15").text(salary_ot15);
+		$("#salary_ot2").text(salary_ot2);
+		$("#salary_ot3").text(salary_ot3);
+		
+	});
+	
+});
 
 
 </script>
