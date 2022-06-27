@@ -1511,7 +1511,7 @@ public String CheckUserID() {
 		String id = request.getParameter("sysuserCheckID");
 		Map<String, String> obj = new HashMap<>();
 		List<Map<String, Object>> sysuser = sysuserDAO.findById2(id);
-		log.debug(sysuser);
+		//log.debug(sysuser);
 		String s = sysuser.toString();
 		if (s.equals("[]")) {
 			String x = "0";

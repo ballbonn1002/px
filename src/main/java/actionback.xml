@@ -396,7 +396,41 @@
 			<result name="success" type="tiles">employeeType_list</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
 			<result name="error">/index.jsp</result>
 		</action>
-		
+		<action name="employeeType_delete"
+			class="com.cubesofttech.action.EmployeeTypeAction" method="DeleteEmployeeType">
+			<result name="success" type="tiles">employeeType_list</result> 
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="employeeType_add"
+			class="com.cubesofttech.action.EmployeeTypeAction" method="">
+			<result name="success" type="tiles">employeeType_add</result> 
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="EditEmployeeType"
+			class="com.cubesofttech.action.EmployeeTypeAction" method="EditEmployeeType">
+			<result name="success" type="tiles">employeeType_edit</result> 
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="employeeType_edit"
+			class="com.cubesofttech.action.EmployeeTypeAction" method="">
+			<result name="success" type="tiles">employeeType_edit</result> 
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="SaveEmployeeType"
+			class="com.cubesofttech.action.EmployeeTypeAction" method="SaveEmployeeType">
+			<result name="success" type="tiles">employeeType_add</result> 
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="add_empType"
+			class="com.cubesofttech.action.EmployeeTypeAction" method="SaveEmployeeType">
+			<result name="success" type="tiles">employeeType_list</result> 
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="update_empType"
+			class="com.cubesofttech.action.EmployeeTypeAction" method="UpdateEmployeeType">
+			<result name="success" type="tiles">employeeType_list</result> 
+			<result name="error">/index.jsp</result>
+		</action>
 		<action name="updateInfoEmp"
 			class="com.cubesofttech.action.InfoEmpAction" method="editInfoEmp">
 			<result name="success" type="tiles">information_emp</result>
