@@ -1,6 +1,7 @@
 package com.cubesofttech.action;
 
 import java.text.DecimalFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ import com.cubesofttech.dao.UserSalaryDAO;
 
 //import com.google.gson.GsonBuilder;
 import com.cubesofttech.model.UserSalary;
-
+import com.cubesofttech.service.CalcService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -100,6 +101,61 @@ public class FunctionAction extends ActionSupport {
             return SUCCESS;
 			
 		} catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+	}
+	
+	public String calculateOTData() {
+		try {
+			
+			double countOt15 = Double.parseDouble(request.getParameter("ot15"));
+			double countOt2 = Double.parseDouble(request.getParameter("ot2"));
+			double countOt3 = Double.parseDouble(request.getParameter("ot3"));
+			int salary_payment_type = Integer.parseInt(request.getParameter("Salary_payment_type"));
+			double salary_term = Double.parseDouble(request.getParameter("Salary_term"));
+			double salary_term_day = Double.parseDouble(request.getParameter("Salary_term_day"));
+			double salary_amount = Double.parseDouble(request.getParameter("Salary_amount"));
+			
+			Double salaryPerDay = null;
+			Double salaryPerHour = null;
+			Double salaryOT15 = null;
+			Double salaryOT2 = null;
+			Double salaryOT3 = null;
+			
+			Map<String, Double> DataList = new HashMap<String, Double>();
+			
+			CalcService calculateCalcService = new CalcService();
+			
+			//get Calculate Data
+			if (salary_payment_type == 1) {
+				salaryPerDay = salary_amount;
+			}else if (salary_payment_type == 0) {
+				salaryPerDay = calculateCalcService.calculateSalaryPerDay(salary_amount,salary_term,salary_term_day);
+			}
+			salaryPerHour = calculateCalcService.calculateSalaryPerHour(salaryPerDay);
+			salaryOT15 = calculateCalcService.calculateOT(salaryPerHour,countOt15,1.5);
+			salaryOT2 = calculateCalcService.calculateOT(salaryPerHour,countOt2,2.0);
+			salaryOT3 = calculateCalcService.calculateOT(salaryPerHour,countOt3,3.0);
+
+			
+			//put JSON
+            Gson gson = new Gson();
+            
+			DataList.put("salaryDay",salaryPerDay);
+			DataList.put("salaryHr", salaryPerHour);
+			DataList.put("salaryOT15", salaryOT15);
+			DataList.put("salaryOT2", salaryOT2);
+			DataList.put("salaryOT3", salaryOT3);
+            
+            String json = gson.toJson(DataList); 
+            request.setAttribute("json", json);	
+            
+            
+            //log.debug("ภาษาไทย");
+            return SUCCESS;
+
+		}catch (Exception e) {
 			e.printStackTrace();
 			return ERROR;
 		}

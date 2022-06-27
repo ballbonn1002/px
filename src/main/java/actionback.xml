@@ -538,6 +538,12 @@
 			<result name="error">/index.jsp</result>
 		</action>
 		
+		<action name="calculateOTData"
+			class="com.cubesofttech.action.FunctionAction" method="calculateOTData">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
 		<!-- Function salary -->
 		
 		
