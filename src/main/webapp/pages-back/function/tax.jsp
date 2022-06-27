@@ -136,8 +136,8 @@
 							    <c:if test = "${fn:contains(flag, '0')}">
         							 ไม่คำนวนภาษี
       							</c:if>
-								<fmt:parseNumber var = "sum" type = "number" value = "${sum}" />
-                                   <fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${sum}" /> 
+								<fmt:parseNumber var = "w0" type = "number" value = "${w0}" />
+                                   <fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${w0}" /> 
 							
 						</div>
 					</div>
@@ -164,9 +164,9 @@
                                             	<c:if test = "${w1 == null}">0 </c:if>
                                             </td>
                                             <td style="color:#449CFF" class="tax">  
-                                            	<fmt:parseNumber var = "tax" type = "number" value = "${tax}" />
-                                            	<fmt:formatNumber type = "number" maxFractionDigits = "2"  value = "${tax}" />
-                                            	<c:if test = "${tax == null}">0 </c:if>
+                                            	<fmt:parseNumber var = "w2" type = "number" value = "${w2}" />
+                                            	<fmt:formatNumber type = "number" maxFractionDigits = "2"  value = "${w2}" />
+                                            	<c:if test = "${w2 == null}">0 </c:if>
                                             </td>
                                         </tr>
                                         <tr>
@@ -174,14 +174,14 @@
                                             <td>5 %</td>
                                             <td style="color:#E7505A">x</td>
                                             <td style="color:#FAAD14">
-                                            	<fmt:parseNumber var = "w2" type = "number" value = "${w2}" />
-                                            	<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${w2}" />
-                                            	<c:if test = "${w2 == null}">0 </c:if>
+                                            	<fmt:parseNumber var = "w3" type = "number" value = "${w3}" />
+                                            	<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${w3}" />
+                                            	<c:if test = "${w3 == null}">0 </c:if>
                                             </td>
                                             <td style="color:#449CFF" class="tax"> 
-                                            	<fmt:parseNumber var = "tax1" type = "number" value = "${tax1}" />
-                                            	<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${tax1}" />
-                                            	<c:if test = "${tax1 == null}">0 </c:if>
+                                            	<fmt:parseNumber var = "w4" type = "number" value = "${w4}" />
+                                            	<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${w4}" />
+                                            	<c:if test = "${w4 == null}">0 </c:if>
                                             </td>
                                         </tr>
                                         <tr>
@@ -189,14 +189,14 @@
                                             <td>10 %</td>
                                             <td style="color:#E7505A">x</td>
                                             <td style="color:#FAAD14">
-                                            	<fmt:parseNumber var = "w3" type = "number" value = "${w3}" />
-                                            	<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${w3}" />
-                                            	<c:if test = "${w3 == null}">0 </c:if>
+                                            	<fmt:parseNumber var = "w5" type = "number" value = "${w5}" />
+                                            	<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${w5}" />
+                                            	<c:if test = "${w5 == null}">0 </c:if>
                                             </td>
                                             <td style="color:#449CFF" class="tax">
-                                            	<fmt:parseNumber var = "tax2" type = "number" value = "${tax2}" />
-                                            	<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${tax2}" />
-                                            	<c:if test = "${tax2 == null}">0 </c:if>
+                                            	<fmt:parseNumber var = "w6" type = "number" value = "${w6}" />
+                                            	<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${w6}" />
+                                            	<c:if test = "${w6 == null}">0 </c:if>
                                             </td>
                                         </tr>
                                         <tr>
@@ -204,14 +204,14 @@
                                             <td>15 %</td>
                                             <td style="color:#E7505A">x</td>
                                             <td style="color:#FAAD14">
-                                            	<fmt:parseNumber var = "w4" type = "number" value = "${w4}" />
-                                            	<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${w4}" />
-                                            	<c:if test = "${w4 == null}">0 </c:if>
+                                            	<fmt:parseNumber var = "w7" type = "number" value = "${w7}" />
+                                            	<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${w7}" />
+                                            	<c:if test = "${w7 == null}">0 </c:if>
                                             </td>
                                             <td style="color:#449CFF" class="tax">
-                                            	<fmt:parseNumber var = "tax3" type = "number" value = "${tax3}" />
-                                            	<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${tax3}" />
-                                            	<c:if test = "${tax3 == null}">0 </c:if>
+                                            	<fmt:parseNumber var = "w8" type = "number" value = "${w8}" />
+                                            	<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${w8}" />
+                                            	<c:if test = "${w8 == null}">0 </c:if>
                                             </td>
                                         </tr>
                                         <tr>
@@ -219,14 +219,14 @@
                                             <td>20 %</td>
                                             <td style="color:#E7505A">x</td>
                                             <td style="color:#FAAD14">
-                                            	<fmt:parseNumber var = "w5" type = "number" value = "${w5}" />
-                                            	<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${w5}" />
-                                            	 <c:if test = "${w5 == null}">0 </c:if>
+                                            	<fmt:parseNumber var = "w9" type = "number" value = "${w9}" />
+                                            	<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${w9}" />
+                                            	 <c:if test = "${w9 == null}">0 </c:if>
                                             </td>
                                             <td style="color:#449CFF" class="tax">
-                                            	<fmt:parseNumber var = "tax4" type = "number" value = "${tax4}" />
-                                            	<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${tax4}" />
-                                            	<c:if test = "${tax4 == null}">0 </c:if>
+                                            	<fmt:parseNumber var = "w10" type = "number" value = "${w10}" />
+                                            	<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${w10}" />
+                                            	<c:if test = "${w10 == null}">0 </c:if>
                                             </td>
                                         </tr>
                                         <tr>
@@ -234,14 +234,14 @@
                                             <td>25 %</td>
                                             <td style="color:#E7505A">x</td>
                                             <td style="color:#FAAD14">
-                                            	<fmt:parseNumber var = "w6" type = "number" value = "${w6}" />
-                                            	<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${w6}" />
-                                            	<c:if test = "${w6 == null}">0 </c:if>
+                                            	<fmt:parseNumber var = "w11" type = "number" value = "${w11}" />
+                                            	<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${w11}" />
+                                            	<c:if test = "${w11 == null}">0 </c:if>
                                             </td>
                                             <td style="color:#449CFF" class="tax">
-                                            	<fmt:parseNumber var = "tax5" type = "number" value = "${tax5}" />
-                                            	<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${tax5}" />
-                                            	<c:if test = "${tax5 == null}">0 </c:if>
+                                            	<fmt:parseNumber var = "w12" type = "number" value = "${w12}" />
+                                            	<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${w12}" />
+                                            	<c:if test = "${w12 == null}">0 </c:if>
                                             </td>
                                         </tr>
                                         <tr>
@@ -249,14 +249,14 @@
                                             <td>30 %</td>
                                             <td style="color:#E7505A">x</td>
                                             <td style="color:#FAAD14">
-                                            	<fmt:parseNumber var = "w7" type = "number" value = "${w7}" />
-                                            	<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${w7}" />
-                                            	<c:if test = "${w7 == null}">0 </c:if>
+                                            	<fmt:parseNumber var = "w13" type = "number" value = "${w13}" />
+                                            	<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${w13}" />
+                                            	<c:if test = "${w13 == null}">0 </c:if>
                                             </td>
                                             <td style="color:#449CFF" class="tax">
-                                            	<fmt:parseNumber var = "tax6" type = "number" value = "${tax6}" />
-                                            	<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${tax6}" />
-                                            	<c:if test = "${tax6 == null}">0 </c:if>
+                                            	<fmt:parseNumber var = "w14" type = "number" value = "${w14}" />
+                                            	<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${w14}" />
+                                            	<c:if test = "${w14 == null}">0 </c:if>
                                             </td>
                                         </tr>
                                         <tr>
@@ -264,14 +264,14 @@
                                             <td>35 %</td>
                                             <td style="color:#E7505A">x</td>
                                             <td style="color:#FAAD14">
-                                            	<fmt:parseNumber var = "w8" type = "number" value = "${w8}" />
-                                            	<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${w8}" />
-                                            	<c:if test = "${w8 == null}">0 </c:if>
+                                            	<fmt:parseNumber var = "w15" type = "number" value = "${w15}" />
+                                            	<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${w15}" />
+                                            	<c:if test = "${w15 == null}">0 </c:if>
                                             </td>
                                             <td style="color:#449CFF" class="tax">
-                                            	<fmt:parseNumber var = "tax7" type = "number" value = "${tax7}" />
-                                            	<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${tax7}" />
-                                            	<c:if test = "${tax7 == null}">0 </c:if>
+                                            	<fmt:parseNumber var = "w16" type = "number" value = "${w16}" />
+                                            	<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${w16}" />
+                                            	<c:if test = "${w15 == null}">0 </c:if>
                                             </td>
                                         </tr>
                                     </tbody>
