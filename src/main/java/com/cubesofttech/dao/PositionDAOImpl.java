@@ -3,14 +3,17 @@ package com.cubesofttech.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.cubesofttech.model.Position;
+import com.cubesofttech.model.UserSalary;
 
 @Repository
 public class PositionDAOImpl implements PositionDAO {
@@ -116,6 +119,20 @@ public class PositionDAOImpl implements PositionDAO {
 			e.printStackTrace();
 		}
 		return positionuser;
+	}
+
+	@Override
+	public List<Position> searchByDepartment(String departmentId) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Position> position_id = null;
+		try {
+			Criteria cr = session.createCriteria(Position.class);
+			cr.add(Restrictions.eq("departmentId", departmentId));
+			position_id = cr.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return position_id;
 	}
 	
 	

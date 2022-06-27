@@ -29,9 +29,6 @@ input[type="checkbox"] {
 	accent-color: #0275d8;
 }
 
-.expenses-box {
-	display: none;
-}
 </style>
 </head>
 
@@ -69,7 +66,7 @@ input[type="checkbox"] {
 								style="text-align: right; margin-bottom: 30px;">
 								<button type="reset" class="btn btn-outline-secondary">
 									ยกเลิก</button>
-								<button type="submit" class="btn btn-info">บันทึก</button>
+								<button type="submit" disabled class="btn btn-info" id = "btn-submit">บันทึก</button>
 								<!--  class="btn btn-circle btn-icon-only btn-default fullscreen"
 								href="javascript:;" data-original-title="" title=""> </a> -->
 								<!--  class="btn green-meadow"-->
@@ -133,7 +130,7 @@ input[type="checkbox"] {
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script>
 
-$(function(){
+/*$(function(){
 	$(".checkme").click(function(event) {
 		var x = $(this).is(':checked');
 		if (x == true) {
@@ -143,10 +140,29 @@ $(function(){
 			$(this).parents(".checkbox-card").find('.expenses-box').hide();
 		}
 	});
-})
+})*/
 
 
 $(document).ready(function(){
+	
+	$(".department-type").on("change",function() {
+		$.ajax({
+			url: "getPositionByDepartmentId",
+			method: "POST" ,
+			type: "JSON" ,
+			data: {
+				"departmentId" : $(".department-type option:selected").val()
+			},
+			success:function(data){
+				$(".edit-position").empty()
+				$.each(JSON.parse(data),function(index,value) {
+					$(".edit-position").append("<option value=" + value.positionId + ">" + value.name + "</option>");
+				})
+				} 
+			}
+		);
+	});
+	
   $("#History").click(function(){
     $("#hidebutton").hide();
   });
@@ -167,6 +183,7 @@ $(document).ready(function(){
 	  });
   $('#add_emp_save').click(function() {
 	  $('#defaultModal').modal('hide');
+	  $('#salary').val($('#add_emp_amount').val());
 	});
   $('#add_emp_discard').click(function() {
 	  $('#add_emp_date').val('');
@@ -174,6 +191,40 @@ $(document).ready(function(){
 	  $('#add_emp_note').val('');
 	  $('#defaultModal').modal('hide');
 	});
+  
+  $('#add_emp_username').on("input",function() {
+	  $("#validateUser").show();
+	  var id = $('#add_emp_username').val();
+	  if(id != ""){
+		  $.ajax({
+				url: "CheckUserName",
+				method: "POST" ,
+				type: "JSON" ,
+				data: {
+					"username" : id
+				},
+				success:function(data){
+					if (data.toString().indexOf("1") != -1) {
+						$('#validateUser').css('color', 'red');
+						$("#validateUser").text("You can not use this id")
+						$("#validateUser").show();
+						$( "#btn-submit" ).prop( "disabled", true );
+						
+					} else {
+						$('#validateUser').css('color', 'green');
+						$("#validateUser").text("You can use this id")
+						$("#validateUser").show();
+						$( "#btn-submit" ).prop( "disabled", false );
+				} 
+				}
+			});
+	  }
+	  else {
+		  $( "#btn-submit" ).prop( "disabled", true );
+		  $("#validateUser").hide();
+	  }
+  })
+	  
 
 });
 
@@ -188,6 +239,8 @@ function EnableDisnableTxttax(chktax)
 		txttax.value=""
 	}
 }
+
+
 
 
 </script>

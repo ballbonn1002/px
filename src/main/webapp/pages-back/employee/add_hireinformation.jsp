@@ -15,10 +15,11 @@
 		<div class="row">
 			<div class="col-6">
 
-				<div class="form-group">
+				<div class="form-group department-type">
 					<label for="recipient-name" class="control-label"
 						style="font-weight: lighter; font-size: 14px;">เเผนก</label> <select
 						class="form-control" name="depart">
+						<option disabled selected value> -- select a department -- </option>
 						<c:forEach var="department" items="${departmentList}">
 							<option value="${department.department_id}">${department.description}</option>
 						</c:forEach>
@@ -81,12 +82,8 @@
 				<div class="form-group">
 					<label for="recipient-name" class="control-label"
 						style="font-weight: lighter; font-size: 14px;">ตำเเหน่ง</label> <select
-						class="form-control" name="positsion" style="width: 95%;">
+						class="form-control edit-position" name="positsion" style="width: 95%;">
 
-						<c:forEach var="position" items="${positionList}">
-							<option value="${position.position_id}"
-								>${position.name}</option>
-						</c:forEach>
 					</select>
 				</div>
 
@@ -103,10 +100,10 @@
 					<label for="recipient-name" class="control-label"
 						style="font-weight: lighter; font-size: 14px;">เวลาทำงาน</label>
 					<div class="form-inline">
-						<input type="text" name="starttimework"
+						<input type="time" name="starttimework"
 							value=""
 							class="form-control timepicker timepicker-24" style="width: 45%;">
-						&nbsp;&nbsp;ถึง&nbsp;&nbsp; <input type="text" name="endtimework"
+						&nbsp;&nbsp;ถึง&nbsp;&nbsp; <input type="time" name="endtimework"
 							value="" class="form-control"
 							style="width: 45%;">
 					</div>

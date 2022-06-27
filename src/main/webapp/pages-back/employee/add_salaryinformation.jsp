@@ -19,7 +19,7 @@
 						style="font-weight: lighter; font-size: 14px;">ประเภทพนักงาน</label>
 					<select class="form-control show-tick" name="emp_type">
 						<c:forEach var="employee_type" items="${emptypeList}">
-							<option value="${employee_type.employee_type_id}">${employee_type.name}</option>
+							<option value="${employee_type.employee_type_id}">${employee_type.name} - <c:if test="${employee_type.payment eq 0 }"> รายเดือน </c:if><c:if test="${employee_type.payment eq 1 }"> รายวัน </c:if></option>
 						</c:forEach>
 					</select>
 				</div>
@@ -28,7 +28,7 @@
 						style="font-weight: lighter; font-size: 14px;">เงินเดือน</label>
 					<div class="input-group mb-3">
 						<input type="text" id="salary" name="salary" class="form-control"
-							aria-describedby="basic-addon2" disabled="disabled">
+							aria-describedby="basic-addon2" disabled="disabled" value = "">
 						<div class="input-group-append">
 							<button data-toggle="modal" data-target="#defaultModal"
 								class="btn btn-outline-secondary editsalary" type="button">ปรับเงินเดือน</button>

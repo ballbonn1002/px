@@ -111,6 +111,9 @@
 		<action name="CheckUserID"
 			class="com.cubesofttech.action.UserAction" method="CheckUserID">
 		</action>
+		<action name="CheckUserName"
+			class="com.cubesofttech.action.UserAction" method="CheckUserName">
+		</action>
 		<action name="password"
 			class="com.cubesofttech.action.UserAction" method="save_sysuser">
 			<result name="success" >/pages-back/common/json.jsp</result>
@@ -356,6 +359,10 @@
 			<result name="error">/index.jsp</result>
 		</action>
 		
+		<action name="getPositionByDepartmentId"
+			class="com.cubesofttech.action.PositionAction" method="getPositionbyDId">
+		</action>
+		
 		<!-- Department -->
 		<action name="department_list"
 			class="com.cubesofttech.action.DepartmentAction" method="list">
@@ -433,7 +440,7 @@
 		</action>
 		<action name="updateInfoEmp"
 			class="com.cubesofttech.action.InfoEmpAction" method="editInfoEmp">
-			<result name="success" type="tiles">information_emp</result>
+			<result name="success" type="tiles">employee_list</result>
 			<result name="error">/index.jsp</result>
 		</action>
 		<action name="employee_list"
@@ -463,6 +470,15 @@
 			class="com.cubesofttech.action.UserPaymentConfigAction" method="list">
 			<result name="success" type="tiles">payment_term</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
 			<result name="error">/index.jsp</result>
+		</action>
+		<action name="saveorupdateUser"
+			class="com.cubesofttech.action.InfoEmpAction" method="saveorupdateUser">
+		</action>
+		<action name="deleteUser"
+			class="com.cubesofttech.action.InfoEmpAction" method="deleteUser">
+		</action>
+		<action name="CheckUserName"
+			class="com.cubesofttech.action.UserAction" method="CheckUserName">
 		</action>
 		
 		<action name="payment_type"
@@ -509,6 +525,8 @@
 			<result name="error">/index.jsp</result>
 		</action>
 		
+		
+		
 		<!-- Report -->
 		<action name="report_work"
 			class="com.cubesofttech.action.WorkHoursAction" method="reportWorkAllList">
@@ -523,7 +541,7 @@
 		
 		<!-- Function -->
 		<action name="actual_work"
-			class="com.cubesofttech.action.FunctionAction" method="">
+			class="com.cubesofttech.action.FunctionAction" method="getWorkingList">
 			<result name="success" type="tiles">actual_work</result>
 			<result name="error">/index.jsp</result>
 		</action>
@@ -534,18 +552,62 @@
 			<result name="error">/index.jsp</result>
 		</action>
 		
+		<action name="findData"
+			class="com.cubesofttech.action.FunctionAction" method="findSsiAction">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
+		<action name="calData"
+			class="com.cubesofttech.action.FunctionAction" method="calSsiAction">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
+		<action name="jqueryDTs"
+			class="com.cubesofttech.action.FunctionAction" method="testPayroll">
+			<result name="success" type="tiles">jqueryDTs</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
+		<!-- Function salary -->
 		<action name="salary"
 			class="com.cubesofttech.action.FunctionAction" method="salaryAction">
 			<result name="success" type="tiles">salary_tiles</result>
 			<result name="error">/index.jsp</result>
 		</action>
 		
-		<action name="tax"
-			class="com.cubesofttech.action.PaymentTypeAction" method="">
-			<result name="success" type="tiles">tax</result>
+		
+ 		<action name="findSalaryDataById"
+			class="com.cubesofttech.action.FunctionAction" method="findSalaryDataById">
+			<result name="success">/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
 		
+		<action name="calculateOTData"
+			class="com.cubesofttech.action.FunctionAction" method="calculateOTData">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
+		<!-- Function salary -->
+		
+		
+		<action name="tax"
+			class="com.cubesofttech.action.FunctionAction" method="listSalary">
+			<result name="success" type="tiles">tax</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="taxcalculate"
+			class="com.cubesofttech.action.FunctionAction" method="calTax">
+			<result name="success" type="tiles">tax</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="autoFillSalary"
+			class="com.cubesofttech.action.FunctionAction" method="autoFill">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
 		<!-- SYS_ROLE -->
 		<action name="role_management"
 			class="com.cubesofttech.action.Sys_roleAction" method="list">
