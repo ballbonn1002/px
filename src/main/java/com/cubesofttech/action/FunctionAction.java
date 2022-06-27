@@ -12,11 +12,12 @@ import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionSupport;
-
+import com.cubesofttech.dao.Payment_groupDAO;
 import com.cubesofttech.dao.UserDAO;
 import com.cubesofttech.dao.UserSalaryDAO;
 //import com.cubesofttech.model.User;
-
+import com.cubesofttech.model.Payment_group;
+import com.cubesofttech.model.User;
 //import com.google.gson.GsonBuilder;
 import com.cubesofttech.model.UserSalary;
 
@@ -40,6 +41,8 @@ public class FunctionAction extends ActionSupport {
 	private UserDAO userDAO;
 	@Autowired
 	private UserSalaryDAO userSalaryDAO;
+	@Autowired
+	private Payment_groupDAO payment_groupDAO;
 	//@Autowired
 	//private TaxMS taxMS;
 
@@ -551,7 +554,22 @@ public class FunctionAction extends ActionSupport {
 		}
 	}
 
-	
+	public String testPayroll() {
+		try {
+				List<Payment_group> payment_group = payment_groupDAO.findAll();
+				request.setAttribute("paymentgroupList", payment_group);
+				log.debug(payment_group);
+				
+				List<User> user = userDAO.findAll();
+				request.setAttribute("userList", user);
+				
+				return SUCCESS;
+		} catch (Exception e) {
+				log.error(e);
+					
+				return ERROR;
+		}
+	}
 	
 	
 }
