@@ -245,7 +245,7 @@ public class FunctionAction extends ActionSupport {
 			Double aia = Double.parseDouble(ssi);
 			
 		    if(flag.equals("1")) {
-		    	List<List<Double>> y = calcService.calculateTax(money, paid, self, aia);
+		    	List<List<Double>> y = calCService.calculateTax(money, paid, self, aia);
 		    	List<Double> tan = y.get(0);
 		    	List<Double> best = y.get(1);
 		    	

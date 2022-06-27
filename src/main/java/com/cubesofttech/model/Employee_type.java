@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -11,8 +13,6 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "employee_type")
-@NamedQueries({
-    @NamedQuery(name = "Employee_type.findAll", query = "SELECT t FROM Employee_type t")})
 public class Employee_type implements Serializable {
     
 	/** Creates a new instance of Department */
@@ -55,6 +55,7 @@ public class Employee_type implements Serializable {
 	}
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "employee_type_id ")
     private Integer employee_type_id ;	
     @Column(name = "name")
