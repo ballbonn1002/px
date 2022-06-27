@@ -1,6 +1,7 @@
 package com.cubesofttech.action;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ import com.cubesofttech.dao.UserSalaryDAO;
 
 //import com.google.gson.GsonBuilder;
 import com.cubesofttech.model.UserSalary;
-
+import com.cubesofttech.service.CalcService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -42,6 +43,9 @@ public class FunctionAction extends ActionSupport {
 	private UserSalaryDAO userSalaryDAO;
 	//@Autowired
 	//private TaxMS taxMS;
+	
+	@Autowired
+	private CalcService calCService;
 
 	
 	public String salaryAction() {
@@ -59,29 +63,13 @@ public class FunctionAction extends ActionSupport {
 
 	}
 	
-	public String ssiAction() {
-		
-		/*try {
-			return SUCCESS;
-		} catch (Exception e) {
-			return ERROR;
-		}*/
-		
-		String uId = request.getParameter("user_ssi_id");
-		//log.debug(uId);
-		request.setAttribute("uId", uId);
-		
+	public String ssiAction() {		
 		try {
 			
-			List<Map<String, Object>> userSocialSecurity = userSalaryDAO.findSsi(uId);
+			List<Map<String, Object>> userSocialSecurity = userSalaryDAO.findSsi();
 			request.setAttribute("UserSocialSecurity", userSocialSecurity);
+
 			
-			//List<Map<String, Object>> userSocialSecurityById = userSalaryDAO.findSsiById(uId);
-			//request.setAttribute("socialSecurity", userSocialSecurityById);
-			//System.out.println(socialSecurity);
-			
-			
-			// request.setAttribute("userList", userDAO.findAll());
 			return SUCCESS;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -115,21 +103,35 @@ public class FunctionAction extends ActionSupport {
 		try {
 			String uId = request.getParameter("user_id_ssi");
 			//log.debug(uId);
-			//request.setAttribute("uId", uId);
-			
-			//List<Map<String, Object>> userSocialSecurity = userSalaryDAO.findSsi(uId);
-			//request.setAttribute("UserSocialSecurity", userSocialSecurity);
 			
 			List<Map<String, Object>> userSocialSecurityById = userSalaryDAO.findSsiById(uId);
 			//log.debug(userSocialSecurityById);
 			Gson gson = new Gson(); 
 			String json = gson.toJson(userSocialSecurityById.get(0));
 			request.setAttribute("json", json);
-			//request.setAttribute("socialSecurity", userSocialSecurityById);
-			//System.out.println(socialSecurity);
 			
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+	}
+	
+	public String calSsiAction() {
+		try {
+			String percent = request.getParameter("input_percent");
+			String salary = request.getParameter("ssi_value2");
+			//log.debug(percent);
+			//log.debug(salary);
 			
-			// request.setAttribute("userList", userDAO.findAll());
+			String calSocialSecurity = calCService.calSsi(percent, salary);
+			request.setAttribute("CalSocialSecurity", calSocialSecurity);
+			
+			log.debug(calSocialSecurity);
+			Gson gson = new Gson(); 
+			String json = gson.toJson(calSocialSecurity);
+			request.setAttribute("json", json);
+			
 			return SUCCESS;
 		} catch (Exception e) {
 			e.printStackTrace();
