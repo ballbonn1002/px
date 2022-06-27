@@ -15,7 +15,7 @@ public interface UserSalaryDAO {
 
 	    public void delete(UserSalary userSalary) throws Exception;
 	    
-	    public List<Map<String, Object>> findSsi(String uId) throws Exception;
+	    public List<Map<String, Object>> findSsi() throws Exception;
 	    
 	    public List<Map<String, Object>> findSsiById(String uId) throws Exception;
 

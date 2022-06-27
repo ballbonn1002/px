@@ -86,8 +86,7 @@
 						<div class="container">
 							<div class="row">
 								<div class="right col-sm">
-									<button class="btn btn-info" hidden type=button id=cal_user_ssi
-										onclick=find_ssi()>คำนวณ</button>
+									<button class="btn btn-info" hidden type=button id=cal_user_ssi>คำนวณ</button>
 								</div>
 							</div>
 						</div>
@@ -114,6 +113,9 @@
 							<div class="col-sm">
 								<p id="ssi_value" class="pl-3">-</p>
 							</div>
+							<div style="display: none;" id="hiddenText">
+										<p id="ssi_value2" class="pl-3">-</p>
+									</div>
 						</div>
 					</div>
 				</div>
@@ -148,6 +150,11 @@
 
 
 	<script>
+	
+	function numberWithCommas(x) {
+    	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+	
 	<!--ให้ user_id ยังอยู่-->
 	$(document).ready(function(){
 		$("#user_id_ssi").on('change',function(){
@@ -164,7 +171,8 @@
                     success:function(data){
                     	if(data.social_security == 1){
                     		$("#social_secure").text("ขึ้นสิทธิ์ประกันสังคม");
-                    		$("#ssi_value").text(data.amount);
+                    		$("#ssi_value").text(numberWithCommas(data.amount));
+                    		$("#ssi_value2").text(data.amount);
                     		$("#cal_user_ssi").prop("hidden",false);
                         	//console.log(data.social_security);
                     	}
@@ -177,44 +185,28 @@
                     }
             })
 		});
-	});
-	
-	<!--calculate social security-->
-		function find_ssi() {
+		
+		$("#cal_user_ssi").click(function(){
+			
 			var percent = $("#input_percent").val();
-			var salary = $("#ssi_value").text().trim();
-			var salarySocialSecure = $("#social_secure").text().trim();
+			var salary = $("#ssi_value2").text().trim();
+			console.log(percent);
+			console.log(salary);
 			
-			var calSsi = 0;		
-			
-			//console.log(salarySocialSecure);
-			//console.log(ssi_value);
-			
-			<!--check user social security-->
-			if(salarySocialSecure == "ขึ้นสิทธิ์ประกันสังคม") {
-				//calSsi = Number(Number(salary)*Number(percent)/100).toFixed(2);
-				//console.log(calSsi);
-				//document.getElementById("cal_ssi").innerHTML = calSsi;
-				<!-- salary > 15000 -->
-				if(salary > "15000"){
-					calSsi = Number(15000*Number(percent)/100).toFixed(2);
-					document.getElementById("cal_ssi").innerHTML = calSsi;
-				}
-				
-				<!-- salary <= 15000 -->
-				else {
-					calSsi = Number(Number(salary)*Number(percent)/100).toFixed(2);
-					document.getElementById("cal_ssi").innerHTML = calSsi;
-				}
-			}
-			
-			else {
-				calSsi = Number(0);
-				//console.log(calSsi);
-			
-			}
-			
-		}
+			$.ajax({
+                url: "calData",
+                method: "POST",
+                type: "JSON",
+                data: {
+                        "input_percent" : percent ,
+                        "ssi_value2" : salary ,
+                    },
+                    success:function(data){
+                    	$("#cal_ssi").text(numberWithCommas(data));
+                    }
+            })
+		});
+	});
 	</script>
 </body>
 </html>

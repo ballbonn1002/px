@@ -100,7 +100,7 @@ span {
 					
 					<tr>
 						<td colspan="2" style="text-align:right">							
-							<button class="btn btn-info pl-3 pr-3 ml-2" type=button id="calculateOT" disabled>คำนวณ</button>
+							<button class="btn btn-info pl-3 pr-3 ml-2" id="calculateOT" disabled>คำนวณ</button>
 						</td>
 					</tr>
 					</table>
@@ -193,7 +193,10 @@ span {
 		        			<span class="text-secondary">Salary</span>
 						</td>
 		        		<td>
-							<span class="text-dark" id="Salary_amount"></span>
+		        		
+		        		<span class="text-dark" id="Salary_amount">		        		
+		        		</span>
+		        		
 						</td>
 	        		</tr>
 	        	</table>
@@ -272,12 +275,17 @@ span {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 $(document).ready(function(){
 
 	$("#select_user_id").on('change',function(){
 		
 		$("#calculateOT").prop('disabled', false);
 		
+		//get user id value
 		var user_id = $("#select_user_id").val();
 		
 		$.ajax({
@@ -289,55 +297,66 @@ $(document).ready(function(){
 				},
 				success:function(data){
 					console.log(data);
+					
+					//set text
 					$("#Salary_type").text(data.employee_type_name);
 					$("#Salary_payment_type").text(data.payment == 0? "รายเดือน":"รายวัน");
 					$("#Salary_term").text(Number(data.term));
 					$("#Salary_term_day").text(data.term_day);
-					$("#Salary_amount").text(Number(data.amount).toFixed(2));
+					$("#Salary_amount").text(numberWithCommas(Number(data.amount).toFixed(2)));
+					
+					//set value
+					$("#Salary_amount").val(Number(data.amount).toFixed(2));
+					$("#Salary_payment_type").val(data.payment);
+					$("#Salary_term").val(Number(data.term));
+					$("#Salary_term_day").val(data.term_day);
 
 				}
 		})
+		//////////////
 	});
 	
-	
-	$("#calculateOT").click(function(){
+	$("#calculateOT").on('click',function(){
 		
-		//รับค่าตัวแปร
+		//get value
 		var OT15 = $("#ot15").val();
 		var OT2 = $("#ot2").val();
 		var OT3 = $("#ot3").val();
-		var Salary_payment_type = $('#Salary_payment_type').text().trim();
-		var Salary_term = $('#Salary_term').text().trim();
-		var Salary_term_day = $('#Salary_term_day').text().trim();
-		var Salary_amount = $('#Salary_amount').text().trim();
+		var Salary_payment_type = ($('#Salary_payment_type').val());
+		var Salary_term = $('#Salary_term').val();
+		var Salary_term_day = $('#Salary_term_day').val();
+		var Salary_amount = $('#Salary_amount').val();
 		
-		var salary_day = 0;
-		var salary_hr = 0;
-		var salary_ot15 = 0;
-		var salary_ot2 = 0;
-		var salary_ot3 = 0;
-		
-		
-		
-		//ตั้งเงื่อนไข
-		if (Salary_payment_type == "รายเดือน"){
-			salary_day = (Number(Salary_amount)/(Number(Salary_term)*Number(Salary_term_day))).toFixed(2)
-		}else{
-			salary_day = (Number(Salary_amount)).toFixed(2);
-		}
-		salary_hr = Number((Number(salary_day)/8).toFixed(2));
-		salary_ot15 = Number(Number(salary_hr*OT15*1.5).toFixed(2));
-		salary_ot2 = Number(Number(salary_hr*OT2*2).toFixed(2));
-		salary_ot3 = Number(Number(salary_hr*OT3*3).toFixed(2));
-		
-		//แสดงข้อมูลที่หน้าบ้าน
-		$("#salary_day").text(salary_day);
-		$("#salary_hr").text(salary_hr);
-		$("#salary_ot15").text(salary_ot15);
-		$("#salary_ot2").text(salary_ot2);
-		$("#salary_ot3").text(salary_ot3);
+		//send ajax
+		$.ajax({
+			url: "calculateOTData",
+			method: "POST",
+			type: "JSON",
+			data: {
+					"ot15" : OT15 ,
+					"ot2" : OT2 ,
+					"ot3" : OT3 ,
+					"Salary_payment_type" : Salary_payment_type ,
+					"Salary_term" : Salary_term ,
+					"Salary_term_day" : Salary_term_day ,
+					"Salary_amount" : Salary_amount ,
+				},
+				success:function(data){
+					console.log(data);
+					
+					//set text
+					$("#salary_day").text(numberWithCommas(data.salaryDay.toFixed(2)));
+					$("#salary_hr").text(numberWithCommas(data.salaryHr.toFixed(2)));
+					$("#salary_ot15").text(numberWithCommas(data.salaryOT15.toFixed(2)));
+					$("#salary_ot2").text(numberWithCommas(data.salaryOT2.toFixed(2)));
+					$("#salary_ot3").text(numberWithCommas(data.salaryOT3.toFixed(2)));
+
+			}
+		})
+		///////////////
 		
 	});
+	
 	
 });
 

@@ -69,7 +69,7 @@ public class UserSalaryDAOImpl implements UserSalaryDAO{
 	}
 	
 	@Override
-	public List<Map<String, Object>> findSsi(String uId) throws Exception {
+	public List<Map<String, Object>> findSsi() throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Map<String, Object>> userSocialSecure = null;
 		try {

@@ -507,7 +507,7 @@
 		
 		<!-- Function -->
 		<action name="actual_work"
-			class="com.cubesofttech.action.FunctionAction" method="">
+			class="com.cubesofttech.action.FunctionAction" method="getWorkingList">
 			<result name="success" type="tiles">actual_work</result>
 			<result name="error">/index.jsp</result>
 		</action>
@@ -524,6 +524,18 @@
 			<result name="error">/index.jsp</result>
 		</action>
 		
+		<action name="calData"
+			class="com.cubesofttech.action.FunctionAction" method="calSsiAction">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
+		<action name="jqueryDTs"
+			class="com.cubesofttech.action.FunctionAction" method="testPayroll">
+			<result name="success" type="tiles">jqueryDTs</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
 		<!-- Function salary -->
 		<action name="salary"
 			class="com.cubesofttech.action.FunctionAction" method="salaryAction">
@@ -534,6 +546,12 @@
 		
  		<action name="findSalaryDataById"
 			class="com.cubesofttech.action.FunctionAction" method="findSalaryDataById">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
+		<action name="calculateOTData"
+			class="com.cubesofttech.action.FunctionAction" method="calculateOTData">
 			<result name="success">/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
