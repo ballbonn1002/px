@@ -310,5 +310,11 @@
 		<put-attribute name="body"
 			value="/pages-back/function/tax.jsp" />
 	</definition>
+	
+	<definition name="jqueryDTs" extends="masterLayout">
+		<put-attribute name="title" value="JqueryDataTables" />
+		<put-attribute name="body"
+			value="/pages-back/function/jqueryDataTables.jsp" />
+	</definition>
 
 </tiles-definitions>

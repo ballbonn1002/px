@@ -178,6 +178,7 @@
                                                 <li><a href="salary">Salary - เงินเดือน</a> </li>
                                                 <li><a href="function_ssi">SSI - ประกันสังคม</a> </li>
                                                 <li><a href="tax">Tax - ภาษี</a> </li>
+                                                <li><a href="jqueryDTs">JqueryDataTables</a></li>
                                             </ul>
                                         </div>
                                     </div>
