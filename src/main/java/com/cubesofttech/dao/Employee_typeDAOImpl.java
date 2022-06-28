@@ -99,7 +99,7 @@ public class Employee_typeDAOImpl implements Employee_typeDAO{
     
     
 	@Override
-	public List<Employee_type> findByEmployee_typeId(String EmployeeTypeId) throws Exception {
+	public List<Employee_type> findByEmployee_typeId(int EmployeeTypeId) throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();
         List<Employee_type> list = null;
         try {
@@ -120,7 +120,7 @@ public class Employee_typeDAOImpl implements Employee_typeDAO{
 	}
  
     @Override
-    public Employee_type findById(String employee_type_id) throws Exception {
+    public Employee_type findById(int employee_type_id) throws Exception {
         Session session = this.sessionFactory.getCurrentSession();
         Employee_type employee_type = null;
         try {
@@ -134,10 +134,6 @@ public class Employee_typeDAOImpl implements Employee_typeDAO{
         return employee_type;
     }
 	
-    
-    
-    
-    
     @Override
 	public List<Employee_type> search(String EmployeeTypeId) throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();
@@ -157,11 +153,5 @@ public class Employee_typeDAOImpl implements Employee_typeDAO{
 
         }
         return list;
-	}    
-
- 
-    
-    
-    
-    
+	}
 }

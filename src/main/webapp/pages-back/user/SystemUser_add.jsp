@@ -5,11 +5,28 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="/WEB-INF/tlds/permission.tld" prefix="perm"%>
-<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 <c:set var="now" value="<%=new java.util.Date()%>" />
 <fmt:formatDate value="${bean.date}" pattern="dd-MM-yyyy" />
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<link
+	href="../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css"
+	rel="stylesheet" type="text/css" />
+<script src="../assets/global/plugins/jquery.min.js"
+	type="text/javascript"></script>
+<script
+	src="../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js"
+	type="text/javascript"></script>
+<script
+	src="../assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js"
+	type="text/javascript"></script>
+<script src="../assets/pages/scripts/ui-sweetalert.min.js"
+	type="text/javascript"></script>
+<link
+	href="../assets/global/plugins/bootstrap-sweetalert/sweetalert.css"
+	rel="stylesheet" type="text/css" />
+	<script src="assets/bundles/libscripts.bundle.js"></script>    
+<script src="assets/bundles/vendorscripts.bundle.js"></script>
 <style>
-
 input[type="checkbox"] {
 	accent-color: #0275d8;
 }
@@ -53,9 +70,6 @@ input[type="checkbox"] {
 								<label for="recipient-name" class="control-label">UserID<span style="color:red;"> *</span></label> 
 								<div class="input-group mb-3">
 									<input type="text" id="sysuserID" name="IDuser" class="form-control" value="${sysuserList.sys_user_id}">  
-									<div class="input-group-append">
-                                    	<button id="checkID" class="btn btn-success" type="button">Check available!</button>
-                                	</div>
                                 </div>  
                               </div>
                           </div>
@@ -87,16 +101,16 @@ input[type="checkbox"] {
 							<div class="form-group">		
 								<label for="recipient-name" class="control-label" style="margin-top: 5px;">Employee</label>
 								<div class="input-group mb-3">	
-									<select id="username"  name="user_name" class="form-control show-tick ms search-select">
+									<select id="username"  name="user_name" class="form-control show-tick ms search-select select2me">
 											 	<option disabled hidden selected = "selected" >เลือก</option> 
 												 <c:forEach var="user" items="${userList}">	
 													<option value="${user.id}"
 														<c:if test="${sysuserList.user_id eq user.id }"> selected </c:if>>${user.id}</option>
 												</c:forEach>
 									</select>
-									<div class="input-group-append">
+								  	<div class="input-group-append">
                                     	<button id="reset" class="btn btn-default" type="button">x</button>
-                                	</div>
+                                	</div> 
 
 									</div>
 							</div>
@@ -295,7 +309,7 @@ $("#submit").click(function () {
 </script>
 <script>
 $(document).ready(function () {
-	$('#checkID').on('click', function() {
+	$('#sysuserID').on('keyup', function() {
 		var id = $('#sysuserID').val();
 		if(id != ""){
 			$.ajax({
@@ -374,35 +388,3 @@ $(document).ready(function () {
 		})	
 	});
 </script>
-<script>
-$("#reset").on("click", function () {
-	if()
-	$('#username')[0].selectedIndex = 0; 
-	$('#bt').fadeIn();
-	 $('#resetpass').show();
-	 $('#pass').hide();
-	 $('#chkpass').hide();
-	 $('#sub').hide();
-	 $('#edit').hide();
-});
-</script>
-
-<link
-	href="../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css"
-	rel="stylesheet" type="text/css" />
-<script src="../assets/global/plugins/jquery.min.js"
-	type="text/javascript"></script>
-<script
-	src="../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js"
-	type="text/javascript"></script>
-<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script
-	src="../assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js"
-	type="text/javascript"></script>
-<script src="../assets/pages/scripts/ui-sweetalert.min.js"
-	type="text/javascript"></script>
-<link
-	href="../assets/global/plugins/bootstrap-sweetalert/sweetalert.css"
-	rel="stylesheet" type="text/css" />
-	<script src="assets/bundles/libscripts.bundle.js"></script>    
-<script src="assets/bundles/vendorscripts.bundle.js"></script>
