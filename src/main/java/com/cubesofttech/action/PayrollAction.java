@@ -38,7 +38,7 @@ public class PayrollAction extends ActionSupport {
 				request.setAttribute("paymentgroupList", payment_group);
 				log.debug(payment_group);
 				
-				List<User> user = userDAO.findAll();
+				List<User> user = userDAO.findAllPayroll();
 				request.setAttribute("userList", user);
 				
 				return SUCCESS;
