@@ -11,6 +11,8 @@ public interface UserDAO {
 
 	public List<User> findAll() throws Exception;
 	
+	public List<User> findAllPayroll() throws Exception;
+	
 	public List<Map<String, Object>> findAllleaves() throws Exception;
 	
 	public List countYear() throws Exception;
