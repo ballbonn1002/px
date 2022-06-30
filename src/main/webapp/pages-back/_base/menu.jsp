@@ -96,24 +96,24 @@
                             </div>
                         </li>
                         <li class="nav-item dropdown mega-menu">
-                            <a href="javascript:void(0)" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="icon-docs"></i> <span>Report</span></a>
+                            <a href="javascript:void(0)" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="icon-bar-chart"></i> <span>รายงาน</span></a>
                             <div class="dropdown-menu mega-main padding-0 animated fadeIn">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-4 hidden-sm">
                                         <div class="img-box" style="background-image: url(/pages-back/assets/images/menu-img/7.jpg)"></div>
                                     </div>
-                                    <div class="col-lg-2 col-lg-auto col-md-4 col-sm-4">
+                                    <div class="col-lg-3 col-lg-auto col-md-5 col-sm-5">
                                         <div class="mega-list">
                                             <ul class="list-unstyled">
-                                                <li><label>Report</label></li>
-                                                <li><a href="page-blank.html">Report 1</a> </li>
-                                                <li><a href="page-profile2.html">Report 2</a></li>
-                                                <li><a href="page-gallery.html">Report 3</a> </li>
-                                                <li><a href="page-gallery2.html">Report 4</a> </li>
-                                                <li><a href="page-timeline.html">Report 5</a></li>
-                                                <li><a href="page-timeline-h.html">Report 6</a></li>
-                                                <li><a href="page-pricing.html">Report 7</a></li>
-                                                <li><a href="report_work">รายงานข้อมูลการทำงาน</a></li>
+                                                <li><label>รายงาน</label></li>
+                                                <li><a href="report_work">รายงาน ข้อมูลการทำงาน</a></li>
+                                                <li><a href="#">รายงาน รายการจ่ายเงินเดือน</a> </li>
+                                                <li><a href="#">รายงาน เงินเดือน/ค่าจ้างสะสม</a></li>
+                                                <li><a href="#">รายงาน เงินเดือนแยกตามแผนก</a> </li>
+                                                <li><a href="#">รายงาน รายได้เพิ่มเติม/รายการหัก</a> </li>
+                                                <li><a href="#">รายงาน เงินประกันสังคม</a></li>
+                                                <li><a href="#">สลิปเงินเดือน แยกตามรายการจ่าย</a></li>
+                                                <li><a href="#">สลิปเงินเดือน แยกตามบุคคล</a></li> 
                                             </ul>
                                         </div>
                                     </div>

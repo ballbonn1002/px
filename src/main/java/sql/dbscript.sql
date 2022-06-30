@@ -91,3 +91,128 @@ UPDATE `user` SET `time_create` = NULL, `time_update` = NULL, `password_update` 
 UPDATE `user` SET `time_create` = NULL, `time_update` = NULL, `password_update` = NULL, `last_login_failed_time` = NULL, `withholding_auto` = '0' WHERE `user`.`id` = 'test.data3';
 UPDATE `user` SET `time_create` = NULL, `time_update` = NULL, `password_update` = NULL, `last_login_failed_time` = NULL, `withholding_auto` = '1' WHERE `user`.`id` = 'test.data4';
 >>>>>>> 3664aca851ce5d357eb68e3a6215cd7ed9271381
+
+
+-- UAT - 2022 Jun 29 by BONN --
+
+delete from payment_type;
+
+INSERT INTO `payment_type` VALUES('LATE', 'มาสาย', '0', '0', 12, '0', 'thanet.s', 'thanet.s', NULL, '2022-04-01 01:58:00', '2022-04-01 01:58:00');
+INSERT INTO `payment_type` VALUES('ABSENT', 'ขาดงาน\r\n', '0', '0', 13, '0', 'thanet.s', 'thanet.s', NULL, '2022-04-01 01:58:00', '2022-04-01 01:58:00');
+INSERT INTO `payment_type` VALUES('BONUS', 'โบนัส', '1', '0', 7, '0', 'thanet.s', 'thanet.s', NULL, '2022-04-01 01:58:00', '2022-04-01 01:58:00');
+INSERT INTO `payment_type` VALUES('EQUIPMENT', 'เบิกค่าอุปกรณ์\r\n', '1', '0', 8, '1', 'thanet.s', 'thanet.s', NULL, '2022-04-01 01:58:00', '2022-04-01 01:58:00');
+INSERT INTO `payment_type` VALUES('LATE', 'มาสาย', '0', '0', 12, '0', 'thanet.s', 'thanet.s', NULL, '2022-04-01 01:58:00', '2022-04-01 01:58:00');
+INSERT INTO `payment_type` VALUES('OT1', 'ล่วงเวลา 1.5 เท่า\r\n', '1', '0', 2, '0', 'thanet.s', 'thanet.s', NULL, '2022-04-01 01:58:00', '2022-04-01 01:58:00');
+INSERT INTO `payment_type` VALUES('OT2', 'ล่วงเวลา 2 เท่า\r\n\r\n', '1', '0', 3, '0', 'thanet.s', 'thanet.s', NULL, '2022-04-01 01:58:00', '2022-04-01 01:58:00');
+INSERT INTO `payment_type` VALUES('OT3', 'ล่วงเวลา 3 เท่า\r\n', '1', '0', 4, '0', 'thanet.s', 'thanet.s', NULL, '2022-04-01 01:58:00', '2022-04-01 01:58:00');
+INSERT INTO `payment_type` VALUES('TISCO', 'กองทุนสำรองเลี้ยงชีพ', '0', '0', 11, '1', 'thanet.s', 'thanet.s', NULL, '2022-04-01 01:58:00', '2022-04-01 01:58:00');
+INSERT INTO `payment_type` VALUES('SL', 'เงินเดือน', '1', '0', 1, '0', 'thanet.s', 'thanet.s', NULL, '2022-04-01 01:58:00', '2022-04-01 01:58:00');
+INSERT INTO `payment_type` VALUES('SSI', 'ประกันสังคม', '0', '0', 9, '0', 'thanet.s', 'thanet.s', NULL, '2022-04-01 01:58:00', '2022-04-01 01:58:00');
+INSERT INTO `payment_type` VALUES('StudentLoan', 'กยศ', '0', '0', 15, '1', 'thanet.s', 'thanet.s', NULL, '2022-04-01 01:58:00', '2022-04-01 01:58:00');
+INSERT INTO `payment_type` VALUES('TAX', 'ภาษีหัก ณ ที่จ่าย', '0', '0', 10, '0', 'thanet.s', 'thanet.s', NULL, '2022-04-01 01:58:00', '2022-04-01 01:58:00');
+INSERT INTO `payment_type` VALUES('TRAVEL', 'เบิกค่าเดินทาง', '1', '0', 6, '1', 'thanet.s', 'thanet.s', NULL, '2022-04-01 01:58:00', '2022-04-01 01:58:00');
+INSERT INTO `payment_type` VALUES('VA', 'เบี้ยขยัน', '1', '0', 5, '1', 'thanet.s', 'thanet.s', NULL, '2022-04-01 01:58:00', '2022-04-01 01:58:00');
+INSERT INTO `payment_type` VALUES('ABSENCE', 'ลาไม่รับค่าจ้าง\r\n', '0', '0', 14, '0', 'thanet.s', 'thanet.s', NULL, '2022-04-01 01:58:00', '2022-04-01 01:58:00');
+
+-- ALTER SCRIPT to Add PK
+
+ALTER TABLE `authorized_object`
+  ADD PRIMARY KEY (`authorized_object_id`);
+
+ALTER TABLE `authorized_object_group`
+  ADD PRIMARY KEY (`authorized_object_group_id`);
+
+ALTER TABLE `department`
+  ADD PRIMARY KEY (`department_id`);
+
+ALTER TABLE `employee_type`
+  ADD PRIMARY KEY (`employee_type_id`);
+
+ALTER TABLE `expense`
+  ADD PRIMARY KEY (`expense_id`);
+
+ALTER TABLE `expense_group`
+  ADD PRIMARY KEY (`expense_group_id`);
+
+ALTER TABLE `exp_travel_type`
+  ADD PRIMARY KEY (`exp_travel_type_id`);
+
+ALTER TABLE `exp_type`
+  ADD PRIMARY KEY (`exp_type_id`);
+
+ALTER TABLE `holiday`
+  ADD PRIMARY KEY (`id_date`);
+
+ALTER TABLE `job_site`
+  ADD PRIMARY KEY (`id_sitejob`);
+
+ALTER TABLE `leaves`
+  ADD PRIMARY KEY (`leave_id`);
+
+ALTER TABLE `leave_type`
+  ADD PRIMARY KEY (`leave_type_id`);
+
+ALTER TABLE `leave_user`
+  ADD PRIMARY KEY (`leave_id`,`user_id`);
+
+ALTER TABLE `page`
+  ADD PRIMARY KEY (`page_id`);
+
+ALTER TABLE `page_group`
+  ADD PRIMARY KEY (`page_group_id`);
+
+ALTER TABLE `payment`
+  ADD PRIMARY KEY (`payment_id`);
+
+ALTER TABLE `payment_detail`
+  ADD PRIMARY KEY (`payment_detail_id`);
+
+ALTER TABLE `payment_group`
+  ADD PRIMARY KEY (`payment_group_id`);
+
+ALTER TABLE `payment_type`
+  ADD PRIMARY KEY (`payment_type_id`);
+
+ALTER TABLE `permission`
+  ADD PRIMARY KEY (`permission_id`);
+
+ALTER TABLE `position`
+  ADD PRIMARY KEY (`position_id`);
+
+ALTER TABLE `role`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `role_authorized_object`
+  ADD PRIMARY KEY (`role_id`,`authorized_object_id`);
+
+ALTER TABLE `sys_role`
+  ADD PRIMARY KEY (`sys_role_id`);
+
+ALTER TABLE `sys_user`
+  ADD PRIMARY KEY (`sys_user_id`);
+
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `user_payment_config`
+  ADD PRIMARY KEY (`user_payment_config_id`);
+
+ALTER TABLE `user_role`
+  ADD PRIMARY KEY (`user_id`,`role_id`);
+
+ALTER TABLE `user_salary`
+  ADD PRIMARY KEY (`user_salary_id`);
+
+ALTER TABLE `work_hours`
+  ADD PRIMARY KEY (`work_hours_id`);
+
+ALTER TABLE `payment`
+  MODIFY `payment_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+ALTER TABLE `payment_detail`
+  MODIFY `payment_detail_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=211;
+ALTER TABLE `payment_group`
+  MODIFY `payment_group_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+ALTER TABLE `user_payment_config`
+  MODIFY `user_payment_config_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+

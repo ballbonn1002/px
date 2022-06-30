@@ -54,6 +54,27 @@ to {
 	opacity: 1;
 }
 }
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+  border-radius: 2px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+  border-radius: 2px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
 </style>
 <script>
 	$("tr:not(:first)").each(function(index) {
@@ -106,53 +127,50 @@ to {
 
 						<!-- Modal -->
 						<div class="modal fade" id="selectUser" role="dialog">
-							<div class="modal-dialog modal-dialog-centered modal-xl"
-								role="document">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h4>รายชื่อพนักงาน</h4>
-										<button class="close fa fa-times" data-dismiss="modal"></button>
-									</div>
-									<div class="modal-body" style="text-align: left;">
-										<div class="row" style="margin: 10px;">
-											<div class="table-responsive">
-												<table
-													class="table table-hover table-custom m-b-0 no-footer">
-													<thead>
+						<div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4>รายชื่อพนักงาน</h4>
+									<button class="close fa fa-times" data-dismiss="modal"></button>
+								</div>
+								<div class="modal-body" style="text-align:left;">
+									<div class="row" style="margin:10px;height:450px;overflow:auto;">
+										<div class="table-responsive">
+											<table  class="table table-hover m-b-0 c_list">
+												<thead>
+													<tr>
+														<th style="width: 10%"><label class="fancy-checkbox"><input class="select-all" type="checkbox" name="checkboxAll"><span></span></label>
+														<th style="text-align: left; width: 15%">รหัสพนักงาน</th>
+														<th style="text-align: left; width: 20% ">ชื่อพนักงาน</th>
+														<th style="text-align: left; width: 20% ">แผนก</th>
+														<th style="text-align: left; width: 20% ">ตำแหน่ง</th>
+														<th style="text-align: left; width: 20% ">ประเภทพนักงาน</th>
+													</tr>
+												</thead>
+												<tbody id="getUser">
+													<c:forEach var="user" items="${userList }">
 														<tr>
-															<th style="text-align: left; width: 10%"><input
-																type="checkbox" /></th>
-															<th style="text-align: left; width: 15%">รหัสพนักงาน</th>
-															<th style="text-align: left; width: 20%">ชื่อพนักงาน</th>
-															<th style="text-align: left; width: 20%">แผนก</th>
-															<th style="text-align: left; width: 20%">ตำแหน่ง</th>
-															<th style="text-align: left; width: 20%">ประเภทพนักงาน</th>
+															<td style="text-align: left; padding-top: 10px;"><label class="fancy-checkbox"><input class="checkbox-tick" type="checkbox" name="checkbox"><span></span></label>
+															<td style="text-align: left; padding-top: 10px; display:none" class="getId">${user.userid}</td>
+															<td style="text-align: left; padding-top: 10px;" class="getEmpId">${user.employee_id}</td>
+															<td style="text-align: left; padding-top: 10px;">${user.name}</td>
+															<td style="text-align: left; padding-top: 10px;">${user.dep}</td>
+															<td style="text-align: left; padding-top: 10px;">${user.pos}</td>
+															<td style="text-align: left; padding-top: 10px;">${user.emp_type}</td>
 														</tr>
-													</thead>
-													<tbody>
-														<c:forEach var="user" items="${userList}">
-															<tr>
-																<td style="text-align: left; padding-top: 10px;"><input
-																	type="checkbox" /></td>
-																<td style="text-align: left; padding-top: 10px;"></td>
-																<td style="text-align: left; padding-top: 10px;"></td>
-																<td style="text-align: left; padding-top: 10px;"></td>
-																<td style="text-align: left; padding-top: 10px;"></td>
-																<td style="text-align: left; padding-top: 10px;"></td>
-															</tr>
-														</c:forEach>
-													</tbody>
-												</table>
-											</div>
+													</c:forEach>
+												</tbody>
+											</table>
 										</div>
 									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn dark btn-outline"
-											data-dismiss="modal" onclick="leaveCancle()">Cancel</button>
-										<button type="button" class="btn dark btn-outline"
-											data-dismiss="modal" onclick="call_submit()">Submit</button>
-
-									</div>
+								</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn dark btn-outline" 
+										data-dismiss="modal">Cancel</button>
+									<button type="button" class="btn dark btn-outline" 
+										data-dismiss="modal" onclick="call_submit()"> Submit</button>
+									
 								</div>
 							</div>
 						</div>
@@ -287,9 +305,19 @@ $(document).ready(function() {
 		$('#selectUser').modal();
 	};
 
-	function call_submit() {
-		location.href = "payroll_form";
-	};
+function call_submit() {
+	var getUserList = [];
+	$('#getUser tr').each(function() {
+		$(this).find(".checkbox-tick:checked").each(function() {
+			var values = [];
+			//console.log($(this).closest("tr").find('td.getEmpId').text());
+			values.push($(this).closest("tr").find('td.getId').text());
+			getUserList.push(values.join(", "));
+		});
+	});
+	console.log(getUserList);
+	//location.href = "payroll_form";
+};
 </script>
 
 

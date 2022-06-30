@@ -49,7 +49,7 @@ public class PayrollAction extends ActionSupport {
 				request.setAttribute("payment",payment);
 				request.setAttribute("status",status);
 				
-				List<User> user = userDAO.findAll();
+				List<User> user = userDAO.findAllPayroll();
 				request.setAttribute("userList", user);
 				
 				return SUCCESS;
