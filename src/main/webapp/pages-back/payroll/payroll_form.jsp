@@ -151,7 +151,7 @@ to {
 												<div
 													class="d-flex flex-column align-items-center align-items-sm-center align-items-lg-end">
 													<p class="mb-0">รวมจ่ายสุทธิ</p>
-													<h2 style="color: #2898CB";>43,591.70</h2>
+													<h2 style="color: #2898CB;">43,591.70</h2>
 												</div>
 												<div class="d-none d-sm-none d-lg-block"
 													style="width: 1px; height: 60px; background: #EBEDF3; margin: 16px"></div>
@@ -181,7 +181,7 @@ to {
 										<div class="form-group">
 											<input data-provide="datepicker" data-date-autoclose="true"
 												data-date-format="dd-mm-yyyy" name="bday"
-												value="<fmt:formatDate value="" pattern=" dd-MM-yyyy" />"
+												value=""
 												class="form-control">
 										</div>
 									</div>
@@ -190,7 +190,7 @@ to {
 										<div class="form-group">
 											<input data-provide="datepicker" data-date-autoclose="true"
 												data-date-format="dd-mm-yyyy" name="bday"
-												value="<fmt:formatDate value="" pattern=" dd-MM-yyyy" />"
+												value=""
 												class="form-control">
 										</div>
 									</div>
@@ -369,10 +369,9 @@ to {
 										<table class="table payment-table">
 											<thead>
 												<tr>
-													<th class style="text-align: left; width: 25%">รายได้</th>
-													<th class style="text-align: left; width: 50%"></th>
-													<th class
-														style="text-align: right; width: 25%; color: #449CFF;">45,500.00</th>
+													<th class="" style="text-align: left; width: 25%">รายได้</th>
+													<th class="" style="text-align: left; width: 50%"></th>
+													<th class="" style="text-align: right; width: 25%; color: #449CFF;">45,500.00</th>
 												</tr>
 											</thead>
 											<tbody>
