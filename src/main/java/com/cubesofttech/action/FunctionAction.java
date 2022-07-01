@@ -91,6 +91,7 @@ public class FunctionAction extends ActionSupport {
 		try {
 			String userId = request.getParameter("user_id");
 			List<Map<String, Object>> cubesoftUserSalariesById = userSalaryDAO.findUserSalaryByID(userId);
+			log.debug(cubesoftUserSalariesById);
 						
             Gson gson = new Gson(); 
             String json = gson.toJson(cubesoftUserSalariesById.get(0)); 
@@ -268,8 +269,11 @@ public class FunctionAction extends ActionSupport {
 			
 			String userSalary = request.getParameter("user_name");
 			List<UserSalary> user = userSalaryDAO.findSalary(userSalary);
-			
 			request.setAttribute("test", user);
+			
+			List<Map<String, Object>> cubesoftUserSalaries = userSalaryDAO.findAllUserSalary();
+			request.setAttribute("cubesoftUserSalaries", cubesoftUserSalaries);
+			//log.debug(cubesoftUserSalaries);
 			
 			return SUCCESS;
 		}catch (Exception e) {
