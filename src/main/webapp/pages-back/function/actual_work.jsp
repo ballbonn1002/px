@@ -75,7 +75,7 @@ to {
 					<div class="portlet-body">
 						<!-- BEGIN FORM-->
 						<div class="panel-body">
-							<form id="frmSearch" action="actual_work" method="post">
+							<form id="frmSearch"  method="post">					
 								<div class="container">
 									<div class="row">
 										<div class="col-sm-3">
@@ -96,7 +96,6 @@ to {
 												<input data-provide="datepicker" data-date-autoclose="true"
 													data-date-format="yyyy-mm-dd" name="startDate"
 													id="startDate"
-													value="<fmt:formatDate value="" pattern="yyyy-mm-dd" />"
 													class="form-control" style="width: 100%;">
 											</div>
 										</div>
@@ -105,7 +104,6 @@ to {
 												<label for="recipient-name" class="control-label">ถึงวันที่</label>
 												<input data-provide="datepicker" data-date-autoclose="true"
 													data-date-format="yyyy-mm-dd" name="endDate" id="endDate"
-													value="<fmt:formatDate value="" pattern="yyyy-mm-dd" />"
 													class="form-control" style="width: 100%;">
 											</div>
 										</div>
@@ -113,7 +111,7 @@ to {
 											<div class="form-group">
 												<button type="button" class="btn btn-sm btn-info"
 													id="searchbutton" style="margin-top: 28px;"
-													onclick="search()">
+													onclick="getWorking()">
 													<i class="fa fa-search"></i>&nbsp;Search
 												</button>
 											</div>
@@ -124,34 +122,25 @@ to {
 										<div class="col-sm-3">
 											<div class="form-group">
 												<label for="recipient-name" class="control-label">ประเภทพนักงาน</label>
-												<input type="text" name="emp_type" id="emp_type"
-													class="form-control input-lg"
-													value="<c:out value="${WorkingSummary[0].name}"/> "
-													style="width: 100%">
+												<input type="text" name="emp_type" id="emp_type" class="form-control input-lg" style="width: 100%">
 											</div>
 										</div>
 										<div class="col-sm-3">
 											<div class="form-group">
 												<label for="recipient-name" class="control-label">ประเภทการจ่าย</label>
-												<input type="text" name="payment" id="payment"
-													class="form-control input-lg"
-													value="${WorkingSummary[0].payment}" style="width: 100%">
+												<input type="text" name="payment" id="payment" class="form-control input-lg" style="width: 100%">
 											</div>
 										</div>
 										<div class="col-sm-3">
 											<div class="form-group">
 												<label for="recipient-name" class="control-label">งวดการจ่ายเงิน</label>
-												<input type="text" name="term" id="term"
-													class="form-control input-lg"
-													value="${WorkingSummary[0].term}" style="width: 100%">
+												<input type="text" name="term" id="term" class="form-control input-lg" style="width: 100%">
 											</div>
 										</div>
 										<div class="col-sm-3">
 											<div class="form-group">
-												<label for="recipient-name" class="control-label">จำนวนวันต่อวงด</label>
-												<input type="text" name="term_day" id="term_day"
-													class="form-control input-lg"
-													value="${WorkingSummary[0].term_day}" style="width: 100%">
+												<label for="recipient-name" class="control-label">จำนวนวันต่องวด</label>
+												<input type="text" name="term_day" id="term_day" class="form-control input-lg" style="width: 100%">
 											</div>
 										</div>
 									</div>
@@ -160,46 +149,31 @@ to {
 										<div class="col-sm-3">
 											<div class="form-group">
 												<label for="recipient-name" class="control-label">Count_Working วันที่มาทำงาน</label>
-												<input type="text" name="count_working" id="count_working"
-													class="form-control input-lg"
-													value="${WorkingSummary[0].sum_emp_working }"
-													style="width: 100%">
+												<input type="text" name="sum_emp_working" id="sum_emp_working" class="form-control input-lg" style="width: 100%">
 											</div>
 										</div>
 										<div class="col-sm-3">
 											<div class="form-group">
 												<label for="recipient-name" class="control-label">Function_Actual วันทำงานตามประเภท</label>
-												<input type="text" name="count_actual" id="count_actual"
-													class="form-control input-lg"
-													value="${WorkingSummary[0].actual_working_day }"
-													style="width: 100%">
+												<input type="text" name="actual_working_day" id="actual_working_day" class="form-control input-lg" style="width: 100%">
 											</div>
 										</div>
 										<div class="col-sm-3">
 											<div class="form-group">
 												<label for="recipient-name" class="control-label">Function_Absent วันขาดงาน</label>
-												<input type="text" name="count_absent" id="count_absent"
-													class="form-control input-lg"
-													value="${WorkingSummary[0].sum_emp_absent }"
-													style="width: 100%">
+												<input type="text" name="sum_emp_absent" id="sum_emp_absent" class="form-control input-lg" style="width: 100%">
 											</div>
 										</div>
 										<div class="col-sm-3">
 											<div class="form-group">
 												<label for="recipient-name" class="control-label">Sum_Working ชั่วโมงทำงาน</label>
-												<input type="text" name="count_working_hr"
-													id="count_working_hr" class="form-control input-lg"
-													value="${WorkingSummary[0].sum_emp_working_hr}"
-													style="width: 100%">
+												<input type="text" name="sum_emp_working_hr" id="sum_emp_working_hr" class="form-control input-lg" style="width: 100%">
 											</div>
 										</div>
 										<div class="col-sm-3">
 											<div class="form-group">
 												<label for="recipient-name" class="control-label">วันทำงานต่อเดือน</label>
-												<input type="text" name="count_working_hr"
-													id="count_working_hr" class="form-control input-lg"
-													value="${WorkingSummary[0].actual_working_per_month}"
-													style="width: 100%">
+												<input type="text" name="actual_working_per_month" id="actual_working_per_month" class="form-control input-lg" style="width: 100%">
 											</div>
 										</div>
 									</div>
@@ -213,123 +187,91 @@ to {
 		</div>
 	</div>
 </div>
-<div class="row clearfix">
-	<div class="col-lg-12">
-		<div class="card">
-			<div class="body">
-				<div class="portlet light bordered">
-					<div class="portlet-body">
-						<!-- BEGIN FORM-->
-						<div class="portlet box white">
-							<div class="table-responsive">
-								<table
-									class="table table-hover js-basic-example table-custom m-b-0 no-footer ">
-									<thead>
-										<tr>
-											<th style="text-align: left; width: 10%">พนักงาน</th>
-											<th style="text-align: left; width: 15%">Date</th>
-											<th style="text-align: left; width: 20%">Event</th>
-											<th style="text-align: left; width: 20%">Check in</th>
-											<th style="text-align: left; width: 20%">Check out</th>
-											<th style="text-align: left; width: 20%">ชั่วโมงการทำงานจริง</th>
-											<th style="text-align: center; width: 5%"></th>
-										</tr>
-									</thead>
-									<tbody>
-										<c:forEach var="row" items="${WorkingList}">
-											<c:choose>
-												<c:when test="${row.isAbsent == '1' }">
-													<c:set var="bcolor" value="#f7bebe" />
-												</c:when>
-												<c:otherwise>
-													<c:set var="bcolor" value="" />
-												</c:otherwise>
-											</c:choose>
-											<tr style="background-color: ${bcolor}">
-												<td style="text-align: left; padding-left: 20px">${row.user}</td>
-												<c:choose>
-													<c:when
-														test="${row.dayname == 'Saturday' || row.dayname == 'Sunday'}">
-														<td
-															style="text-align: left; padding-top: 10px; color: red"><fmt:formatDate
-																value="${row.cdate}" pattern="EE dd/MM/yyyy" /></td>
-													</c:when>
-													<c:otherwise>
-														<td style="text-align: left; padding-top: 10px;"><fmt:formatDate
-																value="${row.cdate}" pattern="EE dd/MM/yyyy" /></td>
-													</c:otherwise>
-												</c:choose>
-												<c:choose>
-													<c:when test="${row.holiday != null }">
-														<td style="text-align: left; padding-top: 10px;">${row.holiday}</td>
-													</c:when>
-													<c:otherwise>
-														<td style="text-align: left; padding-top: 10px;">${row.leave_type}</td>
-													</c:otherwise>
-												</c:choose>
-												<td style="padding-top: 10px;"><fmt:formatDate
-														value="${row.cin}" pattern="HH:mm" /></td>
-												<td style="padding-top: 10px;"><fmt:formatDate
-														value="${row.cout}" pattern="HH:mm" /></td>
-												<td style="text-align: left; padding-top: 10px;">${row.wk_hr}</td>
-											</tr>
-										</c:forEach>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-					<!-- END FORM-->
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
 	$(document).ready(function() {
-		var dstartDate = "2022-06-01";
-		var dendDate = "2022-06-30";
-
-		var userId = "${WorkingSummary[0].id}";
-		if (userId != null) {
-			$("#userId").val(userId);
-		}
-
-		var startDate = "${WorkingSummary[0].start_date}";
-		if (startDate != null) {
-			$("#startDate").val(startDate);
-		} else {
-			//set defualt
-			$("#startDate").val(dstartDate);
-		}
-		var endDate = "${WorkingSummary[0].end_date}";
-		if (endDate != null) {
-			$("#endDate").val(endDate);
-		} else {
-			//set defualt
-			$("#endDate").val(dendDate);
-		}
+		var now = new Date();
+		var firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+		var lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+		
+		$("#startDate").val(formatDate(firstDay));
+		$("#endDate").val(formatDate(lastDay));
 
 	});
+	
 
-	function search() {
+	function getWorking() {
 		var userId = $("#userId").val();
 		var startDate = $("#startDate").val();
 		var endDate = $("#endDate").val();
 
 		if (startDate == "") {
-			swal("กรุณาระบุวันที่เริ่ม", "Please Try It Agian :)", "error");
+			swal("กรุณาระบุวันที่เริ่ม", "Please Try It Again :)", "error");
 			return false;
 		}
 		if (endDate == "") {
-			swal("กรุณาระบุวันที่สิ้นสุด", "Please Try It Agian :)", "error");
+			swal("กรุณาระบุวันที่สิ้นสุด", "Please Try It Again :)", "error");
 			return false;
 		}
+			
+		clear();
+		$.ajax({
+			url: "getWorkingList",
+			method: "POST",
+			type: "JSON",
+			data: {
+					"userId" : userId ,
+					"startDate" : startDate ,
+					"endDate" : endDate ,
+				},
+				success:function(res){
+					console.log(JSON.stringify(res[0]))
+					var data = res[0];
+					$("#emp_type").val(data.name);
+					$("#payment").val(data.payment == '1' ? 'รายวัน' : 'รายเดือน' );
+					$("#term").val(data.term);
+					$("#term_day").val(data.term_day);
+					
+					$("#sum_emp_working").val(data.sum_emp_working);
+					$("#actual_working_day").val(data.actual_working_day);
+					$("#sum_emp_absent").val(data.sum_emp_absent);
+					$("#sum_emp_working_hr").val(data.sum_emp_working_hr);
+					$("#actual_working_per_month").val(data.actual_working_per_month);
+				},
+				error: function (error) {
+					swal("ไม่พบข้อมูล", "Please Try It Agian :)", "error");
+				}
+		});
+	}
+	
+	function clear(){
+		$("#emp_type").val('');
+		$("#payment").val('');
+		$("#term").val('');
+		$("#term_day").val('');
+		
+		$("#sum_emp_working").val('');
+		$("#actual_working_day").val('');
+		$("#sum_emp_absent").val('');
+		$("#sum_emp_working_hr").val('');
+		$("#actual_working_per_month").val('');
+	}
+	
+	function formatDate(date) {
+	    var d = new Date(date),
+	        month = '' + (d.getMonth() + 1),
+	        day = '' + d.getDate(),
+	        year = d.getFullYear();
 
-		var form = $("#frmSearch").submit();
+	    if (month.length < 2) 
+	        month = '0' + month;
+	    if (day.length < 2) 
+	        day = '0' + day;
+
+	    return [year, month, day].join('-');
 	}
 </script>
 
