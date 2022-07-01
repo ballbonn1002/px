@@ -883,4 +883,19 @@ public class UserDAOImpl implements UserDAO {
 		}
 		return UserActive;
 	}
+	
+	@Override
+	public List<User> userList() throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<User> userList = null;
+		try {
+			String sql = " SELECT id,name_en,department_id FROM `user`; " ;
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			userList = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return userList;
+	}
 }

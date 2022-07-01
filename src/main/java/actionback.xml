@@ -539,12 +539,12 @@
 			<result name="error">/index.jsp</result>
 		</action>
 		<action name="report_wages"
-			class="com.cubesofttech.action.PayrollAction" method="listUser">
+			class="com.cubesofttech.action.PayrollReportAction" method="listUser">
 			<result name="success" type="tiles">report_wages</result>
 			<result name="error">/index.jsp</result>
 		</action>
 		<action name="checkIdDate"
-		class="com.cubesofttech.action.PayrollAction" method="checkIdDate">
+		class="com.cubesofttech.action.PayrollReportAction" method="checkIdDate">
 			<result name="success">/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>

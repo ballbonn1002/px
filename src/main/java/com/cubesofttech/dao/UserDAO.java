@@ -104,5 +104,6 @@ public interface UserDAO {
 	public List<Map<String,Object>> findUserChat(String name)throws Exception;
 
 	public List<Map<String,Object>> HappyBirthday(String month, String day)throws Exception;
-
+	
+	public List<User> userList() throws Exception;
 }

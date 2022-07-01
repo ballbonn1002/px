@@ -41,8 +41,6 @@ public class PayrollAction extends ActionSupport {
 	@Autowired
 	private PaymentDAO paymentDAO;
 	
-	@Autowired
-	private Payment_typeDAO payment_typeDAO;
 	
 	HttpServletRequest request = ServletActionContext.getRequest();
 	HttpServletResponse response = ServletActionContext.getResponse();
@@ -78,42 +76,5 @@ public class PayrollAction extends ActionSupport {
 					return ERROR;
 				}
 	}
-	
 
-	public String listUser() {
-		try {
-				List<Payment_type> payment_type = payment_typeDAO.findType();
-				request.setAttribute("paymentTypeList", payment_type);
-				
-				List<User> user = userDAO.userList();
-				request.setAttribute("userList", user);
-				
-			return SUCCESS;
-		}catch(Exception e) {
-			e.printStackTrace();
-			return ERROR;
-		}
-	}
-	public String checkIdDate() {
-		try {
-				String user = request.getParameter("userId");
-				String fdate = request.getParameter("f_date");
-				String edate = request.getParameter("e_date");
-				//log.debug(user);
-				//log.debug(fdate);
-				//log.debug(edate);
-				
-				//if(user != null && fdate != null && edate != null) {
-					List<Payment_type>payment_type = payment_typeDAO.findAmount(user, fdate, edate);
-					
-					Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			        String json = gson.toJson(payment_type);
-			        request.setAttribute("json", json);
-				//}
-				return SUCCESS;
-		}catch(Exception e) {
-			e.printStackTrace();
-			return ERROR;
-		}
-	}
 }
