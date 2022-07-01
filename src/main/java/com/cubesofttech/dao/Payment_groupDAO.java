@@ -15,7 +15,9 @@ public interface Payment_groupDAO {
 
 	 public List<Payment_group> findAll() throws Exception;
 	 
-	 public Payment_group findById(String Payment_group_id ) throws Exception;
+	 public Payment_group findById(Integer Payment_group_id ) throws Exception;
+	 
+	 public List<Payment_group> listForReport() throws Exception;
 	 
 
 }

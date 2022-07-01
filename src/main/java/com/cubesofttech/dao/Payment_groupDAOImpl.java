@@ -61,7 +61,7 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
     
 
     @Override
-    public Payment_group findById(String  Payment_group_id) throws Exception {
+    public Payment_group findById(Integer  Payment_group_id) throws Exception {
         Session session = this.sessionFactory.getCurrentSession();
         Payment_group payment_group = null;
         try {
@@ -74,5 +74,23 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
         }        
         return payment_group;
     }
+
+	@Override
+	public List<Payment_group> listForReport() throws Exception {
+		// TODO Auto-generated method stub
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Payment_group> paymentGroupList = null;
+		try {
+			String sql = "SELECT payment_group.*,SUM(payment.total_pay) AS total_pay FROM payment_group JOIN payment ON\r\n"
+					+ "payment_group.payment_group_id = payment.payment_group_id\r\n"
+					+ "GROUP BY payment_group.payment_group_id;";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			paymentGroupList = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return paymentGroupList;
+	}
 
 }

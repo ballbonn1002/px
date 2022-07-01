@@ -78,6 +78,7 @@ public class PayrollAction extends ActionSupport {
 					return ERROR;
 				}
 	}
+	
 
 	public String listUser() {
 		try {

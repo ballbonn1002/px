@@ -548,6 +548,17 @@
 			<result name="success">/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		<action name="report_salary_depart"
+			class="com.cubesofttech.action.WorkHoursAction" method="reportSalaryDepart">
+			<result name="success" type="tiles">report_salary_depart</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="findMonth"
+			class="com.cubesofttech.action.WorkHoursAction" method="findMonthSalaryDepart">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
 		<!-- Function -->
 		<action name="actual_work"
 			class="com.cubesofttech.action.FunctionAction" method="getWorkingList">
@@ -572,6 +583,7 @@
 			<result name="success">/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		
 		
 		<action name="jqueryDTs"
 			class="com.cubesofttech.action.FunctionAction" method="testPayroll">
@@ -603,7 +615,7 @@
 		
 		
 		<action name="tax"
-			class="com.cubesofttech.action.FunctionAction" method="listSalary">
+			class="com.cubesofttech.action.FunctionAction" method="salaryAction">
 			<result name="success" type="tiles">tax</result>
 			<result name="error">/index.jsp</result>
 		</action>
@@ -688,5 +700,33 @@
 			<result name="success" type="tiles">role_management_add</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		<!-- REPORT -->
+		<action name="report_payroll"
+			class="com.cubesofttech.action.PayrollReportAction" method="listReportPayroll">
+			<result name="success" type="tiles">report_payroll</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="report_payroll_2"
+			class="com.cubesofttech.action.PayrollReportAction" method="groupMember">
+			<result name="success" type="tiles">report_payroll_2</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
+		<!-- BonusReport -->
+		
+		<action name="BonusReport"
+			class="com.cubesofttech.action.WorkHoursAction" method="bonusReport">
+			<result name="success" type="tiles">bonusReport</result>
+			<result name="error">/index.jsp</result>
+		</action>
+
+		<action name="findBonusByYear"
+			class="com.cubesofttech.action.WorkHoursAction" method="findBonusByYear">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+
+		<!-- end BonusReport -->
+		
 	</package>
 </struts>
