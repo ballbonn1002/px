@@ -538,7 +538,16 @@
 			<result name="success" type="tiles">report_worksum</result>
 			<result name="error">/index.jsp</result>
 		</action>
-		
+		<action name="report_wages"
+			class="com.cubesofttech.action.PayrollAction" method="listUser">
+			<result name="success" type="tiles">report_wages</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="checkIdDate"
+		class="com.cubesofttech.action.PayrollAction" method="checkIdDate">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
 		<!-- Function -->
 		<action name="actual_work"
 			class="com.cubesofttech.action.FunctionAction" method="getWorkingList">

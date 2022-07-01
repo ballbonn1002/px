@@ -286,7 +286,11 @@
 		<put-attribute name="body"
 			value="/pages-back/report/report_worksum.jsp"/>
 	</definition>
-	
+	<definition name="report_wages" extends="masterLayout">
+		<put-attribute name="title" value="รายงาน เงินเดือน/ค่าจ้างสะสม"/>
+		<put-attribute name="body"
+			value="/pages-back/report/report_wages.jsp"/>
+	</definition>
 	<!-- Function -->
 	<definition name="actual_work" extends="masterLayout">
 		<put-attribute name="title" value="ข้อมูลการทำงานจริง"/>
