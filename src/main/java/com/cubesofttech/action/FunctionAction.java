@@ -185,12 +185,12 @@ public class FunctionAction extends ActionSupport {
 	
 	public String calSsiAction() {
 		try {
-			String percent = request.getParameter("input_percent");
-			String salary = request.getParameter("ssi_value2");
+			double percent = Double.parseDouble(request.getParameter("input_percent"));
+			double salary = Double.parseDouble(request.getParameter("ssi_value2"));
 			//log.debug(percent);
 			//log.debug(salary);
 			
-			String calSocialSecurity = calCService.calSsi(percent, salary);
+			double calSocialSecurity = calCService.calSsi(percent, salary);
 			request.setAttribute("CalSocialSecurity", calSocialSecurity);
 			
 			log.debug(calSocialSecurity);
