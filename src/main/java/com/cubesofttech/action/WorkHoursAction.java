@@ -73,48 +73,6 @@ public class WorkHoursAction extends ActionSupport {
 	
 	private static Calendar cal = Calendar.getInstance(); // Use Calendar .Year
 	public static final String USERID = "userId"; 
-	 
-	
-
-	
-	public String reportSalaryDepart() {		
-		try {
-			
-			List<Map<String, Object>> departmentId = workHoursDAO.departmentById();
-			request.setAttribute("DepartmentId", departmentId);
-			
-			List<Map<String, Object>> findYearSalary = workHoursDAO.findYear();
-			request.setAttribute("FindYearSalary", findYearSalary);
-
-			
-			return SUCCESS;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return ERROR;
-		}
-	}
-	public String findMonthSalaryDepart() {		
-		try {
-			String mYear = request.getParameter("findYear");
-			String mDepart = request.getParameter("department");
-			log.debug(mYear);
-			log.debug(mDepart);
-			
-			List<Map<String, Object>> findMonth = workHoursDAO.monthSalary(mYear,mDepart);
-			request.setAttribute("FindMonth", findMonth);
-			
-			//log.debug(findMonth);
-			
-			Gson gson = new Gson(); 
-            String json = gson.toJson(findMonth); 
-            request.setAttribute("json", json);	
-			return SUCCESS;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return ERROR;
-		}
-	}
-
 
 		
 	

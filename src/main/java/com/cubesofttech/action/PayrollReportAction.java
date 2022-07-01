@@ -1,7 +1,6 @@
 package com.cubesofttech.action;
 
 import java.io.PrintWriter;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -29,13 +28,13 @@ import com.cubesofttech.dao.LeaveTypeDAO;
 import com.cubesofttech.dao.PaymentDAO;
 import com.cubesofttech.dao.Payment_groupDAO;
 import com.cubesofttech.dao.Payment_typeDAO;
+import com.cubesofttech.dao.PositionDAO;
 import com.cubesofttech.dao.UserDAO;
 import com.cubesofttech.dao.UserPaymentConfigDAO;
 import com.cubesofttech.dao.WorkHoursDAO;
 import com.cubesofttech.model.Holiday;
 import com.cubesofttech.model.LeaveType;
 import com.cubesofttech.model.Leaves;
-import com.cubesofttech.model.Payment;
 import com.cubesofttech.model.Payment_group;
 import com.cubesofttech.model.Payment_type;
 import com.cubesofttech.model.User;
@@ -74,6 +73,9 @@ public class PayrollReportAction extends ActionSupport {
 	
 	@Autowired
 	private HolidayDAO holidayDAO;
+	
+	@Autowired
+	private PositionDAO positionDAO;
 	
 	private static Calendar cal = Calendar.getInstance(); // Use Calendar .Year
 	
@@ -531,6 +533,44 @@ public class PayrollReportAction extends ActionSupport {
 			log.debug(userid);
 			log.debug(year);
 			
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+	}
+	
+	public String reportSalaryDepart() {		
+		try {
+			
+			List<Map<String, Object>> departmentId = positionDAO.departmentById();
+			request.setAttribute("DepartmentId", departmentId);
+			
+			List<Map<String, Object>> findYearSalary = payment_groupDAO.findYear();
+			request.setAttribute("FindYearSalary", findYearSalary);
+
+			
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+	}
+	public String findMonthSalaryDepart() {		
+		try {
+			String mYear = request.getParameter("findYear");
+			String mDepart = request.getParameter("department");
+			log.debug(mYear);
+			log.debug(mDepart);
+			
+			List<Map<String, Object>> findMonth = payment_groupDAO.monthSalary(mYear,mDepart);
+			request.setAttribute("FindMonth", findMonth);
+			
+			//log.debug(findMonth);
+			
+			Gson gson = new Gson(); 
+            String json = gson.toJson(findMonth); 
+            request.setAttribute("json", json);	
 			return SUCCESS;
 		} catch (Exception e) {
 			e.printStackTrace();

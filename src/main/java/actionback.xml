@@ -559,12 +559,12 @@
 			<result name="error">/index.jsp</result>
 		</action>
 		<action name="report_salary_depart"
-			class="com.cubesofttech.action.WorkHoursAction" method="reportSalaryDepart">
+			class="com.cubesofttech.action.PayrollReportAction" method="reportSalaryDepart">
 			<result name="success" type="tiles">report_salary_depart</result>
 			<result name="error">/index.jsp</result>
 		</action>
 		<action name="findMonth"
-			class="com.cubesofttech.action.WorkHoursAction" method="findMonthSalaryDepart">
+			class="com.cubesofttech.action.PayrollReportAction" method="findMonthSalaryDepart">
 			<result name="success">/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
