@@ -533,8 +533,18 @@
 			<result name="success" type="tiles">report_work</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		<action name="searchMonthYear"
+			class="com.cubesofttech.action.WorkHoursAction" method="searchMonthYear">
+			<result name="success" type="tiles">report_work</result>
+			<result name="error">/index.jsp</result>
+		</action>
 		<action name="reportWorkSum"
 			class="com.cubesofttech.action.WorkHoursAction" method="reportWorkSum">
+			<result name="success" type="tiles">report_worksum</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="work_searchCalendar"
+			class="com.cubesofttech.action.WorkHoursAction" method="searchCalendar">
 			<result name="success" type="tiles">report_worksum</result>
 			<result name="error">/index.jsp</result>
 		</action>

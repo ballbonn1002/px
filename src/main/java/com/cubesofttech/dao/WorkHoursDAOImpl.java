@@ -100,4 +100,60 @@ public class WorkHoursDAOImpl implements WorkHoursDAO {
 		return userwork; 
 	}
 
+	@Override
+	public List<Map<String, Object>> worktime(String month, String year) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Map<String, Object>> worktime = null;
+		try {
+			String sql = "SELECT user_create, SUM(workinghours) AS workinghours FROM `work_hours` "
+					+ "WHERE MONTH(work_hours_time_work) =:month AND YEAR(work_hours_time_work) =:year "
+					+ "GROUP BY user_create;";
+			
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setParameter("month", month);
+			query.setParameter("year", year);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			worktime = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return worktime;
+	}
+
+
+	@Override
+	public List<Map<String, Object>> checkoutcalendar(String userid, String year) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Map<String, Object>> test1 = null;
+		try {
+			String sql = "SELECT DATE(work_hours_time_work) AS datecheck, TIME(work_hours_time_work) AS checkout, workinghours FROM `work_hours` "
+					+ "WHERE work_hours_type = 2 AND user_create =:userid AND YEAR(work_hours_time_work) =:year ";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setParameter("userid", userid);
+			query.setParameter("year", year);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			test1 = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return test1;
+	}
+	@Override
+	public List<Map<String, Object>> checkincalendar(String userid, String year) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Map<String, Object>> test2 = null;
+		try {
+			String sql = "SELECT TIME(work_hours_time_work) AS checkin FROM `work_hours` "
+					+ "WHERE work_hours_type = 1 AND user_create =:userid AND YEAR(work_hours_time_work) =:year ";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setParameter("userid", userid);
+			query.setParameter("year", year);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			test2 = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return test2;
+	}
+	
 }

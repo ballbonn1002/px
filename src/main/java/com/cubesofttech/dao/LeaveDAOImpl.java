@@ -1341,6 +1341,58 @@ public class LeaveDAOImpl implements LeaveDAO {
 	}
 	
 	@Override
+	public List<Map<String, Object>> leaveApprSum(String userId, Timestamp start_date1, Timestamp end_date1) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Map<String, Object>> userleave = null;
+		try {
+			String sql = "SELECT SUM(no_day) AS no_day FROM leaves WHERE leaves.user_id =:userId AND leaves.start_date "
+					+ "BETWEEN :start_date1 AND :end_date1 AND leave_status_id = 1;";
+			
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setParameter("userId", userId);
+			query.setParameter("start_date1", start_date1);
+			query.setParameter("end_date1", end_date1);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			userleave = query.list();
+			System.out.println(userleave);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return userleave;
+	}
+	
+	@Override
+	public List<Map<String, Object>> leaveApprSumAll(String month, String year) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Map<String, Object>> userleave = null;
+		try {
+			String sql =/*"SELECT SUM(no_day) AS no_day FROM leaves WHERE leaves.start_date "
+					+ "BETWEEN :start_date AND :end_date AND leave_status_id = 1";*/
+					/*
+					 * "SELECT u.name, u.id, u.department_id, u.enable, e.employee_type_id, e.term_day, SUM(l.no_day) AS no_day "
+					 * +
+					 * " FROM user u LEFT JOIN employee_type e ON u.employee_type_id = e.employee_type_id "
+					 * +
+					 * " LEFT JOIN leaves l ON u.id = l.user_id WHERE u.enable = 1 AND l.start_date "
+					 * + " BETWEEN :start_date AND :end_date AND leave_status_id = 1 GROUP BY u.id";
+					 */
+					"SELECT u.name, u.id, SUM(l.no_day) AS no_day " 
+					+"FROM user u LEFT JOIN employee_type e ON u.employee_type_id = e.employee_type_id LEFT JOIN leaves l ON u.id = l.user_id " 
+					+"WHERE MONTH(l.start_date) =:month AND YEAR(l.start_date) =:year AND u.enable = 1 AND leave_status_id = 1 GROUP by u.id ";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setParameter("month", month);
+			query.setParameter("year", year);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			userleave = query.list();
+			System.out.println("userleave"+userleave);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return userleave;
+	}
+	
+	@Override
 	public List<Map<String, Object>> reportleavemonth(String months, String years) throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Map<String, Object>> rplm = null;

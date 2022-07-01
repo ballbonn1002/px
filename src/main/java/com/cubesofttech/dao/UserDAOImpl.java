@@ -1,5 +1,6 @@
 package com.cubesofttech.dao;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -883,4 +884,53 @@ public class UserDAOImpl implements UserDAO {
 		}
 		return UserActive;
 	}
+
+	@Override
+	public List<Map<String, Object>> userWork(String month, String year) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Map<String, Object>> userwork = null;
+		try {
+			String sql = "SELECT u.name, u.id, u.department_id, e.term_day, "
+					+ " (SELECT SUM(no_day) FROM `leaves` WHERE user_id = u.id AND MONTH(start_date) =:month AND MONTH(end_date) =:month "
+					+ " AND YEAR(start_date) =:year AND YEAR(end_date) =:year AND leave_status_id = 1 GROUP BY user_id) AS no_day "
+					+ "FROM ((user u LEFT JOIN employee_type e ON u.employee_type_id = e.employee_type_id) "
+					+ "LEFT JOIN leaves l ON u.id = l.user_id) WHERE u.enable = '1' GROUP BY u.id";
+			
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setParameter("month", month);
+			query.setParameter("year", year);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			userwork = query.list();
+			System.out.println(userwork);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return userwork;
+	}
+
+	@Override
+	public List<Map<String, Object>> findUserWork(String id) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Map<String, Object>> userwork = null;
+		try {
+		/*	String sql = "SELECT u.name, u.id, u.department_id, e.term_day, "
+					+ " (SELECT SUM(no_day) FROM `leaves` WHERE user_id =:id AND MONTH(start_date) =:month AND MONTH(end_date) =:month "
+					+ " AND YEAR(start_date) =:year AND YEAR(end_date) =:year AND leave_status_id = 1 GROUP BY user_id) AS no_day "
+					+ "FROM ((user u LEFT JOIN employee_type e ON u.employee_type_id = e.employee_type_id) "
+					+ "LEFT JOIN leaves l ON u.id = l.user_id) WHERE u.enable = '1' AND u.id =:id GROUP BY u.id ";	*/
+				String sql = "SELECT u.name, u.id, u.department_id, e.term_day "
+					+ "FROM user u LEFT JOIN employee_type e ON u.employee_type_id = e.employee_type_id "
+					+ "WHERE enable = '1' AND u.id =:id ";	
+			
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setParameter("id", id);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			userwork = query.list();
+			System.out.println(userwork);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return userwork;
+	}
+
 }
