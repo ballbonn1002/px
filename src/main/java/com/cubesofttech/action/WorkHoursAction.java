@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.components.Debug;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.cubesofttech.dao.LeaveDAO;
@@ -470,7 +472,20 @@ public class WorkHoursAction extends ActionSupport {
 			log.error(e);
 			return ERROR;
 		}
-		
+	}
+	
+	
+	
+	public String bonusReport(){
+		try {
+			List<Map<String, Object>> Users = userDAO.Query_Userlist();
+			request.setAttribute("Users", Users);
+			log.debug(Users);
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
 		
 	}
 	
@@ -505,11 +520,39 @@ public class WorkHoursAction extends ActionSupport {
 			Gson gson = new Gson(); 
             String json = gson.toJson(findMonth); 
             request.setAttribute("json", json);	
-
 			return SUCCESS;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ERROR;
 		}
 	}
+
+	public String findBonusByYear(){
+		try {
+			//List<Map<String, Object>> Users = userDAO.Query_Userlist();
+			//request.setAttribute("Users", Users);
+			
+			String userid = request.getParameter("user_id");
+			String year = request.getParameter("year");
+			
+			List<Map<String, Object>> BonusByYear = workHoursDAO.findBonusByYear(userid,year);
+			
+			//query code
+			
+            Gson gson = new Gson(); 
+            String json = gson.toJson(BonusByYear); 
+            request.setAttribute("json", json);	
+            
+			log.debug(userid);
+			log.debug(year);
+			
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+	}
+		
+	
+
 }

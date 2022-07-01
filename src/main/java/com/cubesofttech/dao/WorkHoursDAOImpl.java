@@ -144,5 +144,24 @@ public class WorkHoursDAOImpl implements WorkHoursDAO {
 		}
 		return findMonth; 
 	}
+	
+	@Override
+	public List<Map<String, Object>> findBonusByYear(String userId,String Year) throws Exception {
+		List<Map<String, Object>> query_listMap = null;
+		Session session =  this.sessionFactory.getCurrentSession(); 
+		try {
+			String sql = "SELECT payment.user_id , payment_detail.payment_type_id , payment_group.payment_date ,payment_detail.amount FROM payment JOIN payment_group ON payment.user_id = '"+userId+"' AND payment_group.payment_group_id = payment.payment_group_id AND payment_group.payment_date LIKE '"+Year+"%' JOIN payment_detail ON payment.payment_id = payment_detail.payment_id"; 
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			query_listMap = query.list();
+			Log.debug(sql);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return query_listMap;
+	}
+	
+	
 
 }

@@ -690,5 +690,22 @@
 			<result name="success" type="tiles">role_management_add</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		
+		<!-- BonusReport -->
+		
+		<action name="BonusReport"
+			class="com.cubesofttech.action.WorkHoursAction" method="bonusReport">
+			<result name="success" type="tiles">bonusReport</result>
+			<result name="error">/index.jsp</result>
+		</action>
+
+		<action name="findBonusByYear"
+			class="com.cubesofttech.action.WorkHoursAction" method="findBonusByYear">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+
+		<!-- end BonusReport -->
+		
 	</package>
 </struts>
