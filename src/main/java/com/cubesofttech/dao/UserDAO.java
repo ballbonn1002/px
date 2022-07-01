@@ -110,4 +110,5 @@ public interface UserDAO {
 	
 	public List<Map<String, Object>> findUserWork(String id) throws Exception; 
 
+	public List<User> userList() throws Exception;
 }

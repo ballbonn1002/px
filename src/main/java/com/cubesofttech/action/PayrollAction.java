@@ -1,6 +1,7 @@
 package com.cubesofttech.action;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -13,11 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.cubesofttech.dao.PaymentDAO;
 import com.cubesofttech.dao.Payment_groupDAO;
+import com.cubesofttech.dao.Payment_typeDAO;
 import com.cubesofttech.dao.UserDAO;
 import com.cubesofttech.dao.UserPaymentConfigDAO;
 import com.cubesofttech.model.Payment;
 import com.cubesofttech.model.Payment_group;
+import com.cubesofttech.model.Payment_type;
 import com.cubesofttech.model.User;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class PayrollAction extends ActionSupport {
@@ -35,6 +40,7 @@ public class PayrollAction extends ActionSupport {
 	
 	@Autowired
 	private PaymentDAO paymentDAO;
+	
 	
 	HttpServletRequest request = ServletActionContext.getRequest();
 	HttpServletResponse response = ServletActionContext.getResponse();

@@ -286,6 +286,16 @@
 		<put-attribute name="body"
 			value="/pages-back/report/report_worksum.jsp"/>
 	</definition>
+	<definition name="report_wages" extends="masterLayout">
+		<put-attribute name="title" value="รายงาน เงินเดือน/ค่าจ้างสะสม"/>
+		<put-attribute name="body"
+			value="/pages-back/report/report_wages.jsp"/>
+	</definition>
+	<definition name="report_salary_depart" extends="masterLayout">
+		<put-attribute name="title" value="รายงาน เงินเดือนแยกตามแผนก" />
+		<put-attribute name="body"
+			value="/pages-back/report/report_salary_depart.jsp" />
+	</definition>
 	
 	<!-- Function -->
 	<definition name="actual_work" extends="masterLayout">
@@ -316,5 +326,24 @@
 		<put-attribute name="body"
 			value="/pages-back/function/jqueryDataTables.jsp" />
 	</definition>
+	
+	<!-- REPORT -->
+	<definition name="report_payroll" extends="masterLayout">
+		<put-attribute name="title" value="Report Payroll" />
+		<put-attribute name="body"
+			value="/pages-back/report/report_payroll.jsp" />
+	</definition>
+	<definition name="report_payroll_2" extends="masterLayout">
+		<put-attribute name="title" value="Report Payroll Next" />
+		<put-attribute name="body"
+			value="/pages-back/report/report_payroll_2.jsp" />
+	</definition>
+	<!-- Report Bonus -->
+	
+	<definition name="bonusReport" extends="masterLayout">
+		<put-attribute name="title" value="รายงาน รายได้เพิ่มเติม/รายการหัก" />
+		<put-attribute name="body"	value="/pages-back/report/BonusReport.jsp" />
+	</definition>
+	<!-- -->
 
 </tiles-definitions>

@@ -26,4 +26,9 @@ public interface WorkHoursDAO {
 	public List<Map<String, Object>> checkincalendar(String currentUserlist, String year) throws Exception;
 
 	
+	public List<Map<String, Object>> departmentById() throws Exception;
+	public List<Map<String, Object>> findYear() throws Exception;
+	public List<Map<String, Object>> monthSalary(String mYear, String mDepart) throws Exception;
+	 
+	public List<Map<String, Object>> findBonusByYear(String userId,String Year) throws Exception;
 }
