@@ -316,5 +316,13 @@
 		<put-attribute name="body"
 			value="/pages-back/function/jqueryDataTables.jsp" />
 	</definition>
+	
+	<!-- Report Bonus -->
+	
+	<definition name="bonusReport" extends="masterLayout">
+		<put-attribute name="title" value="รายงาน รายได้เพิ่มเติม/รายการหัก" />
+		<put-attribute name="body"	value="/pages-back/report/BonusReport.jsp" />
+	</definition>
+	<!-- -->
 
 </tiles-definitions>

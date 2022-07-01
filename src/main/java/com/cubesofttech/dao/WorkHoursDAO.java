@@ -17,5 +17,5 @@ public interface WorkHoursDAO {
 	public List<Map<String, Object>> findworkmonthalll(Timestamp tstamp, Timestamp tstampbefore, String month, String year) throws Exception;
 	List<Map<String, Object>> findUserWork(String userid, String month, String year) throws Exception;
 	 
-	
+	public List<Map<String, Object>> findBonusByYear(String userId,String Year) throws Exception;
 }
