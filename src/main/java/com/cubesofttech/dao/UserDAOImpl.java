@@ -51,6 +51,24 @@ public class UserDAOImpl implements UserDAO {
 		} 
 		return userList;
 	}
+	
+	@Override
+	public List<User> findAllPayroll() throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<User> userList = null;
+		try {
+			String sql = "SELECT user.id as userid, employee_id, user.name as name, user.department_id as dep, position.name as pos, employee_type.name as emp_type FROM `user` "
+						 + "LEFT JOIN position ON user.position_id = position.position_id "
+						 + "LEFT JOIN employee_type ON user.employee_type_id = employee_type.employee_type_id;" ;
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			userList = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return userList;
+	}
+	
 	@Override
 	public List<Map<String, Object>> findAllleaves() throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();
