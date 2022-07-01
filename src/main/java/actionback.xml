@@ -725,13 +725,13 @@
 		<!-- BonusReport -->
 		
 		<action name="BonusReport"
-			class="com.cubesofttech.action.WorkHoursAction" method="bonusReport">
+			class="com.cubesofttech.action.PayrollReportAction" method="bonusReport">
 			<result name="success" type="tiles">bonusReport</result>
 			<result name="error">/index.jsp</result>
 		</action>
 
 		<action name="findBonusByYear"
-			class="com.cubesofttech.action.WorkHoursAction" method="findBonusByYear">
+			class="com.cubesofttech.action.PayrollReportAction" method="findBonusByYear">
 			<result name="success" >/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>

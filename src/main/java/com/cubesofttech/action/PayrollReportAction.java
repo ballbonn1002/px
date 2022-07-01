@@ -498,5 +498,44 @@ public class PayrollReportAction extends ActionSupport {
 			return false;
 		}
 	}
+	
+	public String bonusReport(){
+		try {
+			List<Map<String, Object>> Users = userDAO.Query_Userlist();
+			request.setAttribute("Users", Users);
+			log.debug(Users);
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+		
+	}
+	
+	public String findBonusByYear(){
+		try {
+			//List<Map<String, Object>> Users = userDAO.Query_Userlist();
+			//request.setAttribute("Users", Users);
+			
+			String userid = request.getParameter("user_id");
+			String year = request.getParameter("year");
+			
+			List<Map<String, Object>> BonusByYear = payment_groupDAO.findBonusByYear(userid,year);
+			
+			//query code
+			
+            Gson gson = new Gson(); 
+            String json = gson.toJson(BonusByYear); 
+            request.setAttribute("json", json);	
+            
+			log.debug(userid);
+			log.debug(year);
+			
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+	}
 
 }
