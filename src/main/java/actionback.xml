@@ -529,22 +529,22 @@
 		
 		<!-- Report -->
 		<action name="report_work"
-			class="com.cubesofttech.action.WorkHoursAction" method="reportWorkAllList">
+			class="com.cubesofttech.action.PayrollReportAction" method="reportWorkAllList">
 			<result name="success" type="tiles">report_work</result>
 			<result name="error">/index.jsp</result>
 		</action>
 		<action name="searchMonthYear"
-			class="com.cubesofttech.action.WorkHoursAction" method="searchMonthYear">
+			class="com.cubesofttech.action.PayrollReportAction" method="searchMonthYear">
 			<result name="success" type="tiles">report_work</result>
 			<result name="error">/index.jsp</result>
 		</action>
 		<action name="reportWorkSum"
-			class="com.cubesofttech.action.WorkHoursAction" method="reportWorkSum">
+			class="com.cubesofttech.action.PayrollReportAction" method="reportWorkSum">
 			<result name="success" type="tiles">report_worksum</result>
 			<result name="error">/index.jsp</result>
 		</action>
 		<action name="work_searchCalendar"
-			class="com.cubesofttech.action.WorkHoursAction" method="searchCalendar">
+			class="com.cubesofttech.action.PayrollReportAction" method="searchCalendar">
 			<result name="success" type="tiles">report_worksum</result>
 			<result name="error">/index.jsp</result>
 		</action>
