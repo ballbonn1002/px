@@ -296,22 +296,17 @@ public class CalcService {
 		
 	}
 
-	public String calSsi(String percent, String salary) throws Exception {
-		String calSocialSecurity = null;
-		double s = 0;
-		double pc = Integer.parseInt(percent);
-		double slr = Integer.parseInt(salary);
+	public double calSsi(double percent, double salary) throws Exception {
+		double calSocialSecurity = 0;
+		//DecimalFormat df = new DecimalFormat();
+		//df.setMaximumFractionDigits(2);
 		
-		DecimalFormat df = new DecimalFormat();
-		df.setMaximumFractionDigits(2);
-		
-		if(slr >15000) {
-			s = (15000*pc/100);
+		if(salary >15000) {
+			calSocialSecurity = (15000*percent/100);
 		} else {
-			s = (slr*pc/100);
-			
+			calSocialSecurity = (salary*percent/100);
 		}
-		calSocialSecurity = String.valueOf(s);
+		//calSocialSecurity = String.valueOf(s);
 		return calSocialSecurity;
 	}
 	

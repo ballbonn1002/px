@@ -35,7 +35,8 @@ public class FunctionDAOImpl implements FunctionDAO {
 			sql.append("(case when wk_minute is not null then 1 else 0 end) as isWorking,\n");
 			sql.append("(case when wk_minute is null and dayname(cdate) not in ('Saturday','Sunday') and\n");
 			sql.append("(select head from holiday h where cdate between start_date and end_date) is null and\n");
-			sql.append("(select no_day  from leaves l where user_create = :userId and cdate between l.start_date and l.end_date) is null then 1 else 0 end) as isAbsent\n");
+			sql.append("(select no_day  from leaves l where user_create = :userId and cdate between l.start_date and l.end_date) is null then 1 else 0 end) as isAbsent,\n");
+			sql.append("(case when dayname(cdate) not in ('Saturday','Sunday') and (select head from holiday h where cdate between start_date and end_date) is null then 1 else 0 end) as isWorkingDay\n");
 			sql.append("from\n");
 			sql.append("(select adddate('1970-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i) cdate from\n");
 			sql.append("(select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t0,\n");
@@ -93,12 +94,13 @@ public class FunctionDAOImpl implements FunctionDAO {
 			StringBuilder sql = new StringBuilder();
 			sql.append("select\n");
 			sql.append("id,name,(case payment when 0 then 'รายเดือน' else 'รายวัน' end) as payment,term,term_day,\n");
-			sql.append("sum(isWorking) as count_working_day,\n");
-			sql.append("(case when (select e.payment from user u left join employee_type e on e.employee_type_id = u.employee_type_id where id = :userId) = 0 then\n");
-			sql.append("((select e.term_day from user u left join employee_type e on e.employee_type_id = u.employee_type_id where id = :userId )) else sum(isWorking) end) as actual_working,\n");
-			sql.append("sum(isAbsent) as count_absent_day,\n");
-			sql.append("sum(wk_hr) as sum_working_hr, \n");
-			sql.append(":startDate as start_date,:endDate as end_date \n");
+			sql.append("(case when (select e.payment from user u left join employee_type e on e.employee_type_id = u.employee_type_id where id = :userId ) = 0 then\n");
+			sql.append("((select e.term_day from user u left join employee_type e on e.employee_type_id = u.employee_type_id where id = :userId )) else sum(isWorking) end) as actual_working_day,\n");
+			sql.append("ifnull(sum(isWorkingDay),0) as actual_working_per_month,\n");
+			sql.append("sum(isWorking) as sum_emp_working,\n");
+			sql.append("sum(isAbsent) as sum_emp_absent,\n");
+			sql.append("ifnull(sum(wk_hr),0)  as sum_emp_working_hr,\n");
+			sql.append(":startDate as start_date,:endDate as end_date\n");
 			sql.append("from\n");
 			sql.append("(\n");
 			sql.append("select\n");
@@ -108,7 +110,9 @@ public class FunctionDAOImpl implements FunctionDAO {
 			sql.append("(case when wk_minute is not null then 1 else 0 end) as isWorking,\n");
 			sql.append("(case when wk_minute is null and dayname(cdate) not in ('Saturday','Sunday') and\n");
 			sql.append("(select head from holiday h where cdate between start_date and end_date) is null and\n");
-			sql.append("(select no_day  from leaves l where user_create = :userId and cdate between l.start_date and l.end_date) is null then 1 else 0 end) as isAbsent\n");
+			sql.append("(select no_day  from leaves l where user_create = :userId and cdate between l.start_date and l.end_date) is null then 1 else 0 end) as isAbsent,\n");
+			sql.append("(case when dayname(cdate) not in ('Saturday','Sunday') and\n");
+			sql.append("(select head from holiday h where cdate between start_date and end_date) is null then 1 else 0 end) as isWorkingDay\n");
 			sql.append("from\n");
 			sql.append("(select adddate('1970-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i) cdate from\n");
 			sql.append("(select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t0,\n");
@@ -144,7 +148,6 @@ public class FunctionDAOImpl implements FunctionDAO {
 			sql.append("where cdate between :startDate and :endDate \n");
 			sql.append("order by cdate asc\n");
 			sql.append(") c\n");
-
 
 			SQLQuery query = session.createSQLQuery(sql.toString());
 			query.setParameter("userId", userId);

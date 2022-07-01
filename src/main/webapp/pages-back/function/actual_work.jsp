@@ -159,37 +159,46 @@ to {
 									<div class="row">
 										<div class="col-sm-3">
 											<div class="form-group">
-												<label for="recipient-name" class="control-label">Count_Working</label>
+												<label for="recipient-name" class="control-label">Count_Working วันที่มาทำงาน</label>
 												<input type="text" name="count_working" id="count_working"
 													class="form-control input-lg"
-													value="${WorkingSummary[0].count_working_day }"
+													value="${WorkingSummary[0].sum_emp_working }"
 													style="width: 100%">
 											</div>
 										</div>
 										<div class="col-sm-3">
 											<div class="form-group">
-												<label for="recipient-name" class="control-label">Function_Actual</label>
+												<label for="recipient-name" class="control-label">Function_Actual วันทำงานตามประเภท</label>
 												<input type="text" name="count_actual" id="count_actual"
 													class="form-control input-lg"
-													value="${WorkingSummary[0].actual_working }"
+													value="${WorkingSummary[0].actual_working_day }"
 													style="width: 100%">
 											</div>
 										</div>
 										<div class="col-sm-3">
 											<div class="form-group">
-												<label for="recipient-name" class="control-label">Function_Absent</label>
+												<label for="recipient-name" class="control-label">Function_Absent วันขาดงาน</label>
 												<input type="text" name="count_absent" id="count_absent"
 													class="form-control input-lg"
-													value="${WorkingSummary[0].count_absent_day }"
+													value="${WorkingSummary[0].sum_emp_absent }"
 													style="width: 100%">
 											</div>
 										</div>
 										<div class="col-sm-3">
 											<div class="form-group">
-												<label for="recipient-name" class="control-label">Sum_Working</label>
+												<label for="recipient-name" class="control-label">Sum_Working ชั่วโมงทำงาน</label>
 												<input type="text" name="count_working_hr"
 													id="count_working_hr" class="form-control input-lg"
-													value="${WorkingSummary[0].sum_working_hr}"
+													value="${WorkingSummary[0].sum_emp_working_hr}"
+													style="width: 100%">
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label for="recipient-name" class="control-label">วันทำงานต่อเดือน</label>
+												<input type="text" name="count_working_hr"
+													id="count_working_hr" class="form-control input-lg"
+													value="${WorkingSummary[0].actual_working_per_month}"
 													style="width: 100%">
 											</div>
 										</div>
