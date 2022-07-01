@@ -692,12 +692,12 @@
 		</action>
 		<!-- REPORT -->
 		<action name="report_payroll"
-			class="com.cubesofttech.action.PayrollAction" method="listReportPayroll">
+			class="com.cubesofttech.action.PayrollReportAction" method="listReportPayroll">
 			<result name="success" type="tiles">report_payroll</result>
 			<result name="error">/index.jsp</result>
 		</action>
 		<action name="report_payroll_2"
-			class="com.cubesofttech.action.PayrollAction" method="groupMember">
+			class="com.cubesofttech.action.PayrollReportAction" method="groupMember">
 			<result name="success" type="tiles">report_payroll_2</result>
 			<result name="error">/index.jsp</result>
 		</action>

@@ -144,7 +144,8 @@ public class UserSalaryDAOImpl implements UserSalaryDAO{
 		Session session = this.sessionFactory.getCurrentSession();
 		List<UserSalary> List = null;
 		try {
-			String sql = "SELECT user_salary.user_id, user_salary.amount, user.withholding_auto FROM `user_salary`  JOIN user ON user_salary.user_id=user.id WHERE user_salary.user_id='"+user_id+"'";
+			String sql = "SELECT user_salary.user_id, user_salary.amount, user.withholding_auto FROM `user`  JOIN user_salary ON user_salary.user_id=user.id \r\n"
+					+ "WHERE user_salary.user_id='"+user_id+"'";
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 			List = query.list();

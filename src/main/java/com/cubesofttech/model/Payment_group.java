@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -18,7 +20,7 @@ public class Payment_group implements Serializable {
 		
 	}
 	public Payment_group(
-			String payment_group_id,
+			Integer payment_group_id,
 			String name,
 			String transaction_date,
 			String payment_date,
@@ -34,7 +36,7 @@ public class Payment_group implements Serializable {
 			java.sql.Timestamp timeUpdate	
 			
 	) {
-        this.payment_group_id  = payment_group_id ;	
+        this.payment_group_id  = payment_group_id  ;	
         this.name = name;
         this.transaction_date = transaction_date;
         this.payment_date = payment_date;	
@@ -50,8 +52,9 @@ public class Payment_group implements Serializable {
         this.timeUpdate = timeUpdate;	
 	}
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "payment_group_id ")
-    private String payment_group_id ;	
+    private Integer payment_group_id ;	
     @Column(name = "name")
     private String name;
     @Column(name = "transaction_date")
@@ -80,10 +83,10 @@ public class Payment_group implements Serializable {
     private java.sql.Timestamp timeUpdate;
     
     
-    public String getPayment_group_id() {
+    public Integer getPayment_group_id() {
 		return payment_group_id;
 	}
-	public void setPayment_group_id(String payment_group_id) {
+	public void setPayment_group_id(Integer payment_group_id) {
 		this.payment_group_id = payment_group_id;
 	}
 	public String getName() {

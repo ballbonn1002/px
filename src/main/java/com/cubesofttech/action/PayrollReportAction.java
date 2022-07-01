@@ -20,7 +20,7 @@ import com.cubesofttech.model.Payment_group;
 import com.cubesofttech.model.User;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class PayrollAction extends ActionSupport {
+public class PayrollReportAction extends ActionSupport {
 	private static final Logger log = Logger.getLogger(PaymentTypeAction.class);
 	private static final long serialVersionUID = 1L;
 	
@@ -39,37 +39,31 @@ public class PayrollAction extends ActionSupport {
 	HttpServletRequest request = ServletActionContext.getRequest();
 	HttpServletResponse response = ServletActionContext.getResponse();
 	
-	public String listPayroll() {
+	
+	public String listReportPayroll() {
 		try {
-				List<Payment_group> payment_group = payment_groupDAO.findAll();
-				List<Map<String, Object>> payment = paymentDAO.findAllByGroupId();
-				List<Map<String, Object>> status = paymentDAO.countStatus();
-				
-				request.setAttribute("paymentgroupList", payment_group);
-				request.setAttribute("payment",payment);
-				request.setAttribute("status",status);
-				
-				List<User> user = userDAO.findAllPayroll();
-				request.setAttribute("userList", user);
-				
-				return SUCCESS;
-		} catch (Exception e) {
-				log.error(e);
-					
-				return ERROR;
+			List<Payment_group> payment_group = payment_groupDAO.listForReport();
+			request.setAttribute("groupList",payment_group);
+			log.debug(payment_group);
+			return SUCCESS;
+		}catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
 		}
 	}
-	
-	public String addPayroll() {
+	public String groupMember() {
 		try {
-				String test = "test";
-					return SUCCESS;
-				} catch (Exception e) {
-					log.error(e);
-					
-					return ERROR;
-				}
+			String id = request.getParameter("payment_group_id");
+			log.debug(id);
+			Integer idValue = Integer.valueOf(id);
+			Payment_group payment_group = payment_groupDAO.findById(idValue);
+			log.debug(payment_group);
+			request.setAttribute("payment_groupList", payment_group);
+			return SUCCESS;
+		}catch(Exception e){
+			e.printStackTrace();
+			return ERROR;
+		}
 	}
-	
 
 }
