@@ -100,68 +100,61 @@ public class WorkHoursDAOImpl implements WorkHoursDAO {
 		return userwork; 
 	}
 	
-	@Override
-	public List<Map<String, Object>> departmentById() throws Exception {
-		Session session =  this.sessionFactory.getCurrentSession(); 
-		List<Map<String, Object>> departmentId = null;
-		try {
-			String sql = "SELECT * FROM position GROUP BY department_id";
-			SQLQuery query = session.createSQLQuery(sql);
-			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
-			departmentId = query.list();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return departmentId; 
-	}
-	
-	@Override
-	public List<Map<String, Object>> findYear() throws Exception {
-		Session session =  this.sessionFactory.getCurrentSession(); 
-		List<Map<String, Object>> findYearSalary = null;
-		try {
-			String sql = "SELECT EXTRACT(YEAR FROM payment_group.payment_date) AS year FROM payment_group GROUP BY EXTRACT(YEAR FROM payment_group.payment_date)";
-			SQLQuery query = session.createSQLQuery(sql);
-			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
-			findYearSalary = query.list();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return findYearSalary; 
-	}
-	
-	@Override
-	public List<Map<String, Object>> monthSalary(String mYear, String mDepart) throws Exception {
-		Session session =  this.sessionFactory.getCurrentSession(); 
-		List<Map<String, Object>> findMonth = null;
-		try {
-			String sql = "SELECT payment_group.payment_group_id, payment_group.name, EXTRACT(YEAR FROM payment_group.payment_date) AS year, EXTRACT(MONTH FROM payment_group.payment_date) AS month, SUM(payment.total_pay) AS sum_total_pay, user.position_id, user.department_id FROM payment_group LEFT JOIN payment ON payment_group.payment_group_id = payment.payment_group_id LEFT JOIN user ON payment.user_id = user.id LEFT JOIN department ON department.department_id = user.department_id WHERE department.department_id = '"+mDepart+"' AND EXTRACT(YEAR FROM payment_group.payment_date) = '"+mYear+"' GROUP BY payment.payment_group_id";
-			SQLQuery query = session.createSQLQuery(sql);
-			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
-			findMonth = query.list();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return findMonth; 
-	}
-	
-	@Override
-	public List<Map<String, Object>> findBonusByYear(String userId,String Year) throws Exception {
-		List<Map<String, Object>> query_listMap = null;
-		Session session =  this.sessionFactory.getCurrentSession(); 
-		try {
-			String sql = "SELECT payment.user_id , payment_detail.payment_type_id , payment_group.payment_date ,payment_detail.amount FROM payment JOIN payment_group ON payment.user_id = '"+userId+"' AND payment_group.payment_group_id = payment.payment_group_id AND payment_group.payment_date LIKE '"+Year+"%' JOIN payment_detail ON payment.payment_id = payment_detail.payment_id"; 
-			SQLQuery query = session.createSQLQuery(sql);
-			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
-			query_listMap = query.list();
-			Log.debug(sql);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 
-		return query_listMap;
+	@Override
+	public List<Map<String, Object>> worktime(String month, String year) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Map<String, Object>> worktime = null;
+		try {
+			String sql = "SELECT user_create, SUM(workinghours) AS workinghours FROM `work_hours` "
+					+ "WHERE MONTH(work_hours_time_work) =:month AND YEAR(work_hours_time_work) =:year "
+					+ "GROUP BY user_create;";
+			
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setParameter("month", month);
+			query.setParameter("year", year);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			worktime = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return worktime;
+	}
+
+
+	@Override
+	public List<Map<String, Object>> checkoutcalendar(String userid, String year) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Map<String, Object>> test1 = null;
+		try {
+			String sql = "SELECT DATE(work_hours_time_work) AS datecheck, TIME(work_hours_time_work) AS checkout, workinghours FROM `work_hours` "
+					+ "WHERE work_hours_type = 2 AND user_create =:userid AND YEAR(work_hours_time_work) =:year ";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setParameter("userid", userid);
+			query.setParameter("year", year);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			test1 = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return test1;
+	}
+	@Override
+	public List<Map<String, Object>> checkincalendar(String userid, String year) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Map<String, Object>> test2 = null;
+		try {
+			String sql = "SELECT TIME(work_hours_time_work) AS checkin FROM `work_hours` "
+					+ "WHERE work_hours_type = 1 AND user_create =:userid AND YEAR(work_hours_time_work) =:year ";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setParameter("userid", userid);
+			query.setParameter("year", year);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			test2 = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return test2;
 	}
 	
-	
-
 }

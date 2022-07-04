@@ -1,5 +1,6 @@
 package com.cubesofttech.dao;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -105,5 +106,9 @@ public interface UserDAO {
 
 	public List<Map<String,Object>> HappyBirthday(String month, String day)throws Exception;
 	
+	public List<Map<String, Object>> userWork(String month, String year) throws Exception; 
+	
+	public List<Map<String, Object>> findUserWork(String id) throws Exception; 
+
 	public List<User> userList() throws Exception;
 }

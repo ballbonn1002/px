@@ -19,5 +19,10 @@ public interface Payment_groupDAO {
 	 
 	 public List<Payment_group> listForReport() throws Exception;
 	 
+	public List<Map<String, Object>> findBonusByYear(String userId,String Year) throws Exception;
+	
+	public List<Map<String, Object>> findYear() throws Exception;
+	
+	public List<Map<String, Object>> monthSalary(String mYear, String mDepart) throws Exception;
 
 }

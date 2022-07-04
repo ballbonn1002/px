@@ -304,26 +304,17 @@ public class FunctionAction extends ActionSupport {
 		try {
 			String userId = request.getParameter("userId") == null ? "test.data1" : request.getParameter("userId") ;
 			String startDate = request.getParameter("startDate");
-			String endDate = request.getParameter("endDate");
-			
-			//Set default if startDate,endDate null value
-			Date date = new Date();
-			LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();		
-			LocalDate lastDayOfMonth = localDate.with(TemporalAdjusters.lastDayOfMonth());
-			LocalDate firstDayOfMonth = localDate.with(TemporalAdjusters.firstDayOfMonth());
-			
-			if(startDate == null) {
-				startDate = firstDayOfMonth.toString();
-			}
-			if(endDate == null) {
-				endDate = lastDayOfMonth.toString();
-			}
+			String endDate = request.getParameter("endDate");			
 						
-			List<Map<String, Object>> workingList = funtionDAO.findWorkingList(userId, startDate, endDate);	//List for display on table detail
+//			List<Map<String, Object>> workingList = funtionDAO.findWorkingList(userId, startDate, endDate);	//List for display on table detail
 			List<Map<String, Object>> workingSummary = funtionDAO.findWorkingSummary(userId, startDate, endDate); //Summary (record 0) : count_working,actual_working,absent,sum_hours
 					
-			request.setAttribute("WorkingList", workingList);
+//			request.setAttribute("WorkingList", workingList);
 			request.setAttribute("WorkingSummary", workingSummary);
+			
+			Gson gson = new Gson(); 
+			String json = gson.toJson(workingSummary);
+			request.setAttribute("json", json);
 			
 			return SUCCESS;
 

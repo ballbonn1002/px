@@ -536,12 +536,22 @@
 		
 		<!-- Report -->
 		<action name="report_work"
-			class="com.cubesofttech.action.WorkHoursAction" method="reportWorkAllList">
+			class="com.cubesofttech.action.PayrollReportAction" method="reportWorkAllList">
+			<result name="success" type="tiles">report_work</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="searchMonthYear"
+			class="com.cubesofttech.action.PayrollReportAction" method="searchMonthYear">
 			<result name="success" type="tiles">report_work</result>
 			<result name="error">/index.jsp</result>
 		</action>
 		<action name="reportWorkSum"
-			class="com.cubesofttech.action.WorkHoursAction" method="reportWorkSum">
+			class="com.cubesofttech.action.PayrollReportAction" method="reportWorkSum">
+			<result name="success" type="tiles">report_worksum</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="work_searchCalendar"
+			class="com.cubesofttech.action.PayrollReportAction" method="searchCalendar">
 			<result name="success" type="tiles">report_worksum</result>
 			<result name="error">/index.jsp</result>
 		</action>
@@ -556,20 +566,26 @@
 			<result name="error">/index.jsp</result>
 		</action>
 		<action name="report_salary_depart"
-			class="com.cubesofttech.action.WorkHoursAction" method="reportSalaryDepart">
+			class="com.cubesofttech.action.PayrollReportAction" method="reportSalaryDepart">
 			<result name="success" type="tiles">report_salary_depart</result>
 			<result name="error">/index.jsp</result>
 		</action>
 		<action name="findMonth"
-			class="com.cubesofttech.action.WorkHoursAction" method="findMonthSalaryDepart">
+			class="com.cubesofttech.action.PayrollReportAction" method="findMonthSalaryDepart">
 			<result name="success">/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
 		
 		<!-- Function -->
 		<action name="actual_work"
-			class="com.cubesofttech.action.FunctionAction" method="getWorkingList">
+			class="com.cubesofttech.action.FunctionAction" method="">
 			<result name="success" type="tiles">actual_work</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
+		<action name="getWorkingList"
+			class="com.cubesofttech.action.FunctionAction" method="getWorkingList">
+			<result name="success">/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
 		
@@ -722,13 +738,13 @@
 		<!-- BonusReport -->
 		
 		<action name="BonusReport"
-			class="com.cubesofttech.action.WorkHoursAction" method="bonusReport">
+			class="com.cubesofttech.action.PayrollReportAction" method="bonusReport">
 			<result name="success" type="tiles">bonusReport</result>
 			<result name="error">/index.jsp</result>
 		</action>
 
 		<action name="findBonusByYear"
-			class="com.cubesofttech.action.WorkHoursAction" method="findBonusByYear">
+			class="com.cubesofttech.action.PayrollReportAction" method="findBonusByYear">
 			<result name="success" >/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
