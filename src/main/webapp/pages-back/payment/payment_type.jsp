@@ -39,7 +39,8 @@
 						class="fa fa-arrow-left"></i></a> Payment Type
 				</h2>
 				<ul class="breadcrumb">
-.					<li class="breadcrumb-item"><a href="page-blank.jsp"><i
+					.
+					<li class="breadcrumb-item"><a href="page-blank.jsp"><i
 							class="icon-home"></i></a></li>
 					<li class="breadcrumb-item">Master</li>
 					<li class="breadcrumb-item active">รายการ รายได้/รายการหัก</li>
@@ -75,8 +76,7 @@
 								<c:set var="counter" value="${counter +1}" />
 
 								<tr>
-									<td><i class="sindu_handle"> <span
-											class="material-symbols-outlined"> menu </span>
+									<td><i class="fa fa-bars sindu_handle" aria-hidden="true">
 									</i></td>
 									<td id="Sequence" style="text-align: left; padding-left: 20px">${test.sequence}
 									</td>
@@ -252,8 +252,7 @@ $(".row_position").sortable({
 							<c:forEach var="test" items="${ paymentTypeList0}">
 								<c:set var="counter1" value="${counter1 + 1}" />
 								<tr>
-									<td><i class="sindu_handle"> <span
-											class="material-symbols-outlined"> menu </span>
+									<td><i class="fa fa-bars sindu_handle" aria-hidden="true">
 									</i></td>
 									<td id="Sequence1" style="text-align: left; padding-left: 20px">${test.sequence}</td>
 									<td style="text-align: left; padding-top: 10px;">${test.payment_type_id}</td>
@@ -445,7 +444,7 @@ $(".row_position1").sortable({
      else{
 
       	var tr=document.createElement("tr");
-      	tr.innerHTML=`<td><i class='sindu_handle'><span class="material-symbols-outlined"> menu </span></i></td><td class='counter'>${counter+1}</td> <td><input type='text'class='form-control' id='payment_type_id'></td> <td><input type='text'class='form-control' id='payment_type_name'></td>  <td><a class='btn btn-outline-secondary' onclick='cancle_income(this)'><i class='fa fa-times'></i></a> <a class='btn btn-outline-success' onclick='add_new_income(this)'><i class='fa fa-save'></i></a></td>`;
+      	tr.innerHTML=`<td><i class="fa fa-bars sindu_handle" aria-hidden="true"></i></td><td class='counter'>${counter+1}</td> <td><input type='text'class='form-control' id='payment_type_id'></td> <td><input type='text'class='form-control' id='payment_type_name'></td>  <td><a class='btn btn-outline-secondary' onclick='cancle_income(this)'><i class='fa fa-times'></i></a> <a class='btn btn-outline-success' onclick='add_new_income(this)'><i class='fa fa-save'></i></a></td>`;
       	document.getElementById("tbl_income").appendChild(tr);
     	}
 
@@ -548,7 +547,7 @@ $(".row_position1").sortable({
     	}
     	else{
       	var tr=document.createElement("tr");
-      	tr.innerHTML=`<td><i class='sindu_handle'><span class="material-symbols-outlined"> menu </span></i></td><td class='counter1'>${counter1+1}</td> <td><input type='text'class='form-control' id='payment_type_id'></td> <td><input type='text'class='form-control' id='payment_type_name'></td> <td><a class='btn btn-outline-secondary' onclick='cancle_ep(this)'><i class='fa fa-times'></i></a> <a class='btn btn-outline-success' onclick='add_new_ep(this)'><i class='fa fa-save'></i></a></td>`;
+      	tr.innerHTML=`<td><i class="fa fa-bars sindu_handle" aria-hidden="true"></i></td><td class='counter1'>${counter1+1}</td> <td><input type='text'class='form-control' id='payment_type_id'></td> <td><input type='text'class='form-control' id='payment_type_name'></td> <td><a class='btn btn-outline-secondary' onclick='cancle_ep(this)'><i class='fa fa-times'></i></a> <a class='btn btn-outline-success' onclick='add_new_ep(this)'><i class='fa fa-save'></i></a></td>`;
       	document.getElementById("tbl_ep").appendChild(tr);
     
     	}
