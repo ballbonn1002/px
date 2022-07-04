@@ -17,42 +17,36 @@ public class CalcService {
 	
 	//Code in here
 	public List<List<Double>> calculateTax(Double money,Double paid,Double self,Double aia) throws Exception {
-		List<Double> List = new ArrayList<Double>();
-		List<Double> List2 = new ArrayList<Double>();
+		List<Double> taxList = new ArrayList<Double>();      //list ของการคำนวนภาษี
+		List<Double> resultList = new ArrayList<Double>();     //list ของผลลัพท์ (ต่อปี,ต่อเดือน)
 		double year = money * 12;
-		//log.debug(money);
-		double sum = year - paid - self - aia;
-		//request.setAttribute("sum",sum);
-		double tax = 0,tax1 = 0,tax2 = 0,tax3 = 0,tax4 = 0,tax5 = 0,tax6 = 0,tax7 = 0; 
-		double percent1 = 0, percent2 = 5, percent3 = 10, percent4 = 15, percent5 = 20,
+		double sum = year - paid - self - aia;      //ยอดคงเหลือสุทธิ
+		double tax = 0,tax1 = 0,tax2 = 0,tax3 = 0,tax4 = 0,tax5 = 0,tax6 = 0,tax7 = 0;  
+		double percent1 = 0, percent2 = 5, percent3 = 10, percent4 = 15, percent5 = 20,      // % คำนวนภาษี
 			   percent6 = 25, percent7 = 30, percent8 = 35;
 		
-		List.add(sum);
-		//log.debug(year);
-		if(sum<=150000) {                //�Թ���ط�Թ��¡��� 150000
-			if(sum<=150000) {
+		taxList.add(sum);
+		if(sum<=150000) {                //ยอดคุงเหลือสุทธิ 0-150,000
+			if(sum<=150000) {            //จำนวนเงินตามช่วง  0-150,000
 					tax = (sum * percent1)/100;
-					//request.setAttribute("w1",sum);
-					//request.setAttribute("tax",tax);
-					// s = String.valueOf(tax);
-					 List.add(sum);
-					 List.add(tax);
+					 taxList.add(sum);
+					 taxList.add(tax);
 					 
 					//return s;
 				}
 		}
 		
-		else if(sum <=300000){            
-			if(sum > 150000) {
+		else if(sum <=300000){            //ยอดคุงเหลือสุทธิ 150,001-300,000
+			if(sum > 150000) {            //จำนวนเงินตามช่วง  0-150,000
 				double w1 = 150000;        
-				double z1 = sum - w1;   
-			    tax = (w1 * 0)/100;    
-				if(z1 <= 150000){           
+				double z1 = sum - w1;     //ยอดยกมา
+			    tax = (w1 * 0)/100;       //คำนวนภาษี
+				if(z1 <= 150000){           //จำนวนเงินตามช่วง  150,001-300,000
 					tax1 = (z1 * percent2)/100;
-					List.add(w1);
-					List.add(tax);
-					List.add(z1);
-					List.add(tax1);
+					taxList.add(w1);
+					taxList.add(tax);
+					taxList.add(z1);
+					taxList.add(tax1);
 				}
 		      
 			}
@@ -66,14 +60,14 @@ public class CalcService {
 					double w2 = 150000;
 					double z2 = z1 - w2;  
 				    tax1 = (150000 * percent2)/100;   
-					if(z2 <= 200000) {        
+					if(z2 <= 200000) {         
 						tax2 = (z2 * percent3)/100;
-						List.add(w1);
-						List.add(tax);
-						List.add(w2);
-						List.add(tax1);
-						List.add(z2);
-						List.add(tax2);
+						taxList.add(w1);
+						taxList.add(tax);
+						taxList.add(w2);
+						taxList.add(tax1);
+						taxList.add(z2);
+						taxList.add(tax2);
 						
 					}
 				}
@@ -94,14 +88,14 @@ public class CalcService {
 						tax2 = (200000 * percent3)/100;
 						if(z3 <= 250000){ 
 							 tax3 = (z3 * percent4)/100;
-							    List.add(w1);
-								List.add(tax);
-								List.add(w2);
-								List.add(tax1);
-								List.add(w3);
-								List.add(tax2);
-								List.add(z3);
-								List.add(tax3);
+							    taxList.add(w1);
+								taxList.add(tax);
+								taxList.add(w2);
+								taxList.add(tax1);
+								taxList.add(w3);
+								taxList.add(tax2);
+								taxList.add(z3);
+								taxList.add(tax3);
 						}
 					}
 				}
@@ -128,16 +122,16 @@ public class CalcService {
 							if(z4 <= 250000){
 								tax4 = (z4 * percent5)/100;
 								
-								List.add(w1);
-								List.add(tax);
-								List.add(w2);
-								List.add(tax1);
-								List.add(w3);
-								List.add(tax2);
-								List.add(w4);
-								List.add(tax3);
-								List.add(z4);
-								List.add(tax4);
+								taxList.add(w1);
+								taxList.add(tax);
+								taxList.add(w2);
+								taxList.add(tax1);
+								taxList.add(w3);
+								taxList.add(tax2);
+								taxList.add(w4);
+								taxList.add(tax3);
+								taxList.add(z4);
+								taxList.add(tax4);
 							}
 						}
 					}
@@ -168,18 +162,18 @@ public class CalcService {
 								tax4 = (w5 * percent5)/100;
 								if(z5 <= 1000000) {
 									tax5 = (z5 * percent6)/100;
-									List.add(w1);
-									List.add(tax);
-									List.add(w2);
-									List.add(tax1);
-									List.add(w3);
-									List.add(tax2);
-									List.add(w4);
-									List.add(tax3);
-									List.add(w5);
-									List.add(tax4);
-									List.add(z5);
-									List.add(tax5);
+									taxList.add(w1);
+									taxList.add(tax);
+									taxList.add(w2);
+									taxList.add(tax1);
+									taxList.add(w3);
+									taxList.add(tax2);
+									taxList.add(w4);
+									taxList.add(tax3);
+									taxList.add(w5);
+									taxList.add(tax4);
+									taxList.add(z5);
+									taxList.add(tax5);
 								}
 							}
 						}
@@ -215,20 +209,20 @@ public class CalcService {
 									tax5 = (w6 * percent6)/100;
 									if(z6 <= 3000000) {
 										tax6 = (z6 * 30)/100;
-										List.add(w1);
-										List.add(tax);
-										List.add(w2);
-										List.add(tax1);
-										List.add(w3);
-										List.add(tax2);
-										List.add(w4);
-										List.add(tax3);
-										List.add(w5);
-										List.add(tax4);
-										List.add(w6);
-										List.add(tax5);
-										List.add(z6);
-										List.add(tax6);
+										taxList.add(w1);
+										taxList.add(tax);
+										taxList.add(w2);
+										taxList.add(tax1);
+										taxList.add(w3);
+										taxList.add(tax2);
+										taxList.add(w4);
+										taxList.add(tax3);
+										taxList.add(w5);
+										taxList.add(tax4);
+										taxList.add(w6);
+										taxList.add(tax5);
+										taxList.add(z6);
+										taxList.add(tax6);
 									}
 								}
 							}
@@ -267,22 +261,22 @@ public class CalcService {
 										double z7 = z6 - w7;
 										tax6 = (w7 * percent7)/100;
 										tax7 = (z7 * percent8)/100;
-										List.add(w1);
-										List.add(tax);
-										List.add(w2);
-										List.add(tax1);
-										List.add(w3);
-										List.add(tax2);
-										List.add(w4);
-										List.add(tax3);
-										List.add(w5);
-										List.add(tax4);
-										List.add(w6);
-										List.add(tax5);
-										List.add(w7);
-										List.add(tax6);
-										List.add(z7);
-										List.add(tax7);
+										taxList.add(w1);
+										taxList.add(tax);
+										taxList.add(w2);
+										taxList.add(tax1);
+										taxList.add(w3);
+										taxList.add(tax2);
+										taxList.add(w4);
+										taxList.add(tax3);
+										taxList.add(w5);
+										taxList.add(tax4);
+										taxList.add(w6);
+										taxList.add(tax5);
+										taxList.add(w7);
+										taxList.add(tax6);
+										taxList.add(z7);
+										taxList.add(tax7);
 										
 									}
 								}
@@ -293,31 +287,26 @@ public class CalcService {
 			}
 		}
 		double total = tax+tax1+tax2+tax3+tax4+tax5+tax6+tax7;
-		List2.add(total);
+		resultList.add(total);
 		double perMonth = total/12;
-		List2.add(perMonth);
+		resultList.add(perMonth);
 		
-		return  Arrays.asList(List, List2);
+		return  Arrays.asList(taxList, resultList);
 		
 		
 	}
 
-	public String calSsi(String percent, String salary) throws Exception {
-		String calSocialSecurity = null;
-		double s = 0;
-		double pc = Integer.parseInt(percent);
-		double slr = Integer.parseInt(salary);
+	public double calSsi(double percent, double salary) throws Exception {
+		double calSocialSecurity = 0;
+		//DecimalFormat df = new DecimalFormat();
+		//df.setMaximumFractionDigits(2);
 		
-		DecimalFormat df = new DecimalFormat();
-		df.setMaximumFractionDigits(2);
-		
-		if(slr >15000) {
-			s = (15000*pc/100);
+		if(salary >15000) {
+			calSocialSecurity = (15000*percent/100);
 		} else {
-			s = (slr*pc/100);
-			
+			calSocialSecurity = (salary*percent/100);
 		}
-		calSocialSecurity = String.valueOf(s);
+		//calSocialSecurity = String.valueOf(s);
 		return calSocialSecurity;
 	}
 	

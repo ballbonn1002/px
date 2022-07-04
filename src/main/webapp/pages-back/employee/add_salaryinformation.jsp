@@ -27,8 +27,8 @@
 					<label for="recipient-name" class="control-label"
 						style="font-weight: lighter; font-size: 14px;">เงินเดือน</label>
 					<div class="input-group mb-3">
-						<input type="text" id="salary" name="salary" class="form-control"
-							aria-describedby="basic-addon2" disabled="disabled" value = "">
+						<input type="text" id="salary" name="salary" class="form-control" style = "text-align : right"
+							aria-describedby="basic-addon2" disabled="disabled">
 						<div class="input-group-append">
 							<button data-toggle="modal" data-target="#defaultModal"
 								class="btn btn-outline-secondary editsalary" type="button">ปรับเงินเดือน</button>
@@ -65,8 +65,8 @@
 						style="font-weight: lighter; font-size: 14px;">เงื่อนไขการหักภาษี</label>
 					<select class="form-control show-tick" name="tax_deduction">
 						<option value="0">หัก ณ ที่จ่าย</option>
-						<option value="1">ออกให้ตลอดไป</option>
-						<option value="2">ออกให้ครั้งเดียว</option>
+						<option value="1">ออกให้ครั้งเดียว</option>
+						
 					</select>
 				</div>
 			</div>
@@ -84,12 +84,12 @@
 					<label for="recipient-name" class="control-label"
 						style="font-weight: lighter; font-size: 14px;">วันที่เงินเดือนปรับใช้</label>
 					<input  data-provide="datepicker" data-date-autoclose="true"
-						data-date-format="dd-mm-yyyy" id= "add_emp_date" type="text" name="salaryDate" class="form-control" value="<fmt:formatDate value="" pattern=" dd-MM-yyyy" />">
+						data-date-format="dd-mm-yyyy" id= "add_emp_date" type="text" name="salaryDate" class="form-control" value="<fmt:formatDate value = "${null}" pattern=" dd-MM-yyyy" />">
 				</div>
 				<div class="col-md-12" style="padding-top: 10px;">
 					<label for="recipient-name" class="control-label"
 						style="font-weight: lighter; font-size: 14px;">จำนวนเงินเดือน</label>
-					<input id = "add_emp_amount" type="text" name="amountsalary" class="form-control">
+					<input id = "add_emp_amount" type="text" style = "text-align : right" name="amountsalary" class="form-control">
 				</div>
 				<div class="col-md-12"
 					style="padding-top: 10px; padding-bottom: 20px;">

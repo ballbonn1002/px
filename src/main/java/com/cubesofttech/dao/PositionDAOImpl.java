@@ -135,5 +135,20 @@ public class PositionDAOImpl implements PositionDAO {
 		return position_id;
 	}
 	
+	@Override
+	public List<Map<String, Object>> departmentById() throws Exception {
+		Session session =  this.sessionFactory.getCurrentSession(); 
+		List<Map<String, Object>> departmentId = null;
+		try {
+			String sql = "SELECT * FROM position GROUP BY department_id";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			departmentId = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return departmentId; 
+	}
+	
 	
 }

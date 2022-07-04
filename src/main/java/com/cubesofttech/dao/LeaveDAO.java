@@ -125,6 +125,10 @@ public interface LeaveDAO {
 	
 	public List<Map<String, Object>> findUserLeave(String user ,Timestamp start_date1,Timestamp end_date1) throws Exception;
 	
+	public List<Map<String, Object>> leaveApprSum(String userId, Timestamp start_date1, Timestamp end_date1) throws Exception;
+	
+	public List<Map<String, Object>> leaveApprSumAll(String month, String year) throws Exception;
+	
 	public List<Map<String, Object>> reportleavemonth(String months, String years) throws Exception;
 	public List<Map<String, Object>> searchreportleavemonth1(String monthsee, String yearsee) throws Exception;
 	public List<Map<String, Object>> reportleaveyeartype1(String years) throws Exception;
@@ -135,4 +139,5 @@ public interface LeaveDAO {
 	public List<Map<String, Object>> reportallleave(String years) throws Exception;
 	
 	public List<Map<String, Object>> leavejson() throws Exception;
+
 }

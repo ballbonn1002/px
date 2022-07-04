@@ -17,7 +17,7 @@
 			<div class="form-group">
 				<label for="recipient-name" class="control-label"
 					style="font-weight: lighter; font-size: 14px;">รหัสพนักงาน</label>
-				<input type="text" name="empId" value=""
+				<input required type="text" name="empId" value=""
 					class="form-control">
 			</div>
 
@@ -67,14 +67,14 @@
 			<div class="form-group" style="margin-top: 15px">
 				<label for="recipient-name" class="control-label"
 					style="font-weight: lighter; font-size: 14px;">เลขบัตรประชาชน</label>
-				<input type="text" name="IDcard" maxlength="13" minlength="13" value="" required
+				<input type="text" name="IDcard" maxlength="13" minlength="13" value=""
 					class="form-control">
 			</div>
 
 			<div class="form-group">
 				<label for="recipient-name" class="control-label"
 					style="font-weight: lighter; font-size: 14px;">อีเมล</label> <input
-					type="email" name="email" value="" required
+					type="email" name="email" value=""
 					class="form-control">
 			</div>
 
@@ -97,7 +97,7 @@
 			<div class="form-group form-md-line-input">
 				<div class="col-md-2">
 					<input name="date" id="date"
-						value="<fmt:formatDate value=""  type = "both" 
+						value="<fmt:formatDate value = "${null}"  type = "both" 
        								timeStyle = "medium" pattern="dd-MM-yyyy "  />"
 						onchange="datechenge()"
 						class="form-control input-lg form-control-inline input-medium date-picker test"
@@ -135,14 +135,14 @@
 					style="font-weight: lighter; font-size: 14px;">วันเกิด</label> <input
 					data-provide="datepicker" data-date-autoclose="true"
 					data-date-format="dd-mm-yyyy" name="bday"
-					value="<fmt:formatDate value="" pattern=" dd-MM-yyyy" />"
+					value="<fmt:formatDate value = "${null}" pattern=" dd-MM-yyyy" />"
 					class="form-control" style="width: 95%;">
 			</div>
 
 			<div class="form-group">
 				<label for="recipient-name" class="control-label"
 					style="font-weight: lighter; font-size: 14px;">เลขหนังสือเดินทาง</label>
-				<input type="text" name="passportID" required
+				<input type="text" name="passportID" 
 					value="" maxlength="10" class="form-control"
 					style="width: 95%;">
 			</div>
@@ -150,14 +150,14 @@
 			<div class="form-group">
 				<label for="recipient-name" class="control-label"
 					style="font-weight: lighter; font-size: 14px;">เบอร์โทร</label> <input
-					 type="tel" name="phoneNum" value="" pattern="[0-9]{10}" required
+					 type="tel" name="phoneNum" value="" pattern="[0-9]{10}" 
 					class="form-control" style="width: 95%;">
 			</div>
 
 			<div class="form-group">
 				<label for="recipient-name" class="control-label"
 					style="font-weight: lighter; font-size: 14px;">เบอร์ผู้ติดต่อฉุกเฉิน</label>
-				<input type="tel" name="phoneEmer" value="" pattern="[0-9]{10}" required
+				<input type="tel" name="phoneEmer" value="" pattern="[0-9]{10}"
 					 class="form-control" style="width: 95%;">
 			</div>
 		</div>

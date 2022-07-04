@@ -76,7 +76,7 @@
 									</select>
 								</div>
 								<div class="col-sm">
-									<label>ประกันสังคม (%)</label> <input type="text"
+									<label>ประกันสังคม (%)</label> <input type="text" value="0"
 										placeholder="0" class="form-control" id="input_percent"></input>
 								</div>
 							</div>
@@ -159,7 +159,7 @@
 	$(document).ready(function(){
 		$("#user_id_ssi").on('change',function(){
 			var user_id = $("#user_id_ssi").val();
-			//console.log(user_id);
+			console.log(user_id);
  	
         	$.ajax({
                 url: "findData",
@@ -171,7 +171,7 @@
                     success:function(data){
                     	if(data.social_security == 1){
                     		$("#social_secure").text("ขึ้นสิทธิ์ประกันสังคม");
-                    		$("#ssi_value").text(numberWithCommas(data.amount));
+                    		$("#ssi_value").text(numberWithCommas(data.amount.toFixed(2)));
                     		$("#ssi_value2").text(data.amount);
                     		$("#cal_user_ssi").prop("hidden",false);
                         	//console.log(data.social_security);
@@ -187,7 +187,6 @@
 		});
 		
 		$("#cal_user_ssi").click(function(){
-			
 			var percent = $("#input_percent").val();
 			var salary = $("#ssi_value2").text().trim();
 			console.log(percent);
@@ -202,7 +201,7 @@
                         "ssi_value2" : salary ,
                     },
                     success:function(data){
-                    	$("#cal_ssi").text(numberWithCommas(data));
+                    	$("#cal_ssi").text(numberWithCommas(data.toFixed(2)));
                     }
             })
 		});

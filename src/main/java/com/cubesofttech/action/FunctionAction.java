@@ -91,6 +91,7 @@ public class FunctionAction extends ActionSupport {
 		try {
 			String userId = request.getParameter("user_id");
 			List<Map<String, Object>> cubesoftUserSalariesById = userSalaryDAO.findUserSalaryByID(userId);
+			log.debug(cubesoftUserSalariesById);
 						
             Gson gson = new Gson(); 
             String json = gson.toJson(cubesoftUserSalariesById.get(0)); 
@@ -185,12 +186,12 @@ public class FunctionAction extends ActionSupport {
 	
 	public String calSsiAction() {
 		try {
-			String percent = request.getParameter("input_percent");
-			String salary = request.getParameter("ssi_value2");
+			double percent = Double.parseDouble(request.getParameter("input_percent"));
+			double salary = Double.parseDouble(request.getParameter("ssi_value2"));
 			//log.debug(percent);
 			//log.debug(salary);
 			
-			String calSocialSecurity = calCService.calSsi(percent, salary);
+			double calSocialSecurity = calCService.calSsi(percent, salary);
 			request.setAttribute("CalSocialSecurity", calSocialSecurity);
 			
 			log.debug(calSocialSecurity);
@@ -268,8 +269,11 @@ public class FunctionAction extends ActionSupport {
 			
 			String userSalary = request.getParameter("user_name");
 			List<UserSalary> user = userSalaryDAO.findSalary(userSalary);
-			
 			request.setAttribute("test", user);
+			
+			List<Map<String, Object>> cubesoftUserSalaries = userSalaryDAO.findAllUserSalary();
+			request.setAttribute("cubesoftUserSalaries", cubesoftUserSalaries);
+			//log.debug(cubesoftUserSalaries);
 			
 			return SUCCESS;
 		}catch (Exception e) {
@@ -315,11 +319,17 @@ public class FunctionAction extends ActionSupport {
 				endDate = lastDayOfMonth.toString();
 			}
 			
-			List<Map<String, Object>> workingList = funtionDAO.findWorkingList(userId, startDate, endDate);	//List for display on table detail
+			List<Map<String, Object>> workingList = funtionDAO.findWorkingList(userId, startDate, endDate);	//List for display on table detail			
+						
+//			List<Map<String, Object>> workingList = funtionDAO.findWorkingList(userId, startDate, endDate);	//List for display on table detail
 			List<Map<String, Object>> workingSummary = funtionDAO.findWorkingSummary(userId, startDate, endDate); //Summary (record 0) : count_working,actual_working,absent,sum_hours
 					
-			request.setAttribute("WorkingList", workingList);
+//			request.setAttribute("WorkingList", workingList);
 			request.setAttribute("WorkingSummary", workingSummary);
+			
+			Gson gson = new Gson(); 
+			String json = gson.toJson(workingSummary);
+			request.setAttribute("json", json);
 			
 			return SUCCESS;
 

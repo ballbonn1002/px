@@ -63,8 +63,8 @@
 									
 									<select id="username"  name="user_name" class="form-control show-tick ms search-select">
 												<option disabled hidden selected  >เลือก</option>
-											 	<c:forEach var="user" items="${salaryList}">	
-													<option value="${user.user_id}" <c:if test="${test[0].user_id eq user.user_id }">selected</c:if>>${user.user_id}</option>
+											 	<c:forEach var="user" items="${cubesoftUserSalaries}">	
+													<option value="${user.id}" <c:if test="${test[0].user_id eq user.id }">selected</c:if>>${user.id}</option>
 														
 														
 												</c:forEach>
@@ -328,8 +328,11 @@ $(document).ready(function () {
 					"userid" : value 
 				},
 				success:function(data){
+					if(data[0]==null){
+						$('#salary').val("");
+					}
 					console.log(data[0]);
-					console.log(data[0].amount);
+					//console.log(data[0].amount);
 					//console.log(data[0].withholding_auto);
 					   $('#salary').val(data[0].amount);
 					   $('#flag').val(data[0].withholding_auto);

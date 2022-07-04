@@ -443,6 +443,9 @@
 			<result name="success" type="tiles">employee_list</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		<action name="updateSalaryEmp"
+			class="com.cubesofttech.action.InfoEmpAction" method="editSalaryEmp">
+		</action>
 		<action name="employee_list"
 			class="com.cubesofttech.action.UserAction" method="list">
 			<result name="success" type="tiles">employee_list</result>
@@ -508,6 +511,10 @@
 			<result name="error">/index.jsp</result>
 			<result name="input" type="tiles">payment_type</result>
 		</action>
+				<action name="checkDuplicate"
+			class="com.cubesofttech.action.PaymentTypeAction" method="checkDuplicate">
+		</action>
+		
 		<action name="updateIncome"
 			class="com.cubesofttech.action.PaymentTypeAction" method="editIncome">
 			<result name="success" type="tiles">payment_type</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
@@ -529,20 +536,56 @@
 		
 		<!-- Report -->
 		<action name="report_work"
-			class="com.cubesofttech.action.WorkHoursAction" method="reportWorkAllList">
+			class="com.cubesofttech.action.PayrollReportAction" method="reportWorkAllList">
+			<result name="success" type="tiles">report_work</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="searchMonthYear"
+			class="com.cubesofttech.action.PayrollReportAction" method="searchMonthYear">
 			<result name="success" type="tiles">report_work</result>
 			<result name="error">/index.jsp</result>
 		</action>
 		<action name="reportWorkSum"
-			class="com.cubesofttech.action.WorkHoursAction" method="reportWorkSum">
+			class="com.cubesofttech.action.PayrollReportAction" method="reportWorkSum">
 			<result name="success" type="tiles">report_worksum</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="work_searchCalendar"
+			class="com.cubesofttech.action.PayrollReportAction" method="searchCalendar">
+			<result name="success" type="tiles">report_worksum</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="report_wages"
+			class="com.cubesofttech.action.PayrollReportAction" method="listUser">
+			<result name="success" type="tiles">report_wages</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="checkIdDate"
+		class="com.cubesofttech.action.PayrollReportAction" method="checkIdDate">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="report_salary_depart"
+			class="com.cubesofttech.action.PayrollReportAction" method="reportSalaryDepart">
+			<result name="success" type="tiles">report_salary_depart</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="findMonth"
+			class="com.cubesofttech.action.PayrollReportAction" method="findMonthSalaryDepart">
+			<result name="success">/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
 		
 		<!-- Function -->
 		<action name="actual_work"
-			class="com.cubesofttech.action.FunctionAction" method="getWorkingList">
+			class="com.cubesofttech.action.FunctionAction" method="">
 			<result name="success" type="tiles">actual_work</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
+		<action name="getWorkingList"
+			class="com.cubesofttech.action.FunctionAction" method="getWorkingList">
+			<result name="success">/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
 		
@@ -563,6 +606,7 @@
 			<result name="success">/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		
 		
 		<action name="jqueryDTs"
 			class="com.cubesofttech.action.FunctionAction" method="testPayroll">
@@ -594,7 +638,7 @@
 		
 		
 		<action name="tax"
-			class="com.cubesofttech.action.FunctionAction" method="listSalary">
+			class="com.cubesofttech.action.FunctionAction" method="salaryAction">
 			<result name="success" type="tiles">tax</result>
 			<result name="error">/index.jsp</result>
 		</action>
@@ -680,7 +724,35 @@
 			<result name="error">/index.jsp</result>
 		</action>
 		
-		<!-- Function salary -->
+		<!-- REPORT -->
+		<action name="report_payroll"
+			class="com.cubesofttech.action.PayrollReportAction" method="listReportPayroll">
+			<result name="success" type="tiles">report_payroll</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="report_payroll_2"
+			class="com.cubesofttech.action.PayrollReportAction" method="groupMember">
+			<result name="success" type="tiles">report_payroll_2</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
+		<!-- BonusReport -->
+		
+		<action name="BonusReport"
+			class="com.cubesofttech.action.PayrollReportAction" method="bonusReport">
+			<result name="success" type="tiles">bonusReport</result>
+			<result name="error">/index.jsp</result>
+		</action>
+
+		<action name="findBonusByYear"
+			class="com.cubesofttech.action.PayrollReportAction" method="findBonusByYear">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+
+		<!-- end BonusReport -->
+
+		<!-- Dashboard -->
 		
 		<action name="dashboard"
 			class="com.cubesofttech.action.DashboardAction" method="list">

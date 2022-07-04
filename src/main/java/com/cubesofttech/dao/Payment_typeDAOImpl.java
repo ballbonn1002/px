@@ -76,7 +76,19 @@ public class Payment_typeDAOImpl implements Payment_typeDAO{
 		return paymentTypeList00;
 	}
   
-    
+    public List<Payment_type> findType() throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Payment_type> paymentTypeList1 = null;
+		try {
+			String sql = "SELECT payment_type_id , payment_type_name FROM payment_type ORDER BY sequence;";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			paymentTypeList1 = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return paymentTypeList1;
+	}
     
     
     @Override
@@ -94,6 +106,7 @@ public class Payment_typeDAOImpl implements Payment_typeDAO{
 		return paymentTypeList;
 	}
 
+   
 
     @Override
     public void update(Payment_type payment_type) throws Exception {
@@ -137,7 +150,7 @@ public class Payment_typeDAOImpl implements Payment_typeDAO{
         try {
             
             Criteria cr = session.createCriteria(Payment_type.class);
-            cr.add(Restrictions.eq("paymentTypeId", paymentTypeId));
+            cr.add(Restrictions.eq("payment_type_id", paymentTypeId));
             
             list = cr.list();
   
@@ -173,7 +186,7 @@ public class Payment_typeDAOImpl implements Payment_typeDAO{
 	        try {
 	            
 	            Criteria cr = session.createCriteria(Payment_type.class);
-	            cr.add(Restrictions.eq("paymentTypeId", paymentTypeId));
+	            cr.add(Restrictions.eq("payment_type_id", paymentTypeId));
 	            
 	            list = cr.list();
 	  
@@ -201,6 +214,27 @@ public class Payment_typeDAOImpl implements Payment_typeDAO{
 				e.printStackTrace();
 			}
 			return allPayment;
-		}    
+		}
+
+		@Override
+		public List<Payment_type> findAmount(String user_id, String start_date, String end_date) throws Exception {
+			Session session = this.sessionFactory.getCurrentSession();
+			List<Payment_type>payment_type = null;
+			try {
+				String sql = "SELECT payment_detail.payment_id, payment_detail.user_id, payment_detail.payment_type_id, payment_detail.amount, "
+						+ "payment_group.payment_date, payment_group.start_date, payment_group.end_date FROM `payment_detail` "
+						+ "JOIN payment ON payment_detail.payment_id = payment.payment_id JOIN payment_group ON payment.payment_group_id = payment_group.payment_group_id "
+						+ "WHERE payment_detail.user_id='"+user_id+"' AND payment_group.start_date='"+start_date+"' AND payment_group.end_date='"+end_date+"'";
+				SQLQuery query = session.createSQLQuery(sql);
+				query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+				payment_type = query.list();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			return payment_type;
+		}
+		
+		
 
 }

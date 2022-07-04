@@ -65,7 +65,7 @@ tr{
 					<div class="portlet-title" >
 						<div class="caption">
 							 <span style="font-weight: bold; font-size: 20px" class="caption-subject font-red sbold uppercase" >ประเภทพนักงาน</span> 
-							 <a href="/employeeType_add" class="btn btn-info" style="margin-bottom: 30px; float:right; ">&nbsp;เพิ่มประเภทพนักงาน</a>
+							 <a href="employeeType_add" class="btn btn-info" style="margin-bottom: 30px; float:right; ">&nbsp;เพิ่มประเภทพนักงาน</a>
 						</div>
 					</div>
 		
@@ -132,20 +132,7 @@ tr{
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
 	</script>
-	<script>
-$(document).ready(function(){	
-
-	var value="${myselect}" ; 
-	var d = new Date();
-	if(value == 0 ){
-		document.getElementById(d.getFullYear()).selected = "true";	
-	}else if(value == 2 ){  
-		document.getElementById("all").selected = "true";
-	}else{
-	document.getElementById(value).selected = "true";
-   }
-});
-</script>
+	
 <script>
 function del(id){
 	swal({

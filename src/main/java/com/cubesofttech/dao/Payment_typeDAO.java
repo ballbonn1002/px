@@ -11,11 +11,12 @@ public interface Payment_typeDAO {
 	 
 	 public List<Map<String, Object>> sequense() throws Exception;
 	 public List<Payment_type> findAll() throws Exception;
+	 public List<Payment_type> findType() throws Exception;
 	public List<Payment_type> findtype1() throws Exception;
 	public List<Payment_type> findtype0() throws Exception;
 	public List<Payment_type> findByTypenFlag(String type,String flag) throws Exception;
 
-	
+	public List<Payment_type> findAmount(String user_id , String start_date , String end_date) throws Exception;
 	 
 	 public List<Map<String, Object>> findAllList() throws Exception;
 	 

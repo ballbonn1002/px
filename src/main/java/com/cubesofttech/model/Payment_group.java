@@ -36,7 +36,7 @@ public class Payment_group implements Serializable {
 			java.sql.Timestamp timeUpdate	
 			
 	) {
-        this.payment_group_id  = payment_group_id ;	
+        this.payment_group_id  = payment_group_id  ;	
         this.name = name;
         this.transaction_date = transaction_date;
         this.payment_date = payment_date;	
