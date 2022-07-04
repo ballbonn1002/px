@@ -679,5 +679,14 @@
 			<result name="success" type="tiles">role_management_add</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		
+		<!-- Function salary -->
+		
+		<action name="dashboard"
+			class="com.cubesofttech.action.DashboardAction" method="list">
+			<result name="success" type="tiles">dashboard</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
 	</package>
 </struts>

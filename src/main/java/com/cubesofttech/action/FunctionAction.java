@@ -314,7 +314,7 @@ public class FunctionAction extends ActionSupport {
 			if(endDate == null) {
 				endDate = lastDayOfMonth.toString();
 			}
-						
+			
 			List<Map<String, Object>> workingList = funtionDAO.findWorkingList(userId, startDate, endDate);	//List for display on table detail
 			List<Map<String, Object>> workingSummary = funtionDAO.findWorkingSummary(userId, startDate, endDate); //Summary (record 0) : count_working,actual_working,absent,sum_hours
 					
