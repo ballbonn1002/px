@@ -742,6 +742,11 @@
 			<result name="error">/index.jsp</result>
 		</action>
 
+		<action name="findBonusByMultipleYear"
+			class="com.cubesofttech.action.PayrollReportAction" method="findBonusByMultipleYear">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
 		<!-- end BonusReport -->
 		
 	</package>
