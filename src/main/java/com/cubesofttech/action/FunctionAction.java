@@ -304,7 +304,22 @@ public class FunctionAction extends ActionSupport {
 		try {
 			String userId = request.getParameter("userId") == null ? "test.data1" : request.getParameter("userId") ;
 			String startDate = request.getParameter("startDate");
-			String endDate = request.getParameter("endDate");			
+			String endDate = request.getParameter("endDate");
+			
+			//Set default if startDate,endDate null value
+			Date date = new Date();
+			LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();		
+			LocalDate lastDayOfMonth = localDate.with(TemporalAdjusters.lastDayOfMonth());
+			LocalDate firstDayOfMonth = localDate.with(TemporalAdjusters.firstDayOfMonth());
+			
+			if(startDate == null) {
+				startDate = firstDayOfMonth.toString();
+			}
+			if(endDate == null) {
+				endDate = lastDayOfMonth.toString();
+			}
+			
+			List<Map<String, Object>> workingList = funtionDAO.findWorkingList(userId, startDate, endDate);	//List for display on table detail			
 						
 //			List<Map<String, Object>> workingList = funtionDAO.findWorkingList(userId, startDate, endDate);	//List for display on table detail
 			List<Map<String, Object>> workingSummary = funtionDAO.findWorkingSummary(userId, startDate, endDate); //Summary (record 0) : count_working,actual_working,absent,sum_hours

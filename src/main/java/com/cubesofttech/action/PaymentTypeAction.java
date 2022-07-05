@@ -1,6 +1,9 @@
 package com.cubesofttech.action;
+import java.io.PrintWriter;
+import java.util.HashMap;
 //import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -167,6 +170,32 @@ public class PaymentTypeAction extends ActionSupport {
 		}
 	}
 	
+	public String checkDuplicate() {
+		try {
+			String payment_type_id = request.getParameter("payment_type_id");
+			Map<String, String> obj = new HashMap<>();
+			List<Payment_type> payment = payment_typeDAO.search(payment_type_id);
+			System.out.println(payment);
+			if (payment.size() > 0) {
+				obj.put("flag", "0");
+			}
+			else {
+				obj.put("flag", "1");
+			}
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			String json = gson.toJson(obj);
+			PrintWriter out = response.getWriter();
+			out.print(json);
+			out.flush();
+			out.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		return null;
+	}
+	
 	
 	public String savePaymentTypetest() {
         try {
@@ -192,6 +221,7 @@ public class PaymentTypeAction extends ActionSupport {
         		Paytype.setSequence(sequence);
         		Paytype.setUsercreate(logonUser);
         		Paytype.setUserupdate(logonUser);
+        		Paytype.setConfig_flag("0");
         		Paytype.setTimeCreate(DateUtil.getCurrentTime());
         		Paytype.setTimeUpdate(DateUtil.getCurrentTime());
         		

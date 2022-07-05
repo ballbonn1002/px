@@ -145,6 +145,7 @@ input[type="checkbox"] {
 
 $(document).ready(function(){
 	
+	
 	$(".department-type").on("change",function() {
 		$.ajax({
 			url: "getPositionByDepartmentId",
@@ -181,14 +182,23 @@ $(document).ready(function(){
   $("#showbutton4").click(function(){
 	    $("#hidebutton").show();
 	  });
+  $('#add_emp_amount').on("change",function () {
+	  var add_emp_amount =  $('#add_emp_amount').val();
+	  add_emp_amount = add_emp_amount.replace(',','');
+	  $('#add_emp_amount').val((Math.round(parseFloat(add_emp_amount) * 100) / 100).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"))
+  })
+  
   $('#add_emp_save').click(function() {
 	  $('#defaultModal').modal('hide');
-	  $('#salary').val($('#add_emp_amount').val());
+	  if ($("#add_emp_amount").val()) {
+		  $('#salary').val($('#add_emp_amount').val());
+		}
 	});
   $('#add_emp_discard').click(function() {
 	  $('#add_emp_date').val('');
 	  $('#add_emp_amount').val('');
 	  $('#add_emp_note').val('');
+	  $('#salary').val('');
 	  $('#defaultModal').modal('hide');
 	});
   

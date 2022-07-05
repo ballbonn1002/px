@@ -1,9 +1,8 @@
 package com.cubesofttech.action;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
+import java.util.Calendar;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,8 +20,7 @@ import com.cubesofttech.model.Payment;
 import com.cubesofttech.model.Payment_group;
 import com.cubesofttech.model.Payment_type;
 import com.cubesofttech.model.User;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.cubesofttech.util.DateUtil;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class PayrollAction extends ActionSupport {
@@ -68,13 +66,42 @@ public class PayrollAction extends ActionSupport {
 	
 	public String addPayroll() {
 		try {
-				String test = "test";
-					return SUCCESS;
-				} catch (Exception e) {
-					log.error(e);
+				User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login
+				String logonUser = ur.getId(); // Username login
+				
+				String userList = request.getParameter("getUserList");
+				log.debug(userList);
+				
+				java.sql.Date currentDate = new java.sql.Date(Calendar.getInstance().getTime().getTime()); //current Date
+				log.debug(currentDate);
+				Calendar c = Calendar.getInstance(); 
+				c.set(Calendar.DATE, 1);
+				java.sql.Date sDate = new java.sql.Date(c.getTime().getTime()); //fistDayOfMonth Date
+				log.debug(sDate);
+				
+				Payment_group payment_group = new Payment_group();
+				
+				payment_group.setName(null);
+				payment_group.setTransaction_date(currentDate);
+				payment_group.setPayment_date(null);
+				payment_group.setStart_date(sDate);
+				payment_group.setEnd_date(currentDate);
+				payment_group.setSocial_security("5");
+				payment_group.setDescription(null);
+				payment_group.setStatus("1");
+				payment_group.setSystem("1");
+				payment_group.setUser_create(logonUser);
+				payment_group.setUser_update(logonUser);
+				payment_group.setTimeCreate(DateUtil.getCurrentTime());
+				payment_group.setTimeUpdate(DateUtil.getCurrentTime());
+				payment_groupDAO.save(payment_group);
+				
+				return SUCCESS;
+		} catch (Exception e) {
+				log.error(e);
 					
-					return ERROR;
-				}
+				return ERROR;
+		}
 	}
 
 }

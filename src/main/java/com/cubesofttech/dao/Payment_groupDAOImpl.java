@@ -51,16 +51,16 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 	@Override
     public List<Payment_group> findAll() throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();
-		List<Payment_group> paymentGroupList = null;
+		List<Payment_group> list = null;
 		try {
-			String sql = "SELECT * FROM payment_group ORDER BY time_create DESC";
+			String sql = "SELECT * FROM payment_group";
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
-			paymentGroupList = query.list();
+			list = query.list();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return paymentGroupList;
+		return list;
 	}
     
 

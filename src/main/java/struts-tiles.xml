@@ -344,6 +344,12 @@
 		<put-attribute name="title" value="รายงาน รายได้เพิ่มเติม/รายการหัก" />
 		<put-attribute name="body"	value="/pages-back/report/BonusReport.jsp" />
 	</definition>
-	<!-- -->
+	
+	<!-- Dashboard -->
+	<definition name="dashboard" extends="masterLayout">
+		<put-attribute name="title" value="Dashboard" />
+		<put-attribute name="body"
+			value="/pages-back/dashboard/dashboard.jsp" />
+	</definition>
 
 </tiles-definitions>
