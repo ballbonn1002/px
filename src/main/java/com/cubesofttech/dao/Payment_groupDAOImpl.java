@@ -1,16 +1,11 @@
 package com.cubesofttech.dao;
 
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.jfree.util.Log;
 import org.springframework.beans.factory.annotation.Autowired;
