@@ -215,4 +215,5 @@ ALTER TABLE `payment_group`
 ALTER TABLE `user_payment_config`
   MODIFY `user_payment_config_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
-
+-- 30/06/2022 Eric Update payment_group:
+ALTER TABLE payment_group CHANGE name name VARCHAR(64) NULL
