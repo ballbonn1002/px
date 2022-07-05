@@ -1,4 +1,5 @@
 package com.cubesofttech.dao;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,8 @@ public interface Payment_groupDAO {
 	 public List<Payment_group> listForReport() throws Exception;
 	 
 	public List<Map<String, Object>> findBonusByYear(String userId,String Year) throws Exception;
+	
+	public List<Map<String, Object>> findBonusByMultipleYear(String userId,List<String> listOfYear) throws Exception;
 	
 	public List<Map<String, Object>> findYear() throws Exception;
 	
