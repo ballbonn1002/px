@@ -443,6 +443,9 @@
 			<result name="success" type="tiles">employee_list</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		<action name="updateSalaryEmp"
+			class="com.cubesofttech.action.InfoEmpAction" method="editSalaryEmp">
+		</action>
 		<action name="employee_list"
 			class="com.cubesofttech.action.UserAction" method="list">
 			<result name="success" type="tiles">employee_list</result>
@@ -508,6 +511,10 @@
 			<result name="error">/index.jsp</result>
 			<result name="input" type="tiles">payment_type</result>
 		</action>
+				<action name="checkDuplicate"
+			class="com.cubesofttech.action.PaymentTypeAction" method="checkDuplicate">
+		</action>
+		
 		<action name="updateIncome"
 			class="com.cubesofttech.action.PaymentTypeAction" method="editIncome">
 			<result name="success" type="tiles">payment_type</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
@@ -716,6 +723,7 @@
 			<result name="success" type="tiles">role_management_add</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		
 		<!-- REPORT -->
 		<action name="report_payroll"
 			class="com.cubesofttech.action.PayrollReportAction" method="listReportPayroll">
@@ -742,7 +750,20 @@
 			<result name="error">/index.jsp</result>
 		</action>
 
+		<action name="findBonusByMultipleYear"
+			class="com.cubesofttech.action.PayrollReportAction" method="findBonusByMultipleYear">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
 		<!-- end BonusReport -->
+
+		<!-- Dashboard -->
+		
+		<action name="dashboard"
+			class="com.cubesofttech.action.DashboardAction" method="list">
+			<result name="success" type="tiles">dashboard</result>
+			<result name="error">/index.jsp</result>
+		</action>
 		
 	</package>
 </struts>

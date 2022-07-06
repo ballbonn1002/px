@@ -150,7 +150,7 @@ public class Payment_typeDAOImpl implements Payment_typeDAO{
         try {
             
             Criteria cr = session.createCriteria(Payment_type.class);
-            cr.add(Restrictions.eq("paymentTypeId", paymentTypeId));
+            cr.add(Restrictions.eq("payment_type_id", paymentTypeId));
             
             list = cr.list();
   
@@ -186,7 +186,7 @@ public class Payment_typeDAOImpl implements Payment_typeDAO{
 	        try {
 	            
 	            Criteria cr = session.createCriteria(Payment_type.class);
-	            cr.add(Restrictions.eq("paymentTypeId", paymentTypeId));
+	            cr.add(Restrictions.eq("payment_type_id", paymentTypeId));
 	            
 	            list = cr.list();
 	  

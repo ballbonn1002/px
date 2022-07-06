@@ -15,7 +15,7 @@
 	<div class="col-sm-12">
 		<div class="form-group">
 			<div class="row clearfix" style="margin-top: 20px;">
-				<div class="col-md-6 col-sm-12">
+				<div class="col-lg-6 col-md-12 my-4">
 					<label class="control-label"
 						style="font-size: 16px; color: #5C9BD1;">รายได้</label>
 					<table class="table">
@@ -45,7 +45,7 @@
 					</table>
 				</div>
 
-				<div class="col-md-6 col-sm-12">
+				<div class="col-lg-6 col-md-12 my-4">
 					<label class="control-label"
 						style="font-size: 16px; color: #5C9BD1;">รายการหัก</label>
 					<table class="table">
