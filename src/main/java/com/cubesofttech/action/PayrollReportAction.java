@@ -99,15 +99,25 @@ public class PayrollReportAction extends ActionSupport {
 			String id = request.getParameter("payment_group_id");
 			log.debug(id);
 			Integer idValue = Integer.valueOf(id);
-			Payment_group payment_group = payment_groupDAO.findById(idValue);
+			
+			List<Payment_group> payment_group = payment_groupDAO.listForReportById(idValue);
 			log.debug(payment_group);
 			request.setAttribute("payment_groupList", payment_group);
+			
+			List<Payment_type> payment_type = payment_typeDAO.findAll();
+			log.debug(payment_type);
+			request.setAttribute("payment_typeList",payment_type);
+			
+			List<Payment_group> group = payment_groupDAO.listConvert(idValue);
+			log.debug(group);
+			request.setAttribute("groupList",group);
 			return SUCCESS;
 		}catch(Exception e){
 			e.printStackTrace();
 			return ERROR;
 		}
 	}
+	
 	
 	
 

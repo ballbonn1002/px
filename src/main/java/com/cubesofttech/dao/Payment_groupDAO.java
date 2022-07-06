@@ -24,5 +24,12 @@ public interface Payment_groupDAO {
 	public List<Map<String, Object>> findYear() throws Exception;
 	
 	public List<Map<String, Object>> monthSalary(String mYear, String mDepart) throws Exception;
+	
+	public List<Payment_group> testList(Integer payment_group_id) throws Exception;
+	
+	public List<Payment_group> listConvert(Integer payment_group_id) throws Exception;
 
+	public List<Payment_group> searchByDate(String startDate,String endDate) throws Exception;
+	
+	public List<Payment_group> listForReportById(Integer payment_group_id) throws Exception;
 }
