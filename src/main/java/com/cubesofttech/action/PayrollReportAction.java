@@ -22,6 +22,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.cubesofttech.dao.DepartmentDAO;
 import com.cubesofttech.dao.HolidayDAO;
 import com.cubesofttech.dao.LeaveDAO;
 import com.cubesofttech.dao.LeaveTypeDAO;
@@ -76,6 +77,9 @@ public class PayrollReportAction extends ActionSupport {
 	
 	@Autowired
 	private PositionDAO positionDAO;
+	
+	@Autowired
+	private DepartmentDAO departmentDAO;
 	
 	private static Calendar cal = Calendar.getInstance(); // Use Calendar .Year
 	
@@ -543,11 +547,11 @@ public class PayrollReportAction extends ActionSupport {
 	public String reportSalaryDepart() {		
 		try {
 			
-			List<Map<String, Object>> departmentId = positionDAO.departmentById();
+			List<Map<String, Object>> departmentId = departmentDAO.sequense();
 			request.setAttribute("DepartmentId", departmentId);
 			
-			List<Map<String, Object>> findYearSalary = payment_groupDAO.findYear();
-			request.setAttribute("FindYearSalary", findYearSalary);
+			//List<Map<String, Object>> findYearSalary = payment_groupDAO.findYear();
+			//request.setAttribute("FindYearSalary", findYearSalary);
 
 			
 			return SUCCESS;
@@ -560,16 +564,20 @@ public class PayrollReportAction extends ActionSupport {
 		try {
 			String mYear = request.getParameter("findYear");
 			String mDepart = request.getParameter("department");
-			log.debug(mYear);
+			//log.debug(mYear);
 			log.debug(mDepart);
 			
-			List<Map<String, Object>> findMonth = payment_groupDAO.monthSalary(mYear,mDepart);
-			request.setAttribute("FindMonth", findMonth);
+			//List<Map<String, Object>> findMonth = payment_groupDAO.monthSalary(mYear,mDepart);
+			//request.setAttribute("FindMonth", findMonth);
+			
+			List<Map<String, Object>> multiSelect = payment_groupDAO.multiSalary(mYear,mDepart);
+			request.setAttribute("MultiSelect", multiSelect);
 			
 			//log.debug(findMonth);
+			//log.debug(multiSelect);
 			
 			Gson gson = new Gson(); 
-            String json = gson.toJson(findMonth); 
+            String json = gson.toJson(multiSelect); 
             request.setAttribute("json", json);	
 			return SUCCESS;
 		} catch (Exception e) {

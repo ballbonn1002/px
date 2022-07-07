@@ -161,5 +161,27 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 		}
 		return findMonth; 
 	}
+	
+	@Override
+	public List<Map<String, Object>> multiSalary(String mYear, String mDepart) throws Exception {
+		Session session =  this.sessionFactory.getCurrentSession(); 
+		List<Map<String, Object>> multiSelect = null;
+		try {
+			String[] strArray = null;
+			strArray = mDepart.split(",");
+			String sql = "SELECT payment_group.payment_group_id, payment_group.name, EXTRACT(YEAR FROM payment_group.payment_date) AS year, EXTRACT(MONTH FROM payment_group.payment_date) AS month, SUM(payment.total_pay) AS sum_total_pay, user.department_id FROM payment_group LEFT JOIN payment ON payment_group.payment_group_id = payment.payment_group_id  LEFT JOIN user ON payment.user_id = user.id LEFT JOIN department ON department.department_id = user.department_id WHERE department.department_id = '"+strArray[0]+"' AND EXTRACT(YEAR FROM payment_group.payment_date) = '"+mYear+"'";
+			for (int i = 0; i< strArray.length; i++){
+				sql += "OR department.department_id = '"+strArray[i]+"'";
+			}
+			sql += "GROUP BY month, year, user.department_id";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			multiSelect = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return multiSelect; 
+	}
+
 
 }
