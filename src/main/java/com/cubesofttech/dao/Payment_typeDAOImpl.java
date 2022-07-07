@@ -37,7 +37,7 @@ public class Payment_typeDAOImpl implements Payment_typeDAO{
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Payment_type> paymentTypeList = null;
 		try {
-			String sql = "SELECT * FROM payment_type";
+			String sql = "SELECT * FROM payment_type ORDER BY sequence";
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 			paymentTypeList = query.list();

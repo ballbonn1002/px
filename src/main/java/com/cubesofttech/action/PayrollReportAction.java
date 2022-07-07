@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.components.Debug;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +43,7 @@ import com.cubesofttech.model.User;
 import com.cubesofttech.util.DateUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.ibm.icu.math.BigDecimal;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class PayrollReportAction extends ActionSupport {
@@ -99,15 +102,25 @@ public class PayrollReportAction extends ActionSupport {
 			String id = request.getParameter("payment_group_id");
 			log.debug(id);
 			Integer idValue = Integer.valueOf(id);
-			Payment_group payment_group = payment_groupDAO.findById(idValue);
+			
+			List<Payment_group> payment_group = payment_groupDAO.listForReportById(idValue);
 			log.debug(payment_group);
 			request.setAttribute("payment_groupList", payment_group);
+			
+			List<Payment_type> payment_type = payment_typeDAO.findAll();
+			log.debug(payment_type);
+			request.setAttribute("payment_typeList",payment_type);
+			
+			List<Payment_group> group = payment_groupDAO.listConvert(idValue);
+			log.debug(group);
+			request.setAttribute("groupList",group);
 			return SUCCESS;
 		}catch(Exception e){
 			e.printStackTrace();
 			return ERROR;
 		}
 	}
+	
 	
 	
 
@@ -516,23 +529,41 @@ public class PayrollReportAction extends ActionSupport {
 	
 	public String findBonusByYear(){
 		try {
-			//List<Map<String, Object>> Users = userDAO.Query_Userlist();
-			//request.setAttribute("Users", Users);
 			
 			String userid = request.getParameter("user_id");
 			String year = request.getParameter("year");
-			
-			List<Map<String, Object>> BonusByYear = payment_groupDAO.findBonusByYear(userid,year);
-			
+					
 			//query code
-			
+			List<Map<String, Object>> BonusByYear = payment_groupDAO.findAndSumBonusByYear(userid,year);
+					
             Gson gson = new Gson(); 
             String json = gson.toJson(BonusByYear); 
+
+            //log.debug(json);
             request.setAttribute("json", json);	
-            
-			log.debug(userid);
-			log.debug(year);
 			
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+	}
+	
+	public String findBonusByMultipleYear(){
+		try {
+			
+			String userid = request.getParameter("user_id");
+			String year = request.getParameter("year");
+			List<String> yearList = Arrays.asList(year.split("\\s*,\\s*"));
+			
+			//query code
+			List<Map<String, Object>> BonusByMultipleYear = payment_groupDAO.findAndSumBonusByMultipleYear(userid,yearList);
+					
+            Gson gson = new Gson(); 
+            String json = gson.toJson(BonusByMultipleYear);
+
+            request.setAttribute("json", json);	
+            		
 			return SUCCESS;
 		} catch (Exception e) {
 			e.printStackTrace();

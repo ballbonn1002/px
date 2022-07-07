@@ -215,6 +215,8 @@ ALTER TABLE `payment_group`
 ALTER TABLE `user_payment_config`
   MODIFY `user_payment_config_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
+-- 30/06/2022 Eric Update payment_group:
+ALTER TABLE payment_group CHANGE name name VARCHAR(64) NULL
   
 -- Update user 05/07/2022 Job:
 UPDATE `user` SET `department_id` = 'IT', `position_id` = 'SA', `time_create` = NULL, `time_update` = NULL, `password_update` = NULL, `last_login_failed_time` = NULL WHERE `user`.`id` = 'test.data1';
