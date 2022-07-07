@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.cubesofttech.model.Position;
+import com.cubesofttech.model.User;
 import com.cubesofttech.model.UserSalary;
 
 @Repository
@@ -49,17 +50,16 @@ public class PositionDAOImpl implements PositionDAO {
 	@Override
 	public List<Position> findAll() throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();
-		List<Position> positionList = null;
+		List<Position> position = null;
 		try {
-			String sql = "SELECT * FROM position";
-			SQLQuery query = session.createSQLQuery(sql);
-			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
-			positionList = query.list();
-		} catch (Exception e) {
+			position = session.createCriteria(Position.class).list();
+
+		}
+		catch(Exception e) {
 			e.printStackTrace();
 		}
-		return positionList;
-	}
+		return position;
+		}
 
 	@Override
     public Position findById(String position_id) throws Exception {

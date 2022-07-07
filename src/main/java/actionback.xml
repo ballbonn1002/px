@@ -760,5 +760,9 @@
 			<result name="error">/index.jsp</result>
 		</action>
 		
+		<action name="getTable"
+			class="com.cubesofttech.action.DashboardAction" method="getTable">
+		</action>
+		
 	</package>
 </struts>

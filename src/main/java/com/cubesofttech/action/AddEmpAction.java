@@ -208,7 +208,6 @@ public class AddEmpAction extends ActionSupport {
         	//update Modal
         	UserSalary userSalary = new UserSalary();
 
-			userSalary.setUser_salary_id(16);
 
 			userSalary.setUser_id(userId);
 			userSalary.setPayment_type_id("SL");

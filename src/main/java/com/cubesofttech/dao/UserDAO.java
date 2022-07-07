@@ -111,4 +111,17 @@ public interface UserDAO {
 	public List<Map<String, Object>> findUserWork(String id) throws Exception; 
 
 	public List<User> userList() throws Exception;
+	
+	public long rowCountByEmpIdDateInterval(String EmpId,String month,String year)  throws Exception;
+	
+	public long rowCountByEmpIdFilterYear(String EmpId,String year) throws Exception;
+	
+	public long dashboardDepartmentMonth(String DepartId,String month,String year) throws Exception;
+	
+	public long dashboardDepartmentYear(String DepartId,String year) throws Exception;
+	
+	public long dashboarPositionMonth(String PositionId,String month,String year) throws Exception;
+	
+	public long dashboardPositionYear(String PositionId,String year) throws Exception;
+	
 }

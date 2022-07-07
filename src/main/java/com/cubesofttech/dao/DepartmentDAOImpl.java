@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.cubesofttech.model.Department;
+import com.cubesofttech.model.Employee_type;
 
 /**
  * @author Peerakit
@@ -38,10 +39,7 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Department> departmentList = null;
 		try {
-			String sql = "SELECT * FROM department";
-			SQLQuery query = session.createSQLQuery(sql);
-			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
-			departmentList = query.list();
+			departmentList = session.createCriteria(Department.class).list();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -12,6 +12,7 @@ import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.cubesofttech.model.Department;
 import com.cubesofttech.model.Payment_type;
 import com.cubesofttech.model.UserPaymentConfig;
 
@@ -37,10 +38,7 @@ public class Payment_typeDAOImpl implements Payment_typeDAO{
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Payment_type> paymentTypeList = null;
 		try {
-			String sql = "SELECT * FROM payment_type";
-			SQLQuery query = session.createSQLQuery(sql);
-			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
-			paymentTypeList = query.list();
+			paymentTypeList = session.createCriteria(Payment_type.class).list();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
