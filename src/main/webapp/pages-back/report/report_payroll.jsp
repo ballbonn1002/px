@@ -56,9 +56,9 @@
 				</div>
 					<div class="col-md-3 pull-right">
                        	<div class="input-group input-large date-picker input-daterange"  data-date-format="dd-mm-yyyy">
-                           <input type="date" class="form-control " name="Date-Start" id="F-date" value="">
+                           <input type="date" class="form-control " name="Date-Start"  value="" id="datefilterfrom" data-date-split-input="true" value="">
                            <span class="" style="margin-top:7px;margin-right:5px;margin-left:5px;"><i class="fa fa-minus"></i></span>
-                           <input type="date" class="form-control " name="Date-End" id="E-date" value="">
+                           <input type="date" class="form-control " name="Date-End"  value="" id="datefilterto" data-date-split-input="true">
                         </div>
                     </div>
 			</div><br><hr>
@@ -74,7 +74,7 @@
 											<th>รายการการเงิน</th>
 											<th>ช่วงวันที่</th>
 											<th>วันที่ชำระ</th>
-											<th>ยอดรวมสุทธิ</th>
+											<th style="text-align:right;">ยอดรวมสุทธิ</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -82,9 +82,20 @@
 										<tr class="high" onclick="myFunction('${test.payment_group_id}')">
 											<td>${test.payment_group_id}</td>
 											<td>${test.name }</td>
-											<td>ช่วงวันที่ ${test.start_date} - ${test.end_date} </td>
-											<td>${test.payment_date}</td>
-											<td>${test.total_pay }</td>
+											
+											<td><fmt:formatDate value="${test.start_date}" pattern="dd/MM/yyyy"></fmt:formatDate>
+													 &nbsp;&nbsp;-&nbsp;&nbsp;
+												 <fmt:formatDate value="${test.end_date}" pattern="dd/MM/yyyy"></fmt:formatDate>
+										    </td>
+										    
+											<td>
+												<fmt:formatDate value="${test.payment_date}" pattern="dd-MM-yyyy"></fmt:formatDate>
+											</td>
+													
+											<td style="text-align:right;" class="fix">
+												 <fmt:parseNumber var = "total" type = "number" value = "${test.total_pay}" />
+										            <fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${total}" />
+											</td>
 										</tr>
 <script>
 function myFunction() {
@@ -109,3 +120,38 @@ function myFunction(id) {
     };
 
 </script>
+<script>
+function filterRows() {
+	  var from = $('#datefilterfrom').val();
+	  var to = $('#datefilterto').val();
+      console.log(from);
+      console.log(to);
+	  if (!from && !to) { // no value for from and to
+	    return;
+	  }
+
+	  from = from || '1970-01-01'; // default from to a old date if it is not set
+	  to = to || '2999-12-31';
+
+	  var dateFrom = moment(from);
+	  var dateTo = moment(to);
+
+	  $('#myTable tr.high').each(function(i, tr) {
+	    var val = $(tr).find("td:nth-child(3)").text();
+	    var dateVal = moment(val, "DD/MM/YYYY");
+	    var visible = (dateVal.isBetween(dateFrom, dateTo, null, [])) ? "" : "none"; // [] for inclusive
+	    $(tr).css('display', visible);
+	  });
+	}
+
+	$('#datefilterfrom').on("change", filterRows);
+	$('#datefilterto').on("change", filterRows);
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<!--  <script>
+document.querySelectorAll('td.fix').forEach((e)=>{
+	  e.innerText = Number(e.innerText).toFixed(2);
+	})
+</script>-->
+
