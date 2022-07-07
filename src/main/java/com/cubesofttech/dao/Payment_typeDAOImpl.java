@@ -24,7 +24,7 @@ import com.cubesofttech.model.UserPaymentConfig;
 public class Payment_typeDAOImpl implements Payment_typeDAO{
     @Autowired
     private SessionFactory sessionFactory;
-    
+
     @Override
     public void save(Payment_type payment_type) throws Exception{
         Session session = this.sessionFactory.getCurrentSession();
@@ -44,7 +44,7 @@ public class Payment_typeDAOImpl implements Payment_typeDAO{
 		}
 		return paymentTypeList;
 	}
-    
+
     public List<Payment_type> findtype1() throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Payment_type> paymentTypeList01 = null;
@@ -58,8 +58,8 @@ public class Payment_typeDAOImpl implements Payment_typeDAO{
 		}
 		return paymentTypeList01;
 	}
-    
-    
+
+
     public List<Payment_type> findtype0() throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Payment_type> paymentTypeList00 = null;
@@ -73,7 +73,7 @@ public class Payment_typeDAOImpl implements Payment_typeDAO{
 		}
 		return paymentTypeList00;
 	}
-  
+
     public List<Payment_type> findType() throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Payment_type> paymentTypeList1 = null;
@@ -87,8 +87,8 @@ public class Payment_typeDAOImpl implements Payment_typeDAO{
 		}
 		return paymentTypeList1;
 	}
-    
-    
+
+
     @Override
     public List<Map<String, Object>> findAllList() throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();
@@ -104,7 +104,7 @@ public class Payment_typeDAOImpl implements Payment_typeDAO{
 		return paymentTypeList;
 	}
 
-   
+
 
     @Override
     public void update(Payment_type payment_type) throws Exception {
@@ -114,11 +114,11 @@ public class Payment_typeDAOImpl implements Payment_typeDAO{
         session.flush();
         //session.close();
     }
-    
-    
-	
 
-    
+
+
+
+
     @Override
     public void delete(Payment_type payment_type) throws Exception {
         Session session = this.sessionFactory.getCurrentSession();
@@ -140,18 +140,18 @@ public class Payment_typeDAOImpl implements Payment_typeDAO{
  		}
  		return paymenttype_id;
  	}
-    
+
 	@Override
 	public List<Payment_type> findByPaymentTypeId(String paymentTypeId) throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();
         List<Payment_type> list = null;
         try {
-            
+
             Criteria cr = session.createCriteria(Payment_type.class);
             cr.add(Restrictions.eq("payment_type_id", paymentTypeId));
-            
+
             list = cr.list();
-  
+
         } catch (Exception e) {
         	e.printStackTrace();
         	return null;
@@ -161,7 +161,7 @@ public class Payment_typeDAOImpl implements Payment_typeDAO{
         }
         return list;
 	}
-	
+
 	 @Override
 	    public Payment_type findById(String  Payment_type_id) throws Exception {
 	        Session session = this.sessionFactory.getCurrentSession();
@@ -173,21 +173,21 @@ public class Payment_typeDAOImpl implements Payment_typeDAO{
 	            e.printStackTrace();
 	        }finally{
 	            //session.close();
-	        }        
+	        }
 	        return payment_type;
 	    }
-	 
+
 	    @Override
 		public List<Payment_type> search(String paymentTypeId) throws Exception {
 			Session session = this.sessionFactory.getCurrentSession();
 	        List<Payment_type> list = null;
 	        try {
-	            
+
 	            Criteria cr = session.createCriteria(Payment_type.class);
 	            cr.add(Restrictions.eq("payment_type_id", paymentTypeId));
-	            
+
 	            list = cr.list();
-	  
+
 	        } catch (Exception e) {
 	        	e.printStackTrace();
 	        	return null;
@@ -232,7 +232,7 @@ public class Payment_typeDAOImpl implements Payment_typeDAO{
 
 			return payment_type;
 		}
-		
-		
+
+
 
 }
