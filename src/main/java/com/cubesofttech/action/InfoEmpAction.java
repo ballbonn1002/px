@@ -302,7 +302,7 @@ public class InfoEmpAction extends ActionSupport {
 
 			UserSalary userSalary = new UserSalary();
 			userSalary.setUser_id(userId);
-			userSalary.setAmount(new BigDecimal(amountsalary));
+			userSalary.setAmount(new BigDecimal(amountsalary.replace(",","")));
 			userSalary.setDate(salaryDate);
 			userSalary.setDescription(note);
 			userSalary.setPayment_type_id("SL");

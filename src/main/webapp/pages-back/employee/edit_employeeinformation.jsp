@@ -103,7 +103,7 @@
 				<div class="form-group form-md-line-input">
 					<div class="col-md-2">
 						<input name="date" id="date"
-							value="<fmt:formatDate value="${now}"  type = "both" 
+							value="<fmt:setLocale value="en_US" scope="session"/><fmt:formatDate value="${now}"  type = "both" 
        								timeStyle = "medium" pattern="dd-MM-yyyy "  />"
 							onchange="datechenge()"
 							class="form-control input-lg form-control-inline input-medium date-picker test"
@@ -141,7 +141,7 @@
 						style="font-weight: lighter; font-size: 14px;">วันเกิด</label> <input
 						data-provide="datepicker" data-date-autoclose="true"
 						data-date-format="dd-mm-yyyy" name="bday"
-						value="<fmt:formatDate value="${selectUser.birthDate}" pattern=" dd-MM-yyyy" />"
+						value="<fmt:setLocale value="en_US" scope="session"/><fmt:formatDate value="${selectUser.birthDate}" pattern=" dd-MM-yyyy" />"
 						class="form-control" style="width: 95%;">
 				</div>
 

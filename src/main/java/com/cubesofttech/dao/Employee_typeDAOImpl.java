@@ -7,12 +7,14 @@ import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.cubesofttech.model.Employee_type;
+import com.cubesofttech.model.UserSalary;
 
 /**
  * @author Peerakit
@@ -38,10 +40,7 @@ public class Employee_typeDAOImpl implements Employee_typeDAO{
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Employee_type> emptypeList = null;
 		try {
-			String sql = "SELECT * FROM employee_type";
-			SQLQuery query = session.createSQLQuery(sql);
-			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
-			emptypeList = query.list();
+			emptypeList = session.createCriteria(Employee_type.class).list();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -105,7 +104,7 @@ public class Employee_typeDAOImpl implements Employee_typeDAO{
         try {
             
             Criteria cr = session.createCriteria(Employee_type.class);
-            cr.add(Restrictions.eq("EmployeeTypeId",EmployeeTypeId));
+            cr.add(Restrictions.eq("employee_type_id",EmployeeTypeId));
             
             list = cr.list();
   
@@ -135,13 +134,13 @@ public class Employee_typeDAOImpl implements Employee_typeDAO{
     }
 	
     @Override
-	public List<Employee_type> search(String EmployeeTypeId) throws Exception {
+	public List<Employee_type> search(int EmployeeTypeId) throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();
         List<Employee_type> list = null;
         try {
             
             Criteria cr = session.createCriteria(Employee_type.class);
-            cr.add(Restrictions.eq("EmployeeTypeId", EmployeeTypeId));
+            cr.add(Restrictions.eq("employee_type_id", EmployeeTypeId));
             
             list = cr.list();
   
@@ -149,9 +148,27 @@ public class Employee_typeDAOImpl implements Employee_typeDAO{
         	e.printStackTrace();
         	return null;
 
-        } finally {
-
-        }
+        } 
         return list;
+	}
+	
+	@Override
+	public List<Integer> allType() throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Integer> employeetype_id = null;
+    try {
+    	Criteria cr = session.createCriteria(Employee_type.class);
+    	cr.setProjection( Projections.projectionList()
+    						.add( Projections.distinct(Projections.property("employee_type_id")) )
+    	    );
+    	employeetype_id = cr.list();
+
+    } catch (Exception e) {
+    	e.printStackTrace();
+    	return null;
+
+    }
+    return employeetype_id;
+		
 	}
 }
