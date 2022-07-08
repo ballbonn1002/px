@@ -111,7 +111,7 @@ public class PayrollReportAction extends ActionSupport {
 			log.debug(payment_group);
 			request.setAttribute("payment_groupList", payment_group);
 			
-			List<Payment_type> payment_type = payment_typeDAO.findAll();
+			List<Payment_type> payment_type = payment_typeDAO.listName();
 			log.debug(payment_type);
 			request.setAttribute("payment_typeList",payment_type);
 			

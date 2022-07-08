@@ -233,6 +233,21 @@ public class Payment_typeDAOImpl implements Payment_typeDAO{
 			return payment_type;
 		}
 
+		@Override
+		public List<Payment_type> listName() throws Exception {
+			Session session = this.sessionFactory.getCurrentSession();
+			List<Payment_type> paymenttype_id = null;
+	 		try {
+	 			String sql = " SELECT Payment_type_name FROM payment_type  ORDER BY sequence ASC  ";
+	 			SQLQuery query = session.createSQLQuery(sql);
+	 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+	 			paymenttype_id = query.list();
+	 		} catch (Exception e) {
+	 			e.printStackTrace();
+	 		}
+	 		return paymenttype_id;
+		}
+
 
 
 }

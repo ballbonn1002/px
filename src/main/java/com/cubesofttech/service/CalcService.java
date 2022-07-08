@@ -23,8 +23,7 @@ public class CalcService {
 	@Autowired
 	private UserSalaryDAO userSalaryDAO;
 	
-	@Autowired
-	private UserSalaryDAO userSalaryDAO;
+	
 	
 	//Code in here
 	public List<List<Double>> calculateTax(Double money) throws Exception {
