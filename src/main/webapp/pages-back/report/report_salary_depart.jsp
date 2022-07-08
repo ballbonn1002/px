@@ -31,12 +31,15 @@
 
 	<div class="block-header">
 		<div class="row">
-			<div class="col-lg-6 col-md-8 col-sm-12">
+			<div class="col-12">
 				<h2>
 					<a href="javascript:void(0);"
 						class="btn btn-xs btn-link btn-toggle-fullwidth"><i
 						class="fa fa-arrow-left"></i></a> รายงาน เงินเดือนแยกตามแผนก
 				</h2>
+				<div style="float:right;">
+  					<button class="btn btn-light" type="button"><i class="icon-printer" data-toggle="dropdown"></i></button>
+				</div> 
 				<ul class="breadcrumb">
 					<li class="breadcrumb-item"><a href="page-blank.jsp"><i
 							class="icon-home"></i></a></li>
@@ -63,7 +66,7 @@
 					</div>
 					<div class="header">
 						<div class="tab-content padding-0">
-							<div class="tab-pane animated fadeIn active" id="Month">
+							<div class="tab-pane fade show active" id="Month">
 								<form action="findMonth" method="POST">
 									<div class="row">
 										<div class="col-sm">
@@ -76,38 +79,32 @@
 											</select>
 										</div>
 										<div class="col-sm">
-											<select id="department" class="form-control">
-												<c:forEach var="user" items="${DepartmentId}"
-													varStatus="status">
-													<option disabled hidden selected="selected">เลือกแผนก</option>
-													<option>${user.department_id}</option>
-												</c:forEach>
-											</select>
-										</div>
+										<select id="department" placeholder="แผนก" multiple>
+											<c:forEach var="user" items="${DepartmentId}"
+												varStatus="status">
+												<!-- <option disabled hidden selected="selected">เลือกแผนก</option>  -->
+												<option>${user.department_id}</option>
+											</c:forEach>
+										</select>
+									</div>
 									</div>
 								</form>
 								<div class="portlet-body">
 									<div class="body">
 										<div class="table-responsive">
-											<table class="table table-hover m-b-0 c_list">
+											<table class="table m-b-0" id="get">
 												<thead>
-													<tr>
-														<th style="text-align: left; width: 30%">เดือน</th>
-														<th style="text-align: left; width: 20%">IT</th>
-														<th style="text-align: left; width: 10%">สรุปยอดรวม</th>
-													</tr>
+													<tr id="columnTable"></tr>
 												</thead>
-												<tbody id="get">
-													<tr>
-														<th id="result"></th>
-													</tr>
-												</tbody>
+												<tbody id ="bodyTable"></tbody>
+												<tfoot id="total">
+												</tfoot>
 											</table>
 										</div>
 									</div>
 								</div>
 							</div>
-							<div class="tab-pane animated fadeIn" id="Year">
+							<div class="tab-pane fade" id="Year">
 								<div class="row">
 									<div class="col-sm">
 										<select id="choices-multiple-remove-button"
@@ -149,45 +146,111 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 	<script>
+		
+	</script>
+	<script>
+
+function generate_table_month(department_list){
+	const tableBody = document.getElementById('bodyTable');
+	const tableColumn = document.getElementById('columnTable');
+	const tableFoot = document.getElementById('total');
+	let bodyHtml ='';
+	let columnHtml ='';
+	let totalHtml='';
+	const month=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+	var depart_num=['sum'];
+	const month_num=['1','2','3','4','5','6','7','8','9','10','11','12','13'];
+	
+	depart_num = department_list.concat(depart_num);
+	
+	columnHtml +='<tr><th style="text-align: left; width: 5%">เดือน</th>';
+	
+	for(let i=0; i<depart_num.length-1; i++){
+		columnHtml += '<th style="text-align: left; width: 5%">'+depart_num[i]+'</th>';
+	}
+	
+	columnHtml += '<th style="text-align: left; width: 8%">สรุปยอดรวม</th>';
+	
+	for(let i=0; i<month.length; i++){
+		bodyHtml += '<tr><td>'+month[i]+'';
+
+		
+		for(let j = 0; j < depart_num.length; j++){
+			bodyHtml += '<td class="'+(j==depart_num.length-1 ? 'text-primary' : '')+'" id="'+month_num[i]+''+depart_num[j]+'">0.00</td>';
+		}
+		
+	}
+	totalHtml +='<th>ยอดรวม</th>';
+	for(let j = 0; j < depart_num.length; j++){
+		totalHtml +='<td class="text-primary" id="'+month_num[12]+''+depart_num[j]+'">0.00</td>';
+	}
+
+	tableBody.innerHTML = bodyHtml;
+	tableColumn.innerHTML = columnHtml;
+	tableFoot.innerHTML = totalHtml;
+}
+
+function fill_data(department_data){
+	department_data.forEach(function(depart_data){
+		
+		let id = Number(depart_data.month)+depart_data.department_id.toUpperCase();
+		console.log(id);
+		$('#'+id).text(numberWithCommas(parseFloat(depart_data.sum_total_pay)));
+		
+		
+		/*if() {
+			
+		}
+		else {
+			
+		}*/
+	});
+	
+}
+
+function numberWithCommas(x) {
+    return ((x.toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+}
+	
 		$(document).ready(function() {
 			var multipleCancelButton = new Choices('#department', {
 				removeItemButton : true,
-				maxItemCount : 4,
-				searchResultLimit : 4,
-				renderChoiceLimit : 4
+				maxItemCount : 10,
+				searchResultLimit : 2,
+				renderChoiceLimit : 9
 			});
 			var start = new Date().getFullYear();
-			var end = 2000;
+			var end = 2010;
 			var options = "";
 			for (var year = start; end <= year; year--) {
 				options += "<option>" + year + "</option>";
 			}
 			document.getElementById("findYear").innerHTML = options;
 			var multipleCancelButton = new Choices('#findYear', {
-				removeItemButton : true
+				removeItemButton : false
 			});
+			
+			
+			
 			//console.log(user_id);
-			$("#department").on('change', function() {
+			$("#department,#findYear").on('change', function() {
 				var find_year = $("#findYear").val();
 				var find_department = $("#department").val();
-				console.log(find_year);
-				console.log(find_department);
-
+				//console.log(find_year);
+				//console.log(find_department);
 				$.ajax({
 					url : "findMonth",
 					method : "POST",
 					type : "JSON",
 					data : {
 						"findYear" : find_year,
-						"department" : find_department,
+						"department" : find_department.toString(),
 					},
 					success : function(data) {
-						var data_list = data;
+						let data_list = data;
 						console.log(data_list);
-						$.each(data_list, function(index, value){
-            				$("#result").append(index+1 + ": " + value + '<br>');
-        				});
-						
+						generate_table_month(find_department);
+						fill_data(data_list);
 					}
 				})
 			});
