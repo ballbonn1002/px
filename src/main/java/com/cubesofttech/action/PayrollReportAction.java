@@ -601,7 +601,7 @@ public class PayrollReportAction extends ActionSupport {
 			//List<Map<String, Object>> findMonth = payment_groupDAO.monthSalary(mYear,mDepart);
 			//request.setAttribute("FindMonth", findMonth);
 			
-			List<Map<String, Object>> multiSelect = payment_groupDAO.multiSalary(mYear,mDepart);
+			List<Map<String, Object>> multiSelect = payment_groupDAO.multiSalaryMonth(mYear,mDepart);
 			request.setAttribute("MultiSelect", multiSelect);
 			
 			//log.debug(findMonth);

@@ -17,8 +17,7 @@ public interface UserSalaryDAO {
 	    
 	    public List<Map<String, Object>> findSsi() throws Exception;
 	    
-	    public List<Map<String, Object>> findSsiById(String uId) throws Exception;
-
+	    public Map<String, Object> findSsiById(String uId) throws Exception;
 
 	    public List<UserSalary> findByUserId(String user_id) throws Exception;
 

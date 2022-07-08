@@ -319,13 +319,14 @@ $(document).ready(function(){
 	$("#calculateOT").on('click',function(){
 		
 		//get value
+		var user_id = $("#select_user_id").val();
 		var OT15 = $("#ot15").val();
 		var OT2 = $("#ot2").val();
 		var OT3 = $("#ot3").val();
-		var Salary_payment_type = ($('#Salary_payment_type').val());
-		var Salary_term = $('#Salary_term').val();
-		var Salary_term_day = $('#Salary_term_day').val();
-		var Salary_amount = $('#Salary_amount').val();
+		//var Salary_payment_type = ($('#Salary_payment_type').val());
+		//var Salary_term = $('#Salary_term').val();
+		//var Salary_term_day = $('#Salary_term_day').val();
+		//var Salary_amount = $('#Salary_amount').val();
 		
 		//send ajax
 		$.ajax({
@@ -336,10 +337,11 @@ $(document).ready(function(){
 					"ot15" : OT15 ,
 					"ot2" : OT2 ,
 					"ot3" : OT3 ,
-					"Salary_payment_type" : Salary_payment_type ,
-					"Salary_term" : Salary_term ,
-					"Salary_term_day" : Salary_term_day ,
-					"Salary_amount" : Salary_amount ,
+					"userId" : user_id,
+					//"Salary_payment_type" : Salary_payment_type ,
+					//"Salary_term" : Salary_term ,
+					//"Salary_term_day" : Salary_term_day ,
+					//"Salary_amount" : Salary_amount ,
 				},
 				success:function(data){
 					console.log(data);

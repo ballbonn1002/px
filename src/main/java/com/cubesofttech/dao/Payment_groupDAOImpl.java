@@ -3,9 +3,11 @@ package com.cubesofttech.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.jfree.util.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,30 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
         session.flush();
         //session.close();
     }
+	
+	@Override
+	public Integer getMaxId() throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		Integer maxId = 0;
+
+		try {
+
+			Criteria criteria = session.createCriteria(Payment_group.class).setProjection(Projections.max("id"));
+			maxId = (Integer) criteria.uniqueResult();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Integer(0);
+
+		} finally {
+
+		}
+		if (maxId != null) {
+			return maxId;
+		} else {
+			return new Integer(0);
+		}
+	}
 	
 	@Override
     public List<Payment_group> findAll() throws Exception {
@@ -218,13 +244,13 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 	}
 	
 	@Override
-	public List<Map<String, Object>> multiSalary(String mYear, String mDepart) throws Exception {
+	public List<Map<String, Object>> multiSalaryMonth(String mYear, String mDepart) throws Exception {
 		Session session =  this.sessionFactory.getCurrentSession(); 
 		List<Map<String, Object>> multiSelect = null;
 		try {
 			String[] strArray = null;
 			strArray = mDepart.split(",");
-			String sql = "SELECT payment_group.payment_group_id, payment_group.name, EXTRACT(YEAR FROM payment_group.payment_date) AS year, EXTRACT(MONTH FROM payment_group.payment_date) AS month, SUM(payment.total_pay) AS sum_total_pay, user.department_id FROM payment_group LEFT JOIN payment ON payment_group.payment_group_id = payment.payment_group_id  LEFT JOIN user ON payment.user_id = user.id LEFT JOIN department ON department.department_id = user.department_id WHERE department.department_id = '"+strArray[0]+"' AND EXTRACT(YEAR FROM payment_group.payment_date) = '"+mYear+"'";
+			String sql = "SELECT payment_group.payment_group_id, payment_group.name, EXTRACT(YEAR FROM payment_group.payment_date) AS year, EXTRACT(MONTH FROM payment_group.payment_date) AS month, SUM(payment.total_pay) AS sum_total_pay, user.department_id FROM payment_group LEFT JOIN payment ON payment_group.payment_group_id = payment.payment_group_id AND EXTRACT(YEAR FROM payment_group.payment_date) = '"+mYear+"' LEFT JOIN user ON payment.user_id = user.id LEFT JOIN department ON department.department_id = user.department_id WHERE department.department_id = '"+strArray[0]+"'";
 			for (int i = 0; i< strArray.length; i++){
 				sql += "OR department.department_id = '"+strArray[i]+"'";
 			}
