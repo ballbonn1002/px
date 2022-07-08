@@ -84,14 +84,14 @@ public class UserSalaryDAOImpl implements UserSalaryDAO{
 	}
 	
 	@Override
-	public List<Map<String, Object>> findSsiById(String uId) throws Exception {
+	public Map<String, Object> findSsiById(String uId) throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();
-		List<Map<String, Object>> userSocialSecureById = null;
+		Map<String, Object> userSocialSecureById = null;
 		try {
 			String sql = "SELECT user.id,user.social_security,user.enable,user_salary.amount FROM user LEFT JOIN user_salary ON user.id = user_salary.user_id  WHERE user.enable=1 AND user.id = '"+uId+"' ORDER BY id";
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
-			userSocialSecureById = query.list();
+			userSocialSecureById = (Map<String, Object>) query.list().get(0);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
