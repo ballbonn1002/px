@@ -209,10 +209,10 @@ public class AddEmpAction extends ActionSupport {
         	UserSalary userSalary = new UserSalary();
         	
 
-
+        	BigDecimal amountSalary = new BigDecimal(amountsalary.replace(",",""));
 			userSalary.setUser_id(userId);
 			userSalary.setPayment_type_id("SL");
-			userSalary.setAmount(new BigDecimal(amountsalary.replace(",","")));
+			userSalary.setAmount(amountSalary);
 			userSalary.setPosition_id(userDAO.findById(userId).getPositionId());
 			userSalary.setDate(salaryDate);
 			userSalary.setDescription(note);
