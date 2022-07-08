@@ -1,5 +1,6 @@
 package com.cubesofttech.service;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 import org.apache.log4j.Logger;
@@ -14,16 +15,22 @@ import com.ibm.icu.text.DecimalFormat;
 public class CalcService {
 	private static final Logger log = Logger.getLogger(CalcService.class);
 	//@Autowired Phase
+	@Autowired
+	private UserSalaryDAO userSalaryDAO;
 	
 	//Code in here
-	public List<List<Double>> calculateTax(Double money,Double paid,Double self,Double aia) throws Exception {
+	public List<List<Double>> calculateTax(Double money) throws Exception {
 		List<Double> taxList = new ArrayList<Double>();      //list ของการคำนวนภาษี
 		List<Double> resultList = new ArrayList<Double>();     //list ของผลลัพท์ (ต่อปี,ต่อเดือน)
-		double year = money * 12;
+		double paid = 100000;    //หักค่าใช้จ่าย
+		double self = 60000;    // หักลดหย่อนส่วนตัว
+		double aia =  9000;      //หักประกันสังคม
+		double year = money * 12;   //รายได้ทั้งปี
 		double sum = year - paid - self - aia;      //ยอดคงเหลือสุทธิ
 		double tax = 0,tax1 = 0,tax2 = 0,tax3 = 0,tax4 = 0,tax5 = 0,tax6 = 0,tax7 = 0;  
 		double percent1 = 0, percent2 = 5, percent3 = 10, percent4 = 15, percent5 = 20,      // % คำนวนภาษี
 			   percent6 = 25, percent7 = 30, percent8 = 35;
+		
 		
 		taxList.add(sum);
 		if(sum<=150000) {                //ยอดคุงเหลือสุทธิ 0-150,000
@@ -287,15 +294,23 @@ public class CalcService {
 			}
 		}
 		double total = tax+tax1+tax2+tax3+tax4+tax5+tax6+tax7;
+		log.debug("Total: "+total);
 		resultList.add(total);
 		double perMonth = total/12;
+		
 		resultList.add(perMonth);
 		
 		return  Arrays.asList(taxList, resultList);
-		
-		
 	}
-
+	public double calTaxPerMonth(String userId) throws Exception{
+		Map<String, Object> find = userSalaryDAO.testTax(userId);
+		double money = ((BigDecimal) find.get("amount")).doubleValue();
+		List<List<Double>> y = calculateTax(money);
+		List<Double> best = y.get(1);
+		Double taxPerMonth = best.get(1);
+		log.debug(taxPerMonth);
+		return taxPerMonth;
+	}
 	public double calSsi(double percent, double salary) throws Exception {
 		double calSocialSecurity = 0;
 		//DecimalFormat df = new DecimalFormat();

@@ -223,5 +223,21 @@ public class UserSalaryDAOImpl implements UserSalaryDAO{
 		return userSalaryById;
 	}
 
+	@Override
+	public Map<String, Object> testTax(String user_id) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		Map<String, Object> List = null;
+		try {
+			String sql = "SELECT user_salary.user_id, user_salary.amount, user.withholding_auto FROM `user`  JOIN user_salary ON user_salary.user_id=user.id \r\n"
+					+ "WHERE user_salary.user_id='"+user_id+"'";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			List = (Map<String, Object>)query.list().get(0);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return List;
+	}
+
 
 }

@@ -29,7 +29,7 @@ public class UserSalary implements Serializable {
 	private String payment_type_id;
 
 	@Column(name = "amount")
-	private BigDecimal amount;
+	public BigDecimal amount;
 
 	@Column(name = "date")
 	private java.sql.Date date;

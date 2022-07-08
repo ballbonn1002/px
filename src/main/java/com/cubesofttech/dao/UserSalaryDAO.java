@@ -35,6 +35,8 @@ public interface UserSalaryDAO {
 	    public List<Map<String, Object>> findAllUserSalary() throws Exception;
 	    
 	    public List<Map<String, Object>> findUserSalaryByID(String userId) throws Exception;
+	    
+	    public Map<String, Object> testTax(String user_id) throws Exception;
 
 
 }

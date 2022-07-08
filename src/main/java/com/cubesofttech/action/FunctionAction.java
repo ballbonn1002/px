@@ -1,7 +1,11 @@
 package com.cubesofttech.action;
 
+import java.lang.reflect.Array;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -235,20 +239,27 @@ public class FunctionAction extends ActionSupport {
 	
 	public String calTax() {
 		try {
-			String val = request.getParameter("salary");
-			String pay = request.getParameter("pay");
-			String mny = request.getParameter("money");
-			String ssi = request.getParameter("social");
-			String flag = request.getParameter("flag");
-			Double money = Double.parseDouble(val);
-			Double paid = Double.parseDouble(pay);
-			Double self = Double.parseDouble(mny);
-			Double aia = Double.parseDouble(ssi);
+			 
+			//UserSalary userModel = dataSnapshot.getValue(UserSalary.class);
+			String userId = request.getParameter("user_name");
+			
+			Map<String, Object> find = userSalaryDAO.testTax(userId);
+			//log.debug("findSalary: "+find.getClass());
+			double money = ((BigDecimal) find.get("amount")).doubleValue();
+			String flag = (String) find.get("withholding_auto");
+			log.debug(flag);
+			
+			log.debug(money*2.5);
+			
+			log.debug(find.get("amount"));
+			//log.debug("testCalTax: "+calCService.calTaxPerMonth(userId));
+			
 			
 		    if(flag.equals("1")) {
-		    	List<List<Double>> y = calCService.calculateTax(money, paid, self, aia);
+		    	List<List<Double>> y = calCService.calculateTax(money);
 		    	List<Double> tan = y.get(0);
-		    	List<Double> best = y.get(1);
+		    	List<Double> best = y.get(1);   
+		    	log.debug(best);
 		    	
 		    	for (int i=0; i<tan.size(); i++) {
 		    		  tan.get(i);
