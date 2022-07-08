@@ -130,12 +130,10 @@ public class FunctionDAOImpl implements FunctionDAO {
 			sql.append("from(\n");
 			sql.append("select\n");
 			sql.append("t.*,\n");
-			sql.append("sum(case when work_hours_type = 2 and lag_type = 1 then 0 else 1 end)\n");
-			sql.append("over(partition by user_create order by work_hours_time_work) grp\n");
+			sql.append("date(work_hours_time_work) as grp \n");
 			sql.append("from (\n");
 			sql.append("select\n");
-			sql.append("t.*,\n");
-			sql.append("lag(work_hours_type) over(partition by user_create order by work_hours_time_work) lag_type\n");
+			sql.append("t.* \n");
 			sql.append("from work_hours t\n");
 			sql.append("where user_create = :userId \n");
 			sql.append("and work_hours_time_work between :startDate and :endDate \n");

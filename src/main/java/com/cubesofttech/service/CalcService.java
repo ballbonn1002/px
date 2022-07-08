@@ -8,12 +8,15 @@ import org.springframework.stereotype.Service;
 
 import com.cubesofttech.dao.*;
 import com.cubesofttech.model.*;
-import com.ibm.icu.text.DecimalFormat;
+import java.math.BigDecimal;
 
 @Service
 public class CalcService {
 	private static final Logger log = Logger.getLogger(CalcService.class);
 	//@Autowired Phase
+	
+	@Autowired
+	private UserSalaryDAO userSalaryDAO;
 	
 	//Code in here
 	public List<List<Double>> calculateTax(Double money,Double paid,Double self,Double aia) throws Exception {
@@ -310,18 +313,30 @@ public class CalcService {
 		return calSocialSecurity;
 	}
 	
-	public Double calculateSalaryPerDay(double salaryAmount,double salaryTerm,double salaryTermDay) throws Exception {
+	public Double calculateSalaryPerDay(String userId) throws Exception {
 		Double SalaryPerDay = null;
+		List<Map<String, Object>> cubesoftUserSalariesById = userSalaryDAO.findUserSalaryByID(userId);
+		
+		int payment_type = Integer.parseInt((String) cubesoftUserSalariesById.get(0).get("payment"));
+		Double salaryAmount = ((BigDecimal)cubesoftUserSalariesById.get(0).get("amount")).doubleValue();
+		Double salaryTerm = Double.parseDouble((String)cubesoftUserSalariesById.get(0).get("term"));//
+		Double salaryTermDay = Double.parseDouble((String)cubesoftUserSalariesById.get(0).get("term_day"));//
+
 		try {
-			SalaryPerDay = salaryAmount / (salaryTerm*salaryTermDay);
+			if (payment_type == 0) {
+				SalaryPerDay = salaryAmount / (salaryTerm*salaryTermDay);
+			}else {
+				SalaryPerDay = salaryAmount;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return SalaryPerDay;
 	}
 	
-	public Double calculateSalaryPerHour(double SalaryDay) throws Exception{
+	public Double calculateSalaryPerHour(String userId) throws Exception{
 		Double SalaryPerHour = null;
+		Double SalaryDay = calculateSalaryPerDay(userId);
 		try {
 			SalaryPerHour = SalaryDay/8;
 		} catch (Exception e) {
@@ -330,8 +345,10 @@ public class CalcService {
 		return SalaryPerHour;
 	}
 	
-	public Double calculateOT(double SalaryPerHour,double Otcount,double otMulitple) throws Exception{
+	
+	public Double calculateOT(String userId,Double Otcount,Double otMulitple) throws Exception{
 		Double SalaryOT = null;
+		Double SalaryPerHour = calculateSalaryPerHour(userId);
 		try {
 			SalaryOT = SalaryPerHour * otMulitple * Otcount;
 		} catch (Exception e) {

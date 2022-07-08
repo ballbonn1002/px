@@ -31,7 +31,7 @@
 						style="font-weight: lighter; font-size: 14px;">วันที่จ้างงาน</label>
 					<input data-provide="datepicker" data-date-autoclose="true"
 						data-date-format="dd-mm-yyyy" name="startday"
-						value="<fmt:formatDate value="${selectUser.startDate}" pattern=" dd-MM-yyyy" />"
+						value="<fmt:setLocale value="en_US" scope="session"/><fmt:formatDate value="${selectUser.startDate}" pattern=" dd-MM-yyyy" />"
 						class="form-control">
 				</div>
 
@@ -96,7 +96,7 @@
 						style="font-weight: lighter; font-size: 14px;">วันที่สิ้นสุดการจ้าง</label>
 					<input data-provide="datepicker" data-date-autoclose="true"
 						data-date-format="dd-mm-yyyy" name="endday"
-						value="<fmt:formatDate value="${selectUser.endDate}" pattern=" dd-MM-yyyy" />"
+						value="<fmt:setLocale value="en_US" scope="session"/><fmt:formatDate value="${selectUser.endDate}" pattern=" dd-MM-yyyy" />"
 						class="form-control" style="width: 95%;">
 				</div>
 
