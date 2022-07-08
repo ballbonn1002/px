@@ -71,12 +71,9 @@ public class PaymentDAOImpl implements PaymentDAO{
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Map<String, Object>> payment = null;
 		try {
-			String sql = "select SUM(p.salary) as salary ,SUM(p.income_net) as income_net,SUM(p.expend_net) as expend_net,COUNT(p.payment_id) as payment_count "
-					+ "			FROM payment as p"
-					+ "			inner join payment_group as pg"
-					+ "			On p.payment_group_id = pg.payment_group_id"
-					+ "			Group by p.payment_group_id"
-					+ "			ORDER BY pg.time_create DESC";
+			String sql = "select pg.payment_group_id, pg.name, pg.payment_date, pg.status, SUM(p.salary) as salary ,SUM(p.income_net) as income_net, "
+					+ "SUM(p.expend_net) as expend_net,COUNT(p.payment_id) as payment_count FROM payment as p "
+					+ "inner join payment_group as pg On p.payment_group_id = pg.payment_group_id Group by p.payment_group_id ORDER BY pg.time_create DESC;";
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE); 
 			payment = query.list();

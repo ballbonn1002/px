@@ -91,7 +91,7 @@ public class FunctionAction extends ActionSupport {
 		try {
 			String userId = request.getParameter("user_id");
 			List<Map<String, Object>> cubesoftUserSalariesById = userSalaryDAO.findUserSalaryByID(userId);
-			log.debug(cubesoftUserSalariesById);
+			//log.debug(cubesoftUserSalariesById);
 						
             Gson gson = new Gson(); 
             String json = gson.toJson(cubesoftUserSalariesById.get(0)); 
@@ -108,13 +108,10 @@ public class FunctionAction extends ActionSupport {
 	public String calculateOTData() {
 		try {
 			
+			String userId = request.getParameter("userId"); 
 			double countOt15 = Double.parseDouble(request.getParameter("ot15"));
 			double countOt2 = Double.parseDouble(request.getParameter("ot2"));
 			double countOt3 = Double.parseDouble(request.getParameter("ot3"));
-			int salary_payment_type = Integer.parseInt(request.getParameter("Salary_payment_type"));
-			double salary_term = Double.parseDouble(request.getParameter("Salary_term"));
-			double salary_term_day = Double.parseDouble(request.getParameter("Salary_term_day"));
-			double salary_amount = Double.parseDouble(request.getParameter("Salary_amount"));
 			
 			Double salaryPerDay = null;
 			Double salaryPerHour = null;
@@ -123,21 +120,14 @@ public class FunctionAction extends ActionSupport {
 			Double salaryOT3 = null;
 			
 			Map<String, Double> DataList = new HashMap<String, Double>();
+					
+			salaryPerDay = calCService.calculateSalaryPerDay(userId);
+			salaryPerHour = calCService.calculateSalaryPerHour(userId);
 			
-			CalcService calculateCalcService = new CalcService();
-			
-			//get Calculate Data
-			if (salary_payment_type == 1) {
-				salaryPerDay = salary_amount;
-			}else if (salary_payment_type == 0) {
-				salaryPerDay = calculateCalcService.calculateSalaryPerDay(salary_amount,salary_term,salary_term_day);
-			}
-			salaryPerHour = calculateCalcService.calculateSalaryPerHour(salaryPerDay);
-			salaryOT15 = calculateCalcService.calculateOT(salaryPerHour,countOt15,1.5);
-			salaryOT2 = calculateCalcService.calculateOT(salaryPerHour,countOt2,2.0);
-			salaryOT3 = calculateCalcService.calculateOT(salaryPerHour,countOt3,3.0);
+			salaryOT15 = calCService.calculateOT(userId,countOt15,1.5);
+			salaryOT2 = calCService.calculateOT(userId,countOt2,2.0);
+			salaryOT3 = calCService.calculateOT(userId,countOt3,3.0);
 
-			
 			//put JSON
             Gson gson = new Gson();
             
@@ -149,7 +139,6 @@ public class FunctionAction extends ActionSupport {
             
             String json = gson.toJson(DataList); 
             request.setAttribute("json", json);	
-            
             
             //log.debug("ภาษาไทย");
             return SUCCESS;
