@@ -226,3 +226,6 @@ UPDATE `user` SET `department_id` = 'IT', `position_id` = 'SA', `time_create` = 
 UPDATE `user` SET `department_id` = 'IN', `position_id` = NULL, `time_create` = NULL, `time_update` = NULL, `password_update` = NULL, `last_login_failed_time` = NULL WHERE `user`.`id` = 'test.data3';
 
 UPDATE `user` SET `department_id` = 'AE', `position_id` = 'AE', `time_create` = NULL, `time_update` = NULL, `password_update` = NULL, `last_login_failed_time` = NULL WHERE `user`.`id` = 'test.data4';
+
+--Update UserSalary 08/07/2022 ryu:
+ALTER TABLE `user_salary` ADD `position_id` VARCHAR(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL AFTER `payment_type_id`;

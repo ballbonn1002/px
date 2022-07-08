@@ -27,9 +27,13 @@ public class UserSalary implements Serializable {
 
 	@Column(name = "payment_type_id")
 	private String payment_type_id;
+	
+	@Column(name = "position_id")
+	private String position_id;
 
 	@Column(name = "amount")
 	private BigDecimal amount;
+	
 
 	@Column(name = "date")
 	private java.sql.Date date;
@@ -85,7 +89,17 @@ public class UserSalary implements Serializable {
 	public void setPayment_type_id(String payment_type_id) {
 		this.payment_type_id = payment_type_id;
 	}
+	
+	
 
+
+	public String getPosition_id() {
+		return position_id;
+	}
+
+	public void setPosition_id(String position_id) {
+		this.position_id = position_id;
+	}
 
 	public BigDecimal getAmount() {
 		return amount;
@@ -156,13 +170,12 @@ public class UserSalary implements Serializable {
 		this.time_update = time_update;
 	}
 
-
 	@Override
 	public String toString() {
 		return "UserSalary [user_salary_id=" + user_salary_id + ", user_id=" + user_id + ", payment_type_id="
-				+ payment_type_id + ", amount=" + amount + ", date=" + date + ", description=" + description
-				+ ", user_create=" + user_create + ", user_update=" + user_update + ", time_create=" + time_create
-				+ ", time_update=" + time_update + "]";
+				+ payment_type_id + ", position_id=" + position_id + ", amount=" + amount + ", date=" + date
+				+ ", description=" + description + ", user_create=" + user_create + ", user_update=" + user_update
+				+ ", time_create=" + time_create + ", time_update=" + time_update + "]";
 	}
 
 
@@ -192,6 +205,11 @@ public class UserSalary implements Serializable {
 			if (other.payment_type_id != null)
 				return false;
 		} else if (!payment_type_id.equals(other.payment_type_id))
+			return false;
+		if (position_id == null) {
+			if (other.position_id != null)
+				return false;
+		} else if (!position_id.equals(other.position_id))
 			return false;
 		if (time_create == null) {
 			if (other.time_create != null)
@@ -225,6 +243,9 @@ public class UserSalary implements Serializable {
 			return false;
 		return true;
 	}
+
+
+	
 
 
 

@@ -114,14 +114,9 @@ public class InfoEmpAction extends ActionSupport {
 			for (Payment_type pay : income) {
 				Boolean emptyPayment = true;
 				for (UserPaymentConfig userpay : paymentconfigList) {
-					/*
-					 * System.out.println("in"); System.out.println(pay.getPayment_type_id());
-					 * System.out.println(userpay.getPaymentypeId());
-					 */
 					if (pay.getPayment_type_id().equals(userpay.getPaymentypeId())) {
 						paymentIncome.add(new UserPayment(pay.getPayment_type_id(), "1", pay.getPayment_type_name(),
 								userpay.getAmount()));
-						// System.out.println("in+1");
 						emptyPayment = false;
 						break;
 					}
@@ -133,14 +128,9 @@ public class InfoEmpAction extends ActionSupport {
 			for (Payment_type pay : outcome) {
 				Boolean emptyPayment = true;
 				for (UserPaymentConfig userpay : paymentconfigList) {
-					/*
-					 * System.out.println("out"); System.out.println(pay.getPayment_type_id());
-					 * System.out.println(userpay.getPaymentypeId());
-					 */
 					if (pay.getPayment_type_id().equals(userpay.getPaymentypeId())) {
 						paymentOutcome.add(new UserPayment(pay.getPayment_type_id(), "1", pay.getPayment_type_name(),
 								userpay.getAmount()));
-						// System.out.println(userpay.getAmount());
 						emptyPayment = false;
 						break;
 					}
@@ -298,11 +288,14 @@ public class InfoEmpAction extends ActionSupport {
 			String sd = request.getParameter("salaryDate");
 			Date salaryDate = Convert.parseDate(sd);
 			String amountsalary = request.getParameter("amountsalary");
+			BigDecimal amountSalary = new BigDecimal(amountsalary.replace(",", ""));
 			String note = request.getParameter("note");
 
+			
 			UserSalary userSalary = new UserSalary();
 			userSalary.setUser_id(userId);
-			userSalary.setAmount(new BigDecimal(amountsalary.replace(",","")));
+			userSalary.setPosition_id(userDAO.findById(userId).getPositionId());
+			userSalary.setAmount(amountSalary);
 			userSalary.setDate(salaryDate);
 			userSalary.setDescription(note);
 			userSalary.setPayment_type_id("SL");
@@ -373,7 +366,6 @@ public class InfoEmpAction extends ActionSupport {
 				obj.put("flag", "0");
 			} else {
 				obj.put("flag", "1");
-				// System.out.println(user);
 				userPaymentConfigDAO.delete(user);
 			}
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();

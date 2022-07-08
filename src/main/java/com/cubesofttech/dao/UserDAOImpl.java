@@ -979,7 +979,7 @@ public class UserDAOImpl implements UserDAO {
 			query.setParameter("employee_id",EmpId);
 			query.setParameter("sdate",sdate);
 			query.setParameter("edate",edate);
-			query.setParameter("year", Integer.parseInt(year.strip()));
+			query.setParameter("year", Integer.parseInt(year.trim()));
 			query.setParameter("month",Month.valueOf(month.toUpperCase()).getValue());
 			
             
@@ -1000,7 +1000,7 @@ public class UserDAOImpl implements UserDAO {
 					+ "	  where (year(u.startDate) <= :year and year(u.endDate) >= :year)"
 					+ "   and u.employee_type_id = :employee_id" ; 
 			Query query = session.createQuery(hql);
-			query.setParameter("year", Integer.parseInt(year.strip()));
+			query.setParameter("year", Integer.parseInt(year.trim()));
 			query.setParameter("employee_id",EmpId);
 			count = (long)query.list().get(0);
 			

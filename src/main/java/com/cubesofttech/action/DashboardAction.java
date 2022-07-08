@@ -71,7 +71,6 @@ public class DashboardAction extends ActionSupport {
 			String item = request.getParameter("item");
 			String type = request.getParameter("type");
 			String time = request.getParameter("time");
-			// System.out.println(item);
 
 			String[] parts = time.split(" ");
 
@@ -126,7 +125,7 @@ public class DashboardAction extends ActionSupport {
 								time);
 					}
 					allPmp = allPmp + posCount;
-					table.add(Arrays.asList(allPtype.get(i).getPositionId(), posCount));
+					table.add(Arrays.asList(allPtype.get(i).getName(), posCount));
 				}
 				table.add(0, Arrays.asList("All", allPmp));
 				break;
@@ -143,13 +142,12 @@ public class DashboardAction extends ActionSupport {
 								time);
 					}
 					allDepart = allDepart + departCount;
-					table.add(Arrays.asList(allDtype.get(i).getDepartment_id(), departCount));
+					table.add(Arrays.asList(allDtype.get(i).getName(), departCount));
 				}
 				table.add(0, Arrays.asList("All", allDepart));
 				break;
 			case "Payment type":
 				List<Payment_type> allPayment = payment_typeDAO.findAll();
-				// System.out.println(allPayment);
 				long allPaytype = 0;
 				for (int i = 0; i < allPayment.size(); i++) {
 					long paymentCount = 0;
@@ -161,7 +159,7 @@ public class DashboardAction extends ActionSupport {
 								.dashboardPaymentYear(allPayment.get(i).getPayment_type_id().toString(), time);
 					}
 					allPaytype = allPaytype + paymentCount;
-					table.add(Arrays.asList(allPayment.get(i).getPayment_type_id(), paymentCount));
+					table.add(Arrays.asList(allPayment.get(i).getPayment_type_name(), paymentCount));
 				}
 				table.add(0, Arrays.asList("All", allPaytype));
 				break;
