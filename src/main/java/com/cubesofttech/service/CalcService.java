@@ -1,19 +1,23 @@
 package com.cubesofttech.service;
 
-import java.util.*;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cubesofttech.dao.*;
-import com.cubesofttech.model.*;
-import com.ibm.icu.text.DecimalFormat;
+import com.cubesofttech.dao.UserSalaryDAO;
 
 @Service
 public class CalcService {
 	private static final Logger log = Logger.getLogger(CalcService.class);
 	//@Autowired Phase
+	@Autowired
+	private UserSalaryDAO userSalaryDAO;
 	
 	//Code in here
 	public List<List<Double>> calculateTax(Double money,Double paid,Double self,Double aia) throws Exception {
@@ -296,10 +300,13 @@ public class CalcService {
 		
 	}
 
-	public double calSsi(double percent, double salary) throws Exception {
+	public double calSsi(double percent, String uId) throws Exception {
 		double calSocialSecurity = 0;
-		//DecimalFormat df = new DecimalFormat();
-		//df.setMaximumFractionDigits(2);
+		//List<UserSalary> userSocialSecurityById = userSalaryDAO.findByUserId(uId);
+		Map<String, Object> cubesoftUserSalariesById = userSalaryDAO.findSsiById(uId);
+		
+		BigDecimal bd = (BigDecimal) cubesoftUserSalariesById.get("amount");
+		double salary = bd.doubleValue();
 		
 		if(salary >15000) {
 			calSocialSecurity = (15000*percent/100);
@@ -307,6 +314,7 @@ public class CalcService {
 			calSocialSecurity = (salary*percent/100);
 		}
 		//calSocialSecurity = String.valueOf(s);
+		//log.debug(salary);
 		return calSocialSecurity;
 	}
 	

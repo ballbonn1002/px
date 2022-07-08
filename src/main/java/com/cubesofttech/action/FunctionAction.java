@@ -171,10 +171,10 @@ public class FunctionAction extends ActionSupport {
 			String uId = request.getParameter("user_id_ssi");
 			//log.debug(uId);
 			
-			List<Map<String, Object>> userSocialSecurityById = userSalaryDAO.findSsiById(uId);
+			Map<String, Object> userSocialSecurityById = userSalaryDAO.findSsiById(uId);
 			//log.debug(userSocialSecurityById);
 			Gson gson = new Gson(); 
-			String json = gson.toJson(userSocialSecurityById.get(0));
+			String json = gson.toJson(userSocialSecurityById);
 			request.setAttribute("json", json);
 			
 			return SUCCESS;
@@ -187,14 +187,14 @@ public class FunctionAction extends ActionSupport {
 	public String calSsiAction() {
 		try {
 			double percent = Double.parseDouble(request.getParameter("input_percent"));
-			double salary = Double.parseDouble(request.getParameter("ssi_value2"));
+			String user = request.getParameter("user_id_ssi");
 			//log.debug(percent);
-			//log.debug(salary);
+			//log.debug(user);
 			
-			double calSocialSecurity = calCService.calSsi(percent, salary);
+			double calSocialSecurity = calCService.calSsi(percent, user);
 			request.setAttribute("CalSocialSecurity", calSocialSecurity);
 			
-			log.debug(calSocialSecurity);
+			//log.debug(calSocialSecurity);
 			Gson gson = new Gson(); 
 			String json = gson.toJson(calSocialSecurity);
 			request.setAttribute("json", json);

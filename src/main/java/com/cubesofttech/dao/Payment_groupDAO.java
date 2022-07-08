@@ -28,7 +28,7 @@ public interface Payment_groupDAO {
 	
 	public List<Map<String, Object>> monthSalary(String mYear, String mDepart) throws Exception;
 	
-	public List<Map<String, Object>> multiSalary(String mYear, String mDepart) throws Exception;
+	public List<Map<String, Object>> multiSalaryMonth(String mYear, String mDepart) throws Exception;
 	public List<Payment_group> testList(Integer payment_group_id) throws Exception;
 	
 	public List<Payment_group> listConvert(Integer payment_group_id) throws Exception;
