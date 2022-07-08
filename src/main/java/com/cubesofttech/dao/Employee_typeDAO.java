@@ -23,6 +23,8 @@ public interface Employee_typeDAO {
     
     public void delete(Employee_type employee_type) throws Exception;
 
-	public List<Employee_type> search(String employee_type) throws Exception;
+	public List<Employee_type> search(int employee_type) throws Exception;
+	
+	public List<Integer> allType() throws Exception;
 	
 }

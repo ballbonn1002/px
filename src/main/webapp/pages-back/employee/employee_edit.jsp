@@ -154,8 +154,10 @@ input[type="checkbox"] {
 
 
 $(document).ready(function(){
-	$('#add_emp_amount').val((Math.round(parseFloat($('#add_emp_amount').val()) * 100) / 100).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"))
-	$('#salary').val((Math.round(parseFloat($('#salary').val()) * 100) / 100).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"))
+	if ($('#salary').val() != ""){
+		$('#add_emp_amount').val((Math.round(parseFloat($('#add_emp_amount').val()) * 100) / 100).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"))
+		$('#salary').val((Math.round(parseFloat($('#salary').val()) * 100) / 100).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"))
+	}
 
 	$(".department-type").on("change",function() {
 		$.ajax({
@@ -174,6 +176,7 @@ $(document).ready(function(){
 			}
 		);
 	});
+	
   $("#History").click(function(){
     $("#hidebutton").hide();
   });

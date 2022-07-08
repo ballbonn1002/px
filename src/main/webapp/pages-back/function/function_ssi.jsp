@@ -171,7 +171,7 @@
                     success:function(data){
                     	if(data.social_security == 1){
                     		$("#social_secure").text("ขึ้นสิทธิ์ประกันสังคม");
-                    		$("#ssi_value").text(numberWithCommas(data.amount.toFixed(2)));
+                    		$("#ssi_value").text(numberWithCommas(parseFloat(data.amount).toFixed(2)));
                     		$("#ssi_value2").text(data.amount);
                     		$("#cal_user_ssi").prop("hidden",false);
                         	//console.log(data.social_security);
@@ -188,9 +188,9 @@
 		
 		$("#cal_user_ssi").click(function(){
 			var percent = $("#input_percent").val();
-			var salary = $("#ssi_value2").text().trim();
+			var user = $("#user_id_ssi").val();
 			console.log(percent);
-			console.log(salary);
+			console.log(user);
 			
 			$.ajax({
                 url: "calData",
@@ -198,10 +198,10 @@
                 type: "JSON",
                 data: {
                         "input_percent" : percent ,
-                        "ssi_value2" : salary ,
+                        "user_id_ssi" : user ,
                     },
                     success:function(data){
-                    	$("#cal_ssi").text(numberWithCommas(data.toFixed(2)));
+                    	$("#cal_ssi").text(numberWithCommas(parseFloat(data).toFixed(2)));
                     }
             })
 		});

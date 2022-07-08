@@ -2,19 +2,27 @@ package com.cubesofttech.service;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cubesofttech.dao.UserSalaryDAO;
 import com.cubesofttech.dao.*;
 import com.cubesofttech.model.*;
-import com.ibm.icu.text.DecimalFormat;
+import java.math.BigDecimal;
 
 @Service
 public class CalcService {
 	private static final Logger log = Logger.getLogger(CalcService.class);
 	//@Autowired Phase
+	@Autowired
+	private UserSalaryDAO userSalaryDAO;
+	
 	@Autowired
 	private UserSalaryDAO userSalaryDAO;
 	
@@ -311,10 +319,15 @@ public class CalcService {
 		log.debug(taxPerMonth);
 		return taxPerMonth;
 	}
-	public double calSsi(double percent, double salary) throws Exception {
+	
+
+	public double calSsi(double percent, String uId) throws Exception {
 		double calSocialSecurity = 0;
-		//DecimalFormat df = new DecimalFormat();
-		//df.setMaximumFractionDigits(2);
+		//List<UserSalary> userSocialSecurityById = userSalaryDAO.findByUserId(uId);
+		Map<String, Object> cubesoftUserSalariesById = userSalaryDAO.findSsiById(uId);
+		
+		BigDecimal bd = (BigDecimal) cubesoftUserSalariesById.get("amount");
+		double salary = bd.doubleValue();
 		
 		if(salary >15000) {
 			calSocialSecurity = (15000*percent/100);
@@ -322,21 +335,34 @@ public class CalcService {
 			calSocialSecurity = (salary*percent/100);
 		}
 		//calSocialSecurity = String.valueOf(s);
+		//log.debug(salary);
 		return calSocialSecurity;
 	}
 	
-	public Double calculateSalaryPerDay(double salaryAmount,double salaryTerm,double salaryTermDay) throws Exception {
+	public Double calculateSalaryPerDay(String userId) throws Exception {
 		Double SalaryPerDay = null;
+		List<Map<String, Object>> cubesoftUserSalariesById = userSalaryDAO.findUserSalaryByID(userId);
+		
+		int payment_type = Integer.parseInt((String) cubesoftUserSalariesById.get(0).get("payment"));
+		Double salaryAmount = ((BigDecimal)cubesoftUserSalariesById.get(0).get("amount")).doubleValue();
+		Double salaryTerm = Double.parseDouble((String)cubesoftUserSalariesById.get(0).get("term"));//
+		Double salaryTermDay = Double.parseDouble((String)cubesoftUserSalariesById.get(0).get("term_day"));//
+
 		try {
-			SalaryPerDay = salaryAmount / (salaryTerm*salaryTermDay);
+			if (payment_type == 0) {
+				SalaryPerDay = salaryAmount / (salaryTerm*salaryTermDay);
+			}else {
+				SalaryPerDay = salaryAmount;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return SalaryPerDay;
 	}
 	
-	public Double calculateSalaryPerHour(double SalaryDay) throws Exception{
+	public Double calculateSalaryPerHour(String userId) throws Exception{
 		Double SalaryPerHour = null;
+		Double SalaryDay = calculateSalaryPerDay(userId);
 		try {
 			SalaryPerHour = SalaryDay/8;
 		} catch (Exception e) {
@@ -345,8 +371,10 @@ public class CalcService {
 		return SalaryPerHour;
 	}
 	
-	public Double calculateOT(double SalaryPerHour,double Otcount,double otMulitple) throws Exception{
+	
+	public Double calculateOT(String userId,Double Otcount,Double otMulitple) throws Exception{
 		Double SalaryOT = null;
+		Double SalaryPerHour = calculateSalaryPerHour(userId);
 		try {
 			SalaryOT = SalaryPerHour * otMulitple * Otcount;
 		} catch (Exception e) {

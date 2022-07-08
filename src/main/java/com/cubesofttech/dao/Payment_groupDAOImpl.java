@@ -3,9 +3,11 @@ package com.cubesofttech.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.jfree.util.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,30 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
         session.flush();
         //session.close();
     }
+	
+	@Override
+	public Integer getMaxId() throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		Integer maxId = 0;
+
+		try {
+
+			Criteria criteria = session.createCriteria(Payment_group.class).setProjection(Projections.max("id"));
+			maxId = (Integer) criteria.uniqueResult();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Integer(0);
+
+		} finally {
+
+		}
+		if (maxId != null) {
+			return maxId;
+		} else {
+			return new Integer(0);
+		}
+	}
 	
 	@Override
     public List<Payment_group> findAll() throws Exception {
@@ -93,11 +119,22 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 	}
 	
 	@Override
-	public List<Map<String, Object>> findBonusByYear(String userId,String Year) throws Exception {
+	public List<Map<String, Object>> findAndSumBonusByYear(String userId,String Year) throws Exception {
 		List<Map<String, Object>> query_listMap = null;
 		Session session =  this.sessionFactory.getCurrentSession(); 
 		try {
 			String sql = "SELECT payment.user_id , payment_detail.payment_type_id , EXTRACT(MONTH FROM payment_group.payment_date) AS payment_month , EXTRACT(YEAR FROM payment_group.payment_date) AS payment_year,payment_detail.amount FROM payment JOIN payment_group ON payment.user_id = '"+userId+"' AND payment_group.payment_group_id = payment.payment_group_id AND payment_group.payment_date LIKE '"+Year+"%' JOIN payment_detail ON payment.payment_id = payment_detail.payment_id";
+			String sum_sql = " UNION SELECT payment.user_id , 'SUM0' AS payment_type_id , EXTRACT(MONTH FROM payment_group.payment_date) AS payment_month , EXTRACT(YEAR FROM payment_group.payment_date) AS payment_year, SUM(payment_detail.amount) AS amount"
+							+ " FROM payment JOIN payment_group ON payment.user_id = '"+userId+"' AND payment_group.payment_group_id = payment.payment_group_id AND payment_group.payment_date LIKE '"+Year+"%' JOIN payment_detail ON payment.payment_id = payment_detail.payment_id"
+							+ " AND payment_detail.payment_type_id IN ('OT1','OT2','OT3','VA','TRAVEL','BONUS','EQUIPMENT')"
+							+ " GROUP BY payment_month"
+							+ " UNION"
+							+ " SELECT payment.user_id ,'SUM1' AS payment_type_id  , EXTRACT(MONTH FROM payment_group.payment_date) AS payment_month , EXTRACT(YEAR FROM payment_group.payment_date) AS payment_year, SUM(payment_detail.amount) AS amount"
+							+ " FROM payment JOIN payment_group ON payment.user_id = '"+userId+"' AND payment_group.payment_group_id = payment.payment_group_id AND payment_group.payment_date LIKE '"+Year+"%' JOIN payment_detail ON payment.payment_id = payment_detail.payment_id"
+							+ " AND payment_detail.payment_type_id IN ('SSI','TAX','TISCO','LATE','ABSENT','ABSENCE','StudentLoan')"
+							+ " GROUP BY payment_month";
+			sql = sql + sum_sql;
+			
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 			query_listMap = query.list();
@@ -110,13 +147,24 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 	}
 	
 	@Override
-	public List<Map<String, Object>> findBonusByMultipleYear(String userId,List<String> listOfYear) throws Exception {
+	public List<Map<String, Object>> findAndSumBonusByMultipleYear(String userId,List<String> listOfYear) throws Exception {
 		List<Map<String, Object>> query_listMap = null;
 		Session session =  this.sessionFactory.getCurrentSession(); 
 		try {
-			String sql = " "; 
+			String sql = ""; 
 	        for (int i = 0 ; i < listOfYear.size() ; i++) {
-	        	sql += "SELECT payment.user_id , payment_detail.payment_type_id , EXTRACT(YEAR FROM payment_group.payment_date) AS payment_year , SUM(payment_detail.amount ) AS amount FROM payment JOIN payment_group ON payment.user_id = '"+userId+"' AND payment_group.payment_group_id = payment.payment_group_id AND payment_group.payment_date LIKE '"+listOfYear.get(i)+"%' JOIN payment_detail ON payment.payment_id = payment_detail.payment_id  GROUP BY payment_type_id ";
+	        	sql += "SELECT payment.user_id , payment_detail.payment_type_id , EXTRACT(YEAR FROM payment_group.payment_date) AS payment_year , SUM(payment_detail.amount ) AS amount FROM payment JOIN payment_group ON payment.user_id = '"+userId+"' AND payment_group.payment_group_id = payment.payment_group_id AND payment_group.payment_date LIKE '"+listOfYear.get(i)+"%' JOIN payment_detail ON payment.payment_id = payment_detail.payment_id  GROUP BY payment_type_id";
+	        	String sum_sql = " UNION SELECT payment.user_id , 'SUM0' AS payment_type_id , EXTRACT(YEAR FROM payment_group.payment_date) AS payment_year, SUM(payment_detail.amount) AS amount"
+			        			+ " FROM payment JOIN payment_group ON payment.user_id = '"+userId+"' AND payment_group.payment_group_id = payment.payment_group_id AND payment_group.payment_date LIKE '"+listOfYear.get(i)+"%' JOIN payment_detail ON payment.payment_id = payment_detail.payment_id"
+			        			+ " AND payment_detail.payment_type_id IN ('OT1','OT2','OT3','VA','TRAVEL','BONUS','EQUIPMENT')"
+			        			+ " GROUP BY payment_year"
+			        			+ " UNION"
+			        			+ " SELECT payment.user_id ,'SUM1' AS payment_type_id , EXTRACT(YEAR FROM payment_group.payment_date) AS payment_year, SUM(payment_detail.amount) AS amount"
+			        			+ " FROM payment JOIN payment_group ON payment.user_id = '"+userId+"' AND payment_group.payment_group_id = payment.payment_group_id AND payment_group.payment_date LIKE '"+listOfYear.get(i)+"%' JOIN payment_detail ON payment.payment_id = payment_detail.payment_id"
+			        			+ " AND payment_detail.payment_type_id IN ('SSI','TAX','TISCO','LATE','ABSENT','ABSENCE','StudentLoan')"
+			        			+ " GROUP BY payment_year ";
+	        	sql = sql + sum_sql;
+	        	
 	        	if (i < listOfYear.size()-1 ) {
 	        		sql += "UNION ";
 	        	}
@@ -132,6 +180,39 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 		return query_listMap;
 	}
 	
+	
+//	@Override
+//	public List<Map<String, Object>> findSumBonusByYear(String userId,String Year) throws Exception {
+//		List<Map<String, Object>> query_listMap = null;
+//		Session session =  this.sessionFactory.getCurrentSession(); 
+//		try {
+//			String sql = "SELECT payment.user_id , 'SUM0' AS payment_type_id ,'Bouns' AS payment_type_name , EXTRACT(MONTH FROM payment_group.payment_date) AS payment_month , EXTRACT(YEAR FROM payment_group.payment_date) AS payment_year, SUM(payment_detail.amount) AS amount"
+//					+ " FROM payment JOIN payment_group ON payment.user_id = '"+userId+"' AND payment_group.payment_group_id = payment.payment_group_id AND payment_group.payment_date LIKE '"+Year+"%' JOIN payment_detail ON payment.payment_id = payment_detail.payment_id"
+//					+ " AND payment_detail.payment_type_id IN ('OT1','OT2','OT3','VA','TRAVEL','BONUS','EQUIPMENT')"
+//					+ " GROUP BY payment_month"
+//					+ " UNION"
+//					+ " SELECT payment.user_id ,'SUM1' AS payment_type_id ,'Charge' AS payment_type_name , EXTRACT(MONTH FROM payment_group.payment_date) AS payment_month , EXTRACT(YEAR FROM payment_group.payment_date) AS payment_year, SUM(payment_detail.amount) AS amount"
+//					+ " FROM payment JOIN payment_group ON payment.user_id = '"+userId+"' AND payment_group.payment_group_id = payment.payment_group_id AND payment_group.payment_date LIKE '"+Year+"%' JOIN payment_detail ON payment.payment_id = payment_detail.payment_id"
+//					+ " AND payment_detail.payment_type_id IN ('SSI','TAX','TISCO','LATE','ABSENT','ABSENCE','StudentLoan')"
+//					+ " GROUP BY payment_month";
+//			SQLQuery query = session.createSQLQuery(sql);
+//			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+//			query_listMap = query.list();
+//			Log.debug(query_listMap);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//		return query_listMap;
+//	}
+//
+//	@Override
+//	public List<Map<String, Object>> findSumBonusByMultipleYear(String userId, List<String> listOfYear)
+//			throws Exception {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+
 	@Override
 	public List<Map<String, Object>> findYear() throws Exception {
 		Session session =  this.sessionFactory.getCurrentSession(); 
@@ -161,6 +242,28 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 		}
 		return findMonth; 
 	}
+	
+	@Override
+	public List<Map<String, Object>> multiSalaryMonth(String mYear, String mDepart) throws Exception {
+		Session session =  this.sessionFactory.getCurrentSession(); 
+		List<Map<String, Object>> multiSelect = null;
+		try {
+			String[] strArray = null;
+			strArray = mDepart.split(",");
+			String sql = "SELECT payment_group.payment_group_id, payment_group.name, EXTRACT(YEAR FROM payment_group.payment_date) AS year, EXTRACT(MONTH FROM payment_group.payment_date) AS month, SUM(payment.total_pay) AS sum_total_pay, user.department_id FROM payment_group LEFT JOIN payment ON payment_group.payment_group_id = payment.payment_group_id AND EXTRACT(YEAR FROM payment_group.payment_date) = '"+mYear+"' LEFT JOIN user ON payment.user_id = user.id LEFT JOIN department ON department.department_id = user.department_id WHERE department.department_id = '"+strArray[0]+"'";
+			for (int i = 0; i< strArray.length; i++){
+				sql += "OR department.department_id = '"+strArray[i]+"'";
+			}
+			sql += "GROUP BY month, year, user.department_id";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			multiSelect = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return multiSelect; 
+	}
+
 
 	@Override
 	public List<Payment_group> testList(Integer payment_group_id) throws Exception {

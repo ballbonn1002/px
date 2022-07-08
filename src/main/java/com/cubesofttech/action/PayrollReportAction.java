@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -18,10 +19,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.components.Debug;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.cubesofttech.dao.DepartmentDAO;
 import com.cubesofttech.dao.HolidayDAO;
 import com.cubesofttech.dao.LeaveDAO;
 import com.cubesofttech.dao.LeaveTypeDAO;
@@ -41,6 +44,7 @@ import com.cubesofttech.model.User;
 import com.cubesofttech.util.DateUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.ibm.icu.math.BigDecimal;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class PayrollReportAction extends ActionSupport {
@@ -76,6 +80,9 @@ public class PayrollReportAction extends ActionSupport {
 	
 	@Autowired
 	private PositionDAO positionDAO;
+	
+	@Autowired
+	private DepartmentDAO departmentDAO;
 	
 	private static Calendar cal = Calendar.getInstance(); // Use Calendar .Year
 	
@@ -526,23 +533,41 @@ public class PayrollReportAction extends ActionSupport {
 	
 	public String findBonusByYear(){
 		try {
-			//List<Map<String, Object>> Users = userDAO.Query_Userlist();
-			//request.setAttribute("Users", Users);
 			
 			String userid = request.getParameter("user_id");
 			String year = request.getParameter("year");
-			
-			List<Map<String, Object>> BonusByYear = payment_groupDAO.findBonusByYear(userid,year);
-			
+					
 			//query code
-			
+			List<Map<String, Object>> BonusByYear = payment_groupDAO.findAndSumBonusByYear(userid,year);
+					
             Gson gson = new Gson(); 
             String json = gson.toJson(BonusByYear); 
+
+            //log.debug(json);
             request.setAttribute("json", json);	
-            
-			log.debug(userid);
-			log.debug(year);
 			
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+	}
+	
+	public String findBonusByMultipleYear(){
+		try {
+			
+			String userid = request.getParameter("user_id");
+			String year = request.getParameter("year");
+			List<String> yearList = Arrays.asList(year.split("\\s*,\\s*"));
+			
+			//query code
+			List<Map<String, Object>> BonusByMultipleYear = payment_groupDAO.findAndSumBonusByMultipleYear(userid,yearList);
+					
+            Gson gson = new Gson(); 
+            String json = gson.toJson(BonusByMultipleYear);
+
+            request.setAttribute("json", json);	
+            		
 			return SUCCESS;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -553,11 +578,11 @@ public class PayrollReportAction extends ActionSupport {
 	public String reportSalaryDepart() {		
 		try {
 			
-			List<Map<String, Object>> departmentId = positionDAO.departmentById();
+			List<Map<String, Object>> departmentId = departmentDAO.sequense();
 			request.setAttribute("DepartmentId", departmentId);
 			
-			List<Map<String, Object>> findYearSalary = payment_groupDAO.findYear();
-			request.setAttribute("FindYearSalary", findYearSalary);
+			//List<Map<String, Object>> findYearSalary = payment_groupDAO.findYear();
+			//request.setAttribute("FindYearSalary", findYearSalary);
 
 			
 			return SUCCESS;
@@ -570,16 +595,20 @@ public class PayrollReportAction extends ActionSupport {
 		try {
 			String mYear = request.getParameter("findYear");
 			String mDepart = request.getParameter("department");
-			log.debug(mYear);
+			//log.debug(mYear);
 			log.debug(mDepart);
 			
-			List<Map<String, Object>> findMonth = payment_groupDAO.monthSalary(mYear,mDepart);
-			request.setAttribute("FindMonth", findMonth);
+			//List<Map<String, Object>> findMonth = payment_groupDAO.monthSalary(mYear,mDepart);
+			//request.setAttribute("FindMonth", findMonth);
+			
+			List<Map<String, Object>> multiSelect = payment_groupDAO.multiSalaryMonth(mYear,mDepart);
+			request.setAttribute("MultiSelect", multiSelect);
 			
 			//log.debug(findMonth);
+			//log.debug(multiSelect);
 			
 			Gson gson = new Gson(); 
-            String json = gson.toJson(findMonth); 
+            String json = gson.toJson(multiSelect); 
             request.setAttribute("json", json);	
 			return SUCCESS;
 		} catch (Exception e) {
