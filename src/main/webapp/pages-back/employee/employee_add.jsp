@@ -184,8 +184,13 @@ $(document).ready(function(){
 	  });
   $('#add_emp_amount').on("change",function () {
 	  var add_emp_amount =  $('#add_emp_amount').val();
-	  add_emp_amount = add_emp_amount.replace(',','');
-	  $('#add_emp_amount').val((Math.round(parseFloat(add_emp_amount) * 100) / 100).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"))
+	  if ($.isNumeric($('#add_emp_amount').val())){
+		  	add_emp_amount = add_emp_amount.replace(',','');
+		  	$('#add_emp_amount').val((Math.round(parseFloat(add_emp_amount) * 100) / 100).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"))
+		  	}
+		  else {
+			  $('#add_emp_amount').val("ข้อมูลผิดพลาด")
+		  }
   })
   
   $('#add_emp_save').click(function() {
