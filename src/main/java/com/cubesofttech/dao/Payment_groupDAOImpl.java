@@ -3,9 +3,11 @@ package com.cubesofttech.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.jfree.util.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,30 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
         session.flush();
         //session.close();
     }
+	
+	@Override
+	public Integer getMaxId() throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		Integer maxId = 0;
+
+		try {
+
+			Criteria criteria = session.createCriteria(Payment_group.class).setProjection(Projections.max("id"));
+			maxId = (Integer) criteria.uniqueResult();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Integer(0);
+
+		} finally {
+
+		}
+		if (maxId != null) {
+			return maxId;
+		} else {
+			return new Integer(0);
+		}
+	}
 	
 	@Override
     public List<Payment_group> findAll() throws Exception {

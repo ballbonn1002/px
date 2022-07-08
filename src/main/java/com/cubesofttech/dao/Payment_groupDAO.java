@@ -13,6 +13,8 @@ public interface Payment_groupDAO {
 	 public void update(Payment_group payment_group) throws Exception;
 	    
 	 public void delete(Payment_group payment_group) throws Exception;
+	 
+	 Integer getMaxId() throws Exception;
 
 	 public List<Payment_group> findAll() throws Exception;
 	 
