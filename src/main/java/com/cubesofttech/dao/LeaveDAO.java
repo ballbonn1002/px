@@ -124,6 +124,8 @@ public interface LeaveDAO {
 	public List<Map<String, Object>> leaveUpdateStatus(String userId, String leave) throws Exception;
 	
 	public List<Map<String, Object>> findUserLeave(String user ,Timestamp start_date1,Timestamp end_date1) throws Exception;
+	 	
+	public List<Map<String, Object>> findUserLeave(String user, String month, String year) throws Exception;
 	
 	public List<Map<String, Object>> leaveApprSum(String userId, Timestamp start_date1, Timestamp end_date1) throws Exception;
 	
