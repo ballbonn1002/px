@@ -17,8 +17,8 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 <!-- VENDOR CSS -->
-<link rel="stylesheet"
-	href="pages-back/assets/vendor/bootstrap/css/bootstrap.min.css">
+
+<link rel="stylesheet"	href="pages-back/assets/vendor/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet"
 	href="pages-back/assets/vendor/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet"
@@ -34,9 +34,6 @@
 <title>Insert title here</title>
 </head>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css">
-
-
 <style type="text/css">
 .content_table_style{
 	background-color:white;
@@ -46,18 +43,22 @@
 	background-color:#F7FBFF;
 }
 
+.zero_color{
+	color: #ced4da;
+}
+
 .stick1
 {
-  min-width: 15vw;
+  min-width: 12vw;
   position:sticky;
   left:0;
 
 }
 .stick2
 {
-  min-width:20vw;
+  min-width:15vw;
   position:sticky;
-  left: 15vw;
+  left: 12vw;
 }
 
 .t_child {
@@ -67,6 +68,11 @@
 .t_child_year {
     min-width: 8vw;
 }
+
+.select2-container{
+	width: 100% !important;
+}
+
 </style>
 
 <body>
@@ -118,26 +124,26 @@
 		            
 		            <!-- YearTab -->
 		            <div class="tab-pane fade" id="YearTab">
-		            
+
+
 			            	<div class="row">
-					            	<div class="col">
+					            	<div class="col-12 col-sm-12 col-lg-6">
 									    <select id="select_year_year" class="form-control mr-3"  multiple>	
 									    <option selected = "selected" ><%=new java.util.Date().getYear() + 1900%></option>									 
 							            <% for(int i = new java.util.Date().getYear() + 1900 - 1 ; i > 2000; i-=1) { %>
 										  <option><%=i%></option>
 	            						<% } %>
 									    </select>
-					            	</div>            
-		
-					            	<div class="col">
-							            <select id="select_user_year" type="text" class="form-control mr-3">
+					            	</div>  
+					            	<div class="col-12 col-sm-12 col-lg-6">
+							            <select id="select_user_year"  type="text" class="form-control select2 mr-3">
 							            	<option disabled hidden selected = "selected" >เลือกพนักงาน</option>
 								            <c:forEach var="user" items="${Users}" varStatus="status">
 									            <c:if test="${user.flag_search=='1'}">
 												  <option value="${user.id}">${user.department_id} - ${user.name}</option>
 												</c:if>
 											</c:forEach>
-										</select>           	
+										</select>          						            	       	
 					            	</div>
 							</div>
 				            
@@ -189,27 +195,25 @@
 					<div class="tab-pane fade show active" id="MonthTab">
 					    
 					    	<div class="row">
-			            	
-					            	<div class="col">
-							            <select id="select_year_month" class="form-control ml-1">
-							            <% for(int i = new java.util.Date().getYear() + 1900 ; i > 2000; i-=1) { %>
-								          <option disabled hidden selected = "selected" ><%=new java.util.Date().getYear() + 1900%></option>
+					            	<div class="col-12 col-sm-12 col-lg-6">            	 
+							            <select id="select_year_month" class="form-control select2 ml-1">
+							            <option selected = "selected" ><%=new java.util.Date().getYear() + 1900%></option>
+							            <% for(int i = new java.util.Date().getYear() + 1900-1 ; i > 2000; i-=1) { %>
 										  <option><%=i%></option>
 	            						<% } %>
-										</select>           	
+										</select>
 					            	</div>
 					            	
-					            	<div class="col">
-							            <select id="select_user_month" type="text" class="form-control mr-3">
+					            	<div class="col-12 col-sm-12 col-lg-6">
+							            <select id="select_user_month" type="text" class="form-control select2 mr-3">
 							            	<option disabled hidden selected = "selected" >เลือกพนักงาน</option>
 								            <c:forEach var="user" items="${Users}" varStatus="status">
 									            <c:if test="${user.flag_search=='1'}">
 												  <option value="${user.id}">${user.department_id} - ${user.name}</option>
 												</c:if>
 											</c:forEach>
-										</select>           	
-					            	</div>
-					            	
+										</select>
+					            	</div>	
 							</div>
 				            
 				            <!-- รายได้เพิ่มเติม -->
@@ -222,18 +226,19 @@
 												<tr class="bg-light">
 													<th class="stick1 bg-light">รายได้เพิ่มเติม</th>
 													<th class="stick2 bg-light"></th>
-													<th class="t_child ">Jan</th>
-													<th class="t_child">Feb</th>
-													<th class="t_child">Mar</th>
-													<th class="t_child">Apr</th>
-													<th class="t_child">May</th>
-													<th class="t_child">Jun</th>
-													<th class="t_child">Jul</th>
-													<th class="t_child">Aug</th>
-													<th class="t_child">Sep</th>
-													<th class="t_child">Oct</th>
-													<th class="t_child">Nov</th>
-													<th class="t_child">Dec</th>
+													<th class="text-right">Jan</th>
+													<th class="t_child text-right">Feb</th>
+													<th class="t_child text-right">Mar</th>
+													<th class="t_child text-right">Apr</th>
+													<th class="t_child text-right">May</th>
+													<th class="t_child text-right">Jun</th>
+													<th class="t_child text-right">Jul</th>
+													<th class="t_child text-right">Aug</th>
+													<th class="t_child text-right">Sep</th>
+													<th class="t_child text-right">Oct</th>
+													<th class="t_child text-right">Nov</th>
+													<th class="t_child text-right">Dec</th>
+													<th style="min-width: 3vw;"></th>
 												</tr>
 											</thead>
 
@@ -257,18 +262,19 @@
 												<tr class="bg-light">
 													<th class="stick1 bg-light">รายการหัก</th>
 													<th class="stick2 bg-light"></th>
-													<th class="t_child">Jan</th>
-													<th class="t_child">Feb</th>
-													<th class="t_child">Mar</th>
-													<th class="t_child">Apr</th>
-													<th class="t_child">May</th>
-													<th class="t_child">Jun</th>
-													<th class="t_child">Jul</th>
-													<th class="t_child">Aug</th>
-													<th class="t_child">Sep</th>
-													<th class="t_child">Oct</th>
-													<th class="t_child">Nov</th>
-													<th class="t_child">Dec</th>
+													<th class="text-right">Jan</th>
+													<th class="t_child text-right">Feb</th>
+													<th class="t_child text-right">Mar</th>
+													<th class="t_child text-right">Apr</th>
+													<th class="t_child text-right">May</th>
+													<th class="t_child text-right">Jun</th>
+													<th class="t_child text-right">Jul</th>
+													<th class="t_child text-right">Aug</th>
+													<th class="t_child text-right">Sep</th>
+													<th class="t_child text-right">Oct</th>
+													<th class="t_child text-right">Nov</th>
+													<th class="t_child text-right">Dec</th>
+													<th style="min-width: 3vw;"></th>
 												</tr>
 											</thead>
 											<tbody id="looptable_month2">
@@ -305,10 +311,26 @@
 <script src="pages-back/assets/bundles/vendorscripts.bundle.js"></script>
 <script src="pages-back/assets/vendor/table-dragger/table-dragger.min.js"></script>
 <script src="pages-back/assets/bundles/mainscripts.bundle.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
+
+<!---------------------------------------------------- multiselect lib ----------------------------------------------->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css">
 <script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
+<!---------------------------------------------------- multiselect lib ----------------------------------------------->
+
+
+<!---------------------------------------------------- select 2 lib ----------------------------------------------->
+<!-- <script src="pages-back/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script> -->
+<!-- <link rel="stylesheet" href="pages-back/assets/global/plugins/select2/css/select2.min.css" type="text/css" />
+<script src="pages-back/assets/global/plugins/select2/js/select2.min.js" type="text/javascript"></script>-->
+<!-- <script src="pages-back/assets/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" type="text/css" />
+<!---------------------------------------------------- select 2 lib ----------------------------------------------->
+
+
 <script>
 
 /**************************** Define variable ************************/
@@ -325,7 +347,7 @@ const table_name = ['#looptable_month1','#looptable_month2'];
 
 /****************************** Method ***********************************/
 
-//////////////////year
+/************************************************** year *******************************************/
 function generate_year_table(){
 	
 	for (let i = 0 ; i < 14 ; i++){
@@ -355,7 +377,7 @@ function append_year_table(year_array){
 			for (let j = (0 + 7*i) ; j < (7 + 7*i) ; j++){
 				content += '<tr>'+table_content_year[j]
 				year_array.forEach(function(obj) {
-					content += '<td class="t_child_year text-right" id='+Bonus_names[j]+obj+'>0.00</td>'
+					content += '<td class="t_child_year text-right zero_color" id='+Bonus_names[j]+obj+'>0.00</td>'
 				});
 				content += '<td></td></tr>'
 			}
@@ -385,20 +407,19 @@ function fetch_year_table(){
 
 function assign_year_data(data){
 	data.forEach(function(data_) {
+		let amount = numberWithCommas(parseFloat(data_.amount))
 		if (data_.payment_type_id == "SUM0" || data_.payment_type_id == "SUM1"){
 			let tag_id = data_.payment_type_id.toUpperCase()+'_'+'year'+'_'+ Number(data_.payment_year)
-			$('#'+tag_id).text(numberWithCommas(parseFloat(data_.amount)))
+			$('#'+tag_id).text(amount)//.removeClass(amount==0? '':'zero_color');
 		}
 		else{
 			let tag_id = data_.payment_type_id.toUpperCase() + Number(data_.payment_year)
-			$('#' + tag_id).text(numberWithCommas(parseFloat(data_.amount)))
+			$('#' + tag_id).text(amount).removeClass(amount=="0.00"? '':'zero_color');
 		}
 	});
 }
 
-
-
-////////////////// month 
+/************************************************** month ***********************************************/
 
 function generate_month_table(){
 	for (let k = 0 ; k < 2 ; k++){
@@ -407,9 +428,9 @@ function generate_month_table(){
 			content += '<tr>';
 			content += '<td class="stick1 content_table_style" style="width:15%">'+Bonus_names[i]+'</td><td class="stick2 content_table_style" style="width:15%">'+Bonus_details[i]+'</td>';
 				for (let j = 1 ; j < 13 ; j++){
-					content += '<td id="'+Bonus_names[i]+j.toString()+'">0.00</td>';
+					content += '<td class="text-right zero_color" id="'+Bonus_names[i]+j.toString()+'">0.00</td>';
 				}
-			content += '</tr>';
+			content += '<td></td></tr>';
 			
 		}
 		content += generate_sum_month_table(k);
@@ -422,30 +443,35 @@ function generate_sum_month_table(table_number){ // (month or year , top or bott
 	
 	content += '<td class="stick1 sum_table">สรุปยอดรวม</td><td class="stick2 sum_table"></td>'
 		for (let i = 1 ; i < 13 ; i++){
-			content += '<td id="SUM'+table_number+'_month_'+i.toString()+'">0.00</td>'
+			content += '<td class="text-right" id="SUM'+table_number+'_month_'+i.toString()+'">0.00</td>'
 		}
-	content += '</tr>'
+	content += '<td ></td></tr>'
 	return content
 }
 
 function fetch_month_table(){
-	var all_tag = Bonus_names
+	var all_tag = Bonus_names;
 	all_tag.push("SUM0_month_","SUM1_month_")
 	all_tag.forEach(function(tagname) {
 		for (var i = 1 ; i < 13 ; i++){
-			$('#'+tagname+i.toString()).text('0.00');
+			tag = tagname+i.toString()
+			$('#'+tag).text('0.00')
+			if (!(tagname == "SUM0_month_" || tagname == "SUM1_month_")){
+				$('#'+tag).addClass('zero_color')
+			}
 		}
 	});
 }
 
 function assign_month_data(data){
 	data.forEach(function(data_) {
+		let amount_ = numberWithCommas(parseFloat(data_.amount))
 		if (data_.payment_type_id == "SUM0" || data_.payment_type_id == "SUM1"){
 			let tag_id = data_.payment_type_id.toUpperCase()+'_'+'month'+'_'+ Number(data_.payment_month)
-			$('#'+tag_id).text(numberWithCommas(parseFloat(data_.amount)))
+			$('#'+tag_id).text(amount_)
 		}else{
 			let tag_id = data_.payment_type_id.toUpperCase() + Number(data_.payment_month)
-			$('#' + tag_id).text(numberWithCommas(parseFloat(data_.amount)))
+			$('#' + tag_id).text(amount_).removeClass(amount_=="0.00"? '':'zero_color')
 		}
 	});
 }
@@ -457,14 +483,13 @@ function numberWithCommas(x) {
     return ((x.toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 }
 
-
-
-
 /************************************************* ready ********************************************/
 $(document).ready(function() {
 	
 	generate_month_table();  //generate month_table
 	generate_year_table();	//generate year_table
+	
+	$('#select_year_month').select2();
 	
 	var multipleButton = new Choices('#select_year_year', {
 	   removeItemButton: true,
@@ -475,8 +500,9 @@ $(document).ready(function() {
 	
 	
 	//sync 2 select user box
-	$('#select_user_year,#select_user_month').on('change',function(){
+	$('#select_user_year,#select_user_month').select2().on('change',function(){
 		var selected = this.value
+		
 		if ($('#select_user_year').val() != selected){
 			$('#select_user_year').val(selected).change();
 		}
