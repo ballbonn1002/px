@@ -147,7 +147,7 @@ tr{
                             <div class="table-responsive">
 
  
-                                <table  class="table table-hover js-basic-example table-custom m-b-0 no-footer ">
+                                <table  class="table table-hover js-basic-example table-custom m-b-0 no-footer " id="myTable">
                                     <thead>
                                         <tr>
                                         
@@ -252,4 +252,14 @@ function myFunction() {
 		}
 	}
 
+</script>
+<script>
+$(document).ready(function(){
+	$('#myTable').dataTable( {
+		 language: {
+		        search: "_INPUT_",
+		        searchPlaceholder: "Search..."
+		    }
+	} );
+});
 </script>
