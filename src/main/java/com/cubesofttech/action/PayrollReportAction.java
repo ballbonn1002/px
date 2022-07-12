@@ -616,5 +616,14 @@ public class PayrollReportAction extends ActionSupport {
 			return ERROR;
 		}
 	}
+	
+	public String employeeReport() {
+		try {
+			return SUCCESS;
+		} catch (Exception e) {
+			return ERROR;
+		}
+		
+	}
 
 }

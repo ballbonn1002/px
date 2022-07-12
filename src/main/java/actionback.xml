@@ -769,5 +769,14 @@
 			class="com.cubesofttech.action.DashboardAction" method="getTable">
 		</action>
 		
+		<!-- EmployeeReport -->
+		
+		<action name="employeeReport"
+			class="com.cubesofttech.action.PayrollReportAction" method="employeeReport">
+			<result name="success" type="tiles">employeeReport</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
+			
 	</package>
 </struts>
