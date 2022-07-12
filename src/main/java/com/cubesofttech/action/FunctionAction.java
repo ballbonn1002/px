@@ -238,7 +238,7 @@ public class FunctionAction extends ActionSupport {
 			String flag = (String) find.get("withholding_auto");
 			log.debug(flag);
 			
-			log.debug(money*2.5);
+			//log.debug(money*2.5);
 			
 			log.debug(find.get("amount"));
 			//log.debug("testCalTax: "+calCService.calTaxPerMonth(userId));
