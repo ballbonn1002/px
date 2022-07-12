@@ -11,23 +11,19 @@
 <%@ taglib uri="/WEB-INF/tlds/permission.tld" prefix="perm"%>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script
-	src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script	src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <c:set var="now" value="<%=new java.util.Date()%>" />
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 <!-- VENDOR CSS -->
 
 <link rel="stylesheet"	href="pages-back/assets/vendor/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="pages-back/assets/vendor/font-awesome/css/font-awesome.min.css">
-<link rel="stylesheet"
-	href="pages-back/assets/vendor/table-dragger/table-dragger.min.css">
+<link rel="stylesheet"	href="pages-back/assets/vendor/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet"	href="pages-back/assets/vendor/table-dragger/table-dragger.min.css">
 <!-- MAIN CSS -->
 <link rel="stylesheet" href="pages-back/assets/css/main.css">
 <link rel="stylesheet" href="pages-back/assets/css/color_skins.css">
-<link rel="stylesheet"
-	href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+<link rel="stylesheet"	href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 
 
 <meta charset="UTF-8">
@@ -35,8 +31,11 @@
 </head>
 
 <style type="text/css">
-.content_table_style{
-	background-color:white;
+.content_table_style0{
+	background:#f2f2f2;
+}
+.content_table_style1{
+	background:white;
 }
 .sum_table{
 	color:#4DA1FF;
@@ -152,7 +151,7 @@
 
 								<div class="col">
 									<div class="table-responsive">
-										<table class="table">
+										<table class="table table-striped">
 											<thead>
 												<tr class="bg-light" id="looptable_year1">						
 												</tr>
@@ -171,7 +170,7 @@
 
 								<div class="col">
 									<div class="table-responsive">
-										<table class="table">
+										<table class="table table-striped">
 											<thead>
 												<tr class="bg-light" id="looptable_year2">
 												</tr>
@@ -221,7 +220,7 @@
 								<div class="col">
 									<div class="table-responsive">
 										<div class="sliding">
-										<table class="table ">
+										<table class="table table-striped">
 											<thead>
 												<tr class="bg-light">
 													<th class="stick1 bg-light">รายได้เพิ่มเติม</th>
@@ -257,7 +256,7 @@
 					       	<div class="row mt-4">
 								<div class="col">
 									<div class="table-responsive">
-										<table class="table ">
+										<table class="table table-striped">
 											<thead>
 												<tr class="bg-light">
 													<th class="stick1 bg-light">รายการหัก</th>
@@ -351,7 +350,7 @@ const table_name = ['#looptable_month1','#looptable_month2'];
 function generate_year_table(){
 	
 	for (let i = 0 ; i < 14 ; i++){
-		table_content_year.push('<td class="stick1 content_table_style">'+Bonus_names[i]+'</td><td class="stick2 content_table_style">'+Bonus_details[i]+'</td>')
+		table_content_year.push('<td class="stick1 content_table_style'+((i+(Math.floor(i/7)))%2)+'">'+Bonus_names[i]+'</td><td class="stick2 content_table_style'+((i+(Math.floor(i/7)))%2)+'">'+Bonus_details[i]+'</td>')
 	}
 	let year_now =  $('#select_year_year').val();
 	fetch_year_table();
@@ -426,7 +425,7 @@ function generate_month_table(){
 		let content = "";
 		for (let i = (0 + 7*k) ; i < (7 + 7*k) ; i++){
 			content += '<tr>';
-			content += '<td class="stick1 content_table_style" style="width:15%">'+Bonus_names[i]+'</td><td class="stick2 content_table_style" style="width:15%">'+Bonus_details[i]+'</td>';
+			content += '<td class="stick1 content_table_style'+((i+(Math.floor(i/7)))%2)+'" style="width:15%">'+Bonus_names[i]+'</td><td class="stick2 content_table_style'+((i+(Math.floor(i/7)))%2)+'" style="width:15%">'+Bonus_details[i]+'</td>';
 				for (let j = 1 ; j < 13 ; j++){
 					content += '<td class="text-right zero_color" id="'+Bonus_names[i]+j.toString()+'">0.00</td>';
 				}
