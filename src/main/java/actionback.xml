@@ -575,6 +575,11 @@
 			<result name="success">/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		<action name="findYear"
+			class="com.cubesofttech.action.PayrollReportAction" method="findYearSalaryDepart">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
 		
 		<!-- Function -->
 		<action name="actual_work"

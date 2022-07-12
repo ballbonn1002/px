@@ -581,8 +581,8 @@ public class PayrollReportAction extends ActionSupport {
 			List<Map<String, Object>> departmentId = departmentDAO.sequense();
 			request.setAttribute("DepartmentId", departmentId);
 			
-			//List<Map<String, Object>> findYearSalary = payment_groupDAO.findYear();
-			//request.setAttribute("FindYearSalary", findYearSalary);
+			List<Map<String, Object>> findYearSalary = payment_groupDAO.findYear();
+			request.setAttribute("FindYearSalary", findYearSalary);
 
 			
 			return SUCCESS;
@@ -596,12 +596,38 @@ public class PayrollReportAction extends ActionSupport {
 			String mYear = request.getParameter("findYear");
 			String mDepart = request.getParameter("department");
 			//log.debug(mYear);
-			log.debug(mDepart);
+			//log.debug(mDepart);
 			
 			//List<Map<String, Object>> findMonth = payment_groupDAO.monthSalary(mYear,mDepart);
 			//request.setAttribute("FindMonth", findMonth);
 			
 			List<Map<String, Object>> multiSelect = payment_groupDAO.multiSalaryMonth(mYear,mDepart);
+			request.setAttribute("MultiSelect", multiSelect);
+			
+			//log.debug(findMonth);
+			//log.debug(multiSelect);
+			
+			Gson gson = new Gson(); 
+            String json = gson.toJson(multiSelect); 
+            request.setAttribute("json", json);	
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+	}
+	
+	public String findYearSalaryDepart() {		
+		try {
+			String mYear = request.getParameter("multiple_findYear");
+			String mDepart = request.getParameter("multiple_department");
+			//log.debug(mYear);
+			//log.debug(mDepart);
+			
+			//List<Map<String, Object>> findMonth = payment_groupDAO.monthSalary(mYear,mDepart);
+			//request.setAttribute("FindMonth", findMonth);
+			
+			List<Map<String, Object>> multiSelect = payment_groupDAO.multiSalaryYear(mYear,mDepart);
 			request.setAttribute("MultiSelect", multiSelect);
 			
 			//log.debug(findMonth);
