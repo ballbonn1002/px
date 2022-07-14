@@ -1,15 +1,16 @@
 package com.cubesofttech.dao;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.time.Month;
 import java.time.YearMonth;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -64,6 +65,30 @@ public class PaymentDAOImpl implements PaymentDAO{
 		session.flush();
 		
 	}
+	
+	@Override
+	public Integer getMaxId() throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		Integer maxId = 0;
+
+		try {
+
+			Criteria criteria = session.createCriteria(Payment.class).setProjection(Projections.max("id"));
+			maxId = (Integer) criteria.uniqueResult();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Integer(0);
+
+		} finally {
+
+		}
+		if (maxId != null) {
+			return maxId;
+		} else {
+			return new Integer(0);
+		}
+	}
 
 	@Override
 	public List<Map<String, Object>> findAllByGroupId() throws Exception {
@@ -93,7 +118,6 @@ public class PaymentDAOImpl implements PaymentDAO{
 					+ "			FROM Payment as p"
 					+ "			inner join payment_group as pg"
 					+ "			On p.payment_group_id = pg.payment_group_id"
-					+ "			Where p.status != 0"
 					+ "			Group by p.payment_group_id"
 					+ "			Order by pg.time_create DESC";
 			SQLQuery query = session.createSQLQuery(sqlUpdate);

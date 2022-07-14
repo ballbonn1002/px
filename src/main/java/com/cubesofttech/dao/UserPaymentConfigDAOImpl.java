@@ -1,6 +1,7 @@
 package com.cubesofttech.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
@@ -72,6 +73,42 @@ public class UserPaymentConfigDAOImpl implements UserPaymentConfigDAO{
 			e.printStackTrace();
 		}
 		return expendList;
+	}
+	
+	@Override
+	public List<Map<String, Object>> sumIncomeById(String userId) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Map<String, Object>> sumIncomeList = null;
+		try {
+			String sql = "SELECT SUM(pc.amount) as total, pc.user_id FROM user_payment_config AS pc "
+						+ "RIGHT JOIN Payment_type AS pt ON pc.payment_type_id=pt.Payment_type_id "
+						+ "WHERE pc.config_flag = 1 AND pt.type = 1 AND user_id='" + userId + "'";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			sumIncomeList = query.list();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return sumIncomeList;
+	}
+	
+	@Override
+	public List<Map<String, Object>> sumExpendById(String userId) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Map<String, Object>> sumExpendList = null;
+		try {
+			String sql = "SELECT SUM(pc.amount) as total, pc.user_id FROM user_payment_config AS pc "
+						+ "RIGHT JOIN Payment_type AS pt ON pc.payment_type_id=pt.Payment_type_id "
+						+ "WHERE pc.config_flag = 1 AND pt.type = 0 AND user_id='" + userId + "'";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			sumExpendList = query.list();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return sumExpendList;
 	}
 	
 	@Override
