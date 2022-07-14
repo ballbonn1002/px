@@ -89,8 +89,8 @@
                                         <div class="mega-list">
                                             <ul class="list-unstyled">
                                                 <li><label>Chart</label></li>
-                                                <li><a href="chart-morris.html">Morris</a> </li>
-                                                <li><a href="chart-flot.html">Flot</a> </li>
+                                                <li><a href="#">Payment Statistics</a> </li>
+                                                <li><a href="employeeReport">Employee Statistics</a> </li>
                                                 <li><a href="chart-chartjs.html">ChartJS</a> </li>                                    
                                                 <li><a href="chart-jquery-knob.html">Jquery Knob</a> </li>
                                                 <li><a href="chart-sparkline.html">Sparkline Chart</a></li>

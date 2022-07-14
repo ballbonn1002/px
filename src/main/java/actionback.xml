@@ -555,6 +555,12 @@
 			<result name="success" type="tiles">report_worksum</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		<action name="leaveSearch"
+			class="com.cubesofttech.action.PayrollReportAction" method="leaveSearch">
+			<result name="success" type="tiles">report_worksum</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
 		<action name="report_wages"
 			class="com.cubesofttech.action.PayrollReportAction" method="listUser">
 			<result name="success" type="tiles">report_wages</result>
@@ -572,6 +578,11 @@
 		</action>
 		<action name="findMonth"
 			class="com.cubesofttech.action.PayrollReportAction" method="findMonthSalaryDepart">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="findYear"
+			class="com.cubesofttech.action.PayrollReportAction" method="findYearSalaryDepart">
 			<result name="success">/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
@@ -769,5 +780,14 @@
 			class="com.cubesofttech.action.DashboardAction" method="getTable">
 		</action>
 		
+		<!-- EmployeeReport -->
+		
+		<action name="employeeReport"
+			class="com.cubesofttech.action.PayrollReportAction" method="employeeReport">
+			<result name="success" type="tiles">employeeReport</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
+			
 	</package>
 </struts>

@@ -351,5 +351,11 @@
 		<put-attribute name="body"
 			value="/pages-back/dashboard/dashboard.jsp" />
 	</definition>
-
+	
+	<!-- EmployeeReport -->
+	<definition name="employeeReport" extends="masterLayout">
+		<put-attribute name="title" value="รายงาน รายได้เพิ่มเติม/รายการหัก" />
+		<put-attribute name="body"	value="/pages-back/report/employeeReport.jsp" />
+	</definition>
+	
 </tiles-definitions>
