@@ -787,7 +787,18 @@
 			<result name="success" type="tiles">employeeReport</result>
 			<result name="error">/index.jsp</result>
 		</action>
+
+		<action name="getGraphData"
+			class="com.cubesofttech.action.PayrollReportAction" method="getGraphData">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+
+		<action name="getAllDeparmentId"
+			class="com.cubesofttech.action.PayrollReportAction" method="getAllDeparmentId">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
 		
-			
 	</package>
 </struts>
