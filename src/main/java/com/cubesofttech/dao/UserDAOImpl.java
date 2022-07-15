@@ -19,9 +19,11 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.AliasToEntityMapResultTransformer;
+import org.jfree.util.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.cubesofttech.action.PaymentTypeAction;
 import com.cubesofttech.model.User;
 import com.google.gson.Gson;
 
@@ -1124,6 +1126,69 @@ public class UserDAOImpl implements UserDAO {
 			e.printStackTrace();
 		}
 		return count;
+	}
+
+	@Override
+	public List<Map<String, Object>> countUserOutOfYearByYear(String year) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		
+		List<Map<String, Object>> countUserList = null ;
+		try {
+			String sql = "SELECT user.id ,user.department_id"
+					+ ", EXTRACT(YEAR FROM user.start_date) start_year , EXTRACT(MONTH FROM user.start_date) start_month"
+					+ ", EXTRACT(YEAR FROM user.end_date) end_year , EXTRACT(MONTH FROM user.end_date) end_month"
+					+ ", COUNT(*) AS employee_count"
+					+ " FROM user"
+					+ " WHERE"
+					+ " EXTRACT(YEAR FROM user.start_date) < '"+year+"' AND (EXTRACT(YEAR FROM user.end_date) > '"+year+"' OR EXTRACT(YEAR FROM user.end_date) IS NULL)"
+					+ " Group BY department_id";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			countUserList = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return countUserList;
+	}
+
+	@Override
+	public List<Map<String, Object>> countUserStartInYearByYear(String year) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		
+		List<Map<String, Object>> countUserList = null ;
+		try {
+			String sql = "SELECT user.id ,user.department_id , EXTRACT(YEAR FROM user.start_date) start_year , EXTRACT(MONTH FROM user.start_date) month , EXTRACT(YEAR FROM user.end_date) end_year , EXTRACT(MONTH FROM user.end_date) end_month ,COUNT(*) AS employee_count FROM user WHERE EXTRACT(YEAR FROM user.start_date) = '"+year+"' AND (EXTRACT(YEAR FROM user.end_date) = '"+year+"' OR EXTRACT(YEAR FROM user.end_date) IS NULL) GROUP BY department_id , month ORDER BY department_id";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			countUserList = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return countUserList;
+	}
+
+	@Override
+	public List<Map<String, Object>> countUserEndInYearByYear(String year) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		
+		List<Map<String, Object>> countUserList = null ;
+		try {
+			String sql = "SELECT user.id ,user.department_id"
+					+ ", EXTRACT(YEAR FROM user.start_date) start_year , EXTRACT(MONTH FROM user.start_date) start_month"
+					+ ", EXTRACT(YEAR FROM user.end_date) end_year , EXTRACT(MONTH FROM user.end_date) month"
+					+ ",COUNT(*) AS employee_count"
+					+ " FROM user"
+					+ " WHERE"
+					+ " EXTRACT(YEAR FROM user.start_date) = '"+year+"' AND (EXTRACT(YEAR FROM user.end_date) = '"+year+"')"
+					+ " GROUP BY department_id , month"
+					+ " ORDER BY department_id";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			countUserList = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return countUserList;
 	}
 
 	
