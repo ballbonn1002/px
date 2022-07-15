@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="/WEB-INF/tlds/permission.tld" prefix="perm"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script
@@ -140,38 +141,6 @@ to {
 			</div>
 		</div>
 		<div class="body">
-			<form>
-				<div class="row">
-					<div class="col-12">
-						<div
-							class="d-flex flex-column flex-sm-column flex-lg-row justify-content-between">
-							<div
-								class="d-flex flex-column flex-sm-column flex-lg-row align-items-center">
-								<div
-									class="d-flex flex-column align-items-center align-items-sm-center align-items-lg-end">
-									<p class="mb-0">รวมค่าใช้จ่ายพนักงาน</p>
-									<h2 style="color: #333333;">45,500.00</h2>
-								</div>
-								<div class="d-none d-sm-none d-lg-block"
-									style="width: 1px; height: 60px; background: #EBEDF3; margin: 16px"></div>
-								<div
-									class="d-flex flex-column align-items-center align-items-sm-center align-items-lg-end">
-									<p class="mb-0">รวมจ่ายสุทธิ</p>
-									<h2 style="color: #2898CB";>43,591.70</h2>
-								</div>
-								<div class="d-none d-sm-none d-lg-block"
-									style="width: 1px; height: 60px; background: #EBEDF3; margin: 16px"></div>
-								<div
-									class="d-flex flex-column align-items-center align-items-sm-center align-items-lg-end">
-									<p class="mb-0">รวมรายการหัก</p>
-									<h2 style="color: #E7505A;">1,500.00</h2>
-								</div>
-							</div>
-							<div class="mt-auto">
-								<p>Created: 25 April 2022</p>
-							</div>
-						</div>
-					</div>
 					<div class="portlet-body" style="margin-top: 20px">
 						<form>
 							<div class="container">
@@ -220,7 +189,7 @@ to {
 										<label>ช่วงวันที่</label>
 										<div class="form-group">
 											<input data-provide="datepicker" data-date-autoclose="true"
-												data-date-format="dd-mm-yyyy" name="bday"
+												data-date-format="dd/mm/yyyy" name="startDate" id="startDate"
 												value=""
 												class="form-control">
 										</div>
@@ -229,7 +198,7 @@ to {
 										<label>ถึงวันที่</label>
 										<div class="form-group">
 											<input data-provide="datepicker" data-date-autoclose="true"
-												data-date-format="dd-mm-yyyy" name="bday"
+												data-date-format="dd/mm/yyyy" name="endDate" id="endDate"
 												value=""
 												class="form-control">
 										</div>
@@ -238,8 +207,8 @@ to {
 										<label>วันที่ชำระ</label>
 										<div class="form-group">
 											<input data-provide="datepicker" data-date-autoclose="true"
-												data-date-format="dd-mm-yyyy" name="bday"
-												value="<fmt:formatDate value="" pattern=" dd-MM-yyyy" />"
+												data-date-format="dd/mm/yyyy" name="bday"
+												value="<fmt:formatDate value="" pattern=" dd/mm/yyyy" />"
 												class="form-control">
 										</div>
 									</div>
@@ -269,12 +238,10 @@ to {
 									<button type="button" class="btn btn-light  float-lg-right m-2">ยกเลิก</button>
 								</div>
 							</div>
-						</div>
+						</form>	
 					</div>
 				</div>
-			</form>
 		</div>
-	</div>
 </div>
 
 <div class="container">
@@ -394,9 +361,9 @@ to {
 						<table class="table payment-table">
 							<thead>
 								<tr>
-									<th class style="text-align: left; width: 30%">รายได้</th>
-									<th class style="text-align: left; width: 50%"></th>
-									<th class
+									<th class="" style="text-align: left; width: 30%">รายได้</th>
+									<th class="" style="text-align: left; width: 50%"></th>
+									<th class=""
 										style="text-align: right; width: 20%; color: #449CFF;">45,500.00</th>
 								</tr>
 							</thead>
@@ -448,6 +415,7 @@ to {
 </div>
 <script>
 	$(document).ready(function() {
+		
 		var table = $('#list_example').DataTable({
 			//"ordering": false,
 			"order" : [],
@@ -493,11 +461,3 @@ to {
 				+ '</tr>' + '</table>');
 	}
 </script>
-<script
-	src="pages-back/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-<script
-	src="pages-back/assets/vendor/bootstrap-timepicker/js/bootstrap-timepicker.min.js"
-	type="text/javascript"></script>
-<script
-	src="pages-back/assets/pages/scripts/components-date-time-pickers.min.js"
-	type="text/javascript"></script>

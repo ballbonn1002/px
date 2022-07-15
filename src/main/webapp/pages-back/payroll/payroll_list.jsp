@@ -11,7 +11,6 @@
 <script
 	src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <c:set var="now" value="<%=new java.util.Date()%>" />
-<c:set var="paymentgroupListSize" value="${fn:length(paymentgroupList)}" />
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 <!-- VENDOR CSS -->
@@ -164,7 +163,7 @@ to {
 										</div>
 									</div>
 								</div>
-								</div>
+								
 								<div class="modal-footer">
 									<button type="button" class="btn dark btn-outline" 
 										data-dismiss="modal">Cancel</button>
@@ -209,31 +208,30 @@ to {
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach var="i" begin="0" end="${paymentgroupListSize-1}"
-											step="1" varStatus="loop">
+										<c:forEach var="paymentgroupList" items="${payment}" varStatus="c">
 											<tr>
 												<!--<td style="display:none">${paymentgl.time_create}</td>-->
-												<td style="text-align: left; padding-top: 10px;">${paymentgroupList[i].payment_group_id}</td>
-												<td style="text-align: left; padding-top: 10px;">${paymentgroupList[i].name}</td>
-												<td style="text-align: left; padding-top: 10px;">${paymentgroupList[i].payment_date}</td>
-												<td style="text-align: left; padding-top: 10px;">${payment[i].salary + payment[i].income_net}</td>
-												<td style="text-align: left; padding-top: 10px;">${payment[i].expend_net}</td>
-												<td style="text-align: left; padding-top: 10px;">${status[i].payment_count}/${payment[i].payment_count}</td>
+												<td style="text-align: left; padding-top: 10px;">${paymentgroupList.payment_group_id}</td>
+												<td style="text-align: left; padding-top: 10px;">${paymentgroupList.name}</td>
+												<td style="text-align: left; padding-top: 10px;">${paymentgroupList.payment_date}</td>
+												<td style="text-align: left; padding-top: 10px;">${paymentgroupList.salary + paymentgroupList.income_net}</td>
+												<td style="text-align: left; padding-top: 10px;">${paymentgroupList.expend_net}</td>
+												<td style="text-align: left; padding-top: 10px;">${status[c.index].payment_count}/${paymentgroupList.payment_count}</td>
 												<td style="text-align: left; padding-top: 10px;"><c:choose>
 
-														<c:when test="${paymentgroupList[i].status == 1}">
+														<c:when test="${paymentgroupList.status == 1}">
 															<span class="tag badge badge-info" style = "color : #449cff;border-color : #449cff;">inprogress</span>
 														</c:when>
-														<c:when test="${paymentgroupList[i].status == 2}">
+														<c:when test="${paymentgroupList.status == 2}">
 															<span class="tag badge badge-info" style = "color : #88c426;border-color : #88c426;">confirm</span>
 														</c:when>
-														<c:when test="${paymentgroupList[i].status == 3}">
+														<c:when test="${paymentgroupList.status == 3}">
 															<span class="tag badge badge-info" style = "color : #9772FB;border-color : #9772FB;">partial payment</span>
 														</c:when>
-														<c:when test="${paymentgroupList[i].status == 4}">
+														<c:when test="${paymentgroupList.status == 4}">
 															<span class="tag badge badge-info" style = "color : #22AF46;border-color : #22AF46;">completed</span>
 														</c:when>
-														<c:when test="${paymentgroupList[i].status == 5}">
+														<c:when test="${paymentgroupList.status == 5}">
 															<span class="tag badge badge-info" style = "color : #7F8487;border-color : #7F8487;">inactive</span>
 														</c:when>
 													</c:choose></td>
@@ -241,7 +239,7 @@ to {
 													class="btn btn-outline-success" title="Edit" href="#">
 														<i class="fa fa-pencil"></i>
 												</a> <a
-													class="btn btn-outline-danger sred-intense sweet-${paymentgroupList[i].payment_group_id}"
+													class="btn btn-outline-danger sred-intense sweet-${paymentgroupList.payment_group_id}"
 													title="Delete"
 													onclick="_gaq.push(['_trackEvent', 'example', 'try', 'Primary']);">
 														<i class="fa fa-trash-o"></i>
@@ -276,6 +274,7 @@ to {
 			</div>
 		</div>
 	</div>
+</div>
 </div>
 
 <script
@@ -316,25 +315,9 @@ function call_submit() {
 		});
 	});
 	console.log(getUserList);
-	//location.href = "payroll_form";
+	
+	location.href = "payroll_form?userList=" + getUserList;
 };
 </script>
 
 
-<link
-	href="../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css"
-	rel="stylesheet" type="text/css" />
-<script src="../assets/global/plugins/jquery.min.js"
-	type="text/javascript"></script>
-<script
-	src="../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js"
-	type="text/javascript"></script>
-<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script
-	src="../assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js"
-	type="text/javascript"></script>
-<script src="../assets/pages/scripts/ui-sweetalert.min.js"
-	type="text/javascript"></script>
-<link
-	href="../assets/global/plugins/bootstrap-sweetalert/sweetalert.css"
-	rel="stylesheet" type="text/css" />

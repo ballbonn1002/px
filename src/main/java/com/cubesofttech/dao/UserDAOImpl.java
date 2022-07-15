@@ -975,7 +975,7 @@ public class UserDAOImpl implements UserDAO {
         			+ "			and :month = month(u.start_date))"
         			+ "			or ( :year = year(u.end_date)"
         			+ "			and :month = month(u.end_date))"
-        			+ ")"
+        			+ "		)"
         			+ ")";
 			SQLQuery query = session.createSQLQuery(sql);	
 			query.setParameter("employee_id",EmpId);

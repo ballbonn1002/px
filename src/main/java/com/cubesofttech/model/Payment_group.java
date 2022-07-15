@@ -52,7 +52,6 @@ public class Payment_group implements Serializable {
         this.timeUpdate = timeUpdate;	
 	}
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "payment_group_id ")
     private Integer payment_group_id ;	
     @Column(name = "name")
