@@ -752,5 +752,12 @@ public class PayrollReportAction extends ActionSupport {
 		}
 		
 	}
+	public String reportDepartment() {
+		try {
+			return SUCCESS;
+		} catch (Exception e) {
+			return ERROR;
+		}
+	}
 
 }

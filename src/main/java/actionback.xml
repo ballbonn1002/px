@@ -788,6 +788,12 @@
 			<result name="error">/index.jsp</result>
 		</action>
 		
+		<!-- ReportDepartmentStatistics -->
+		<action name="report_department"
+			class="com.cubesofttech.action.PayrollReportAction" method="reportDepartment">
+			<result name="success" type="tiles">report_department</result>
+			<result name="error">/index.jsp</result>
+		</action>
 			
 	</package>
 </struts>
