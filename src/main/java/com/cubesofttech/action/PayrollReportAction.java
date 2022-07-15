@@ -736,9 +736,13 @@ public class PayrollReportAction extends ActionSupport {
             String json = gson.toJson(paymentChart);
             log.debug(json);
 
-            request.setAttribute("json", json);	
-            		
-	
+            request.setAttribute("json", json);	 
+            return SUCCESS;
+		}catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+	}
 	public String findYearSalaryDepart() {		
 		try {
 			String mYear = request.getParameter("multiple_findYear");
