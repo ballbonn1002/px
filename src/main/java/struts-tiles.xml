@@ -358,4 +358,10 @@
 		<put-attribute name="body"	value="/pages-back/report/employeeReport.jsp" />
 	</definition>
 	
+	<!-- ReportDepartmentStatistics -->
+	<definition name="report_department" extends="masterLayout">
+		<put-attribute name="title" value="รายงาน เงินเดือนแยกตามแผนก" />
+		<put-attribute name="body"	value="/pages-back/report/report_department.jsp" />
+	</definition>
+	
 </tiles-definitions>
