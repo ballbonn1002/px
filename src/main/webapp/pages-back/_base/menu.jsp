@@ -18,7 +18,7 @@
                         </li>
                         
                         <li class="nav-item dropdown mega-menu">
-                            <a href="payroll_list" class="nav-link"><i class="icon-docs"></i> <span> รายการจ่ายเงินเดือน </span></a>
+                            <a href="payroll_list" class="nav-link"><i class="icon-docs"></i> <span> Payroll </span></a>
                         </li>
                         
                         <li class="nav-item dropdown mega-menu">

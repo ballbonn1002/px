@@ -20,10 +20,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.components.Debug;
+import org.hibernate.boot.model.naming.ImplicitNameSource;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.beust.jcommander.internal.Console;
 import com.cubesofttech.dao.DepartmentDAO;
 import com.cubesofttech.dao.HolidayDAO;
 import com.cubesofttech.dao.LeaveDAO;
@@ -744,10 +746,110 @@ public class PayrollReportAction extends ActionSupport {
 			return ERROR;
 		}
 	}
+	
 	public String employeeReport() {
 		try {
 			return SUCCESS;
 		} catch (Exception e) {
+			return ERROR;
+		}
+	}
+	
+	public List<List<Integer>> FormatGraph(List<List<Integer>> count_userList
+			,List<String> dp_name
+			,List<Map<String, Object>> countUser
+			,int expression) 
+	{
+		try {
+			for (int j = 0 ; j < countUser.size(); j++) {
+				String departString = (String) countUser.get(j).get("department_id");
+					for (int mon = 1 ; mon < 13 ; mon++) {//for loop month
+						if ((Integer)countUser.get(j).get("month") == mon) {
+						Integer valInteger = Integer.parseInt((String)countUser.get(j).get("employee_count").toString());
+						Integer month_arrInteger = mon-1;
+							for (int month_iterator = month_arrInteger; month_iterator < 12 ; month_iterator++) {
+								Integer current_valueInteger = count_userList.get(dp_name.indexOf(departString)).get(month_iterator);
+								if (expression == 0) {
+									count_userList.get(dp_name.indexOf(departString)).set(month_iterator,current_valueInteger + valInteger);
+								}else {
+									count_userList.get(dp_name.indexOf(departString)).set(month_iterator,current_valueInteger - valInteger);
+								}
+							}						
+						}	
+					}	
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			count_userList = null;
+		}
+		return count_userList;
+	}
+	
+	public String getGraphData() {//findAll
+		try {
+			String Year = request.getParameter("year");
+			String allDepartmentId = request.getParameter("allDepartmentId");			
+			List<String> dp_name = Arrays.asList(allDepartmentId.split("\\s*,\\s*"));
+			List<List<Integer>> count_userList = new ArrayList<List<Integer>>();
+
+			List<Map<String, Object>> countUserByYearList = userDAO.countUserOutOfYearByYear(Year);
+			List<Map<String, Object>> countUserStartInYearByYear = userDAO.countUserStartInYearByYear(Year);
+			List<Map<String, Object>> countUserEndInYearByYear = userDAO.countUserEndInYearByYear(Year);
+			//log.debug(countUserByYearList);
+			
+			//log.debug(countUserEndInYearByYear);
+			
+			for (String name : dp_name) {
+				//get index of
+				Integer ind = null;
+				for (int i = 0 ; i < countUserByYearList.size(); i++) {
+					if(countUserByYearList.get(i).get("department_id").equals(name)) {
+						ind = i;
+						break;
+					}
+				}
+				if(ind != null) {
+					List<Integer> buffer_listIntegers = new ArrayList<Integer>();
+					for (int mon = 1 ; mon < 13 ; mon++) {//for loop month
+						buffer_listIntegers.add( Integer.parseInt((String)countUserByYearList.get(ind).get("employee_count").toString()) );
+						//log.debug(countUserByYearList.get(ind).get("employee_count"));
+					}
+					count_userList.add(buffer_listIntegers);
+					
+				}else {
+					count_userList.add(new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0)));
+				}
+			}
+			
+			log.debug(count_userList);
+			count_userList = FormatGraph(count_userList, dp_name, countUserStartInYearByYear,0);
+			count_userList = FormatGraph(count_userList, dp_name, countUserEndInYearByYear,1);
+					
+			Map<String, Object> jsonMap = new HashMap<String, Object>();
+			for (String name : dp_name) {
+				jsonMap.put(name, count_userList.get(dp_name.indexOf(name)));
+			}
+				
+			Gson gson = new Gson(); 
+            String json = gson.toJson(jsonMap); 
+            request.setAttribute("json", json);	
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}	
+	}
+	
+	public String getAllDeparmentId() {
+		try {
+			List<Map<String, Object>> findAllDeparmentIdList  = departmentDAO.findAllList();
+			
+			Gson gson = new Gson(); 
+            String json = gson.toJson(findAllDeparmentIdList); 
+            request.setAttribute("json", json);		
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
 			return ERROR;
 		}
 		
@@ -760,4 +862,6 @@ public class PayrollReportAction extends ActionSupport {
 		}
 	}
 
+	
+	
 }
