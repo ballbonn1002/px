@@ -1,28 +1,31 @@
 package com.cubesofttech.dao;
 
-import java.sql.Timestamp;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.sql.Date;
+import java.time.Month;
+import java.time.YearMonth;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.Query;
-
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.jfree.util.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.cubesofttech.model.Page;
-import com.cubesofttech.model.Pagemenu;
+import com.cubesofttech.action.PaymentTypeAction;
 import com.cubesofttech.model.User;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -948,4 +951,247 @@ public class UserDAOImpl implements UserDAO {
 		} 
 		return userList;
 	}
+
+	@Override
+	public long rowCountByEmpIdDateInterval(String EmpId,String month,String year)  throws Exception {
+		// TODO Auto-generated method stub
+		Session session = this.sessionFactory.getCurrentSession();
+		long count = 0;
+        try {
+        	
+        	YearMonth yearMonthObject = YearMonth.of(Integer.parseInt(year),Month.valueOf(month.toUpperCase()).getValue());
+        	String sdate = year+"-"+Month.valueOf(month.toUpperCase()).getValue()+"-1";
+        	String edate = year+"-"+Month.valueOf(month.toUpperCase()).getValue()+"-" + String.valueOf(yearMonthObject.lengthOfMonth());
+         
+        	String sql = "select count(*) from User u"
+					+ "	  where u.employee_type_id = :employee_id"
+        			+ "   and ("
+        			+ "		("
+        			+ "			(:sdate BETWEEN u.start_date and u.end_date)"
+        			+ "			or (:edate BETWEEN u.start_date and u.end_date)"
+        			+ "		)"
+        			+ "or	("
+        			+ "			( :year = year(u.start_date)"
+        			+ "			and :month = month(u.start_date))"
+        			+ "			or ( :year = year(u.end_date)"
+        			+ "			and :month = month(u.end_date))"
+        			+ "		)"
+        			+ ")";
+			SQLQuery query = session.createSQLQuery(sql);	
+			query.setParameter("employee_id",EmpId);
+			query.setParameter("sdate",sdate);
+			query.setParameter("edate",edate);
+			query.setParameter("year", Integer.parseInt(year.trim()));
+			query.setParameter("month",Month.valueOf(month.toUpperCase()).getValue());
+			
+            
+			count = ((BigInteger)query.list().get(0)).longValue();
+  
+        } catch (Exception e) {
+        	e.printStackTrace();
+
+        } 
+        return count;
+	}
+	
+	public long rowCountByEmpIdFilterYear(String EmpId,String year) {
+		Session session = this.sessionFactory.getCurrentSession();
+		long count = 0;
+		try {
+			String hql = "select count(u) from User u"
+					+ "	  where (year(u.startDate) <= :year and year(u.endDate) >= :year)"
+					+ "   and u.employee_type_id = :employee_id" ; 
+			Query query = session.createQuery(hql);
+			query.setParameter("year", Integer.parseInt(year.trim()));
+			query.setParameter("employee_id",EmpId);
+			count = (long)query.list().get(0);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	@Override
+	public long dashboardDepartmentMonth(String DepartId,String month,String year)  throws Exception {
+		// TODO Auto-generated method stub
+		Session session = this.sessionFactory.getCurrentSession();
+		long count = 0;
+        try {
+            
+        	YearMonth yearMonthObject = YearMonth.of(Integer.parseInt(year),Month.valueOf(month.toUpperCase()).getValue());
+        	String sdate = year+"-"+Month.valueOf(month.toUpperCase()).getValue()+"-1";
+        	String edate = year+"-"+Month.valueOf(month.toUpperCase()).getValue()+"-" + String.valueOf(yearMonthObject.lengthOfMonth());
+         
+        	String sql = "select sum(p.total_pay) from User u"
+        			+ " inner join payment p on u.id = p.user_id"
+        			+ "	inner join payment_group pg on p.payment_group_id = pg.payment_group_id"
+        			+ "	where u.department_id = :DepartId"
+        			+ "	and (pg.payment_date BETWEEN :sdate and :edate)";
+        	
+        	
+        	SQLQuery query = session.createSQLQuery(sql);	
+			query.setParameter("DepartId",DepartId);
+			query.setParameter("sdate",sdate);
+			query.setParameter("edate",edate);
+            if (query.list().get(0) != null) {
+            	count = ((BigDecimal)query.list().get(0)).longValue();
+            }
+  
+        } catch (Exception e) {
+        	e.printStackTrace();
+
+        } 
+        return count;
+	}
+	
+	public long dashboardDepartmentYear(String DepartId,String year) {
+		Session session = this.sessionFactory.getCurrentSession();
+		long count = 0;
+		try {
+         
+        	String sql = "select sum(p.total_pay) from User u"
+        			+ " inner join payment p on u.id = p.user_id"
+        			+ "	inner join payment_group pg on p.payment_group_id = pg.payment_group_id"
+        			+ "	where u.department_id = :DepartId"
+        			+ "	and (year(pg.payment_date) = :year)";
+        	
+        	
+        	SQLQuery query = session.createSQLQuery(sql);	
+			query.setParameter("DepartId",DepartId);
+			query.setParameter("year",year);
+            if (query.list().get(0) != null) {
+            	count = ((BigDecimal)query.list().get(0)).longValue();
+            }
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	@Override
+	public long dashboarPositionMonth(String PositionId, String month, String year) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		long count = 0;
+        try {
+            
+        	YearMonth yearMonthObject = YearMonth.of(Integer.parseInt(year),Month.valueOf(month.toUpperCase()).getValue());
+        	String sdate = year+"-"+Month.valueOf(month.toUpperCase()).getValue()+"-1";
+        	String edate = year+"-"+Month.valueOf(month.toUpperCase()).getValue()+"-" + String.valueOf(yearMonthObject.lengthOfMonth());
+         
+        	String sql = "select sum(p.total_pay) from User u"
+        			+ " inner join payment p on u.id = p.user_id"
+        			+ "	inner join payment_group pg on p.payment_group_id = pg.payment_group_id"
+        			+ "	where u.position_id = :positionId"
+        			+ "	and (pg.payment_date BETWEEN :sdate and :edate)";
+        	
+        	
+        	SQLQuery query = session.createSQLQuery(sql);	
+			query.setParameter("positionId",PositionId);
+			query.setParameter("sdate",sdate);
+			query.setParameter("edate",edate);
+            if (query.list().get(0) != null) {
+            	count = ((BigDecimal)query.list().get(0)).longValue();
+            }
+  
+        } catch (Exception e) {
+        	e.printStackTrace();
+
+        } 
+        return count;
+	}
+
+	@Override
+	public long dashboardPositionYear(String PositionId, String year) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		long count = 0;
+		try {
+         
+        	String sql = "select sum(p.total_pay) from User u"
+        			+ " inner join payment p on u.id = p.user_id"
+        			+ "	inner join payment_group pg on p.payment_group_id = pg.payment_group_id"
+        			+ "	where u.position_id = :positionId"
+        			+ "	and (year(pg.payment_date) = :year)";
+        	
+        	
+        	SQLQuery query = session.createSQLQuery(sql);	
+			query.setParameter("positionId",PositionId);
+			query.setParameter("year",year);
+            if (query.list().get(0) != null) {
+            	count = ((BigDecimal)query.list().get(0)).longValue();
+            }
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	@Override
+	public List<Map<String, Object>> countUserOutOfYearByYear(String year) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		
+		List<Map<String, Object>> countUserList = null ;
+		try {
+			String sql = "SELECT user.id ,user.department_id"
+					+ ", EXTRACT(YEAR FROM user.start_date) start_year , EXTRACT(MONTH FROM user.start_date) start_month"
+					+ ", EXTRACT(YEAR FROM user.end_date) end_year , EXTRACT(MONTH FROM user.end_date) end_month"
+					+ ", COUNT(*) AS employee_count"
+					+ " FROM user"
+					+ " WHERE"
+					+ " EXTRACT(YEAR FROM user.start_date) < '"+year+"' AND (EXTRACT(YEAR FROM user.end_date) > '"+year+"' OR EXTRACT(YEAR FROM user.end_date) IS NULL)"
+					+ " Group BY department_id";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			countUserList = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return countUserList;
+	}
+
+	@Override
+	public List<Map<String, Object>> countUserStartInYearByYear(String year) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		
+		List<Map<String, Object>> countUserList = null ;
+		try {
+			String sql = "SELECT user.id ,user.department_id , EXTRACT(YEAR FROM user.start_date) start_year , EXTRACT(MONTH FROM user.start_date) month , EXTRACT(YEAR FROM user.end_date) end_year , EXTRACT(MONTH FROM user.end_date) end_month ,COUNT(*) AS employee_count FROM user WHERE EXTRACT(YEAR FROM user.start_date) = '"+year+"' AND (EXTRACT(YEAR FROM user.end_date) = '"+year+"' OR EXTRACT(YEAR FROM user.end_date) IS NULL) GROUP BY department_id , month ORDER BY department_id";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			countUserList = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return countUserList;
+	}
+
+	@Override
+	public List<Map<String, Object>> countUserEndInYearByYear(String year) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		
+		List<Map<String, Object>> countUserList = null ;
+		try {
+			String sql = "SELECT user.id ,user.department_id"
+					+ ", EXTRACT(YEAR FROM user.start_date) start_year , EXTRACT(MONTH FROM user.start_date) start_month"
+					+ ", EXTRACT(YEAR FROM user.end_date) end_year , EXTRACT(MONTH FROM user.end_date) month"
+					+ ",COUNT(*) AS employee_count"
+					+ " FROM user"
+					+ " WHERE"
+					+ " EXTRACT(YEAR FROM user.start_date) = '"+year+"' AND (EXTRACT(YEAR FROM user.end_date) = '"+year+"')"
+					+ " GROUP BY department_id , month"
+					+ " ORDER BY department_id";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			countUserList = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return countUserList;
+	}
+
+	
+	
+	
 }

@@ -32,7 +32,7 @@
 					<label for="recipient-name" class="control-label"
 						style="font-weight: lighter; font-size: 14px;">เงินเดือน</label>
 					<div class="input-group mb-3">
-						<input type="text" id="salary" name="salary" class="form-control"
+						<input type="text" id="salary" name="salary" class="form-control" style = "text-align : right"
 							aria-describedby="basic-addon2" disabled="disabled" value = ${userSalary[userSalarySize-1].amount}>
 						<div class="input-group-append">
 							<button data-toggle="modal" data-target="#defaultModal"
@@ -92,8 +92,6 @@
 							ณ ที่จ่าย</option>
 						<option value="1"
 							<c:if test="${selectUser.tax_deduction eq '1'}"> selected </c:if>>ออกให้ตลอดไป</option>
-						<option value="2"
-							<c:if test="${selectUser.tax_deduction eq '2'}"> selected </c:if>>ออกให้ครั้งเดียว</option>
 					</select>
 				</div>
 			</div>
@@ -116,13 +114,14 @@
 				<div class="col-md-12" style="padding-top: 10px;">
 					<label for="recipient-name" class="control-label"
 						style="font-weight: lighter; font-size: 14px;">จำนวนเงินเดือน</label>
-					<input id = "add_emp_amount" type="text" name="amountsalary" value = "${userSalary[userSalarySize-1].amount}" class="form-control">
+					<input id = "add_emp_amount" type="text" style = "text-align : right" name="amountsalary" value = "${userSalary[userSalarySize-1].amount}" class="form-control">
 				</div>
 				<div class="col-md-12"
 					style="padding-top: 10px; padding-bottom: 20px;">
 					<label for="recipient-name" class="control-label"
-						style="font-weight: lighter; font-size: 14px;">หมายเหตุ</label> <input
-						type="text" name="note" value = "${userSalary[userSalarySize-1].description}" class="form-control">
+						style="font-weight: lighter; font-size: 14px;">หมายเหตุ</label>
+						<textarea rows="3"
+						 name="note" class="form-control span6" id = "add_emp_note">${userSalary[userSalarySize-1].description}</textarea>
 				</div>
 				<div class="modal-footer">
 					<button type="submit" class="btn btn-outline-secondary"

@@ -29,6 +29,25 @@
 					}); 
 								
 </script>
+<style>
+tr{    
+  opacity: 0;
+  animation-name: fadeIn;
+  animation-duration: 2s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  
+  to {
+    opacity: 1;
+  }
+}
+
+</style>
 <div class="block-header">
     <div class="row">
         <div class="col-lg-6 col-md-8 col-sm-12">
@@ -128,7 +147,7 @@
                             <div class="table-responsive">
 
  
-                                <table  class="table table-hover js-basic-example table-custom m-b-0 no-footer ">
+                                <table  class="table table-hover js-basic-example table-custom m-b-0 no-footer " id="myTable">
                                     <thead>
                                         <tr>
                                         
@@ -233,4 +252,14 @@ function myFunction() {
 		}
 	}
 
+</script>
+<script>
+$(document).ready(function(){
+	$('#myTable').dataTable( {
+		 language: {
+		        search: "_INPUT_",
+		        searchPlaceholder: "Search..."
+		    }
+	} );
+});
 </script>

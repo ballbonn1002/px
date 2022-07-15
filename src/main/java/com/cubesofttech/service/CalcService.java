@@ -1,29 +1,43 @@
 package com.cubesofttech.service;
 
+import java.math.BigDecimal;
 import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cubesofttech.dao.UserSalaryDAO;
 import com.cubesofttech.dao.*;
 import com.cubesofttech.model.*;
-import com.ibm.icu.text.DecimalFormat;
+import java.math.BigDecimal;
 
 @Service
 public class CalcService {
 	private static final Logger log = Logger.getLogger(CalcService.class);
 	//@Autowired Phase
+	@Autowired
+	private UserSalaryDAO userSalaryDAO;
+	
+	
 	
 	//Code in here
-	public List<List<Double>> calculateTax(Double money,Double paid,Double self,Double aia) throws Exception {
+	public List<List<Double>> calculateTax(Double money) throws Exception {
 		List<Double> taxList = new ArrayList<Double>();      //list ของการคำนวนภาษี
 		List<Double> resultList = new ArrayList<Double>();     //list ของผลลัพท์ (ต่อปี,ต่อเดือน)
-		double year = money * 12;
+		double paid = 100000;    //หักค่าใช้จ่าย
+		double self = 60000;    // หักลดหย่อนส่วนตัว
+		double aia =  9000;      //หักประกันสังคม
+		double year = money * 12;   //รายได้ทั้งปี
 		double sum = year - paid - self - aia;      //ยอดคงเหลือสุทธิ
 		double tax = 0,tax1 = 0,tax2 = 0,tax3 = 0,tax4 = 0,tax5 = 0,tax6 = 0,tax7 = 0;  
 		double percent1 = 0, percent2 = 5, percent3 = 10, percent4 = 15, percent5 = 20,      // % คำนวนภาษี
 			   percent6 = 25, percent7 = 30, percent8 = 35;
+		
 		
 		taxList.add(sum);
 		if(sum<=150000) {                //ยอดคุงเหลือสุทธิ 0-150,000
@@ -287,19 +301,32 @@ public class CalcService {
 			}
 		}
 		double total = tax+tax1+tax2+tax3+tax4+tax5+tax6+tax7;
+		log.debug("Total: "+total);
 		resultList.add(total);
 		double perMonth = total/12;
+		
 		resultList.add(perMonth);
 		
 		return  Arrays.asList(taxList, resultList);
-		
-		
 	}
+	public double calTaxPerMonth(String userId) throws Exception{
+		Map<String, Object> find = userSalaryDAO.testTax(userId);
+		double money = ((BigDecimal) find.get("amount")).doubleValue();
+		List<List<Double>> y = calculateTax(money);
+		List<Double> best = y.get(1);
+		Double taxPerMonth = best.get(1);
+		log.debug(taxPerMonth);
+		return taxPerMonth;
+	}
+	
 
-	public double calSsi(double percent, double salary) throws Exception {
+	public double calSsi(double percent, String uId) throws Exception {
 		double calSocialSecurity = 0;
-		//DecimalFormat df = new DecimalFormat();
-		//df.setMaximumFractionDigits(2);
+		//List<UserSalary> userSocialSecurityById = userSalaryDAO.findByUserId(uId);
+		Map<String, Object> cubesoftUserSalariesById = userSalaryDAO.findSsiById(uId);
+		
+		BigDecimal bd = (BigDecimal) cubesoftUserSalariesById.get("amount");
+		double salary = bd.doubleValue();
 		
 		if(salary >15000) {
 			calSocialSecurity = (15000*percent/100);
@@ -307,21 +334,34 @@ public class CalcService {
 			calSocialSecurity = (salary*percent/100);
 		}
 		//calSocialSecurity = String.valueOf(s);
+		//log.debug(salary);
 		return calSocialSecurity;
 	}
 	
-	public Double calculateSalaryPerDay(double salaryAmount,double salaryTerm,double salaryTermDay) throws Exception {
+	public Double calculateSalaryPerDay(String userId) throws Exception {
 		Double SalaryPerDay = null;
+		List<Map<String, Object>> cubesoftUserSalariesById = userSalaryDAO.findUserSalaryByID(userId);
+		
+		int payment_type = Integer.parseInt((String) cubesoftUserSalariesById.get(0).get("payment"));
+		Double salaryAmount = ((BigDecimal)cubesoftUserSalariesById.get(0).get("amount")).doubleValue();
+		Double salaryTerm = Double.parseDouble((String)cubesoftUserSalariesById.get(0).get("term"));//
+		Double salaryTermDay = Double.parseDouble((String)cubesoftUserSalariesById.get(0).get("term_day"));//
+
 		try {
-			SalaryPerDay = salaryAmount / (salaryTerm*salaryTermDay);
+			if (payment_type == 0) {
+				SalaryPerDay = salaryAmount / (salaryTerm*salaryTermDay);
+			}else {
+				SalaryPerDay = salaryAmount;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return SalaryPerDay;
 	}
 	
-	public Double calculateSalaryPerHour(double SalaryDay) throws Exception{
+	public Double calculateSalaryPerHour(String userId) throws Exception{
 		Double SalaryPerHour = null;
+		Double SalaryDay = calculateSalaryPerDay(userId);
 		try {
 			SalaryPerHour = SalaryDay/8;
 		} catch (Exception e) {
@@ -330,8 +370,10 @@ public class CalcService {
 		return SalaryPerHour;
 	}
 	
-	public Double calculateOT(double SalaryPerHour,double Otcount,double otMulitple) throws Exception{
+	
+	public Double calculateOT(String userId,Double Otcount,Double otMulitple) throws Exception{
 		Double SalaryOT = null;
+		Double SalaryPerHour = calculateSalaryPerHour(userId);
 		try {
 			SalaryOT = SalaryPerHour * otMulitple * Otcount;
 		} catch (Exception e) {

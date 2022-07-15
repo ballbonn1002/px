@@ -1,7 +1,11 @@
 package com.cubesofttech.action;
 
+import java.lang.reflect.Array;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -91,7 +95,7 @@ public class FunctionAction extends ActionSupport {
 		try {
 			String userId = request.getParameter("user_id");
 			List<Map<String, Object>> cubesoftUserSalariesById = userSalaryDAO.findUserSalaryByID(userId);
-			log.debug(cubesoftUserSalariesById);
+			//log.debug(cubesoftUserSalariesById);
 						
             Gson gson = new Gson(); 
             String json = gson.toJson(cubesoftUserSalariesById.get(0)); 
@@ -108,13 +112,10 @@ public class FunctionAction extends ActionSupport {
 	public String calculateOTData() {
 		try {
 			
+			String userId = request.getParameter("userId"); 
 			double countOt15 = Double.parseDouble(request.getParameter("ot15"));
 			double countOt2 = Double.parseDouble(request.getParameter("ot2"));
 			double countOt3 = Double.parseDouble(request.getParameter("ot3"));
-			int salary_payment_type = Integer.parseInt(request.getParameter("Salary_payment_type"));
-			double salary_term = Double.parseDouble(request.getParameter("Salary_term"));
-			double salary_term_day = Double.parseDouble(request.getParameter("Salary_term_day"));
-			double salary_amount = Double.parseDouble(request.getParameter("Salary_amount"));
 			
 			Double salaryPerDay = null;
 			Double salaryPerHour = null;
@@ -123,21 +124,14 @@ public class FunctionAction extends ActionSupport {
 			Double salaryOT3 = null;
 			
 			Map<String, Double> DataList = new HashMap<String, Double>();
+					
+			salaryPerDay = calCService.calculateSalaryPerDay(userId);
+			salaryPerHour = calCService.calculateSalaryPerHour(userId);
 			
-			CalcService calculateCalcService = new CalcService();
-			
-			//get Calculate Data
-			if (salary_payment_type == 1) {
-				salaryPerDay = salary_amount;
-			}else if (salary_payment_type == 0) {
-				salaryPerDay = calculateCalcService.calculateSalaryPerDay(salary_amount,salary_term,salary_term_day);
-			}
-			salaryPerHour = calculateCalcService.calculateSalaryPerHour(salaryPerDay);
-			salaryOT15 = calculateCalcService.calculateOT(salaryPerHour,countOt15,1.5);
-			salaryOT2 = calculateCalcService.calculateOT(salaryPerHour,countOt2,2.0);
-			salaryOT3 = calculateCalcService.calculateOT(salaryPerHour,countOt3,3.0);
+			salaryOT15 = calCService.calculateOT(userId,countOt15,1.5);
+			salaryOT2 = calCService.calculateOT(userId,countOt2,2.0);
+			salaryOT3 = calCService.calculateOT(userId,countOt3,3.0);
 
-			
 			//put JSON
             Gson gson = new Gson();
             
@@ -149,7 +143,6 @@ public class FunctionAction extends ActionSupport {
             
             String json = gson.toJson(DataList); 
             request.setAttribute("json", json);	
-            
             
             //log.debug("ภาษาไทย");
             return SUCCESS;
@@ -171,10 +164,10 @@ public class FunctionAction extends ActionSupport {
 			String uId = request.getParameter("user_id_ssi");
 			//log.debug(uId);
 			
-			List<Map<String, Object>> userSocialSecurityById = userSalaryDAO.findSsiById(uId);
+			Map<String, Object> userSocialSecurityById = userSalaryDAO.findSsiById(uId);
 			//log.debug(userSocialSecurityById);
 			Gson gson = new Gson(); 
-			String json = gson.toJson(userSocialSecurityById.get(0));
+			String json = gson.toJson(userSocialSecurityById);
 			request.setAttribute("json", json);
 			
 			return SUCCESS;
@@ -187,14 +180,14 @@ public class FunctionAction extends ActionSupport {
 	public String calSsiAction() {
 		try {
 			double percent = Double.parseDouble(request.getParameter("input_percent"));
-			double salary = Double.parseDouble(request.getParameter("ssi_value2"));
+			String user = request.getParameter("user_id_ssi");
 			//log.debug(percent);
-			//log.debug(salary);
+			//log.debug(user);
 			
-			double calSocialSecurity = calCService.calSsi(percent, salary);
+			double calSocialSecurity = calCService.calSsi(percent, user);
 			request.setAttribute("CalSocialSecurity", calSocialSecurity);
 			
-			log.debug(calSocialSecurity);
+			//log.debug(calSocialSecurity);
 			Gson gson = new Gson(); 
 			String json = gson.toJson(calSocialSecurity);
 			request.setAttribute("json", json);
@@ -235,20 +228,27 @@ public class FunctionAction extends ActionSupport {
 	
 	public String calTax() {
 		try {
-			String val = request.getParameter("salary");
-			String pay = request.getParameter("pay");
-			String mny = request.getParameter("money");
-			String ssi = request.getParameter("social");
-			String flag = request.getParameter("flag");
-			Double money = Double.parseDouble(val);
-			Double paid = Double.parseDouble(pay);
-			Double self = Double.parseDouble(mny);
-			Double aia = Double.parseDouble(ssi);
+			 
+			//UserSalary userModel = dataSnapshot.getValue(UserSalary.class);
+			String userId = request.getParameter("user_name");
+			
+			Map<String, Object> find = userSalaryDAO.testTax(userId);
+			//log.debug("findSalary: "+find.getClass());
+			double money = ((BigDecimal) find.get("amount")).doubleValue();
+			String flag = (String) find.get("withholding_auto");
+			log.debug(flag);
+			
+			//log.debug(money*2.5);
+			
+			log.debug(find.get("amount"));
+			//log.debug("testCalTax: "+calCService.calTaxPerMonth(userId));
+			
 			
 		    if(flag.equals("1")) {
-		    	List<List<Double>> y = calCService.calculateTax(money, paid, self, aia);
+		    	List<List<Double>> y = calCService.calculateTax(money);
 		    	List<Double> tan = y.get(0);
-		    	List<Double> best = y.get(1);
+		    	List<Double> best = y.get(1);   
+		    	log.debug(best);
 		    	
 		    	for (int i=0; i<tan.size(); i++) {
 		    		  tan.get(i);
@@ -304,7 +304,7 @@ public class FunctionAction extends ActionSupport {
 		try {
 			String userId = request.getParameter("userId") == null ? "test.data1" : request.getParameter("userId") ;
 			String startDate = request.getParameter("startDate");
-			String endDate = request.getParameter("endDate");			
+			String endDate = request.getParameter("endDate");
 						
 //			List<Map<String, Object>> workingList = funtionDAO.findWorkingList(userId, startDate, endDate);	//List for display on table detail
 			List<Map<String, Object>> workingSummary = funtionDAO.findWorkingSummary(userId, startDate, endDate); //Summary (record 0) : count_working,actual_working,absent,sum_hours

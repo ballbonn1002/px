@@ -22,10 +22,10 @@ public class Payment_group implements Serializable {
 	public Payment_group(
 			Integer payment_group_id,
 			String name,
-			String transaction_date,
-			String payment_date,
-			String start_date,
-			String end_date,
+			java.sql.Date transaction_date,
+			java.sql.Date payment_date,
+			java.sql.Date start_date,
+			java.sql.Date end_date,
 			String social_security,
 			String description,
 			String status,
@@ -52,19 +52,18 @@ public class Payment_group implements Serializable {
         this.timeUpdate = timeUpdate;	
 	}
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "payment_group_id ")
     private Integer payment_group_id ;	
     @Column(name = "name")
     private String name;
     @Column(name = "transaction_date")
-    private String transaction_date;
+    private java.sql.Date transaction_date;
     @Column(name = "payment_date")
-    private String payment_date;
+    private java.sql.Date payment_date;
     @Column(name = "start_date")
-    private String start_date;
+    private java.sql.Date start_date;
     @Column(name = "end_date")
-    private String end_date;	
+    private java.sql.Date end_date;	
     @Column(name = "social_security")
     private String social_security;
     @Column(name = "description")
@@ -83,7 +82,8 @@ public class Payment_group implements Serializable {
     private java.sql.Timestamp timeUpdate;
     
     
-    public Integer getPayment_group_id() {
+    
+	public Integer getPayment_group_id() {
 		return payment_group_id;
 	}
 	public void setPayment_group_id(Integer payment_group_id) {
@@ -95,28 +95,28 @@ public class Payment_group implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getTransaction_date() {
+	public java.sql.Date getTransaction_date() {
 		return transaction_date;
 	}
-	public void setTransaction_date(String transaction_date) {
+	public void setTransaction_date(java.sql.Date transaction_date) {
 		this.transaction_date = transaction_date;
 	}
-	public String getPayment_date() {
+	public java.sql.Date getPayment_date() {
 		return payment_date;
 	}
-	public void setPayment_date(String payment_date) {
+	public void setPayment_date(java.sql.Date payment_date) {
 		this.payment_date = payment_date;
 	}
-	public String getStart_date() {
+	public java.sql.Date getStart_date() {
 		return start_date;
 	}
-	public void setStart_date(String start_date) {
+	public void setStart_date(java.sql.Date start_date) {
 		this.start_date = start_date;
 	}
-	public String getEnd_date() {
+	public java.sql.Date getEnd_date() {
 		return end_date;
 	}
-	public void setEnd_date(String end_date) {
+	public void setEnd_date(java.sql.Date end_date) {
 		this.end_date = end_date;
 	}
 	public String getSocial_security() {

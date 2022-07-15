@@ -16,8 +16,13 @@ public interface PaymentDAO {
 
     public void delete(Payment payment) throws Exception;
     
+    Integer getMaxId() throws Exception;
+    
     public List<Map<String, Object>> findAllByGroupId() throws Exception;
     
     public List<Map<String, Object>> countStatus() throws Exception;
+    
+    public long dashboardEmpTypeMonth(String EmpId, String month, String year) throws Exception;
+    public long dashboardEmpTypeYear(String EmpId, String year) throws Exception;
 
 }

@@ -14,43 +14,11 @@
                 <div class="navbar-collapse align-items-center collapse" id="navbar">
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown mega-menu">
-                            <a href="javascript:void(0)" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="icon-speedometer"></i> <span> PAYROLL </span></a>
-                            <div class="dropdown-menu mega-main padding-0 animated fadeIn">
-                                <div class="row">
-                                  
-                                    <div class="col-lg-4 col-md-4 hidden-sm">
-                                        <div class="img-box" style="background-image: url(/pages-back/assets/images/menu-img/1.jpg)"></div>
-                                    </div>
-                                    
-                                    <div class="col-lg-3 col-lg-auto col-md-4 col-sm-4">
-                                        <div class="mega-list">
-                                        	<ul class="list-unstyled">
-                                                <li><label>Payroll</label></li>
-                                                <li class="active"><a href="#">Payroll Management</a></li>
-                                                <li ><a href="#">Payroll History</a></li>
-                                            </ul>
-                                      
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-lg-auto col-md-4 col-sm-4">
-                                        <div class="mega-list">
-                                            <ul class="list-unstyled">
-                                                <li><label>Employees</label></li>
-                                                <li><a href="#">All Employees</a></li>
-                                                <li><a href="#">Leave Requests</a></li>
-                                                <li><a href="#">Attendance</a></li>
-                                                <li><a href="#">Departments</a></li>
-                                            </ul>
-                                            
-                                        </div>
-                                    </div>
-                                
-                                </div>
-                            </div>
+                            <a href="dashboard" class="nav-link"><i class="icon-speedometer"></i> <span> Dashboard </span></a>                          
                         </li>
                         
                         <li class="nav-item dropdown mega-menu">
-                            <a href="/payroll_list" class="nav-link"><i class="icon-docs"></i> <span> รายการจ่ายเงินเดือน </span></a>
+                            <a href="payroll_list" class="nav-link"><i class="icon-docs"></i> <span> Payroll </span></a>
                         </li>
                         
                         <li class="nav-item dropdown mega-menu">
@@ -121,9 +89,9 @@
                                         <div class="mega-list">
                                             <ul class="list-unstyled">
                                                 <li><label>Chart</label></li>
-                                                <li><a href="chart-morris.html">Morris</a> </li>
-                                                <li><a href="chart-flot.html">Flot</a> </li>
-                                                <li><a href="chart-chartjs.html">ChartJS</a> </li>                                    
+                                                <li><a href="#">Payment Statistics</a> </li>
+                                                <li><a href="employeeReport">Employee Statistics</a> </li>
+                                                <li><a href="report_department">Department Statistics</a> </li>                                    
                                                 <li><a href="chart-jquery-knob.html">Jquery Knob</a> </li>
                                                 <li><a href="chart-sparkline.html">Sparkline Chart</a></li>
                                                 <li><a href="chart-peity.html">Peity</a></li>

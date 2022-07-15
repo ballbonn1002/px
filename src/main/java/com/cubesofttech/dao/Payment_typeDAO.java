@@ -30,6 +30,8 @@ public interface Payment_typeDAO {
 	 public void delete(Payment_type payment_type) throws Exception;
 	 
 	 public List<Payment_type> search(String paymentTypeId) throws Exception;
+	 
+	 public List<Payment_type> listName() throws Exception;
 
 
 

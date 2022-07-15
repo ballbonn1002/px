@@ -1316,25 +1316,41 @@ public class LeaveDAOImpl implements LeaveDAO {
 		return search;
 	}
 
+	@Override 
+	public List<Map<String, Object>> findUserLeave(String user,Timestamp start_date1,Timestamp end_date1) throws Exception { 
+		Session session = this.sessionFactory.getCurrentSession(); 
+		List<Map<String, Object>> userleave = null;
+		try { 
+			String sql = "SELECT * FROM leaves WHERE leaves.user_id=:user AND leaves.start_date BETWEEN :start_date1 AND :end_date1";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setParameter("user", user); 
+			query.setParameter("start_date1",start_date1); 
+			query.setParameter("end_date1", end_date1);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			userleave = query.list(); 
+	 } catch (Exception e) { 
+		 e.printStackTrace(); 
+	 } 
+		return userleave; }
+	 
+	
 	@Override
-	public List<Map<String, Object>> findUserLeave(String user,Timestamp start_date1,Timestamp end_date1) throws Exception {
+	public List<Map<String, Object>> findUserLeave(String user,String month,String year) throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Map<String, Object>> userleave = null;
 	
 		try {
-			String sql = "SELECT * FROM leaves WHERE leaves.user_id=:user AND leaves.start_date BETWEEN :start_date1 AND :end_date1";
+			String sql = "SELECT * FROM leaves WHERE leaves.user_id=:user AND MONTH(leaves.start_date) =:month AND MONTH(leaves.end_date) =:month "
+					+ "AND YEAR(leaves.start_date) =:year AND YEAR(leaves.end_date) =:year ";
 
 			SQLQuery query = session.createSQLQuery(sql);
 
 			query.setParameter("user", user);
-			query.setParameter("start_date1", start_date1);
-			query.setParameter("end_date1", end_date1);
+			query.setParameter("month", month);
+			query.setParameter("year", year);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 			userleave = query.list();
-			System.out.print(userleave);
-		} catch (
-
-		Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return userleave;
@@ -1354,7 +1370,6 @@ public class LeaveDAOImpl implements LeaveDAO {
 			query.setParameter("end_date1", end_date1);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 			userleave = query.list();
-			System.out.println(userleave);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1385,7 +1400,6 @@ public class LeaveDAOImpl implements LeaveDAO {
 			query.setParameter("year", year);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 			userleave = query.list();
-			System.out.println("userleave"+userleave);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -207,12 +207,13 @@ public class AddEmpAction extends ActionSupport {
 
         	//update Modal
         	UserSalary userSalary = new UserSalary();
+        	
 
-			userSalary.setUser_salary_id(16);
-
+        	BigDecimal amountSalary = new BigDecimal(amountsalary.replace(",",""));
 			userSalary.setUser_id(userId);
 			userSalary.setPayment_type_id("SL");
-			userSalary.setAmount(new BigDecimal(amountsalary));
+			userSalary.setAmount(amountSalary);
+			userSalary.setPosition_id(userDAO.findById(userId).getPositionId());
 			userSalary.setDate(salaryDate);
 			userSalary.setDescription(note);
 			userSalary.setUser_create(logonUser);

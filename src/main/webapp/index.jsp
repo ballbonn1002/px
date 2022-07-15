@@ -56,7 +56,7 @@
                                     </label>								
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-lg btn-block">LOGIN</button>
-                                v. 20220701 r2
+                                v. 20220708
 
                             </form>
                         </div>

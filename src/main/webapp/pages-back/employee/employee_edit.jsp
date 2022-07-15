@@ -47,7 +47,7 @@ input[type="checkbox"] {
 				<li class="breadcrumb-item"><a href="page.blank"><i
 						class="icon-home"></i></a></li>
 				<li class="breadcrumb-item">Master</li>
-				<li class="breadcrumb-item active">รายชื่อพนักงาน</li>
+				<li class="breadcrumb-item">รายชื่อพนักงาน</li>
 				<li class="breadcrumb-item active">รายละเอียดพนักงาน</li>
 			</ul>
 		</div>
@@ -132,6 +132,9 @@ input[type="checkbox"] {
 	</div>
 </div>
 
+
+
+
 <script src="pages-back/assets/js/jquery-latest.min.js"></script>
 <script src="pages-back/assets/bundles/vendorscripts.bundle.js"></script>
 <script src="pages-back/assets/bundles/mainscripts.bundle.js"></script>
@@ -148,7 +151,14 @@ input[type="checkbox"] {
 <script>
 
 
+
+
 $(document).ready(function(){
+	if ($('#salary').val() != ""){
+		$('#add_emp_amount').val((Math.round(parseFloat($('#add_emp_amount').val()) * 100) / 100).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"))
+		$('#salary').val((Math.round(parseFloat($('#salary').val()) * 100) / 100).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"))
+	}
+
 	$(".department-type").on("change",function() {
 		$.ajax({
 			url: "getPositionByDepartmentId",
@@ -166,6 +176,7 @@ $(document).ready(function(){
 			}
 		);
 	});
+	
   $("#History").click(function(){
     $("#hidebutton").hide();
   });
@@ -184,14 +195,39 @@ $(document).ready(function(){
   $("#showbutton4").click(function(){
 	    $("#hidebutton").show();
 	  });
+  
+  $('#add_emp_amount').on("change",function () {
+	  var add_emp_amount =  $('#add_emp_amount').val();
+	  if ($.isNumeric($('#add_emp_amount').val())){
+	  	add_emp_amount = add_emp_amount.replace(',','');
+	  	$('#add_emp_amount').val((Math.round(parseFloat(add_emp_amount) * 100) / 100).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"))
+	  	}
+	  else {
+		  $('#add_emp_amount').val("กรอกได้เฉพาะตัวเลข")
+	  }
+  })
+  
   $('#add_emp_save').click(function() {
 	  $('#defaultModal').modal('hide');
-	  $('#salary').val($('#add_emp_amount').val());
+	  if ($("#add_emp_amount").val()) {
+		  $('#salary').val($('#add_emp_amount').val());
+		  $.ajax({
+			  url: "updateSalaryEmp",
+			  method : "POST" ,
+			  type: "JSON",
+			  data : {
+				  "username" : $("#edit-username").val(),
+				  "salaryDate" : $("#add_emp_date").val(),
+				  "amountsalary" : $("#add_emp_amount").val().replace(',',''),
+				  "note" : $("#add_emp_note").val(),
+			  },
+			  success:function(data) {
+				  location.reload();
+			  }
+		  })
+		}
 	});
   $('#add_emp_discard').click(function() {
-	  $('#add_emp_date').val('');
-	  $('#add_emp_amount').val('');
-	  $('#add_emp_note').val('');
 	  $('#defaultModal').modal('hide');
 	});
   

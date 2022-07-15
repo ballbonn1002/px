@@ -344,6 +344,24 @@
 		<put-attribute name="title" value="รายงาน รายได้เพิ่มเติม/รายการหัก" />
 		<put-attribute name="body"	value="/pages-back/report/BonusReport.jsp" />
 	</definition>
-	<!-- -->
-
+	
+	<!-- Dashboard -->
+	<definition name="dashboard" extends="masterLayout">
+		<put-attribute name="title" value="Dashboard" />
+		<put-attribute name="body"
+			value="/pages-back/dashboard/dashboard.jsp" />
+	</definition>
+	
+	<!-- EmployeeReport -->
+	<definition name="employeeReport" extends="masterLayout">
+		<put-attribute name="title" value="รายงาน รายได้เพิ่มเติม/รายการหัก" />
+		<put-attribute name="body"	value="/pages-back/report/employeeReport.jsp" />
+	</definition>
+	
+	<!-- ReportDepartmentStatistics -->
+	<definition name="report_department" extends="masterLayout">
+		<put-attribute name="title" value="รายงาน เงินเดือนแยกตามแผนก" />
+		<put-attribute name="body"	value="/pages-back/report/report_department.jsp" />
+	</definition>
+	
 </tiles-definitions>

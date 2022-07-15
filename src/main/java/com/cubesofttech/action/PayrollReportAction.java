@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,10 +21,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.components.Debug;
+import org.hibernate.boot.model.naming.ImplicitNameSource;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.beust.jcommander.internal.Console;
+import com.cubesofttech.dao.DepartmentDAO;
 import com.cubesofttech.dao.HolidayDAO;
 import com.cubesofttech.dao.LeaveDAO;
 import com.cubesofttech.dao.LeaveTypeDAO;
@@ -43,88 +48,103 @@ import com.cubesofttech.model.User;
 import com.cubesofttech.util.DateUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.ibm.icu.math.BigDecimal;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class PayrollReportAction extends ActionSupport {
 	private static final Logger log = Logger.getLogger(PaymentTypeAction.class);
 	private static final long serialVersionUID = 1L;
-	
+
 	@Autowired
 	private UserPaymentConfigDAO userpaymentconfigDAO;
-	
+
 	@Autowired
 	private Payment_groupDAO payment_groupDAO;
-	
+
 	@Autowired
 	private UserDAO userDAO;
-	
+
 	@Autowired
 	private PaymentDAO paymentDAO;
-	
+
 	@Autowired
 	private Payment_typeDAO payment_typeDAO;
-	
+
 	@Autowired
-	private WorkHoursDAO workHoursDAO;	
-	
+	private WorkHoursDAO workHoursDAO;
+
 	@Autowired
 	private LeaveDAO leaveDAO;
-	
+
 	@Autowired
 	private LeaveTypeDAO leavetypeDAO;
-	
+
 	@Autowired
 	private HolidayDAO holidayDAO;
-	
+
 	@Autowired
 	private PositionDAO positionDAO;
 	
-	private static Calendar cal = Calendar.getInstance(); // Use Calendar .Year
+	@Autowired
+	private DepartmentDAO departmentDAO;
 	
+	private static Calendar cal = Calendar.getInstance(); // Use Calendar .Year
+	private static String check_flag = "";
+
 	HttpServletRequest request = ServletActionContext.getRequest();
 	HttpServletResponse response = ServletActionContext.getResponse();
-	
-	
+
 	public String listReportPayroll() {
 		try {
 			List<Payment_group> payment_group = payment_groupDAO.listForReport();
-			request.setAttribute("groupList",payment_group);
+			request.setAttribute("groupList", payment_group);
 			log.debug(payment_group);
 			return SUCCESS;
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return ERROR;
 		}
 	}
+
 	public String groupMember() {
 		try {
 			String id = request.getParameter("payment_group_id");
 			log.debug(id);
 			Integer idValue = Integer.valueOf(id);
-			Payment_group payment_group = payment_groupDAO.findById(idValue);
+			
+			List<Payment_group> payment_group = payment_groupDAO.listForReportById(idValue);
 			log.debug(payment_group);
 			request.setAttribute("payment_groupList", payment_group);
+			
+			List<Payment_type> payment_type = payment_typeDAO.listName();
+			log.debug(payment_type);
+			request.setAttribute("payment_typeList",payment_type);
+			
+			List<Payment_group> group = payment_groupDAO.listConvert(idValue);
+			log.debug(group);
+			request.setAttribute("groupList",group);
 			return SUCCESS;
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			return ERROR;
 		}
 	}
-	
-public String listUser() {
+
+	public String listUser() {
 		try {
-				List<Payment_type> payment_type = payment_typeDAO.findType();
-				request.setAttribute("paymentTypeList", payment_type);
-				
-				List<User> user = userDAO.userList();
-				request.setAttribute("userList", user);
-				
+			List<Payment_type> payment_type = payment_typeDAO.findType();
+			request.setAttribute("paymentTypeList", payment_type);
+
+			List<User> user = userDAO.userList();
+			request.setAttribute("userList", user);
+
 			return SUCCESS;
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return ERROR;
 		}
 	}
+
 	public String checkIdDate() {
 		try {
 				String u = request.getParameter("user");
@@ -146,26 +166,28 @@ public String listUser() {
 			return ERROR;
 		}
 	}
-	
+
 	public String reportWorkAllList() {
 		try {
-			
+
 			List<Map<String, Object>> userlist = userDAO.UserEnable();
 			request.setAttribute("userlist", userlist);
 			Date date = new Date();
 			Timestamp tstamp = new Timestamp(date.getTime());
 			Date Longday = DateUtil.periodMinus(date, 8);
 			Timestamp tstampbefore = new Timestamp(Longday.getTime());
-			
+
 			Date date1;
 			date1 = tstamp;
 			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 			String datenow = dateFormat.format(date1);
 			request.setAttribute("datenow", datenow);
-			log.debug("datenow: "+datenow);
-			
-			Timestamp start_date = DateUtil.dateToTimestamp("01"+"-"+DateUtil.getMonth() +"-"+ DateUtil.getYear(), "00:00");
-			Timestamp end_date = DateUtil.dateToTimestamp("31"+"-"+DateUtil.getMonth() +"-"+ DateUtil.getYear(), "00:00");
+			log.debug("datenow: " + datenow);
+
+			Timestamp start_date = DateUtil.dateToTimestamp("01" + "-" + DateUtil.getMonth() + "-" + DateUtil.getYear(),
+					"00:00");
+			Timestamp end_date = DateUtil.dateToTimestamp("31" + "-" + DateUtil.getMonth() + "-" + DateUtil.getYear(),
+					"00:00");
 			log.debug(start_date);
 			log.debug(end_date);
 
@@ -175,28 +197,29 @@ public String listUser() {
 			request.setAttribute("year", year);
 			log.debug(month);
 			log.debug(year);
-			
+
 			List<Map<String, Object>> worklist = workHoursDAO.worktime(month, year);
 			request.setAttribute("worklist", worklist);
-			
+
 			List<Map<String, Object>> userwork = userDAO.userWork(month, year);
 			request.setAttribute("userwork", userwork);
-			
-			
+
 			return SUCCESS;
-			
+
 		} catch (Exception e) {
 			log.error(e);
 			return ERROR;
 		}
-		
+
 	}
+
 	public String reportWorkSum() {
 		try {
-			/* userid from report_work.jsp*/
+			/* userid from report_work.jsp */
 			String userid = request.getParameter("id");
+			log.debug(userid);
 			request.setAttribute("userid", userid);
-			
+
 			Date date = new Date();
 			Timestamp tstamp = new Timestamp(date.getTime());
 			Date Longday = DateUtil.periodMinus(date, 8);
@@ -207,13 +230,18 @@ public String listUser() {
 			String datenow = dateFormat.format(date1);
 			request.setAttribute("datenow", datenow);
 			request.setAttribute("datenowcalendar", datenow);
-			
-			Timestamp start_date1 = DateUtil.dateToTimestamp("01"+"-"+DateUtil.getMonth() +"-"+ DateUtil.getYear(), "00:00");
-			Timestamp end_date1 = DateUtil.dateToTimestamp("31"+"-"+DateUtil.getMonth() +"-"+ DateUtil.getYear(), "00:00");
-			System.out.println(start_date1+"/"+end_date1);
-			List<Map<String, Object>> userleave = leaveDAO.findUserLeave(userid, start_date1, end_date1);
+			String year = datenow.substring(6, 10);
+			String month = datenow.substring(3, 5);
+			/* String yearnow = datenow.substring(6, 10);
+			 * Timestamp start_date1 = DateUtil .dateToTimestamp("01" + "-" +
+			 * DateUtil.getMonth() + "-" + DateUtil.getYear(), "00:00"); Timestamp end_date1
+			 * = DateUtil.dateToTimestamp("31" + "-" + DateUtil.getMonth() + "-" +
+			 * DateUtil.getYear(), "00:00");
+			 */
+			log.debug(month + "/" + year);
+			List<Map<String, Object>> userleave = leaveDAO.findUserLeave(userid, month, year);
 			request.setAttribute("userleave", userleave);
-			
+
 			List<LeaveType> type_leave1 = leavetypeDAO.findAll();
 			request.setAttribute("leavetypelistChoice", type_leave1);
 			request.setAttribute("type_1", type_leave1.get(0).getLeaveTypeName());
@@ -222,34 +250,34 @@ public String listUser() {
 			request.setAttribute("type_4", type_leave1.get(3).getLeaveTypeName());
 			request.setAttribute("type_5", type_leave1.get(4).getLeaveTypeName());
 			request.setAttribute("type_6", type_leave1.get(5).getLeaveTypeName());
-			
-/*----------------------------------------------------------------------------------------------------------*/
+
+			/*----------------------------------------------------------------------------------------------------------*/
 			List<Map<String, Object>> userwork = userDAO.findUserWork(userid);
 			request.setAttribute("userwork", userwork);
-			//List<Map<String, Object>> leavesum = leaveDAO.leaveApprSum(userid, start_date1, end_date1);
-			//userwork.addAll(leavesum);
-/*----------------------------------------------------------------------------------------------------------*/
-			
-			String year = datenow.substring(6, 10);
+			// List<Map<String, Object>> leavesum = leaveDAO.leaveApprSum(userid,
+			// start_date1, end_date1);
+			// userwork.addAll(leavesum);
+			/*----------------------------------------------------------------------------------------------------------*/
+
 			List<Map<String, Object>> test1 = workHoursDAO.checkoutcalendar(userid, year);
 			List<Map<String, Object>> test2 = workHoursDAO.checkincalendar(userid, year);
 			JSONArray test1arr = new JSONArray(test1);
 			JSONArray test2arr = new JSONArray(test2);
 			List listcheck = new ArrayList<>();
-			for(int i = 0;i<test1arr.length();i++) {
+			for (int i = 0; i < test1arr.length(); i++) {
 				HashMap<String, String> obj = new HashMap<String, String>();
-			    obj.put("datecheck", test1arr.getJSONObject(i).getString("datecheck"));
-			    String checkintime = test2arr.getJSONObject(i).getString("checkin");
-			    String checkin = checkintime.substring(0, 5);
-			    obj.put("checkin", checkin);
-			    
-			    String checkouttime = test1arr.getJSONObject(i).getString("checkout");
-			    String checkout = checkouttime.substring(0, 5);
-		    	obj.put("checkout", checkout);
-			    listcheck.add(obj);
-		    }	
+				obj.put("datecheck", test1arr.getJSONObject(i).getString("datecheck"));
+				String checkintime = test2arr.getJSONObject(i).getString("checkin");
+				String checkin = checkintime.substring(0, 5);
+				obj.put("checkin", checkin);
+
+				String checkouttime = test1arr.getJSONObject(i).getString("checkout");
+				String checkout = checkouttime.substring(0, 5);
+				obj.put("checkout", checkout);
+				listcheck.add(obj);
+			}
 			request.setAttribute("listcheck", listcheck);
-			
+
 			List<Holiday> holidayList = holidayDAO.findAll();
 			request.setAttribute("holidayList", holidayList);
 
@@ -286,7 +314,6 @@ public String listUser() {
 					int id = 0;
 					for (int b = 0; b <= a.length - 1; b++) {
 						if (tryParseInt(a[b])) {
-							log.debug("inIf");
 							id = Integer.parseInt(a[b]);
 							Leaves leaveDashboard = leaveDAO.findByLeaveId(id);
 							Double noday = leaveDashboard.getNoDay().doubleValue();
@@ -314,42 +341,44 @@ public String listUser() {
 			request.setAttribute("leave_2", leave_2);
 			request.setAttribute("leave_3", leave_3);
 			request.setAttribute("leave_5", leave_5);
-			request.setAttribute("leave_6", leave_6);	
-			
+			request.setAttribute("leave_6", leave_6);
+
 			String flag_cal = request.getParameter("flag");
 			if (flag_cal != null) {
 				Calendar cal1 = Calendar.getInstance();
 				cal = cal1;
 			}
-			
+
 			int month1 = cal.get(Calendar.MONTH);
 			int year1 = cal.get(Calendar.YEAR);
 
 			request.setAttribute("now_month", month1);
 			request.setAttribute("now_year", year1);
-			
+			// check_flag = "0";
+			request.setAttribute("check_flag", "0");
+
 			return SUCCESS;
 		} catch (Exception e) {
 			log.error(e);
 			return ERROR;
 		}
 	}
-	
+
 	public void searchCalendar() {
 		try {
-			log.debug("searchCalendar");
-			String userid = request.getParameter("userid");			
+			String userid = request.getParameter("userid");
 			String year = request.getParameter("year");
+			
 			List<Map<String, Object>> test1 = workHoursDAO.checkoutcalendar(userid, year);
 			List<Map<String, Object>> test2 = workHoursDAO.checkincalendar(userid, year);
 
 			JSONArray test1arr = new JSONArray(test1);
 			JSONArray test2arr = new JSONArray(test2);
-			
+
 			JSONArray arrayCheck1 = new JSONArray();
 			JSONArray arrayCheck2 = new JSONArray();
 			JSONArray arrayCheck3 = new JSONArray();
-			for(int i = 0 ; i < test1.size(); i++ ){
+			for (int i = 0; i < test1.size(); i++) {
 				arrayCheck1.put(test1arr.getJSONObject(i).getString("datecheck"));
 				String checkouttime = test1arr.getJSONObject(i).getString("checkout");
 				String checkout;
@@ -357,20 +386,20 @@ public String listUser() {
 				checkout = checkouttime_sub;
 				arrayCheck2.put(checkout);
 			}
-			for(int i = 0 ; i < test2.size(); i++ ){
+			for (int i = 0; i < test2.size(); i++) {
 				String checkintime = test2arr.getJSONObject(i).getString("checkin");
 				String checkin;
 				String checkintime_sub = checkintime.substring(0, 5);
-	    		checkin = checkintime_sub;
-	    		arrayCheck3.put(checkin);
+				checkin = checkintime_sub;
+				arrayCheck3.put(checkin);
 			}
-			
+
 			PrintWriter out = response.getWriter();
-	        JSONObject json = new JSONObject();
-	        json.put("datecheck", arrayCheck1);
-	        json.put("checkout", arrayCheck2);
-	        json.put("checkin", arrayCheck3);
-	        
+			JSONObject json = new JSONObject();
+			json.put("datecheck", arrayCheck1);
+			json.put("checkout", arrayCheck2);
+			json.put("checkin", arrayCheck3);
+
 			// leaves
 			List<LeaveType> leavetypeList = leavetypeDAO.findAll_calendar();
 			request.setAttribute("leavetypeList", leavetypeList);
@@ -383,23 +412,21 @@ public String listUser() {
 
 			DateTimeFormatter dateT = DateTimeFormatter.ofPattern("01-01-yyyy");
 			LocalDate localDate = LocalDate.now();
-			System.out.println("localDate: "+localDate);
 			String s = "00:00:00.0";
-			
-			String start = (year+"-01-01 "+s);
-			String end = (year+"-12-31 "+s);
+
+			String start = (year + "-01-01 " + s);
+			String end = (year + "-12-31 " + s);
 			Timestamp start_date = Timestamp.valueOf(start);
-			Timestamp end_date = Timestamp.valueOf(end);;
-			log.debug("start_date: "+start_date);
-			log.debug("end_date: "+end_date);
-			
+			Timestamp end_date = Timestamp.valueOf(end);
+			log.debug("start_date: " + start_date);
+			log.debug("end_date: " + end_date);
+
 			List leavelist = leaveDAO.myLeavesList(userid, start_date, end_date);
 			Double leave_1 = 0.000, leave_2 = 0.000, leave_3 = 0.000, leave_5 = 0.000, leave_6 = 0.000;
 			String status = "1";
 			List LeaveID = leaveDAO.findLeaveId(userid, start_date, end_date, status);
 			if (leavelist != null) {
 				request.setAttribute("leave", leavelist);
-				//System.out.println(leavelist);
 				int x = 0;
 				while (x <= LeaveID.size() - 1) {
 					String a[] = LeaveID.get(x).toString().split("[={}]");
@@ -431,66 +458,162 @@ public String listUser() {
 					x++;
 				}
 			}
+
+			request.setAttribute("leave_1", leave_1);
+			request.setAttribute("leave_2", leave_2);
+			request.setAttribute("leave_3", leave_3);
+			request.setAttribute("leave_5", leave_5);
+			request.setAttribute("leave_6", leave_6);
+
+			JSONArray arrayLeave1 = new JSONArray();
+			JSONArray arrayLeave2 = new JSONArray();
+			JSONArray arrayLeave3 = new JSONArray();
+			JSONArray arrayLeave4 = new JSONArray();
+
+			JSONArray leavelist_arr = new JSONArray(leavelist);
+			for (int i = 0; i < leavelist.size(); i++) {
+				arrayLeave1.put(leavelist_arr.getJSONObject(i).getInt("leave_id"));
+				arrayLeave2.put(leavelist_arr.getJSONObject(i).getString("start_date"));
+				arrayLeave3.put(leavelist_arr.getJSONObject(i).getString("end_date"));
+				arrayLeave4.put(leavelist_arr.getJSONObject(i).get("leave_type_id"));
+			}
 			
+			json.put("leave_id", arrayLeave1);
+			json.put("leave_start", arrayLeave2);
+			json.put("leave_end", arrayLeave3);
+			json.put("leave_typeid", arrayLeave4);
+			
+
+			out.print(json);
+			out.flush();
+			out.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public String searchMonthYear() {
+		try {
+
+			String selectmonth = request.getParameter("month");
+			String year = request.getParameter("year");
+			int s_month = Integer.parseInt(selectmonth) + 1;
+			String month = Integer.toString(s_month);
+
+			List<Map<String, Object>> worklist = workHoursDAO.worktime(month, year);
+			request.setAttribute("worklist", worklist);
+
+			List<Map<String, Object>> userwork = userDAO.userWork(month, year);
+			request.setAttribute("userwork", userwork);
+
+			return SUCCESS;
+
+		} catch (Exception e) {
+			log.error(e);
+			return ERROR;
+		}
+	}
+	
+	public String leaveSearch() {
+		try {
+			
+			String userid = request.getParameter("userid");
+			log.debug(userid);
+			request.setAttribute("userid", userid);
+			String year = request.getParameter("year");
+			Integer selectmonth = Integer.parseInt(request.getParameter("month"));
+			selectmonth = selectmonth + 1;
+			String month = String.valueOf(selectmonth);
+			log.debug(userid+"/"+month+"/"+year);
+			
+			Timestamp datestart = DateUtil.dateToTimestamp("01" + "-" + month + "-" + year, "00:00"); 
+			Timestamp dateend = DateUtil.dateToTimestamp("31" + "-" + month + "-" + year,"00:00");
+			
+			List<Map<String, Object>> userleave = leaveDAO.findUserLeave(userid, month, year);
+			request.setAttribute("userleave", userleave);
+			
+			List<LeaveType> type_leave1 = leavetypeDAO.findAll();
+			request.setAttribute("leavetypelistChoice", type_leave1);
+			request.setAttribute("type_1", type_leave1.get(0).getLeaveTypeName());
+			request.setAttribute("type_2", type_leave1.get(1).getLeaveTypeName());
+			request.setAttribute("type_3", type_leave1.get(2).getLeaveTypeName());
+			request.setAttribute("type_4", type_leave1.get(3).getLeaveTypeName());
+			request.setAttribute("type_5", type_leave1.get(4).getLeaveTypeName());
+			request.setAttribute("type_6", type_leave1.get(5).getLeaveTypeName());
+			List leavelist = leaveDAO.myLeavesList(userid, datestart, dateend);
+			Double leave_1 = 0.000, leave_2 = 0.000, leave_3 = 0.000, leave_5 = 0.000, leave_6 = 0.000;
+			String status = "1";
+			List LeaveID = leaveDAO.findLeaveId(userid, datestart, dateend, status);
+			if (leavelist != null) {
+				request.setAttribute("leave", leavelist);
+				int x = 0;
+				while (x <= LeaveID.size() - 1) {
+					String a[] = LeaveID.get(x).toString().split("[={}]");
+					for (int b = 0; b <= a.length - 1; b++) {
+					}
+					int id = 0;
+					for (int b = 0; b <= a.length - 1; b++) {
+						if (tryParseInt(a[b])) {
+							id = Integer.parseInt(a[b]);
+							Leaves leaveDashboard = leaveDAO.findByLeaveId(id);
+							Double noday = leaveDashboard.getNoDay().doubleValue();
+							if (leaveDashboard.getLeaveTypeId().contains("1")) {
+								leave_1 = leave_1 + noday;
+							}
+							if (leaveDashboard.getLeaveTypeId().contains("2")) {
+								leave_2 = leave_2 + noday;
+							}
+							if (leaveDashboard.getLeaveTypeId().contains("3")) {
+								leave_3 = leave_3 + noday;
+							}
+							if (leaveDashboard.getLeaveTypeId().contains("5")) {
+								leave_5 = leave_5 + noday;
+							}
+							if (leaveDashboard.getLeaveTypeId().contains("6")) {
+								leave_6 = leave_6 + noday;
+							}
+						}
+					}
+					x++;
+				}
+			}
 			request.setAttribute("leave_1", leave_1);
 			request.setAttribute("leave_2", leave_2);
 			request.setAttribute("leave_3", leave_3);
 			request.setAttribute("leave_5", leave_5);
 			request.setAttribute("leave_6", leave_6);
 			
-			JSONArray arrayLeave1 = new JSONArray();
-			JSONArray arrayLeave2 = new JSONArray();
-			JSONArray arrayLeave3 = new JSONArray();
-			JSONArray arrayLeave4 = new JSONArray();
-			
-			JSONArray leavelist_arr = new JSONArray(leavelist);
-			System.out.println(leavelist_arr);
-			for(int i=0; i<leavelist.size(); i++) {
-				arrayLeave1.put(leavelist_arr.getJSONObject(i).getInt("leave_id"));
-				arrayLeave2.put(leavelist_arr.getJSONObject(i).getString("start_date"));
-				arrayLeave3.put(leavelist_arr.getJSONObject(i).getString("end_date"));
-				arrayLeave4.put(leavelist_arr.getJSONObject(i).get("leave_type_id"));
+			List<Map<String, Object>> test1 = workHoursDAO.checkoutcalendar(userid, year);
+			List<Map<String, Object>> test2 = workHoursDAO.checkincalendar(userid, year);
+			JSONArray test1arr = new JSONArray(test1);
+			JSONArray test2arr = new JSONArray(test2);
+			List listcheck = new ArrayList<>();
+			for (int i = 0; i < test1arr.length(); i++) {
+				HashMap<String, String> obj = new HashMap<String, String>();
+				obj.put("datecheck", test1arr.getJSONObject(i).getString("datecheck"));
+				String checkintime = test2arr.getJSONObject(i).getString("checkin");
+				String checkin = checkintime.substring(0, 5);
+				obj.put("checkin", checkin);
+
+				String checkouttime = test1arr.getJSONObject(i).getString("checkout");
+				String checkout = checkouttime.substring(0, 5);
+				obj.put("checkout", checkout);
+				listcheck.add(obj);
 			}
-			json.put("leave_id", arrayLeave1);
-			json.put("leave_start", arrayLeave2);
-			json.put("leave_end", arrayLeave3);
-			json.put("leave_typeid", arrayLeave4);
-	        
-	        out.print(json);
-	    	out.flush();
-	    	out.close();
-	    	
+			request.setAttribute("listcheck", listcheck);
+			
+			List<Holiday> holidayList = holidayDAO.findAll();
+			request.setAttribute("holidayList", holidayList);
+
+			return SUCCESS;
 		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public String searchMonthYear() {
-		try {
-		log.debug("searchMonthYear");	
-
-		String selectmonth = request.getParameter("month");
-		String year = request.getParameter("year");
-		int s_month = Integer.parseInt(selectmonth)+1;
-		String month = Integer.toString(s_month);  
-		log.debug("month "+month);
-		log.debug("year "+year);
-
-		List<Map<String, Object>> worklist = workHoursDAO.worktime(month, year);
-		request.setAttribute("worklist", worklist);
-		
-		List<Map<String, Object>> userwork = userDAO.userWork(month, year);
-		request.setAttribute("userwork", userwork);
-		log.debug(userwork);
-		
-		return SUCCESS;
-		
-		} catch(Exception e) {
 			log.error(e);
 			return ERROR;
 		}
 	}
 	
+
 	private boolean tryParseInt(String value) {
 		try {
 			int x = Integer.parseInt(value);
@@ -499,8 +622,8 @@ public String listUser() {
 			return false;
 		}
 	}
-	
-	public String bonusReport(){
+
+	public String bonusReport() {
 		try {
 			List<Map<String, Object>> Users = userDAO.Query_Userlist();
 			request.setAttribute("Users", Users);
@@ -510,28 +633,46 @@ public String listUser() {
 			e.printStackTrace();
 			return ERROR;
 		}
-		
+
 	}
-	
-	public String findBonusByYear(){
+
+	public String findBonusByYear() {
 		try {
-			//List<Map<String, Object>> Users = userDAO.Query_Userlist();
-			//request.setAttribute("Users", Users);
 			
 			String userid = request.getParameter("user_id");
 			String year = request.getParameter("year");
-			
-			List<Map<String, Object>> BonusByYear = payment_groupDAO.findBonusByYear(userid,year);
-			
+					
 			//query code
-			
+			List<Map<String, Object>> BonusByYear = payment_groupDAO.findAndSumBonusByYear(userid,year);
+					
             Gson gson = new Gson(); 
             String json = gson.toJson(BonusByYear); 
+
+            //log.debug(json);
             request.setAttribute("json", json);	
-            
-			log.debug(userid);
-			log.debug(year);
 			
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+	}
+	
+	public String findBonusByMultipleYear(){
+		try {
+			
+			String userid = request.getParameter("user_id");
+			String year = request.getParameter("year");
+			List<String> yearList = Arrays.asList(year.split("\\s*,\\s*"));
+			
+			//query code
+			List<Map<String, Object>> BonusByMultipleYear = payment_groupDAO.findAndSumBonusByMultipleYear(userid,yearList);
+					
+            Gson gson = new Gson(); 
+            String json = gson.toJson(BonusByMultipleYear);
+
+            request.setAttribute("json", json);	
+            		
 			return SUCCESS;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -542,33 +683,37 @@ public String listUser() {
 	public String reportSalaryDepart() {		
 		try {
 			
-			List<Map<String, Object>> departmentId = positionDAO.departmentById();
+			List<Map<String, Object>> departmentId = departmentDAO.sequense();
 			request.setAttribute("DepartmentId", departmentId);
 			
 			List<Map<String, Object>> findYearSalary = payment_groupDAO.findYear();
 			request.setAttribute("FindYearSalary", findYearSalary);
 
-			
 			return SUCCESS;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ERROR;
 		}
 	}
-	public String findMonthSalaryDepart() {		
+
+	public String findMonthSalaryDepart() {
 		try {
 			String mYear = request.getParameter("findYear");
 			String mDepart = request.getParameter("department");
-			log.debug(mYear);
-			log.debug(mDepart);
+			//log.debug(mYear);
+			//log.debug(mDepart);
 			
-			List<Map<String, Object>> findMonth = payment_groupDAO.monthSalary(mYear,mDepart);
-			request.setAttribute("FindMonth", findMonth);
+			//List<Map<String, Object>> findMonth = payment_groupDAO.monthSalary(mYear,mDepart);
+			//request.setAttribute("FindMonth", findMonth);
+			
+			List<Map<String, Object>> multiSelect = payment_groupDAO.multiSalaryMonth(mYear,mDepart);
+			request.setAttribute("MultiSelect", multiSelect);
 			
 			//log.debug(findMonth);
+			//log.debug(multiSelect);
 			
 			Gson gson = new Gson(); 
-            String json = gson.toJson(findMonth); 
+            String json = gson.toJson(multiSelect); 
             request.setAttribute("json", json);	
 			return SUCCESS;
 		} catch (Exception e) {
@@ -576,5 +721,148 @@ public String listUser() {
 			return ERROR;
 		}
 	}
+	
+	public String findYearSalaryDepart() {		
+		try {
+			String mYear = request.getParameter("multiple_findYear");
+			String mDepart = request.getParameter("multiple_department");
+			//log.debug(mYear);
+			//log.debug(mDepart);
+			
+			//List<Map<String, Object>> findMonth = payment_groupDAO.monthSalary(mYear,mDepart);
+			//request.setAttribute("FindMonth", findMonth);
+			
+			List<Map<String, Object>> multiSelect = payment_groupDAO.multiSalaryYear(mYear,mDepart);
+			request.setAttribute("MultiSelect", multiSelect);
+			
+			//log.debug(findMonth);
+			//log.debug(multiSelect);
+			
+			Gson gson = new Gson(); 
+            String json = gson.toJson(multiSelect); 
+            request.setAttribute("json", json);	
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+	}
+	
+	public String employeeReport() {
+		try {
+			return SUCCESS;
+		} catch (Exception e) {
+			return ERROR;
+		}
+	}
+	
+	public List<List<Integer>> FormatGraph(List<List<Integer>> count_userList
+			,List<String> dp_name
+			,List<Map<String, Object>> countUser
+			,int expression) 
+	{
+		try {
+			for (int j = 0 ; j < countUser.size(); j++) {
+				String departString = (String) countUser.get(j).get("department_id");
+					for (int mon = 1 ; mon < 13 ; mon++) {//for loop month
+						if ((Integer)countUser.get(j).get("month") == mon) {
+						Integer valInteger = Integer.parseInt((String)countUser.get(j).get("employee_count").toString());
+						Integer month_arrInteger = mon-1;
+							for (int month_iterator = month_arrInteger; month_iterator < 12 ; month_iterator++) {
+								Integer current_valueInteger = count_userList.get(dp_name.indexOf(departString)).get(month_iterator);
+								if (expression == 0) {
+									count_userList.get(dp_name.indexOf(departString)).set(month_iterator,current_valueInteger + valInteger);
+								}else {
+									count_userList.get(dp_name.indexOf(departString)).set(month_iterator,current_valueInteger - valInteger);
+								}
+							}						
+						}	
+					}	
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			count_userList = null;
+		}
+		return count_userList;
+	}
+	
+	public String getGraphData() {//findAll
+		try {
+			String Year = request.getParameter("year");
+			String allDepartmentId = request.getParameter("allDepartmentId");			
+			List<String> dp_name = Arrays.asList(allDepartmentId.split("\\s*,\\s*"));
+			List<List<Integer>> count_userList = new ArrayList<List<Integer>>();
 
+			List<Map<String, Object>> countUserByYearList = userDAO.countUserOutOfYearByYear(Year);
+			List<Map<String, Object>> countUserStartInYearByYear = userDAO.countUserStartInYearByYear(Year);
+			List<Map<String, Object>> countUserEndInYearByYear = userDAO.countUserEndInYearByYear(Year);
+			//log.debug(countUserByYearList);
+			
+			//log.debug(countUserEndInYearByYear);
+			
+			for (String name : dp_name) {
+				//get index of
+				Integer ind = null;
+				for (int i = 0 ; i < countUserByYearList.size(); i++) {
+					if(countUserByYearList.get(i).get("department_id").equals(name)) {
+						ind = i;
+						break;
+					}
+				}
+				if(ind != null) {
+					List<Integer> buffer_listIntegers = new ArrayList<Integer>();
+					for (int mon = 1 ; mon < 13 ; mon++) {//for loop month
+						buffer_listIntegers.add( Integer.parseInt((String)countUserByYearList.get(ind).get("employee_count").toString()) );
+						//log.debug(countUserByYearList.get(ind).get("employee_count"));
+					}
+					count_userList.add(buffer_listIntegers);
+					
+				}else {
+					count_userList.add(new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0)));
+				}
+			}
+			
+			log.debug(count_userList);
+			count_userList = FormatGraph(count_userList, dp_name, countUserStartInYearByYear,0);
+			count_userList = FormatGraph(count_userList, dp_name, countUserEndInYearByYear,1);
+					
+			Map<String, Object> jsonMap = new HashMap<String, Object>();
+			for (String name : dp_name) {
+				jsonMap.put(name, count_userList.get(dp_name.indexOf(name)));
+			}
+				
+			Gson gson = new Gson(); 
+            String json = gson.toJson(jsonMap); 
+            request.setAttribute("json", json);	
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}	
+	}
+	
+	public String getAllDeparmentId() {
+		try {
+			List<Map<String, Object>> findAllDeparmentIdList  = departmentDAO.findAllList();
+			
+			Gson gson = new Gson(); 
+            String json = gson.toJson(findAllDeparmentIdList); 
+            request.setAttribute("json", json);		
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+		
+	}
+	public String reportDepartment() {
+		try {
+			return SUCCESS;
+		} catch (Exception e) {
+			return ERROR;
+		}
+	}
+
+	
+	
 }
