@@ -939,7 +939,7 @@ public class UserDAOImpl implements UserDAO {
 		Session session = this.sessionFactory.getCurrentSession();
 		List<User> userList = null;
 		try {
-			String sql = " SELECT id,name_en,department_id FROM `user`; " ;
+			String sql = " SELECT id,name,department_id FROM `user`; " ;
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 			userList = query.list();

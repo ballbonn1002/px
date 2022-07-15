@@ -12,10 +12,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections4.ListUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.json.JSONArray;
@@ -109,9 +111,7 @@ public class PayrollReportAction extends ActionSupport {
 		}
 	}
 	
-	
-
-	public String listUser() {
+public String listUser() {
 		try {
 				List<Payment_type> payment_type = payment_typeDAO.findType();
 				request.setAttribute("paymentTypeList", payment_type);
@@ -127,21 +127,20 @@ public class PayrollReportAction extends ActionSupport {
 	}
 	public String checkIdDate() {
 		try {
-				String user = request.getParameter("userId");
-				String fdate = request.getParameter("f_date");
-				String edate = request.getParameter("e_date");
-				//log.debug(user);
-				//log.debug(fdate);
-				//log.debug(edate);
+				String u = request.getParameter("user");
+				String fdate = request.getParameter("Date-Start");
+				String edate = request.getParameter("Date-End");
 				
-				//if(user != null && fdate != null && edate != null) {
-					List<Payment_type>payment_type = payment_typeDAO.findAmount(user, fdate, edate);
-					
-					Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			        String json = gson.toJson(payment_type);
-			        request.setAttribute("json", json);
-				//}
-				return SUCCESS;
+				List<Map<String, Object>>payment= payment_typeDAO.findAmount(u, fdate, edate);
+				int size = 15;
+
+				List<List<Map<String, Object>>> partitionedList = ListUtils.partition(payment, size);
+				log.debug(partitionedList);
+				Gson gson = new GsonBuilder().setPrettyPrinting().create();
+				String json = gson.toJson(partitionedList);
+				request.setAttribute("json", json);
+
+			return SUCCESS;
 		}catch(Exception e) {
 			e.printStackTrace();
 			return ERROR;
