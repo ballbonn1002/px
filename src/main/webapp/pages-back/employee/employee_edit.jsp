@@ -203,7 +203,7 @@ $(document).ready(function(){
 	  	$('#add_emp_amount').val((Math.round(parseFloat(add_emp_amount) * 100) / 100).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"))
 	  	}
 	  else {
-		  $('#add_emp_amount').val("ข้อมูลผิดพลาด")
+		  $('#add_emp_amount').val("กรอกได้เฉพาะตัวเลข")
 	  }
   })
   

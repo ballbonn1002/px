@@ -116,17 +116,17 @@ public class PayrollAction extends ActionSupport {
 				
 				//------ Add Payment ------//
 				String userList = request.getParameter("userList");
-				log.debug(userList);
+				log.debug("userList = " + userList);
 				String[] userListarr = userList.split(",");
 				
 				String paymentGroupId = Integer.toString(pgMaxId);
 				
 				for(String userId : userListarr) {
 					Payment payment = new Payment();
-					log.debug(userId);
+					log.debug("userId = " + userId);
 					User findUser = userDAO.findById(userId);
 					Integer pMaxId = paymentDAO.getMaxId() + 1;
-					log.debug(pMaxId);
+					log.debug("pMaxId = " + pMaxId);
 					payment.setPayment_id(pMaxId);
 					payment.setPayment_group_id(paymentGroupId);
 					payment.setUser_id(userId);
@@ -144,29 +144,29 @@ public class PayrollAction extends ActionSupport {
 					String sDateAsString = df.format(sDate);
 					String eDateAsString = df.format(eDate);
 					List<Map<String, Object>> workingSummary = functionDAO.findWorkingSummary(userId, sDateAsString, eDateAsString);
-					log.debug(workingSummary.get(0).get("actual_working_day"));
+					log.debug("Working Summarry = " + workingSummary.get(0).get("actual_working_day"));
 					
 					payment.setActual_day(workingSummary.get(0).get("actual_working_day").toString());
 					
 					//----- calculate salary -----//
 					BigDecimal salary = null;
 					BigDecimal salary_day = new BigDecimal(calCService.calculateSalaryPerDay(userId));
-					log.debug(salary_day);
+					log.debug("salary_day = " + salary_day);
 					if(salary_day.equals(null)) {
 						salary_day = BigDecimal.ZERO;
 					}
-					log.debug(salary_day);
+					log.debug("salary_day = " + salary_day);
 					BigDecimal actual_day = new BigDecimal((String)workingSummary.get(0).get("actual_working_day"));
 					if(actual_day.equals(null)) {
 						actual_day = BigDecimal.ZERO;
 					}
-					log.debug(actual_day);
+					log.debug("actual_day = " + actual_day);
 					salary = actual_day.multiply(salary_day);
 					if(salary.equals(null)) {
 						salary = BigDecimal.ZERO;
 					}
 					BigDecimal roundingSalary = salary.setScale(0, RoundingMode.HALF_UP);
-					log.debug(roundingSalary);
+					log.debug("roundingSalary = " + roundingSalary);
 					
 					payment.setSalary(roundingSalary);
 					
@@ -182,14 +182,14 @@ public class PayrollAction extends ActionSupport {
 					if(expendNet == null) {
 						expendNet = BigDecimal.ZERO;
 					}
-					log.debug(expendNet);
-					log.debug(incomeNet);
+					log.debug("expendNet = " + expendNet);
+					log.debug("incomeNet = " + incomeNet);
 					payment.setIncome_net(incomeNet);
 					payment.setExpend_net(expendNet);
 					
 					//----- calculate total -----//
 					BigDecimal totalPay = roundingSalary.add(incomeNet).subtract(expendNet);
-					log.debug(totalPay);
+					log.debug("totalPay = " + totalPay);
 					payment.setTotal_pay(totalPay);
 					
 					payment.setStatus("0");
@@ -206,7 +206,7 @@ public class PayrollAction extends ActionSupport {
 					payment.setOT2("0:00");
 					payment.setOT3("0:00");
 					paymentDAO.save(payment);
-					log.debug(payment);
+					log.debug("payment = " + payment);
 					log.debug("save success!!!");
 				}
 				
