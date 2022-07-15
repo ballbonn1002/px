@@ -127,4 +127,10 @@ public interface UserDAO {
 	
 	public long dashboardPositionYear(String PositionId,String year) throws Exception;
 	
+	public List<Map<String,Object>> countUserOutOfYearByYear(String year) throws Exception;
+	
+	public List<Map<String,Object>> countUserStartInYearByYear(String year) throws Exception;
+	
+	public List<Map<String,Object>> countUserEndInYearByYear(String year) throws Exception;
+	
 }

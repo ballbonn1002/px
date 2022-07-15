@@ -6,11 +6,14 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="/WEB-INF/tlds/permission.tld" prefix="perm"%>
 
+
+<script src="https://d3js.org/d3.v4.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script
 	src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <c:set var="now" value="<%=new java.util.Date()%>" />
 <!-- VENDOR CSS -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
 <link rel="stylesheet"
 	href="pages-back/assets/vendor/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet"
@@ -62,10 +65,15 @@
 	font-size: 14px;
 }
 
+.bold-large-font{
+	font: normal normal bold 32px/43px Open Sans;
+}
+
 .dashboard-active {
 	border: 1px solid #449CFF;
 	color: #449CFF;
 }
+
 </style>
 
 
@@ -116,9 +124,7 @@
 						</div>
 					</div>
 				</div>
-
 			</div>
-
 		</div>
 	</div>
 </div>
@@ -126,157 +132,182 @@
 
 <div class="container">
 	<div class="row equal" id="dashboard-table"></div>
-</div>
+		<div class="card p-5">
+		<div class = "header"><h5 style= "color: #333333;">Statitics</h5></div>
+		<div class = "row">
+			<div class="col-6">
+				<div id="pieChart"></div>
+			</div>
+			<div class="col-6">
+				<div class="row legend-box"></div>
+			</div>
+		</div>
+		</div>
+		</div>
+
+
 
 <script>
-function createTable(percentage,value,group) {
+
+const colors = ["#17A2B8","#9360F7","#FF66BF","#E7D2AC","#B38805","#77A7FF","#FFC107","#FF9CA5","#28A745","#DC3545","#6610F2","#38B8EA","#FD7E14","#B195C5","#007BFF","#E83E8C","#A8B0B9","#B1D1EB","#FF7381","#4C2402","#D2AE7D","#343A40"];
+
+function createLegend(color,group,value,size) {
+	let mockvalue;
+	
+	if($(".dashboard-toggle").parent().find(".dashboard-active").attr('name') == "Employee") {
+		mockvalue = (Math.round(parseFloat(value) * 100) / 100).toFixed(0).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
+	}
+	else{
+		mockvalue = (Math.round(parseFloat(value) * 100) / 100).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
+	}
+	
+	return `
+		<div class="`+size+` d-flex justify-content-between align-items-center my-2 px-5">
+			<div class = "d-flex align-items-center">
+				<div style="width: 12px; height: 12px; background-color: `+color+`; border-radius: 4px;"></div>
+				<div class = "pl-2">`+group +`</div>
+			</div>
+			<div>`+mockvalue+`</div>
+		</div>
+		`
+	
+}
+
+function createTable(percentage,value,group,index) {
 	let mockvalue;
 	let icon_table;
+	let color = colors[index]
+	console.log(color);
 	
 	switch(group) {
 	  case "พนักงานประจำ":
-		  icon_table = "fa fa-users color-blue";
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">account_circle</span>`;
 	      break;
 	  case "พนักงานอัตราจ้าง":
-		  icon_table = "fa fa-users color-blue";
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">support_agent</span>`;
 	      break;
 	  case "trainee":
-		  icon_table = "fa fa-users color-blue";
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">School</span>`;
 		  break;
-	  case "MNG":
-		  icon_table = "fa fa-address-card-o color-blue";
+	  case "Managing Director":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Diversity_3</span>`;
 		  break;
-	  case "BUM":
-		  icon_table = "fa fa-address-card-o color-blue";
+	  case "Business Unit Manager":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">name</span>`;
 		  break;
-	  case "DEVJ":
-		  icon_table = "fa fa-address-card-o color-blue";
+	  case "Java Developer":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Local_Cafe</span>`;
 		  break;
-	  case "DESJ":
-		  icon_table = "fa fa-address-card-o color-blue";
+	  case "Senior Java Developer":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Local_Cafe</span>`;
 		  break;
-	  case "DNET":
-		  icon_table = "fa fa-address-card-o color-blue";
+	  case ".NET Developer":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Terminal</span>`;
 		  break;
-	  case "DNES":
-		  icon_table = "fa fa-address-card-o color-blue";
+	  case "Senior .NET Developer":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Terminal</span>`;
 		  break;
-	  case "JSA":
-		  icon_table = "fa fa-address-card-o color-blue";
+	  case "Junior System Analyst":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Supervisor_Account</span>`;
 		  break;
-	  case "SA":
-		  icon_table = "fa fa-address-card-o color-blue";
-		  break;
-	  case "TEST":
-		  icon_table = "fa fa-address-card-o color-blue";
+	  case "System Analyst":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Supervisor_Account</span>`;
 	  	  break;
-	  case "QA":
-		  icon_table = "fa fa-address-card-o color-blue";
+	  case "Tester":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Fact_Check</span>`;
+		  break;
+	  case "Account Executive":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Support_Agent</span>`;
+		  break;
+	  case "Project Manager":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Psychology</span>`;
+		  break;
+	  case "Team Leader":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Groups_3</span>`;
+		  break;
+	  case "Internship":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">School</span>`;
+		  break;
+	  case "UXUI Designer":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Devices</span>`;
+		  break;
+	  case "Front-end Developer":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Web</span>`;
+		  break;
+	  case "กราฟิค":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Palette</span>`;
+		  break;
+	  case "ไอที":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Devices</span>`;
+		  break;
+	  case "ซ่อมบำรุง":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Build_Circle</span>`;
+		  break;
+	  case "บริหาร":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Workspace_Premium</span>`;
+		  break;
+	  case "สายส่ง":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Two_Wheeler</span>`;
+		  break;
+	  case "ดำเนินการ":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Hail</span>`;
+		  break;
+	  case "บริหารทรัพยากรมนุษย์":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Assignment_Ind</span>`;
+		  break;
+	  case "ฝึกงาน":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">School</span>`;
 		  break;
 	  case "AE":
-		  icon_table = "fa fa-address-card-o color-blue";
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Support_Agent</span>`;
 		  break;
-	  case "PM":
-		  icon_table = "fa fa-address-card-o color-blue";
+	  case "ลาไม่รับค่าจ้าง":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Event</span>`;
 		  break;
-	  case "TL":
-		  icon_table = "fa fa-address-card-o color-blue";
+	  case "ขาดงาน":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Event_Busy</span>`;
 		  break;
-	  case "INT":
-		  icon_table = "fa fa-address-card-o color-blue";
+	  case "โบนัส":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Paid</span>`;
 		  break;
-	  case "UXUI":
-		  icon_table = "fa fa-address-card-o color-blue";
+	  case "เบิกค่าอุปกรณ์":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Build_Circle</span>`;
 		  break;
-	  case "Fron":
-		  icon_table = "fa fa-address-card-o color-blue";
+	  case "มาสาย":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Running_With_Errors</span>`;
 		  break;
-	  case "GP":
-		  icon_table = "fa fa-building color-blue";
+	  case "ล่วงเวลา 1.5 เท่า":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Work_History</span>`;
 		  break;
-	  case "IT":
-		  icon_table = "fa fa-building color-blue";
+	  case "ล่วงเวลา 2 เท่า":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Work_History</span>`;
 		  break;
-	  case "MA":
-		  icon_table = "fa fa-building color-blue";
+	  case "ล่วงเวลา 3 เท่า":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Work_History</span>`;
 		  break;
-	  case "MM":
-		  icon_table = "fa fa-building color-blue";
+	  case "เงินเดือน":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Payments</span>`;
 		  break;
-	  case "MS":
-		  icon_table = "fa fa-building color-blue";
+	  case "ประกันสังคม":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Request_Page</span>`;
 		  break;
-	  case "OP":
-		  icon_table = "fa fa-building color-blue";
+	  case "กยศ":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">name</span>`;
 		  break;
-	  case "HR":
-		  icon_table = "fa fa-building color-blue";
+	  case "ภาษีหัก ณ ที่จ่าย":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Receipt_Long</span>`;
 		  break;
-	  case "IN":
-		  icon_table = "fa fa-building color-blue";
+	  case "กองทุนสำรองเลี้ยงชีพ":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">name</span>`;
 		  break;
-	  case "AE":
-		  icon_table = "fa fa-building color-blue";
+	  case "เบิกค่าเดินทาง":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Commute</span>`;
 		  break;
-	  case "A":
-		  icon_table = "fa fa-money color-blue";
-		  break;
-	  case "ABA":
-		  icon_table = "fa fa-money color-blue";
-		  break;
-	  case "ABSENCE":
-		  icon_table = "fa fa-money color-blue";
-		  break;
-	  case "ABSENT":
-		  icon_table = "fa fa-money color-blue";
-		  break;
-	  case "ADWDA":
-		  icon_table = "fa fa-money color-blue";
-		  break;
-	  case "BONUS":
-		  icon_table = "fa fa-money color-blue";
-		  break;
-	  case "DASD":
-		  icon_table = "fa fa-money color-blue";
-		  break;
-	  case "DSFP":
-		  icon_table = "fa fa-money color-blue";
-		  break;
-	  case "EQUIPMENT":
-		  icon_table = "fa fa-money color-blue";
-		  break;
-	  case "LATE":
-		  icon_table = "fa fa-money color-blue";
-		  break;
-	  case "OT1":
-		  icon_table = "fa fa-money color-blue";
-		  break;
-	  case "OT2":
-		  icon_table = "fa fa-money color-blue";
-		  break;
-	  case "OT3":
-		  icon_table = "fa fa-money color-blue";
-		  break;
-	  case "PVD":
-		  icon_table = "fa fa-money color-blue";
-		  break;
-	  case "SL":
-		  icon_table = "fa fa-money color-blue";
-		  break;
-	  case "SSI":
-		  icon_table = "fa fa-money color-blue";
-		  break;
-	  case "TAX":
-		  icon_table = "fa fa-money color-blue";
-		  break;
-	  case "TRAVEL":
-		  icon_table = "fa fa-money color-blue";
-		  break;
-	  case "VA":
-		  icon_table = "fa fa-money color-blue";
+	  case "เบี้ยขยัน":
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">New_Releases</span>`;
 		  break;
 	  default:
-		  icon_table = "fa fa-users color-blue";
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">groups</span>`;
 	}
 	
 	
@@ -289,15 +320,15 @@ function createTable(percentage,value,group) {
 	return `
 	<div class = "col-3 d-flex pb-3">
 		<div class = "card" style = "padding : 10px 20px">
-			<div class = "header d-flex justify-content-between align-items-center pb-3 px-0">
-				<div class="icon-box">
-					<i class="`+icon_table+`" aria-hidden="true"></i>
+			<div class = "header d-flex justify-content-between align-items-center py-3 px-0">
+				<div class="icon-box" style = "background-color : `+color+`">
+					`+icon_table+`
 				</div>
-				<div class = "normal-font">` + percentage + "%" +`</div>
+				<div class = "bold-large-font color-blue">` + mockvalue + `</div>
 			</div>
-		<div class = "footer d-flex justify-content-between align-items-end">
-			<p class = "normal-font">` + group + `</p>
-				<h2 class = "color-blue">` + mockvalue + `</h2>
+			<div class = "footer d-flex justify-content-between align-items-center py-3">
+				<div class = "normal-font">` + group + `</div>
+				<div class = "normal-font">` + percentage + "%" +`</div>
 			</div>
 		</div>
 	</div>`
@@ -315,10 +346,33 @@ function addTable() {
 			},
 		success:function(data){
 			data = jQuery.parseJSON(data);
-			$("#dashboard-table").empty()
+
+			
+			//ทำTable
+			$("#dashboard-table").empty();
+			console.log(data);
 			$.each(data.table,(index, value) => {
-				$("#dashboard-table").append(createTable(value.percentage,value.value,value.group))
+				$("#dashboard-table").append(createTable(value.percentage,value.value,value.group,index % data.table.length))
+				console.log(index % data.table.length);
 			})
+			
+			
+			//ทำ PieChart
+			data.table.shift()
+			$(".legend-box").empty();
+			
+			if (data.table.length > 10) {
+				$.each(data.table,(index, value) => {
+					$(".legend-box").append(createLegend(colors[index+1 % data.table.length],value.group,value.value,"col-6"))
+				})
+			}
+			else {
+				$.each(data.table,(index, value) => {
+					$(".legend-box").append(createLegend(colors[index+1 % data.table.length],value.group,value.value,"col-12"))
+				})
+			}
+			
+			drawChart("#pieChart",data.table);
 			
 		}
 	});
@@ -364,5 +418,105 @@ $( document ).ready(function() {
 		addTable();
 		
 	})
+	
+	
+	
+	
+	
+	
+
 });
+
+
+
+//chart
+const drawChart = (element, data) => {
+	
+		  const boxSize = 800;
+		  const radius = 300;
+		  
+		  d3.select(element).selectAll("svg").remove(); // Remove the old svg
+		  // Create new svg
+		  const svg = d3
+		    .select(element)
+		    .append("svg")
+		    .attr("preserveAspectRatio", "xMidYMid meet")
+		    .attr("height", "100%")
+		    .attr("width", "100%")
+		    .attr("viewBox", "0 0" + " " + boxSize + " "+ boxSize)
+		    .append("g")
+		    .attr("transform", `translate(`+ boxSize/2 +`, `+300+`)`);
+		  
+		  
+		  
+		  const arc = d3.arc()
+		  .innerRadius(radius-100)
+		  .outerRadius(radius);
+		  const arcLarge = d3.arc()
+		  .innerRadius(radius-150)
+		  .outerRadius(radius);
+
+		  const pieGenerator = d3.pie().value((d) => d.percentage);
+		  
+		  const tooltip = d3.select("body")
+		  					.append("div")
+		  					.attr("class","tooltip")
+		  					.style("border-radius","50%")
+		  					.style("background-color","white")
+		  					.style("border" , "solid 2px")
+		  					.style("width","40px")
+		  					.style("height","40px")
+		  					.style("text-align","center")
+		  					.style("display","flex")
+		  					.style("justify-content","center")
+		  					.style("align-items","center");
+		  const text = tooltip.append("p")	
+		  				.style("margin","auto")
+		  					
+		  const toggleArc = function(p){
+			    p.state = !p.state;
+			    const dest = p.state ? arcLarge : arc;
+			    
+			    d3.select(this).select("path").transition()
+			      .duration(1000)
+			      .attr("d", dest);
+			    if (p.state){
+			    	tooltip
+			    	.style("opacity",1)
+			    	.style("display","flex");
+			    	
+			    	text.text(p.value+"%");
+			    }
+			    else {
+			    	tooltip
+			    	.style("opacity",0)
+			    	.style("display",none);
+			    }
+    			
+			};
+
+		  const arcs = svg.selectAll(".arc")
+		  .data(pieGenerator(data))
+		  .enter()
+		  .append("g")
+		  .attr("class","arc")
+		  .on("mouseover",toggleArc)
+  		  .on("mouseout",toggleArc)
+  		  .on("mousemove",() =>{
+  			  
+  			  tooltip.style('left', d3.event.pageX + 14 + 'px')
+				.style('top', d3.event.pageY - 22 + 'px')
+  		  });
+		  
+		  
+		  arcs.append("path")
+		  .attr("d",arc)
+		  .style("fill", (d, i) => colors[i+1 % data.length])
+  		  
+		  
+		  
+		}
+		
+		
+	
 </script>

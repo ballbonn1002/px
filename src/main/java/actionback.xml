@@ -591,6 +591,11 @@
 			<result name="success">/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		<action name="findYear"
+			class="com.cubesofttech.action.PayrollReportAction" method="findYearSalaryDepart">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
 		
 		<!-- Function -->
 		<action name="actual_work"
@@ -751,6 +756,17 @@
 			<result name="success" type="tiles">report_payroll_2</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		<action name="payment_statistics"
+			class="com.cubesofttech.action.PayrollReportAction" method="">
+			<result name="success" type="tiles">payment_statistics</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="paymentStatistics2"
+			class="com.cubesofttech.action.PayrollReportAction" method="paymentStatistics">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
 		
 		<!-- BonusReport -->
 		
@@ -785,5 +801,32 @@
 			class="com.cubesofttech.action.DashboardAction" method="getTable">
 		</action>
 		
+		<!-- EmployeeReport -->
+		
+		<action name="employeeReport"
+			class="com.cubesofttech.action.PayrollReportAction" method="employeeReport">
+			<result name="success" type="tiles">employeeReport</result>
+			<result name="error">/index.jsp</result>
+		</action>
+
+		<action name="getGraphData"
+			class="com.cubesofttech.action.PayrollReportAction" method="getGraphData">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+
+		<action name="getAllDeparmentId"
+			class="com.cubesofttech.action.PayrollReportAction" method="getAllDeparmentId">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
+		<!-- ReportDepartmentStatistics -->
+		<action name="report_department"
+			class="com.cubesofttech.action.PayrollReportAction" method="reportDepartment">
+			<result name="success" type="tiles">report_department</result>
+			<result name="error">/index.jsp</result>
+		</action>
+			
 	</package>
 </struts>

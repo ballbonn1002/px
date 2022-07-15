@@ -107,7 +107,11 @@ tr{
 												<c:when test="${test.payment == 0}">รายเดือน</c:when>
 											</c:choose></td>
 											<td style="text-align: left; padding-top: 10px;">${test.term} งวด</td>
-											<td style="text-align: left; padding-top: 10px;">${test.term_day}</td>
+											<td style="text-align: left; padding-top: 10px;">
+											<c:choose>
+												<c:when test="${test.term_day == 0}">วันทำงานจริง</c:when>
+												<c:when test="${test.term_day != 0}">${test.term_day}</c:when>
+											</c:choose></td>
 											<td style="text-align:right;">                                            
                                         		<a class="btn btn-outline-success" title="Edit" href="EditEmployeeType?emp=${test.employee_type_id}">
                                         		<i class="fa fa-pencil"></i></a>

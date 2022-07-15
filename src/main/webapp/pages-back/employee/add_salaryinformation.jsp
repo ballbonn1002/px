@@ -94,8 +94,8 @@
 				<div class="col-md-12"
 					style="padding-top: 10px; padding-bottom: 20px;">
 					<label for="recipient-name" class="control-label"
-						style="font-weight: lighter; font-size: 14px;">หมายเหตุ</label> <input
-						type="text" name="note" class="form-control" id = "add_emp_note">
+						style="font-weight: lighter; font-size: 14px;">หมายเหตุ</label> <textarea rows="3"
+						 name="note" class="form-control span6" id = "add_emp_note"></textarea>
 				</div>
 				<div class="modal-footer">
 					<button id = "add_emp_discard" type="submit" class="btn btn-outline-secondary"

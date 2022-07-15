@@ -32,6 +32,10 @@
 <style>
 	#myTable tr{
 	cursor: pointer;
+	
+}
+table{
+text-align:center;
 }
 </style>
 <div class="block-header">
@@ -52,22 +56,26 @@
 		<div class="card">
 			<div class="header">
 				<div>
-					<h6 class="card-title">รายงาน รายการจ่ายเงินเดือน</h6>
+					<h6 class="card-title">รายงาน รายการจ่ายเงินเดือน 
+						<span class="col-md-3 pull-right">
+							<span class="input-group input-large date-picker input-daterange"  data-date-format="dd-mm-yyyy">
+								<input name="Date-Start" placeholder="Start Date" type="text" onMouseOver="(this.type='date')" onMouseOut="(this.type='text')"  id="datefilterfrom" class="form-control" data-date-split-input="true">
+                           		<span class="" style="margin-top:7px;margin-right:10px;margin-left:10px;"> to </span>
+                          		<input name="Date-End" placeholder="End Date" type="text" onMouseOver="(this.type='date')" onMouseOut="(this.type='text')"  id="datefilterto" class="form-control" data-date-split-input="true">
+       
+							</span>
+						</span>
+					</h6>
+					
 				</div>
-					<div class="col-md-3 pull-right">
-                       	<div class="input-group input-large date-picker input-daterange"  data-date-format="dd-mm-yyyy">
-                           <input type="date" class="form-control " name="Date-Start"  value="" id="datefilterfrom" data-date-split-input="true" value="">
-                           <span class="" style="margin-top:7px;margin-right:5px;margin-left:5px;"><i class="fa fa-minus"></i></span>
-                           <input type="date" class="form-control " name="Date-End"  value="" id="datefilterto" data-date-split-input="true">
-                        </div>
-                    </div>
-			</div><br><hr>
-			<div class="body">
+					
+			</div><hr style="margin-top: -0.125rem;">
+			<div class="body" style="margin-top: -10px;">
 				<div class="portlet light bordered">
 					<div class="portlet-body">
 						<div class="portlet box white">
 							<div class="table-responsive">
-								<table id="myTable" class="table table-hover js-basic-example table-custom m-b-0 no-footer ">
+								<table id="myTable" class="table table-hover js-basic-example table-custom m-b-0 no-footer table-striped">
 									<thead>
 										<tr>
 											<th>Payroll ID</th>
@@ -83,13 +91,13 @@
 											<td>${test.payment_group_id}</td>
 											<td>${test.name }</td>
 											
-											<td><fmt:formatDate value="${test.start_date}" pattern="dd/MM/yyyy"></fmt:formatDate>
+											<td><fmt:formatDate value="${test.start_date}" pattern="dd MMM yyyy"></fmt:formatDate>
 													 &nbsp;&nbsp;-&nbsp;&nbsp;
-												 <fmt:formatDate value="${test.end_date}" pattern="dd/MM/yyyy"></fmt:formatDate>
+												 <fmt:formatDate value="${test.end_date}" pattern="dd MMM yyyy"></fmt:formatDate>
 										    </td>
 										    
 											<td>
-												<fmt:formatDate value="${test.payment_date}" pattern="dd-MM-yyyy"></fmt:formatDate>
+												<fmt:formatDate value="${test.payment_date}" pattern="dd MMM yyyy"></fmt:formatDate>
 											</td>
 													
 											<td style="text-align:right;" class="fix">
@@ -134,11 +142,12 @@ function filterRows() {
 	  to = to || '2999-12-31';
 
 	  var dateFrom = moment(from);
+	  console.log(dateFrom);
 	  var dateTo = moment(to);
-
+	  console.log(dateTo);
 	  $('#myTable tr.high').each(function(i, tr) {
 	    var val = $(tr).find("td:nth-child(3)").text();
-	    var dateVal = moment(val, "DD/MM/YYYY");
+	    var dateVal = moment(val, "DD MMM yyyy");
 	    var visible = (dateVal.isBetween(dateFrom, dateTo, null, [])) ? "" : "none"; // [] for inclusive
 	    $(tr).css('display', visible);
 	  });
@@ -154,4 +163,14 @@ document.querySelectorAll('td.fix').forEach((e)=>{
 	  e.innerText = Number(e.innerText).toFixed(2);
 	})
 </script>-->
+<script>
+$(document).ready(function(){
+	$('#myTable').dataTable( {
+		 language: {
+		        search: "_INPUT_",
+		        searchPlaceholder: "Search..."
+		    }
+	} );
+});
+</script>
 

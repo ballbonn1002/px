@@ -18,7 +18,7 @@
                         </li>
                         
                         <li class="nav-item dropdown mega-menu">
-                            <a href="payroll_list" class="nav-link"><i class="icon-docs"></i> <span> รายการจ่ายเงินเดือน </span></a>
+                            <a href="payroll_list" class="nav-link"><i class="icon-docs"></i> <span> Payroll </span></a>
                         </li>
                         
                         <li class="nav-item dropdown mega-menu">
@@ -89,9 +89,9 @@
                                         <div class="mega-list">
                                             <ul class="list-unstyled">
                                                 <li><label>Chart</label></li>
-                                                <li><a href="chart-morris.html">Morris</a> </li>
-                                                <li><a href="chart-flot.html">Flot</a> </li>
-                                                <li><a href="chart-chartjs.html">ChartJS</a> </li>                                    
+                                                <li><a href="payment_statistics">Payment Statistics</a> </li>
+                                                <li><a href="employeeReport">Employee Statistics</a> </li>
+                                                <li><a href="report_department">Department Statistics</a> </li>                                    
                                                 <li><a href="chart-jquery-knob.html">Jquery Knob</a> </li>
                                                 <li><a href="chart-sparkline.html">Sparkline Chart</a></li>
                                                 <li><a href="chart-peity.html">Peity</a></li>

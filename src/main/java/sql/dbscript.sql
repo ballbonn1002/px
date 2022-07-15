@@ -228,3 +228,6 @@ UPDATE `user` SET `department_id` = 'AE', `position_id` = 'AE', `time_create` = 
 
 --Update UserSalary 08/07/2022 ryu:
 ALTER TABLE `user_salary` ADD `position_id` VARCHAR(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL AFTER `payment_type_id`;
+
+--Update UserSalary 15/07/2022 ryu:
+ALTER TABLE `user_salary` CHANGE `description` `description` VARCHAR(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;
