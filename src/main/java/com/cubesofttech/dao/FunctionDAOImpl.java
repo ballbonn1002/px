@@ -99,6 +99,7 @@ public class FunctionDAOImpl implements FunctionDAO {
 			sql.append("ifnull(sum(isWorkingDay),0) as actual_working_per_month,\n");
 			sql.append("sum(isWorking) as sum_emp_working,\n");
 			sql.append("sum(isAbsent) as sum_emp_absent,\n");
+			sql.append("ifnull((select sum(no_day)  from leaves l where user_create = :userId and start_date >= :startDate and end_date <= :endDate),0) as sum_emp_leave,\n");
 			sql.append("ifnull(sum(wk_hr),0)  as sum_emp_working_hr,\n");
 			sql.append(":startDate as start_date,:endDate as end_date\n");
 			sql.append("from\n");

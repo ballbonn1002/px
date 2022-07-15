@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
@@ -13,198 +12,172 @@
 <!-- v3.9 -->
 
 <style>
-.theme-orange .fc .fc-view-container .fc-view.fc-basic-view>table>thead tr th.fc-widget-header {
+.theme-orange .fc .fc-view-container .fc-view.fc-basic-view>table>thead tr th.fc-widget-header
+	{
 	background: transparent;
 	color: black;
 	border-color: #eeeeee;
 }
-.red{
+
+.red {
 	background: #dc3545;
 }
-.changemonth{
-	justify-content:center;
-	float:rigth;
-	margin-top:5px;
-	margin-bottom:10px;
+
+.changemonth {
+	justify-content: center;
+	float: rigth;
+	margin-top: 5px;
+	margin-bottom: 10px;
 }
-.changemonth select{
+
+.changemonth select {
 	border: 1px solid #ced4da;
 	background-color: #ffffff;
 	font-size: 14px;
 	padding: 0.3rem 2rem 0.3rem 0.75rem;
 }
 
-.changemonth-btn{
-
+.changemonth-btn {
+	
+}
+.table-sum td {
+   text-align: center;   
 }
 </style>
 
 <body id="myBody">
-<div class="block-header">
-	<div class="row">
-		<div class="col-lg-6 col-md-8 col-sm-12">
-			<h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> รายงานข้อมูลการทำงาน</h2>
+	<div class="block-header">
+		<div class="row">
+			<div class="col-lg-6 col-md-8 col-sm-12">
+				<h2>
+					<a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a>
+					รายงานข้อมูลการทำงาน
+				</h2>
 				<ul class="breadcrumb">
-                	<li class="breadcrumb-item"><a href="page-blank.jsp"><i class="icon-home"></i></a></li>                            
-                    <li class="breadcrumb-item">รายงาน</li>
-                    <li class="breadcrumb-item active">รายงานข้อมูลการทำงาน</li>
-        		</ul>
+					<li class="breadcrumb-item"><a href="page-blank.jsp"><i class="icon-home"></i></a></li>
+					<li class="breadcrumb-item">รายงาน</li>
+					<li class="breadcrumb-item active">รายงานข้อมูลการทำงาน</li>
+				</ul>
+			</div>
 		</div>
 	</div>
-</div>
-<div class="col-lg-12 col-md-12 col-sm-12">
-	<div class="card">
-		<div class="header">
-			<div class="col-md-4">
-				<h2>รายงานข้อมูลการทำงาน</h2>
-			</div>
-			<div class="col-md-4"></div>
-			<div class="col-md-3">
-				<form action="leaveSearch" method="post" id="leaveSearch">
-				<%-- <select class="form-control">
-					<optgroup label="Enable">
-						<c:forEach var="seq" items="${userseq}">
-							<c:if test="${seq.enable == 1 }">
-							</c:if>
-						</c:forEach>
-					</optgroup>
-					<optgroup label="Disable">
-						<option></option>
-					</optgroup>
-				</select> --%>
-			</div>
-		</div>
-		<!-- END header -->
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="portlet light portlet-fit bordered calendar">
-						
-						<div class="portlet-body">
-							<div class="row">
-								<!-- Calendar-->
-								<div class="col-lg-12 col-md-12 col-sm-12">
-									<div id="calendar" class="has-toolbar"></div>
-								</div>
-								<div class="col-lg-12 col-md-12 col-sm-12">
-									<div id="calendar" class="has-toolbar"></div>
-									<input type="hidden" name="monthcalendar" value="${month}">
-								</div>
-								<!-- END calendar -->
-							</div>
-						</div>
+	<div class="col-lg-12 col-md-12 col-sm-12">
+		<div class="card">
+			<div class="header">
+				<div class="row">
+					<div class="col-md-4">
+						<h2>รายงานข้อมูลการทำงาน</h2>
+					</div>
+					<div class="col-md-5"></div>
+					<div class="col-md-3">
+						<select class="select2 form-control" style="width: 100%" id="user" name="user">
+							<c:forEach var="user" items="${UsersList}" varStatus="status">
+								<option value="${user.id }">${user.name}</option>
+							</c:forEach>
+						</select>
 					</div>
 				</div>
-			</div>
-			<div style="margin-top:15px;"></div>
 
-			<div class="row">
-				<div class="col-lg-12">
-				<!-- <form action="leaveSearch" method="post" id="leaveSearch"> -->
-					<div class="col-lg-12">
-						<div class="row">
-							<div class="col-lg-4"><h2>Leave</h2></div>
-							<div class="col-lg-4"></div>
-							<div class="col-lg-4 input-group input-medium changemonth">
-								<input name="userid" value="${userid}" hidden/>
- 								<select class="form-select" id="mselect" name="month" ></select> <%-- value="${now_month}" --%>
-								<select class="form-select" id="yselect" name="year"></select>
-								<button class="btn btn-primary" id="btnsearch"><i class="fa fa-search"></i></button>
+			</div>
+			<!-- END header -->
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="portlet light portlet-fit bordered calendar">
+
+							<div class="portlet-body">
+								<div class="row">
+									<!-- Calendar-->
+									<div class="col-lg-12 col-md-12 col-sm-12">
+										<div id="calendar" class="has-toolbar"></div>
+									</div>
+								</div>
+								<div class="row" style="margin-top:20px;">
+									<div class="col-sm-12">
+									<div class="table-responsive">
+										<table class="table table-bordered table-sum">
+											<thead style="background-color: #F1F1F1">
+												<tr>
+													<td style="width: 10%">วันทำงาน</td>
+													<td style="width: 10%">ชั่วโมงทำงาน</td>
+													<td style="width: 10%">สาย/ออกก่อนเวลา (ชม.)</td>
+													<td style="width: 10%">ขาดงาน (วัน)</td>
+													<td style="width: 10%">ลางาน (วัน)</td>
+													<td style="width: 10%">ล่วงเวลา X1.5 (ชม.)</td>
+													<td style="width: 10%">ล่วงเวลา X2 (ชม.)</td>
+													<td style="width: 10%">ล่วงเวลา X3 (ชม.)</td>
+													
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td><a id="txt_working_day">0/0</a></td>
+													<td><a id="txt_working_hr">0.00</a></td>
+													<td><a>0.00</a></td>
+													<td><a id="txt_absent">0.00</a></td>
+													<td><a id="txt_leave">0.00</a></td>
+													<td><a>0.00</a></td>
+													<td><a>0.00</a></td>
+													<td><a>0.00</a></td>
+												</tr>
+											</tbody>
+										</table>
+										
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
-					</form>
-					<table class="table" id="table_leave">
-						<thead><tr>
-							<th>#</th>
-							<th>พนักงาน</th>
-							<th>Leave type</th>
-							<th>Start Date</th>
-							<th>End Date</th>
-							<th>Request Date</th>
-							<th>Day</th>
-							<th>Status</th>
-						</tr></thead>
-						<tbody id="tbody">
-							<c:forEach var="leave" items="${userleave}" varStatus="status"><tr>
-									<td id="leaveId" style="color:#3598dc;">${leave.leave_id}</td>
-									<td id="leaveUserId">${leave.user_id}</td>
-									<c:choose>
-										<c:when test="${leave.leave_type_id.toString() == '1'}">
-											<td>${type_1}</td>
-										</c:when>
-										<c:when test="${leave.leave_type_id.toString() == '2'}">
-											<td>${type_2}</td>
-										</c:when>
-										<c:when test="${leave.leave_type_id.toString() == '3'}">
-											<td>${type_3}</td>
-										</c:when>
-										<c:when test="${leave.leave_type_id.toString() == '5'}">
-											<td>${type_5}</td>
-										</c:when>
-										<c:when test="${leave.leave_type_id.toString() == '6'}">
-											<td>${type_6}</td>
-										</c:when>
-									</c:choose>
-									<td><fmt:formatDate value="${leave.start_date}"
-										type="date" pattern="d MMM yyyy"/>, ${leave.start_time}</td>
-									<td><fmt:formatDate value="${leave.end_date}"
-										type="date" pattern="d MMM yyyy"/>, ${leave.end_time}</td>
-									<td><fmt:formatDate value="${leave.time_create}"
-										type="date" pattern="d MMM yyyy"/>, 
-										<fmt:formatDate value="${leave.time_create}"
-										type="time" pattern="HH:mm"/></td>
-									<td style="vertical-align: middle;">
-										<c:set var="amoutLeaveDay" value="${fn:substringBefore(leave.no_day,'.')}" /> 
-										<c:set var="amoutLeaveHour" value="${(leave.no_day % 1) * 8}" />
-										
-										<c:if test="${amoutLeaveDay != 0  && amoutLeaveHour != 0}">
-											<span style="color:white;width:80px;display:inline-block;border:2px solid #3598dc;background-color:#3598dc;text-align:center;">
-												<fmt:formatNumber type="number" pattern="#" value="${amoutLeaveDay}"/>d
-												<fmt:formatNumber type="number" pattern="#" value="${amoutLeaveHour}"/>h
-											</span>
-										</c:if>	<!-- show day and hours -->
-										<c:if test="${amoutLeaveDay != 0  && amoutLeaveHour == 0}">
-											<span style="color:#3598dc;width:80px;display:inline-block;border:2px solid #3598dc;background-color:#f2f6f9;text-align: center;">
-												<fmt:formatNumber type="number" pattern="#" value="${amoutLeaveDay}"/> day
-											</span>
-										</c:if>	<!-- show day only -->
-										<c:if test="${amoutLeaveDay == 0 && amoutLeaveHour != 0}">
-											<span style="color:white;width:80px;display:inline-block;border:2px solid #3598dc;background-color:#3598dc;text-align: center;">
-												<fmt:formatNumber type="number" pattern="#" value="${amoutLeaveHour}"/> hours
-											</span>
-										</c:if> <!-- show hours -->	
-									</td>
-									<td><c:choose>
-										<c:when test="${leave.leave_status_id.toString() == '0'}">
-											<span class="btn" style="background-color:#F3C200;color:#FFFFFF;">
-											Waiting for Approving</span></c:when>
-										<c:when test="${leave.leave_status_id.toString() == '1'}">
-											<span class="btn" style="background-color:#1BBC9B;color:#FFFFFF;">
-											Approved</span></c:when>
-										<c:when test="${leave.leave_status_id.toString() == '2'}">
-											<span class="btn" style="background-color:#E43A45;color:#FFFFFF;">
-											Reject</span></c:when>
-									</c:choose></td>
-								</tr></c:forEach>
-						</tbody>
-					</table>
-					
 				</div>
-				
+				<div style="margin-top: 15px;"></div>
+
+				<div class="row">
+					<div class="col-lg-12">
+						<!-- <form action="leaveSearch" method="post" id="leaveSearch"> -->
+						<div class="col-lg-12">
+							<div class="row">
+								<div class="col-lg-4">
+									<h2>Leave</h2>
+								</div>
+								<div class="col-lg-4"></div>
+							</div>
+						</div>
+						</form>
+						<div class="table-responsive">
+							<table class="table" id="table_leave">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>พนักงาน</th>
+										<th>Leave type</th>
+										<th>Start Date</th>
+										<th>End Date</th>
+										<th>Request Date</th>
+										<th>Day</th>
+										<th>Status</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+					</div>
+
+				</div>
 			</div>
 		</div>
+		<!-- END card -->
 	</div>
-	<!-- END card -->
-</div>
 </body>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.css" />
 <!-- <script src="/pages-back/assets/vendor/fullcalendar/moment.min.js"></script> -->
 <script src="/pages-back/assets/vendor/jquery/jquery-3.3.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.js" type="text/javascript"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+
 
 <script>
-
+//=========== PREPARE DATA =============//
 //LEAVE
 var BeginDate= [];
 var EndDate  = [];
@@ -325,55 +298,205 @@ var count_year = '${now_year}';
 var flag = '${check_flag}';
 var a = parseInt(count_year);
 var b = parseInt(count_month);
-console.log(a+"/"+b);
-console.log(id);
-document.addEventListener('DOMContentLoaded', function() {
-var calendarEl = document.getElementById('calendar');
-var calendar = new FullCalendar.Calendar(calendarEl, {
-	initialView: 'dayGridMonth',
-	headerToolbar: {
-			left: 'prev,next today',
-			center: 'title',
-			right: ''
-	},
-	eventSources: [events1, eventsHol, eventsLeave],
-});
-calendar.render();
 
-	$(".fc-next-button").click(function() {
-		b++;
-		console.log("year/month click: "+a+"/"+b);
-		//leaveSearch(id, a, b);
-		if(b == 12){
-			alert("Next year : "+ (a+1) );
-			console.log(flag);
-			if(flag == '0'){
-				neweventsCheckLeave(id, a+1);
-				neweventsHol(a+1);
-			}
-			flag = '1';
-			b = 0;
-			a = a+1;
-		}
-	});	
-	$(".fc-prev-button").click(function() {
-		b--;
-		console.log("year/month click: "+a+"/"+b);
-		//leaveSearch(id, a, b);
-		if(b == -1){
-			alert("Previous year : "+ (a-1) );
-			console.log(flag);
-			if(flag == '0'){
-				neweventsCheckLeave(id, a-1);
-				neweventsHol(a-1);
-			}
-			flag = '1';
-			b = 11;
-			a = a-1;
-		}
+//=========== END PREPARE DATA =============//
+</script>
+
+<script>
+	var table;
+	var calendar;
+	$(document).ready(function() {
+	//Set defualt user selected
+	$('.select2').select2();
+	$('#user').val('${userid}'); 
+	$('#user').trigger('change');
+	 	
+	
+	//initial leave table
+	table =	$('#table_leave').DataTable({
+	         responsive: true,
+ 	         paging: false,
+ 	         searching:false,
+ 	         info: false,
+	         columns: [
+ 	            	{data : "leave_id"},
+ 	            	{data : "user_id" },
+ 	            	{data : "leave_name" },
+ 	            	{data : "start_date" },
+ 	            	{data : "end_date" },
+ 	            	{data : "time_create" },
+ 	            	{data : "no_day" },
+ 	            	{data : "leave_status_id" }
+ 	                ],
+ 	         columnDefs:
+ 	                 [{
+ 	                     "targets": 0,
+ 	                     "data": 'leave_id',
+ 	                     "render": function (data, type, row, meta) {
+ 	                             return '<a style="color:#3598dc;">'+data+'</a>';
+ 	                       }
+ 	                   },
+ 	                   {
+ 	                       "targets": [3,4],
+ 	                       "render": function (data, type, row) {
+ 	 									return formatDate(data);
+ 	                         }
+ 	                   },
+	                   {
+ 	                       "targets": 5,
+ 	                       "render": function (data, type, row) {
+ 	 									return formatDateTime(data);
+ 	                         }
+ 	                   },
+ 	                   {
+ 	                       "targets": 6,
+ 	                       "render": function (data, type, row) {
+ 	 									return '<span class="badge badge-primary">'+data+'&nbsp;day</span>';
+ 	                         }
+ 	                   },
+ 	                   {
+ 	                       "targets": 7,
+ 	                       "render": function (data, type, row) {
+ 	                    	   if(data == '0'){
+ 	                    		  return '<button class="btn btn-sm btn-warning">Waiting for Approving</button>'; 
+ 	                    	   }
+ 	                    	   if(data == '1'){
+  	                    		  return '<button class="btn btn-sm btn-success">Approved</button>'; 
+  	                    	   }
+ 	                    	   if(data == '2'){
+   	                    		  return '<button class="btn btn-sm btn-danger">Reject</button>'; 
+   	                    	   }
+ 	 									
+ 	                         }
+ 	                   }],
+		});
+	
+	//Set Leave table
+	var userId = '${userid}';
+	var date = new Date();
+	var month = date.getMonth() + 1;
+	var year = date.getFullYear();	
+	getLeaveData(userId,month,year);
 	});
 	
-function neweventsCheckLeave(id, a){
+	function seachByID(userId){
+		//Set new id on url param and reload page
+		var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?id='+userId;
+    	window.location.href = newurl;
+
+	}
+	
+	$(function () {
+		//On user id selection change
+	    $('.select2').on('select2:select', function (e) {
+	    	var userId = $("#user").select2("val")
+	    	seachByID(userId)
+	    });
+		
+		//Create Calendar
+		var calendarEl = document.getElementById('calendar');
+		calendar = new FullCalendar.Calendar(calendarEl, {
+			initialView: 'dayGridMonth',
+			headerToolbar: {
+					left: 'prev,next today',
+					center: 'title',
+					right: ''
+			},
+			eventSources: [events1, eventsHol, eventsLeave],
+		});
+		calendar.render();
+			//On calendar next button click
+			$(".fc-next-button").click(function() {
+				b++;
+				var userId = '${userid}';
+				var date = calendar.getDate();
+				var month = date.getMonth() + 1;
+				var year = date.getFullYear();				
+				getLeaveData(userId,month,year);
+				
+				if(b == 12){
+					console.log(flag);
+					if(flag == '0'){
+						neweventsCheckLeave(id, a+1);
+						neweventsHol(a+1);
+					}
+					flag = '1';
+					b = 0;
+					a = a+1;
+				}
+			});
+			//On calendar prev button click
+			$(".fc-prev-button").click(function() {
+				b--;
+				var userId = '${userid}';
+				var date = calendar.getDate();
+				var month = date.getMonth() + 1;
+				var year = date.getFullYear();			
+				getLeaveData(userId,month,year);
+				
+				if(b == -1){
+					console.log(flag);
+					if(flag == '0'){
+						neweventsCheckLeave(id, a-1);
+						neweventsHol(a-1);
+					}
+					flag = '1';
+					b = 11;
+					a = a-1;
+				}
+			});
+			//On calendar today button click
+			$(".fc-today-button").click(function() {
+				var userId = '${userid}';
+				var date = calendar.getDate();
+				var month = date.getMonth() + 1;
+				var year = date.getFullYear();	
+				
+				getLeaveData(userId,month,year);
+			});
+	});
+
+	function getLeaveData(userId,month,year){
+		table.clear().draw(); //Clear Leave table
+		$.ajax({
+		url : "getLeaveData",
+		method : "POST",
+		type : "JSON",
+		data : {
+			"userId" : userId,
+			"month" : month,
+			"year" : year
+		},
+		success : function(data) {
+			var leaveData = JSON.parse(data.leave_data);
+			var workingData = JSON.parse(data.working_data);
+			//Set new data for Leave table
+			if(leaveData.length > 0){
+				table.clear().rows.add(leaveData).draw(); 
+			}
+			//Set working summary
+			if(workingData.length > 0){
+				var payment = workingData[0].payment;
+				var term_day = workingData[0].term_day;
+				var actual_working = workingData[0].actual_working_day;
+				var working_day = workingData[0].actual_working_per_month;
+				var emp_working_day = workingData[0].sum_emp_working;
+				var emp_working_hr = workingData[0].sum_emp_working_hr;
+				var emp_absent = workingData[0].sum_emp_absent;
+				var emp_leave = workingData[0].sum_emp_leave;
+				
+				$("#txt_working_day").text(payment == '0' ? actual_working + "/" + term_day : actual_working + "/" + working_day);
+				$("#txt_working_hr").text(emp_working_hr.toFixed(2));
+				$("#txt_absent").text(emp_absent.toFixed(2));
+				$("#txt_leave").text(emp_leave.toFixed(2));		
+			}
+		}
+	}); 
+	}
+	
+	//Code
+	function neweventsCheckLeave(id, a){
+		console.log("id " + id + " " +a)
 	$.ajax({	
 		url : "work_searchCalendar",
 		method : "POST",
@@ -502,21 +625,20 @@ function neweventsHol(a){
 		}
 	});
 }
-creatSelect();
-var selectmonth = sessionStorage.getItem("selectmonth");
-var selectyear = sessionStorage.getItem("selectyear");
-console.log("test1 "+selectmonth+"/"+selectyear);
+// // creatSelect();
+// var selectmonth = sessionStorage.getItem("selectmonth");
+// var selectyear = sessionStorage.getItem("selectyear");
 
-if(selectmonth && selectyear){
-  	checkSelect();
-} else {
-	var date = new Date();
-	document.getElementById("mselect").selectedIndex = date.getMonth(); //5
-	document.getElementById("yselect").value = date.getFullYear(); //2022
-}
-sessionStorage.removeItem("selectmonth");
-sessionStorage.removeItem("selectyear");
-document.getElementById("btnsearch").onclick = function() {leaveSearch(id)};
+// if(selectmonth && selectyear){
+//   	checkSelect();
+// } else {
+// 	var date = new Date();
+// 	document.getElementById("mselect").selectedIndex = date.getMonth(); //5
+// 	document.getElementById("yselect").value = date.getFullYear(); //2022
+// }
+// sessionStorage.removeItem("selectmonth");
+// sessionStorage.removeItem("selectyear");
+// document.getElementById("btnsearch").onclick = function() {leaveSearch(id)};
 
 function creatSelect(){
 	var date = new Date();
@@ -566,43 +688,39 @@ function leaveSearch(id){
 	sessionStorage.setItem("selectmonth", selectmonth);
 	sessionStorage.setItem("selectyear", selectyear);
 	$("#leaveSearch").submit();
-	/* console.log("leaveSearch");
-	var mselect = document.getElementById("mselect");
-	var yselect = document.getElementById("yselect"); */
-	/*$.ajax({
-		url : "leaveSearch",
-		method : "POST",
-		type : "JSON",
-		data : {
-			"userid" : id,
-			"month" : mselect,
-			"year" : yselect
-		},
-		success : function(data) {
-			 var data = JSON.parse(data);
-			console.log(data);
-			var tbody = document.getElementById("tbody");
-			
-			for(var i=0; i<data.leave_id.length; i++){
-				var tr = document.createElement('tr');
-				var leaveId = document.createElement('td');
-				var leaveUser = document.createElement('td');
-				var leaveTypeId = document.createElement('td');
-						
-				leaveId.innerHTML = data.leave_id[i];
-				leaveUser.innerHTML = data.user_id[i];
-				leaveTypeId.innerHTML = data.leave_type_id[i];
-						
-				tr.appendChild(leaveId);
-				tr.appendChild(leaveUser);
-				tr.appendChild(leaveTypeId);
-			}
-			tbody.appendChild(tr); 
-		}
-	}); */
+
 }
 
+function formatDate(date) {
+	monthNames =["Jan","Feb","Mar","Apr",
+        "May","Jun","Jul","Aug",
+        "Sep", "Oct","Nov","Dec"];
+	
+    var d = new Date(date),
+        month = '' + (d.getMonth() ),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
 
-});	
+    if (day.length < 2) 
+        day = '0' + day;
 
+    return day+' ' + monthNames[month] +' '+ year;
+}
+
+function formatDateTime(date) {
+	monthNames =["Jan","Feb","Mar","Apr",
+        "May","Jun","Jul","Aug",
+        "Sep", "Oct","Nov","Dec"];
+	
+    var d = new Date(date),
+        month = '' + (d.getMonth() ),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+    	hoursAndMinutes = d.getHours() + ':' + d.getMinutes()
+
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return day+' ' + monthNames[month] +' '+ year + ' ' + hoursAndMinutes;
+}
 </script>

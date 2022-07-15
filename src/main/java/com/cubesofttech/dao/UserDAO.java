@@ -97,6 +97,9 @@ public interface UserDAO {
 	public List<Map<String, Object>> findAllUserYear(String year) throws Exception;
 	
 	public List<Map<String,Object>> AllUserEnable()throws Exception;
+	public List<Map<String,Object>> AllUserEnableOffset(int limit,int offset,String search)throws Exception;
+	public long CountAllUserEnableOffset(String search)throws Exception;
+
 	public List<Map<String,Object>> AllUserEnable(String OwnerId) throws Exception;
 	public List<Map<String,Object>> findUserEnablebyNameOrId(String name)throws Exception;
 	public List<Map<String,Object>> findUserEnablebyDepartment(String Department)throws Exception;
