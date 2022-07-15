@@ -17,7 +17,6 @@ import javax.persistence.Table;
 public class Payment implements Serializable {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "payment_id")
 	private Integer payment_id;
 	@Column(name = "payment_group_id")

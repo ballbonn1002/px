@@ -246,22 +246,123 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 	@Override
 	public List<Map<String, Object>> multiSalaryMonth(String mYear, String mDepart) throws Exception {
 		Session session =  this.sessionFactory.getCurrentSession(); 
-		List<Map<String, Object>> multiSelect = null;
+		List<Map<String, Object>> multiSelectMonth = null;
 		try {
 			String[] strArray = null;
 			strArray = mDepart.split(",");
-			String sql = "SELECT payment_group.payment_group_id, payment_group.name, EXTRACT(YEAR FROM payment_group.payment_date) AS year, EXTRACT(MONTH FROM payment_group.payment_date) AS month, SUM(payment.total_pay) AS sum_total_pay, user.department_id FROM payment_group LEFT JOIN payment ON payment_group.payment_group_id = payment.payment_group_id AND EXTRACT(YEAR FROM payment_group.payment_date) = '"+mYear+"' LEFT JOIN user ON payment.user_id = user.id LEFT JOIN department ON department.department_id = user.department_id WHERE department.department_id = '"+strArray[0]+"'";
+			
+			String salary = "SELECT payment_group.payment_group_id, payment_group.name, EXTRACT(YEAR FROM payment_group.payment_date) AS year, EXTRACT(MONTH FROM payment_group.payment_date) AS month, SUM(payment.total_pay) AS sum_total_pay, user.department_id FROM payment_group LEFT JOIN payment ON payment_group.payment_group_id = payment.payment_group_id AND EXTRACT(YEAR FROM payment_group.payment_date) = '"+mYear+"' LEFT JOIN user ON payment.user_id = user.id LEFT JOIN department ON department.department_id = user.department_id WHERE department.department_id = '"+strArray[0]+"'";
 			for (int i = 0; i< strArray.length; i++){
-				sql += "OR department.department_id = '"+strArray[i]+"'";
+				salary += " OR department.department_id = '"+strArray[i]+"'";
 			}
-			sql += "GROUP BY month, year, user.department_id";
+			salary += "GROUP BY month, year, user.department_id";
+			
+			String sum = " UNION ";
+			sum += "SELECT payment_group.payment_group_id, 'sum_depart' AS name, EXTRACT(YEAR FROM payment_group.payment_date) AS year, '13' AS month, SUM(payment.total_pay) AS sum_total_pay, user.department_id FROM payment_group LEFT JOIN payment ON payment_group.payment_group_id = payment.payment_group_id AND EXTRACT(YEAR FROM payment_group.payment_date) = '"+mYear+"' LEFT JOIN user ON payment.user_id = user.id LEFT JOIN department ON department.department_id = user.department_id WHERE department.department_id = '"+strArray[0]+"'";
+			for (int i = 0; i< strArray.length; i++){
+				sum += " OR department.department_id = '"+strArray[i]+"'";
+			}
+			sum += "GROUP BY user.department_id";
+			
+			String sumAll = " UNION ";
+			sumAll += "SELECT 'sumAll' AS payment_group_id, 'sum_all' AS name, EXTRACT(YEAR FROM payment_group.payment_date) AS year, '13' AS month, SUM(payment.total_pay) AS sum_total_pay, 'sum' AS department_id\r\n"
+					+ "FROM payment_group"
+					+ " LEFT JOIN payment ON payment_group.payment_group_id = payment.payment_group_id AND EXTRACT(YEAR FROM payment_group.payment_date) = '"+mYear+"'"
+					+ "LEFT JOIN user ON payment.user_id = user.id LEFT JOIN department ON department.department_id = user.department_id WHERE department.department_id = '"+strArray[0]+"'";
+			for (int i = 0; i< strArray.length; i++){
+				sumAll += " OR department.department_id = '"+strArray[i]+"'";
+			}
+			sumAll += "GROUP BY payment_group_id";
+			
+			String sumMonth = " UNION ";
+			sumMonth += "SELECT payment_group.payment_group_id, 'Month' AS name, EXTRACT(YEAR FROM payment_group.payment_date) AS year, EXTRACT(MONTH FROM payment_group.payment_date) AS month, SUM(payment.total_pay) AS sum_total_pay, 'sum' AS department_id \r\n"
+					+ "FROM payment_group"
+					+ " LEFT JOIN payment ON payment_group.payment_group_id = payment.payment_group_id AND EXTRACT(YEAR FROM payment_group.payment_date) = '"+mYear+"'"
+					+ "LEFT JOIN user ON payment.user_id = user.id LEFT JOIN department ON department.department_id = user.department_id WHERE department.department_id = '"+strArray[0]+"'";
+			for (int i = 0; i< strArray.length; i++){
+				sumMonth += " OR department.department_id = '"+strArray[i]+"'";
+			}
+			sumMonth += "GROUP BY year, month";
+			
+			String sql = salary + sum + sumAll + sumMonth;
+			//System.out.println(sql);
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
-			multiSelect = query.list();
+			multiSelectMonth = query.list();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return multiSelect; 
+		return multiSelectMonth; 
+	}
+	
+	@Override
+	public List<Map<String, Object>> multiSalaryYear(String mYear, String mDepart) throws Exception {
+		Session session =  this.sessionFactory.getCurrentSession(); 
+		List<Map<String, Object>> multiSelectYear = null;
+		try {
+			String[] strArrayDepart = null;
+			String[] strArrayYear = null;
+			strArrayDepart = mDepart.split(",");
+			strArrayYear = mYear.split(",");
+			String sql = "";
+			
+			for(int i = 0; i < strArrayYear.length; i++) {
+				String salary = "SELECT payment_group.payment_group_id, 'sum_depart' AS name, EXTRACT(YEAR FROM payment_group.payment_date) AS year, 'sum_year' AS month, SUM(payment.total_pay) AS sum_total_pay, user.department_id FROM payment_group LEFT JOIN payment ON payment_group.payment_group_id = payment.payment_group_id AND EXTRACT(YEAR FROM payment_group.payment_date) = '"+strArrayYear[i]+"' LEFT JOIN user ON payment.user_id = user.id LEFT JOIN department ON department.department_id = user.department_id WHERE department.department_id = '"+strArrayDepart[0]+"'";
+				for (int j = 0; j< strArrayDepart.length; j++){
+					salary += " OR department.department_id = '"+strArrayDepart[j]+"'";
+				}
+				salary += "GROUP BY user.department_id UNION ";
+				sql += salary;
+				
+			}
+			for(int i = 0; i < strArrayYear.length; i++) {
+				String sum = "SELECT 'sumAll' AS payment_group_id, 'sum_all' AS name, EXTRACT(YEAR FROM payment_group.payment_date) AS year, 'sumAllDepartAndYear' AS month, SUM(payment.total_pay) AS sum_total_pay, 'sum' AS department_id FROM payment_group LEFT JOIN payment ON payment_group.payment_group_id = payment.payment_group_id AND EXTRACT(YEAR FROM payment_group.payment_date) = '"+strArrayYear[i]+"'  LEFT JOIN user ON payment.user_id = user.id LEFT JOIN department ON department.department_id = user.department_id WHERE department.department_id = '"+strArrayDepart[0]+"'";
+				for (int j = 0; j< strArrayDepart.length; j++){
+					sum += " OR department.department_id = '"+strArrayDepart[j]+"'";
+				}
+				sum += "GROUP BY payment_group_id UNION ";
+				sql += sum;
+				
+			}
+			
+			String sumAllYear = "SELECT table1.payment_group_id as payment_group_id, table1.name as name, table1.year as year, table1.month as month, SUM(table1.sum_total_pay) AS sum_total_pay, table1.department_id AS department_id FROM (";
+			for(int i = 0; i < strArrayYear.length; i++) {
+				sumAllYear += "SELECT 'sumAllYear' AS payment_group_id, 'sum_all_year' AS name, '9999' AS year, 'sumAllYear' AS month, SUM(payment.total_pay) AS sum_total_pay, user.department_id FROM payment_group INNER JOIN payment ON payment_group.payment_group_id = payment.payment_group_id AND EXTRACT(YEAR FROM payment_group.payment_date) = '"+strArrayYear[i]+"' INNER JOIN user ON payment.user_id = user.id INNER JOIN department ON department.department_id = user.department_id WHERE department.department_id = '"+strArrayDepart[0]+"'";
+				for (int j = 0; j< strArrayDepart.length; j++){
+					sumAllYear += " OR department.department_id = '"+strArrayDepart[j]+"'";
+				}
+				sumAllYear += "GROUP BY department.department_id UNION ";
+			}
+			sumAllYear = sumAllYear.substring(0,sumAllYear.length()-7);
+			sumAllYear += ") AS table1 GROUP BY table1.department_id UNION ";
+			
+			
+			String sumAll = "SELECT table1.payment_group_id as payment_group_id, table1.name as name, table1.year as year, table1.month as month, SUM(table1.sum_total_pay) AS sum_total_pay, table1.department_id AS department_id FROM (";
+			for(int i = 0; i < strArrayYear.length; i++) {
+				sumAll += "SELECT 'sumAll' AS payment_group_id, 'sum_all' AS name, '9999' AS year, 'sumAllDepartAndYear' AS month, SUM(payment.total_pay) AS sum_total_pay, 'sum' AS department_id FROM payment_group LEFT JOIN payment ON payment_group.payment_group_id = payment.payment_group_id AND EXTRACT(YEAR FROM payment_group.payment_date) = '"+strArrayYear[i]+"' LEFT JOIN user ON payment.user_id = user.id LEFT JOIN department ON department.department_id = user.department_id WHERE department.department_id = '"+strArrayDepart[0]+"'";
+				
+				for (int j = 0; j< strArrayDepart.length; j++){
+					sumAll += " OR department.department_id = '"+strArrayDepart[j]+"'";
+				}
+				sumAll += " UNION ";
+			}
+			sumAll = sumAll.substring(0,sumAll.length()-7);
+			sumAll += ") AS table1 GROUP BY table1.department_id";
+			//sumAll += "GROUP BY payment_group_id UNION ";
+			
+			
+			sql = sql + sumAllYear + sumAll;
+				
+			//sql = sql.substring(0,sql.length()-6);
+			//System.out.println(sql);
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			multiSelectYear = query.list();
+			//System.out.println(query.list());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return multiSelectYear; 
 	}
 
 

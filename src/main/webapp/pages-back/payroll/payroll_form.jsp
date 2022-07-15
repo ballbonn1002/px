@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="/WEB-INF/tlds/permission.tld" prefix="perm"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script
@@ -140,38 +141,6 @@ to {
 			</div>
 		</div>
 		<div class="body">
-			<form>
-				<div class="row">
-					<div class="col-12">
-						<div
-							class="d-flex flex-column flex-sm-column flex-lg-row justify-content-between">
-							<div
-								class="d-flex flex-column flex-sm-column flex-lg-row align-items-center">
-								<div
-									class="d-flex flex-column align-items-center align-items-sm-center align-items-lg-end">
-									<p class="mb-0">รวมค่าใช้จ่ายพนักงาน</p>
-									<h2 style="color: #333333;">45,500.00</h2>
-								</div>
-								<div class="d-none d-sm-none d-lg-block"
-									style="width: 1px; height: 60px; background: #EBEDF3; margin: 16px"></div>
-								<div
-									class="d-flex flex-column align-items-center align-items-sm-center align-items-lg-end">
-									<p class="mb-0">รวมจ่ายสุทธิ</p>
-									<h2 style="color: #2898CB";>43,591.70</h2>
-								</div>
-								<div class="d-none d-sm-none d-lg-block"
-									style="width: 1px; height: 60px; background: #EBEDF3; margin: 16px"></div>
-								<div
-									class="d-flex flex-column align-items-center align-items-sm-center align-items-lg-end">
-									<p class="mb-0">รวมรายการหัก</p>
-									<h2 style="color: #E7505A;">1,500.00</h2>
-								</div>
-							</div>
-							<div class="mt-auto">
-								<p>Created: 25 April 2022</p>
-							</div>
-						</div>
-					</div>
 					<div class="portlet-body" style="margin-top: 20px">
 						<form>
 							<div class="container">
@@ -220,8 +189,7 @@ to {
 										<label>ช่วงวันที่</label>
 										<div class="form-group">
 											<input data-provide="datepicker" data-date-autoclose="true"
-												data-date-format="dd-mm-yyyy" name="bday"
-												value=""
+												data-date-format="dd/mm/yyyy" name="startDate" id="startDate"
 												class="form-control">
 										</div>
 									</div>
@@ -229,8 +197,7 @@ to {
 										<label>ถึงวันที่</label>
 										<div class="form-group">
 											<input data-provide="datepicker" data-date-autoclose="true"
-												data-date-format="dd-mm-yyyy" name="bday"
-												value=""
+												data-date-format="dd/mm/yyyy" name="endDate" id="endDate"
 												class="form-control">
 										</div>
 									</div>
@@ -238,8 +205,7 @@ to {
 										<label>วันที่ชำระ</label>
 										<div class="form-group">
 											<input data-provide="datepicker" data-date-autoclose="true"
-												data-date-format="dd-mm-yyyy" name="bday"
-												value="<fmt:formatDate value="" pattern=" dd-MM-yyyy" />"
+												data-date-format="dd/mm/yyyy" name="bday"
 												class="form-control">
 										</div>
 									</div>
@@ -269,12 +235,10 @@ to {
 									<button type="button" class="btn btn-light  float-lg-right m-2">ยกเลิก</button>
 								</div>
 							</div>
-						</div>
+						</form>	
 					</div>
 				</div>
-			</form>
 		</div>
-	</div>
 </div>
 
 <div class="container">
@@ -327,7 +291,7 @@ to {
 						<table
 							class="table table-bordered table-hover table-striped dataTable"
 							id="list_example">
-							<thead class="thead-dark">
+							<thead>
 								<tr>
 									<th class="details-control"></th>
 									<th class="sorting_asc" style="text-align: right">ลำดับ</th>
@@ -394,9 +358,9 @@ to {
 						<table class="table payment-table">
 							<thead>
 								<tr>
-									<th class style="text-align: left; width: 30%">รายได้</th>
-									<th class style="text-align: left; width: 50%"></th>
-									<th class
+									<th class="" style="text-align: left; width: 30%">รายได้</th>
+									<th class="" style="text-align: left; width: 50%"></th>
+									<th class=""
 										style="text-align: right; width: 20%; color: #449CFF;">45,500.00</th>
 								</tr>
 							</thead>
@@ -448,6 +412,7 @@ to {
 </div>
 <script>
 	$(document).ready(function() {
+		
 		var table = $('#list_example').DataTable({
 			//"ordering": false,
 			"order" : [],
@@ -466,38 +431,108 @@ to {
 				tr.removeClass('shown');
 			} else {
 				// Open this row
-				row.child(format(row.data())).show();
+				row.child(payroll_format(row.data())).show();
 				tr.addClass('shown');
 			}
 		});
 	})
 
-	function format(d) {
+	function payroll_format(d) {
 		// `d` is the original data object for the row
-		return ('<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'
-				+ '<tr>'
-				+ '<td>Full name:</td>'
-				+ '<td>'
-				+ d.name
-				+ '</td>'
-				+ '</tr>'
-				+ '<tr>'
-				+ '<td>Extension number:</td>'
-				+ '<td>'
-				+ d.extn
-				+ '</td>'
-				+ '</tr>'
-				+ '<tr>'
-				+ '<td>Extra info:</td>'
-				+ '<td>And any further details here (images etc)...</td>'
-				+ '</tr>' + '</table>');
+		return `
+		<div class = "p-2 m-2"><span style = "color: #737373;">สรุปการทำงานตามช่วงเวลา <a href="javascript:void(0);">เพิ่มเติม</a></span></div>
+		<table class = "mb-2">
+			<thead>
+				<tr>
+					<th style="text-align: center">วันทำงาน</th>
+					<th style="text-align: center;">ชั่วโมงทำงานจริง</th>
+					<th style="text-align: center;">สาย/ออกก่อนเวลา<br /> หัก60 นาที(ชม.)</th>
+					<th style="text-align: center;">ขาดงาน(วัน)</th>
+					<th style="text-align: center;">รางานไม่รับค่าจ้าง (วัน)</th>
+					<th style="text-align: center;">ล่วงเวลา 1.5 เท่า(ชม.)</th>
+					<th style="text-align: center;">ล่วงเวลา 2 เท่า(ชม.)</th>
+					<th style="text-align: center;">ล่วงเวลา 3 เท่า(ชม.)</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<!--<td style="display:none">${paymentgl.time_create}</td>-->
+					<td style="text-align: center; padding-top: 10px;"><input class = "form-control"  style = "text-align: center" value = 30></td>
+					<td style="text-align: center; padding-top: 10px;">180:00</td>
+					<td style="text-align: center; padding-top: 10px;">0:00</td>
+					<td style="text-align: center; padding-top: 10px;"><input class = "form-control"  style = "text-align: center" value = "0:00"></td>
+					<td style="text-align: center; padding-top: 10px;"><input class = "form-control" style = "text-align: center" value = "0:00"></td>
+					<td style="text-align: center; padding-top: 10px;"><input class = "form-control"  style = "text-align: center" value = "0:00"></td>
+					<td style="text-align: center; padding-top: 10px;"><input class = "form-control" style = "text-align: center" value = "0:00"></td>
+					<td style="text-align: center; padding-top: 10px;"><input class = "form-control"  style = "text-align: center" value = "0:00"></td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="row">
+		<div class="col-lg-6 col-sm-12">
+			<div class="table-responsive">
+				<table class="table payment-table">
+					<thead>
+						<tr>
+							<th class="" style="text-align: left; width: 30% ; color: #449CFF;">รายได้</th>
+							<th class="" style="text-align: left; width: 30%"></th>
+							<th class=""
+								style="text-align: right; width: 40%; color: #449CFF;">45,500.00</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td style="text-align: left; padding-top: 10px;">SL</td>
+							<td style="text-align: left; padding-top: 10px;">เงินเดือน</td>
+							<td style="text-align: right; padding-top: 10px;"><input class = "form-control text-right" value = "45,000.00"></td>
+						</tr>
+						<tr>
+							<td style="text-align: left; padding-top: 10px;">OT1</td>
+							<td style="text-align: left; padding-top: 10px;">ล่วงเวลา
+								1.5 เท่า</td>
+							<td style="text-align: right; padding-top: 10px;"><input class = "form-control text-right" value = "0.00"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="col-lg-6 col-sm-12">
+			<div class="table-responsive">
+				<table class="table payment-table">
+					<thead>
+						<tr>
+							<th style="text-align: left; width: 30% ;color: #449CFF;">รายการหัก</th>
+							<th style="text-align: left; width: 30%"></th>
+							<th style="text-align: right; width: 40%; color: #449CFF;">1,500.00</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td style="text-align: left; padding-top: 10px;">SSI</td>
+							<td style="text-align: left; padding-top: 10px;">ประกันสังคม</td>
+							<td style="text-align: right; padding-top: 10px;"><input class = "form-control text-right" value = "1,500.00"></td>
+						</tr>
+						<tr>
+							<td style="text-align: left; padding-top: 10px;">TAX</td>
+							<td style="text-align: left; padding-top: 10px;">ภาษีหัก ญ
+								ที่จ่าย</td>
+							<td style="text-align: right; padding-top: 10px;"><input class = "form-control text-right" value = "0.00"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div>
+		<p>หมายเหตุ :</p>
+			<select class="form-control mb-3">
+				<option>เดือนนี้ทำงานที่ Site มีการลาไม่รับค่าจ้าง 1 วัน ไปหักเงินเดือนหน้า</option>
+				<option></option>
+			</select>
+		<p style = "color: #E7505A;">หมายเหตุ จากงวดที่แล้ว : -</p>
+	</div>
+		
+	<div
+		`
 	}
 </script>
-<script
-	src="pages-back/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-<script
-	src="pages-back/assets/vendor/bootstrap-timepicker/js/bootstrap-timepicker.min.js"
-	type="text/javascript"></script>
-<script
-	src="pages-back/assets/pages/scripts/components-date-time-pickers.min.js"
-	type="text/javascript"></script>

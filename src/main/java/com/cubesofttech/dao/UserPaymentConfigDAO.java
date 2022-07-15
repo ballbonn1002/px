@@ -13,6 +13,9 @@ public interface UserPaymentConfigDAO {
     public List<UserPaymentConfig> findIncome() throws Exception;
     public List<UserPaymentConfig> findExpend() throws Exception;
     
+    public List<Map<String, Object>> sumIncomeById(String userId) throws Exception;
+    public List<Map<String, Object>> sumExpendById(String userId) throws Exception;
+    
     public UserPaymentConfig findById(String paymentconfigId  ) throws Exception;
     
     public void update(UserPaymentConfig userPaymentConfig) throws Exception;
