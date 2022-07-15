@@ -718,5 +718,28 @@ public class PayrollReportAction extends ActionSupport {
 			return ERROR;
 		}
 	}
+	public String paymentStatistics() {
+		try {
+			
+			
+			String year = request.getParameter("year");
+			log.debug(year);
+			List<String> yearList = Arrays.asList(year.split("\\s*,\\s*"));
+			log.debug("yearList: " + yearList);
+			//query code
+			List<Map<String, Object>> paymentChart = payment_groupDAO.paymentStatistics(yearList);
+					
+            Gson gson = new Gson(); 
+            String json = gson.toJson(paymentChart);
+            log.debug(json);
 
+            request.setAttribute("json", json);	
+            		
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+	}
+   
 }

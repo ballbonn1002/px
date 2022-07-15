@@ -8,13 +8,14 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+
 <link href="../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet" type="text/css" />
 		
 <script src="../assets/global/plugins/jquery.min.js" type="text/javascript"></script>
 
 <script src="../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js"type="text/javascript"></script>
 
-
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 
 <script src="../assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js"type="text/javascript"></script>
 			
@@ -23,17 +24,8 @@
 <link
 		href="../assets/global/plugins/bootstrap-sweetalert/sweetalert.css"
 		rel="stylesheet" type="text/css" />
+<script>
 		
-		
-<script src="https://code.jquery.com/jquery-3.5.1.js" type="text/javascript"></script>
-<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js" type="text/javascript"></script>
-<script src="https://cdn.datatables.net/fixedcolumns/4.1.0/js/dataTables.fixedColumns.min.js" type="text/javascript"></script>
-<link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
-<link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.1.0/css/fixedColumns.dataTables.min.css">
-
-
-
-
 		
 <script>
 			
@@ -49,14 +41,14 @@ text-align:center;
 }
 
 
-.view {
+.view2 {
  margin: auto;
   width: 100%;
   display:flex;
   scroll-x:auto;
 }
 
-.wrapper {
+.wrapper2 {
   position: relative;
   overflow: auto;
   white-space: nowrap;
@@ -70,6 +62,29 @@ text-align:center;
 .second-col {
   width: 150px;
 }
+.foot-first-col {
+  
+  min-width: 100px;
+  text-align:right;
+  vertical-align: middle !important;
+ 
+}
+
+.foot-second-col {
+  min-width: 100px;
+  text-align:right;
+  vertical-align: middle !important;
+  
+}
+
+
+.foot-third-col {
+  min-width: 100px;
+  text-align:right;
+  vertical-align: middle !important;
+ 
+}
+
 ::-webkit-scrollbar {
   width: 5px;
   height:4px
@@ -96,11 +111,8 @@ text-align:center;
 table{
 text-align:center;
 }
- .view {
-  
-  width: 100%;
-  display:flex;
-  scroll-x:auto;
+table th{
+vertical-align: middle !important;
 }
 .view2 {
   
@@ -108,13 +120,7 @@ text-align:center;
   display:flex;
   scroll-x:auto;
 }
-.wrapper {
-  position: relative;
-  overflow-x: auto;
-  width:auto;
-   display:flex;
-  white-space: nowrap;
-}
+
 .wrapper2 {
   position: relative;
   overflow-x: auto;
@@ -145,14 +151,7 @@ vertical-align: middle !important;
   left: 90px;
   vertical-align: middle !important;
 }
-.last-first-col {
-  width: 100px;
-  min-width: 100px;
-  max-width: 100px;
-  right: 0px;
-  text-align:right;
-  vertical-align: middle !important;
-}
+
 .foot-first-col {
   width: 100px;
   min-width: 100px;
@@ -160,36 +159,26 @@ vertical-align: middle !important;
   right: 0px;
   text-align:right;
   vertical-align: middle !important;
+  
 }
-.last-second-col {
-  width: 150px;
-  min-width: 150px;
-  max-width: 150px;
-  right: 99px;
-  text-align:right;
-  vertical-align: middle !important;
-}
+
 .foot-second-col {
   min-width: 100px;
   right: 100px;
   text-align:right;
   vertical-align: middle !important;
+  
 }
 
-.last-third-col {
-  width: 150px;
-  min-width: 150px;
-  max-width: 150px;
-  right: 249px;
-  text-align:right;
-  vertical-align: middle !important;
-}
+
 .foot-third-col {
   min-width: 100px;
   right: 200px;
   text-align:right;
   vertical-align: middle !important;
+ 
 }
+
 
 /* width */
 .wrapper::-webkit-scrollbar {
@@ -247,188 +236,7 @@ vertical-align: middle !important;
                    
     </div>
 </div>
-<div class="row clearfix">
-	<div class="col-lg-12">
-		<div class="card">
-			<div class="header">
-				<div style="color:#449CFF">
-					<h6 class="card-title" >${payment_groupList[0].name}<span style="float:right;">#${payment_groupList[0].payment_group_id}</span></h6>
-					<hr style="border-top: 2px solid #449CFF; margin-bottom: -4px;">
-				</div>
-			</div>
-			<div class="body" style="margin-top:-20px;">
-				<div class="portlet light bordered">
-					<div class="portlet-body">
-						<div class="portlet box white">
-							<div class="row" style="display:flex;">
-										<div class="col-sm-3">
-											<div class="form-group">
-												<label for="recipient-name" class="control-label" style="padding-left: 12px;">ช่วงวันที่</label>
-												<div class="form-control" style="border:none; background-color:transparent;display:flex;align-items: center;">
-												 	<fmt:formatDate value="${payment_groupList[0].start_date}" pattern="dd MMM yyyy"></fmt:formatDate>
-												 	                                     &nbsp;&nbsp;-&nbsp;&nbsp;
-												 	       <fmt:formatDate value="${payment_groupList[0].end_date}" pattern="dd MMM yyyy"></fmt:formatDate>
-												</div>
-											</div>
-										</div>
-										<div class="col-sm-3">
-											<div class="form-group" >
-												<label for="recipient-name" class="control-label" style="padding-left: 12px;">วันที่ชำระ</label>
-												<input type="text" name="payment_date" class="form-control" value="<fmt:formatDate value="${payment_groupList[0].payment_date }" pattern="dd MMM yyyy"></fmt:formatDate>"  style="border:none; background-color:transparent;" readonly />
-												 
-												
-											</div>
-										</div>
-										<div class="col-sm-3">
-											<div class="form-group">
-												<label for="recipient-name" class="control-label" style="padding-left: 12px;">ประกันสังคม</label>
-												<input type="text" name="social" class="form-control"  value="${payment_groupList[0].social_security }" style="border:none; background-color:transparent;" readonly />
-											</div>
-										</div>
-										<div class="col-sm-3">
-											<div class="form-group">
-												<label for="recipient-name" class="control-label" style="padding-left: 12px;">พนักงาน</label>
-												<input type="text" name="employee" class="form-control" id="employee" value="" style="border:none; background-color:transparent;" readonly />
-											</div>
-										</div>
-									</div>
-									<div class="">
-										
-											<div class="view">
-										  <div class="wrapper ">
-										    <table class="table table-striped" id="table" >
-										      <thead>
-										        <tr >
-										          <th class="sticky-col first-col" >No.</th>
-										          <th class="sticky-col second-col">Employee</th>
-										          <c:forEach var="test" items="${payment_typeList}">
-										          	<th style="padding-left: 15px;width:50px;" >${test.Payment_type_name}</th>
-										          </c:forEach>
-										          
-										          <th class="sticky-col last-third-col">สรุปรายได้ เพิ่มเติม</th>
-										          <th class="sticky-col last-second-col">สรุปรายการหัก</th>
-										          <th class="sticky-col last-first-col">รายได้สุทธิ</th>
-										        </tr>
-										      </thead>
-										      <tbody>
-										       <c:forEach var="hi" items="${groupList}">
-										     <c:set var="counter" value="${counter + 1}" />
-										        <tr class="tbody" style="text-align:right;">
-										          <td class="sticky-col first-col" style="text-align:center;">${counter}</td>
-										          <td class="sticky-col second-col" style="text-align:center;">${hi.user_id}</td>
-										          <td class="SL"> 
-										          	<fmt:parseNumber var = "SL" type = "number" value = "${hi.SL}" />
-										            <fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${SL}" />
-										          </td>
-										          <td class="OT1">
-										          	<fmt:parseNumber var = "OT1" type = "number" value = "${hi.OT1}" />
-										            <fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${OT1}" />
-										          </td>
-										          <td class="OT2">
-										          	<fmt:parseNumber var = "OT2" type = "number" value = "${hi.OT2}" />
-										            <fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${OT2}" />
-										          </td>
-										          <td class="OT3">
-										          	   <fmt:parseNumber var = "OT3" type = "number" value = "${hi.OT3}" />
-										               <fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${OT3}" />
-										          </td>
-										          <td class="VA">
-										          	   <fmt:parseNumber var = "VA" type = "number" value = "${hi.VA}" />
-										               <fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${VA}" />
-										          </td>
-										          <td class="TRAVEL">
-										               <fmt:parseNumber var = "TRAVEL" type = "number" value = "${hi.TRAVEL}" />
-										               <fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${TRAVEL}" />
-										          </td>
-										          <td class="BONUS">
-										               <fmt:parseNumber var = "BONUS" type = "number" value = "${hi.BONUS}" />
-										               <fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${BONUS}" />
-										          </td>
-										          <td class="EQUIPMENT">
-										               <fmt:parseNumber var = "EQUIPMENT" type = "number" value = "${hi.EQUIPMENT}" />
-										               <fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${EQUIPMENT}" />
-										          </td>
-										          <td class="SSI">
-										               <fmt:parseNumber var = "SSI" type = "number" value = "${hi.SSI}" />
-										               <fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${SSI}" />
-										          </td>
-										          <td class="TAX">
-										               <fmt:parseNumber var = "TAX" type = "number" value = "${hi.TAX}" />
-										               <fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${TAX}" />
-										          </td>
-										          <td class="TISCO">
-										               <fmt:parseNumber var = "TISCO" type = "number" value = "${hi.TISCO}" />
-										               <fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${TISCO}" />
-										          </td>
-										          <td class="LATE">
-										               <fmt:parseNumber var = "LATE" type = "number" value = "${hi.LATE}" />
-										               <fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${LATE}" />
-										          </td>
-										          <td class="ABSENT">
-										               <fmt:parseNumber var = "ABSENT" type = "number" value = "${hi.ABSENT}" />
-										               <fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${ABSENT}" />
-										          </td>
-										          <td class="ABSENCE">
-										               <fmt:parseNumber var = "ABSENCE" type = "number" value = "${hi.ABSENCE}" />
-										               <fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${ABSENCE}" />
-										          </td>
-										          <td class="StudentLoan">
-										               <fmt:parseNumber var = "StudentLoan" type = "number" value = "${hi.StudentLoan}" />
-										               <fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${StudentLoan}" />
-										          </td>
-										          <td class="sticky-col last-third-col income_net" style="color:#449CFF">
-										          		<fmt:parseNumber var = "income_net" type = "number" value = "${hi.income_net}" />
-										                <fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${income_net}" />
-										           </td>
-										          <td class="sticky-col last-second-col expend_net" style="color:#449CFF">
-										               <fmt:parseNumber var = "expend_net" type = "number" value = "${hi.expend_net}" />
-										               <fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${expend_net}" />
-										          </td>
-										          <td class="sticky-col last-first-col total_pay" style="color:#449CFF;text-align:right;">
-										               <fmt:parseNumber var = "total_pay" type = "number" value = "${hi.total_pay}" />
-										               <fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${total_pay}" />
-										          </td>
-										        </tr>
-										        </c:forEach>
-										      </tbody>
-										      <tfoot style="color:#449CFF" >
-										      	<tr style="text-align:right;">
-										      		<th class="sticky-col first-col" >สรุปยอดรวม</th>
-										      		<th class="sticky-col second-col"></th>
-										      		<th id="SL"></th>
-										      		<th id="OT1"></th>
-										      		<th id="OT2"></th>
-										      		<th id="OT3"></th>
-										      		<th id=VA></th>
-										      		<th id="TRAVEL"></th>
-										      		<th id="BONUS"></th>
-										      		<th id="EQUIPMENT"></th>
-										      		<th id="SSI"></th>
-										      		<th id="TAX"></th>
-										      		<th id="TISCO"></th>
-										      		<th id="LATE"></th>
-										      		<th id="ABSENT"></th>
-										      		<th id="ABSENCE"></th>
-										      		<th id="StudentLoan"></th>
-										      		<th class="sticky-col last-third-col" id="income_net"></th>
-										      		<th class="sticky-col last-second-col" id="expend_net"></th>
-										      		<th class="sticky-col last-first-col" id="total_pay"></th>
-										      	</tr>
-										      </tfoot>
-										     
-										    </table>
-										  </div>
-										</div>
-										
-									</div>
-									
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+
 
 <div class="row clearfix">
 	<div class="col-lg-12">
@@ -488,9 +296,9 @@ vertical-align: middle !important;
 										          	<th style="padding-left: 15px;width:50px;" class="wid2" >${test.Payment_type_name}</th>
 										          </c:forEach>
 										          
-										          <th class="sticky-col foot-third-col">สรุปรายได้ เพิ่มเติม</th>
-										          <th class="sticky-col foot-second-col">สรุปรายการหัก</th>
-										          <th class="sticky-col foot-first-col">รายได้สุทธิ</th>
+										          <th class="sticky-col foot-third-col text-success">สรุปรายได้ เพิ่มเติม</th>
+										          <th class="sticky-col foot-second-col text-danger">สรุปรายการหัก</th>
+										          <th class="sticky-col foot-first-col text-primary">รายได้สุทธิ</th>
 										        </tr>
 										      </thead>
 										      <tbody>
@@ -559,15 +367,15 @@ vertical-align: middle !important;
 										               <fmt:parseNumber var = "StudentLoan" type = "number" value = "${hi.StudentLoan}" />
 										               <fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${StudentLoan}" />
 										          </td>
-										          <td class="sticky-col foot-third-col income_net wid2" style="color:#449CFF">
+										          <td class="sticky-col foot-third-col income_net wid2 text-success" >
 										          		<fmt:parseNumber var = "income_net" type = "number" value = "${hi.income_net}" />
 										                <fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${income_net}" />
 										           </td>
-										          <td class="sticky-col foot-second-col expend_net wid2" style="color:#449CFF">
+										          <td class="sticky-col foot-second-col expend_net wid2 text-danger" >
 										               <fmt:parseNumber var = "expend_net" type = "number" value = "${hi.expend_net}" />
 										               <fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${expend_net}" />
 										          </td>
-										          <td class="sticky-col foot-first-col total_pay wid2" style="color:#449CFF;text-align:right;">
+										          <td class="sticky-col foot-first-col total_pay wid2 text-primary" style="text-align:right;">
 										               <fmt:parseNumber var = "total_pay" type = "number" value = "${hi.total_pay}" />
 										               <fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${total_pay}" />
 										          </td>
@@ -575,7 +383,7 @@ vertical-align: middle !important;
 										        </c:forEach>
 										      </tbody>
 										     <tfoot style="color:#449CFF" >
-										      	<tr style="text-align:right;">
+										      	<tr style="text-align:right; ">
 										      		<th class="sticky-col first-col" style="text-align:center;">สรุปยอดรวม</th>
 										      		<th class="sticky-col second-col"></th>
 										      		<th id="SL"></th>
@@ -593,9 +401,9 @@ vertical-align: middle !important;
 										      		<th id="ABSENT"></th>
 										      		<th id="ABSENCE"></th>
 										      		<th id="StudentLoan"></th>
-										      		<th class="sticky-col foot-third-col" id="income_net"></th>
-										      		<th class="sticky-col foot-second-col" id="expend_net"></th>
-										      		<th class="sticky-col foot-first-col" id="total_pay"></th>
+										      		<th class="sticky-col foot-third-col text-success" id="income_net"></th>
+										      		<th class="sticky-col foot-second-col text-danger" id="expend_net"></th>
+										      		<th class="sticky-col foot-first-col text-primary" id="total_pay"></th>
 										      	</tr>
 										      </tfoot>
 										    </table>
@@ -752,7 +560,7 @@ $(document).ready(function(){
 	  });
 });
 	
-          var x = $('#table').find('tr.tbody').length
+          var x = $('#table2').find('tr.tbody').length
           console.log(x);
           $('#employee').val(x);
 	
@@ -760,18 +568,7 @@ $(document).ready(function(){
 	
 
 </script>
-<script>
-const element = document.querySelector(".wrapper");
 
-element.addEventListener('wheel', (event) => {
-  event.preventDefault();
-
-  element.scrollBy({
-    left: event.deltaY < 0 ? -30 : 30,
-    
-  });
-});
-</script>
 <script>
 const element2 = document.querySelector(".wrapper2");
 
@@ -784,20 +581,12 @@ element2.addEventListener('wheel', (event) => {
   });
 });
 </script>
-<script>
-var table = document.getElementById("table");
-var cells = table.getElementsByTagName("td");
-for (var i = 0; i < cells.length; i++) {
-  if (parseInt(cells[i].textContent, 10) === 0) {
-    cells[i].style.color = "#ced4da";
-  }
-}
-</script>
+
 <script>
 var table2 = document.getElementById("table2");
 var cells2 = table2.getElementsByTagName("td");
 for (var i = 0; i < cells2.length; i++) {
-  if (parseInt(cells2[i].textContent, 10) === 0) {
+  if (parseFloat(cells2[i].textContent, 10) === 0.00) {
     cells2[i].style.color = "#ced4da";
   }
 }
