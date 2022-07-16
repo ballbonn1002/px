@@ -56,7 +56,12 @@
                                     </label>								
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-lg btn-block">LOGIN</button>
-                                v. 20220708
+                                <br>
+                                <div class="form-group" align="center">
+	                                <span class="tag badge badge-info" >
+	                                v. 2022 Jul 16 r1
+	                                </span>
+                                </div>
 
                             </form>
                         </div>
