@@ -485,7 +485,16 @@ var b = parseInt(count_month);
 				var emp_absent = workingData[0].sum_emp_absent;
 				var emp_leave = workingData[0].sum_emp_leave;
 				
-				$("#txt_working_day").text(payment == '0' ? actual_working + "/" + term_day : actual_working + "/" + working_day);
+				console.log("pay " + payment)
+				console.log("actual_working " + actual_working)
+				
+				if(payment == ''){
+					$("#txt_working_day").text('-');
+				}else{
+					$("#txt_working_day").text(payment == '1' ?  actual_working + "/" + working_day : actual_working + "/" + (term_day == '' ? '0' : term_day) );
+				}
+				
+				
 				$("#txt_working_hr").text(emp_working_hr.toFixed(2));
 				$("#txt_absent").text(emp_absent.toFixed(2));
 				$("#txt_leave").text(emp_leave.toFixed(2));		
