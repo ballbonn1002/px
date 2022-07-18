@@ -92,7 +92,7 @@
                          	<c:forEach var="test" items="${paymentTypeList}">
                        		<c:set var="counter" value="${counter+1}"/>
                          	<tr>
-                         		<c:if test="${test.sequence <= 8}">	
+                         		<c:if test="${test.type == 1}">	
 									<td style="min-width:140px">${test.payment_type_id}</td>
                          			<td style="min-width:170px">${test.payment_type_name}</td>
                          		</c:if>
@@ -111,7 +111,7 @@
                          	<c:forEach var="test" items="${paymentTypeList}">
                        		<c:set var="counter" value="${counter+1}"/>
                          	<tr>
-                         		<c:if test="${test.sequence > 8}">	
+                         		<c:if test="${test.type == 0}">	
 									<td style="min-width:140px">${test.payment_type_id}</td>
                          			<td style="min-width:170px">${test.payment_type_name}</td>
                          		</c:if>
