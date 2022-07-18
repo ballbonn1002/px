@@ -185,7 +185,8 @@ function numberWithCommas(x) {
 				var sumtotal2 = 0;
 				
 				for(var i=0; i<data[n].length; i++){
-					if(i < 8){
+					
+					if(data[n][i].type == 1){
 						title1 = data[n][i].payment_date;
 						amount1 = (numberWithCommas(Number(data[n][i].amount).toFixed(2)));
 						
@@ -204,7 +205,7 @@ function numberWithCommas(x) {
 			 				newSum1.innerHTML = sum1;
 			 			}
 					}
-					if(i >= 8){
+					if(data[n][i].type == 0){
 						title2 = data[n][i].payment_date;
 						amount2 = (numberWithCommas(Number(data[n][i].amount).toFixed(2)));
 						var newCell2 = tblBodyObj2.rows[i].insertCell(-1);

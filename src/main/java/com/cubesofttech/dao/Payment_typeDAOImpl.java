@@ -223,8 +223,10 @@ public class Payment_typeDAOImpl implements Payment_typeDAO{
 			try {
 				String sql = 
 							"SELECT payment_detail.payment_id, payment_detail.user_id, payment_detail.payment_type_id, "
-							+ "payment_detail.amount, payment_group.payment_date "
-							+ "FROM `payment_detail` JOIN payment ON payment_detail.payment_id = payment.payment_id "
+							+ "payment_detail.amount, payment_group.payment_date , payment_type.type "
+							+ "FROM `payment_detail` "
+							+ "JOIN payment_type ON payment_type.payment_type_id = payment_detail.payment_type_id "
+							+ "JOIN payment ON payment_detail.payment_id = payment.payment_id "
 							+ "JOIN payment_group ON payment.payment_group_id = payment_group.payment_group_id "
 							+ "WHERE payment_detail.user_id='"+user_id+"' AND payment_group.start_date >= '"+start_date+"' AND payment_group.end_date <= '"+end_date+"'";
 
