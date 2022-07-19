@@ -832,8 +832,12 @@ public class PayrollReportAction extends ActionSupport {
 			log.debug(year);
 			List<String> yearList = Arrays.asList(year.split("\\s*,\\s*"));
 			log.debug("yearList: " + yearList);
+			log.debug(yearList.get(yearList.size() - 1));
+			String yyy = yearList.get(yearList.size() - 1);
+			//log.debug(yearList[]);
 			//query code
-			List<Map<String, Object>> paymentChart = payment_groupDAO.paymentStatistics(yearList);
+			List<Map<String, Object>> paymentChart = payment_groupDAO.paymentStatistics(yyy);
+			
 					
             Gson gson = new Gson(); 
             String json = gson.toJson(paymentChart);
