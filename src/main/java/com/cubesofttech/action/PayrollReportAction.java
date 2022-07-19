@@ -897,16 +897,19 @@ public class PayrollReportAction extends ActionSupport {
 						Integer valInteger = Integer.parseInt((String)countUser.get(j).get("employee_count").toString());
 						Integer month_arrInteger = mon-1;
 							for (int month_iterator = month_arrInteger; month_iterator < 12 ; month_iterator++) {
-								Integer current_valueInteger = count_userList.get(dp_name.indexOf(departString)).get(month_iterator);
-								if (expression == 0) {
-									count_userList.get(dp_name.indexOf(departString)).set(month_iterator,current_valueInteger + valInteger);
-								}else {
-									count_userList.get(dp_name.indexOf(departString)).set(month_iterator,current_valueInteger - valInteger);
+								if (!(dp_name.indexOf(departString) < 0 || dp_name.indexOf(departString) >= count_userList.size())) {
+									Integer current_valueInteger = count_userList.get(dp_name.indexOf(departString)).get(month_iterator);
+									if (expression == 0) {
+										count_userList.get(dp_name.indexOf(departString)).set(month_iterator,current_valueInteger + valInteger);
+									}else {
+										count_userList.get(dp_name.indexOf(departString)).set(month_iterator,current_valueInteger - valInteger);
+									}
 								}
 							}						
-						}	
-					}	
+						}
+					}
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			count_userList = null;
@@ -917,7 +920,7 @@ public class PayrollReportAction extends ActionSupport {
 	public String getGraphData() {//findAll
 		try {
 			String Year = request.getParameter("year");
-			String allDepartmentId = request.getParameter("allDepartmentId");			
+			String allDepartmentId = request.getParameter("allDepartmentId");	
 			List<String> dp_name = Arrays.asList(allDepartmentId.split("\\s*,\\s*"));
 			List<List<Integer>> count_userList = new ArrayList<List<Integer>>();
 
@@ -950,11 +953,12 @@ public class PayrollReportAction extends ActionSupport {
 				}
 			}
 			
-			log.debug(count_userList);
+			//log.debug(count_userList);
 			count_userList = FormatGraph(count_userList, dp_name, countUserStartInYearByYear,0);
 			count_userList = FormatGraph(count_userList, dp_name, countUserEndInYearByYear,1);
 					
 			Map<String, Object> jsonMap = new HashMap<String, Object>();
+			//log.debug(count_userList);
 			for (String name : dp_name) {
 				jsonMap.put(name, count_userList.get(dp_name.indexOf(name)));
 			}
@@ -983,8 +987,48 @@ public class PayrollReportAction extends ActionSupport {
 		}
 		
 	}
+	
 	public String reportDepartment() {
 		try {
+			return SUCCESS;
+		} catch (Exception e) {
+			return ERROR;
+		}
+	}
+	
+	public String getDepartment() {
+		try {
+			List<Map<String, Object>> findAllDeparmentIdList  = departmentDAO.findAllList();
+			
+			Gson gson = new Gson(); 
+            String json = gson.toJson(findAllDeparmentIdList); 
+            request.setAttribute("json", json);		
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+		
+	}
+	
+	public String getDataMonthDepartmentStatistics() {
+		try {
+			String mYear = request.getParameter("year_pick");
+			String mDepart = request.getParameter("depart");
+			//List<String> department = Arrays.asList(mDepart.split("\\s*,\\s*"));
+			//log.debug(department);
+			log.debug(mYear);
+			
+			List<Map<String, Object>> getMonthStatistics = payment_groupDAO.getMonthStatic(mYear,mDepart);
+			request.setAttribute("GetMonthStatistics", getMonthStatistics);
+			
+			//log.debug(findMonth);
+			//log.debug(getMonthStatistics);
+			
+			Gson gson = new Gson(); 
+            String json = gson.toJson(getMonthStatistics); 
+            request.setAttribute("json", json);	
+			
 			return SUCCESS;
 		} catch (Exception e) {
 			return ERROR;
