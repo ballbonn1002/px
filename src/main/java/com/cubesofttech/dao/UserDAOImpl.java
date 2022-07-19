@@ -545,7 +545,7 @@ public class UserDAOImpl implements UserDAO {
 		List<Map<String, Object>> UserActive = null;
 
 		try {
-			String sql = "SELECT name,id,department_id,path FROM user WHERE enable = '1' ";
+			String sql = "SELECT name,id,department_id,path FROM user WHERE enable = '1' LIMIT 10,10";
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 			UserActive = query.list();
@@ -553,6 +553,49 @@ public class UserDAOImpl implements UserDAO {
 			e.printStackTrace();
 		}
 		return UserActive;
+	}
+	
+	public List<Map<String,Object>> AllUserEnableOffset(int limit,int offset,String search)
+	{
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Map<String, Object>> UserActive = null;
+
+		try {
+			String sql = "SELECT name,id,department_id,path FROM user WHERE enable = '1' ";
+			if(!search.isEmpty()) {
+				sql += " and lower(id) like '%"+search.toLowerCase()+"%' or lower(name) like '%"+search.toLowerCase()+"%' ";
+			}
+			sql += " LIMIT "+offset+","+limit+" ";
+			
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			UserActive = query.list();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
+		return UserActive;
+	}
+	
+	@Override
+	public long CountAllUserEnableOffset(String search)
+	{
+		Session session = this.sessionFactory.getCurrentSession();
+		long count = 0;
+		try {
+			String hql = " SELECT count(id) FROM User WHERE enable = '1' ";
+			
+			if(!search.isEmpty()) {
+				hql += " and lower(id) like '%"+search.toLowerCase()+"%' or lower(name) like '%"+search.toLowerCase()+"%' ";
+			}
+ 
+			Query query = session.createQuery(hql);
+
+			count = (long)query.list().get(0);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return count;
 	}
 
 	public List<Map<String,Object>> findUserEnablebyNameOrId(String name){
@@ -942,7 +985,7 @@ public class UserDAOImpl implements UserDAO {
 		Session session = this.sessionFactory.getCurrentSession();
 		List<User> userList = null;
 		try {
-			String sql = " SELECT id,name_en,department_id FROM `user`; " ;
+			String sql = " SELECT id,name,department_id FROM `user`; " ;
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 			userList = query.list();

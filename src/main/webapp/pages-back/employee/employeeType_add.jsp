@@ -75,8 +75,9 @@
         				<div class="form-group">
         					<label for="recipient-name" class="control-label">จำนวนวันต่องวด<span style="color:red;"> *</span></label>
         					<select id="" class="form-control show-tick ms search-select" name="term_day">
+        							<option value="0">วันทำงานจริง</option>
         						<c:forEach var="i" begin="1" end="31">
-        							<option value='${i}'><c:out value="${i}"/>&nbsp;วันทำงานจริง</option>
+        							<option value='${i}'><c:out value="${i}"/></option>
         						</c:forEach>
         					</select>
         				</div>

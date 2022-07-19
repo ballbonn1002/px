@@ -66,7 +66,9 @@
 }
 
 .bold-large-font{
-	font: normal normal bold 32px/43px Open Sans;
+	font-size: 32px ;
+	font-weight : 600;
+	
 }
 
 .dashboard-active {
@@ -193,7 +195,7 @@ function createTable(percentage,value,group,index) {
 		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Diversity_3</span>`;
 		  break;
 	  case "Business Unit Manager":
-		  icon_table = `<span class="material-symbols-outlined" style = "color : white">name</span>`;
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Manage_Accounts</span>`;
 		  break;
 	  case "Java Developer":
 		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Local_Cafe</span>`;
@@ -277,13 +279,13 @@ function createTable(percentage,value,group,index) {
 		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Running_With_Errors</span>`;
 		  break;
 	  case "ล่วงเวลา 1.5 เท่า":
-		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Work_History</span>`;
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">work_history</span>`;
 		  break;
 	  case "ล่วงเวลา 2 เท่า":
-		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Work_History</span>`;
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">work_history</span>`;
 		  break;
 	  case "ล่วงเวลา 3 เท่า":
-		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Work_History</span>`;
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">work_history</span>`;
 		  break;
 	  case "เงินเดือน":
 		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Payments</span>`;
@@ -292,13 +294,13 @@ function createTable(percentage,value,group,index) {
 		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Request_Page</span>`;
 		  break;
 	  case "กยศ":
-		  icon_table = `<span class="material-symbols-outlined" style = "color : white">name</span>`;
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">school</span>`;
 		  break;
 	  case "ภาษีหัก ณ ที่จ่าย":
 		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Receipt_Long</span>`;
 		  break;
 	  case "กองทุนสำรองเลี้ยงชีพ":
-		  icon_table = `<span class="material-symbols-outlined" style = "color : white">name</span>`;
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">wallet</span>`;
 		  break;
 	  case "เบิกค่าเดินทาง":
 		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Commute</span>`;
@@ -307,7 +309,7 @@ function createTable(percentage,value,group,index) {
 		  icon_table = `<span class="material-symbols-outlined" style = "color : white">New_Releases</span>`;
 		  break;
 	  default:
-		  icon_table = `<span class="material-symbols-outlined" style = "color : white">groups</span>`;
+		  icon_table = `<span class="material-symbols-outlined" style = "color : white">Equalizer</span>`;
 	}
 	
 	
@@ -324,7 +326,7 @@ function createTable(percentage,value,group,index) {
 				<div class="icon-box" style = "background-color : `+color+`">
 					`+icon_table+`
 				</div>
-				<div class = "bold-large-font color-blue">` + mockvalue + `</div>
+				<div class = "color-blue bold-large-font">` + mockvalue + `</div>
 			</div>
 			<div class = "footer d-flex justify-content-between align-items-center py-3">
 				<div class = "normal-font">` + group + `</div>
@@ -470,7 +472,7 @@ const drawChart = (element, data) => {
 		  					.style("display","flex")
 		  					.style("justify-content","center")
 		  					.style("align-items","center");
-		  const text = tooltip.append("p")	
+		  const text = tooltip.append("p")
 		  				.style("margin","auto")
 		  					
 		  const toggleArc = function(p){
@@ -490,7 +492,7 @@ const drawChart = (element, data) => {
 			    else {
 			    	tooltip
 			    	.style("opacity",0)
-			    	.style("display",none);
+			    	.style("display","none");
 			    }
     			
 			};

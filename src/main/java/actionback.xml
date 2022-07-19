@@ -560,6 +560,16 @@
 			<result name="success" type="tiles">report_worksum</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		<action name="getLeaveData"
+			class="com.cubesofttech.action.PayrollReportAction" method="getLeaveData">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="getWorkingReport"
+			class="com.cubesofttech.action.PayrollReportAction" method="getWorkingReport">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
 		
 		<action name="report_wages"
 			class="com.cubesofttech.action.PayrollReportAction" method="listUser">
@@ -748,6 +758,17 @@
 			<result name="success" type="tiles">report_payroll_2</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		<action name="payment_statistics"
+			class="com.cubesofttech.action.PayrollReportAction" method="">
+			<result name="success" type="tiles">payment_statistics</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="paymentStatistics2"
+			class="com.cubesofttech.action.PayrollReportAction" method="paymentStatistics">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
 		
 		<!-- BonusReport -->
 		

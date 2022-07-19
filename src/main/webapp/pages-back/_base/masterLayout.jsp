@@ -278,8 +278,10 @@
 <script src="/pages-back/assets/vendor/sweetalert/sweetalert.min.js"></script> <!-- SweetAlert Plugin Js --> 
 
 <script src="/pages-back/assets/bundles/mainscripts.bundle.js"></script>
-<script src="/pages-back/assets/js/pages/tables/jquery-datatable.js"></script>
+<!-- <script src="/pages-back/assets/js/pages/tables/jquery-datatable.js"></script> -->
 <script src="/pages-back/assets/js/pages/ui/dialogs.js"></script>
+
+<script	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 </body>
 </html>
 

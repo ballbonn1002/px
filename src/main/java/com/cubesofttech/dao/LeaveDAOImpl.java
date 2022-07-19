@@ -1340,7 +1340,7 @@ public class LeaveDAOImpl implements LeaveDAO {
 		List<Map<String, Object>> userleave = null;
 	
 		try {
-			String sql = "SELECT * FROM leaves WHERE leaves.user_id=:user AND MONTH(leaves.start_date) =:month AND MONTH(leaves.end_date) =:month "
+			String sql = "SELECT *,(select leave_type_name from leave_type where leave_type_id = leaves.leave_type_id) as leave_name FROM leaves WHERE leaves.user_id=:user AND MONTH(leaves.start_date) =:month AND MONTH(leaves.end_date) =:month "
 					+ "AND YEAR(leaves.start_date) =:year AND YEAR(leaves.end_date) =:year ";
 
 			SQLQuery query = session.createSQLQuery(sql);

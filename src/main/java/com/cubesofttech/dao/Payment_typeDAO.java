@@ -16,8 +16,8 @@ public interface Payment_typeDAO {
 	public List<Payment_type> findtype0() throws Exception;
 	public List<Payment_type> findByTypenFlag(String type,String flag) throws Exception;
 
-	public List<Payment_type> findAmount(String user_id , String start_date , String end_date) throws Exception;
-	 
+	public List<Map<String, Object>> findAmount(String user_id , String start_date , String end_date) throws Exception;
+	
 	 public List<Map<String, Object>> findAllList() throws Exception;
 	 
 	 public List<Payment_type> findByPaymentTypeId(String paymentTypeId) throws Exception;
@@ -32,5 +32,7 @@ public interface Payment_typeDAO {
 	 public List<Payment_type> search(String paymentTypeId) throws Exception;
 	 
 	 public List<Payment_type> listName() throws Exception;
+
+
 
 }

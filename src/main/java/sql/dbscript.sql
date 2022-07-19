@@ -231,3 +231,9 @@ ALTER TABLE `user_salary` ADD `position_id` VARCHAR(4) CHARACTER SET utf8mb4 COL
 
 --Update UserSalary 15/07/2022 ryu:
 ALTER TABLE `user_salary` CHANGE `description` `description` VARCHAR(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;
+
+--Update employee_type 18/07/2022 BEST:
+ALTER TABLE `employee_type` CHANGE `employee_type_id` `employee_type_id` BIGINT(20) NOT NULL AUTO_INCREMENT;
+
+--Update User 18/07/2022 film: ให้แก้ xampp\phpMyAdmin\libraries\config.default.php ค้นหา $cfg['ExecTimeLimit'] ให้แก้เป็น = 0 เพื่อกันปัญหา maximum time limit แล้ว query ข้อมูลได้ไม่หมด
+update user set end_date = CAST((select max(work_hours_time_work) from work_hours w where w.user_create = id) AS DATE) where enable = 0 AND end_date IS NULL;

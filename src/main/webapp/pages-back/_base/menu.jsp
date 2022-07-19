@@ -89,7 +89,7 @@
                                         <div class="mega-list">
                                             <ul class="list-unstyled">
                                                 <li><label>Chart</label></li>
-                                                <li><a href="#">Payment Statistics</a> </li>
+                                                <li><a href="payment_statistics">Payment Statistics</a> </li>
                                                 <li><a href="employeeReport">Employee Statistics</a> </li>
                                                 <li><a href="report_department">Department Statistics</a> </li>                                    
                                                 <li><a href="chart-jquery-knob.html">Jquery Knob</a> </li>

@@ -472,4 +472,28 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 		return paymentGroupList;
 	}
 
+	@Override
+	public List<Map<String, Object>> paymentStatistics(List<String> listOfYear) throws Exception {
+		List<Map<String, Object>> query_listMap = null;
+		Session session =  this.sessionFactory.getCurrentSession(); 
+		try {
+			String sql = ""; 
+	        for (int i = 0 ; i < listOfYear.size() ; i++) {
+	        	sql += "SELECT sum(payment.total_pay) as totol_pay \r\n"
+	        			+ "FROM payment_group \r\n"
+	        			+ "JOIN payment on payment.payment_group_id = payment_group.payment_group_id \r\n"
+	        			+ "WHERE year(payment_group.payment_date)='"+listOfYear.get(i)+"' GROUP BY month(payment_group.payment_date);";
+	        	
+	        }
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			query_listMap = query.list();
+			Log.debug(query_listMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return query_listMap;
+	}
+
 }

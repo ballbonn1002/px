@@ -66,7 +66,7 @@ text-align:center;
 							</span>
 						</span>
 					</h6>
-					<div></div>
+					
 				</div>
 					
 			</div><hr style="margin-top: -0.125rem;">

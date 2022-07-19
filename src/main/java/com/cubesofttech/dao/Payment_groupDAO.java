@@ -41,4 +41,6 @@ public interface Payment_groupDAO {
 	public List<Payment_group> searchByDate(String startDate,String endDate) throws Exception;
 	
 	public List<Payment_group> listForReportById(Integer payment_group_id) throws Exception;
+	
+	public List<Map<String, Object>> paymentStatistics(List<String> listOfYear) throws Exception;
 }
