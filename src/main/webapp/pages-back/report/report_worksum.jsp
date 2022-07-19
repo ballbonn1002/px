@@ -483,13 +483,10 @@ var b = parseInt(count_month);
 				var emp_working_day = workingData[0].sum_emp_working;
 				var emp_working_hr = workingData[0].sum_emp_working_hr;
 				var emp_absent = workingData[0].sum_emp_absent;
-				var emp_leave = workingData[0].sum_emp_leave;
-				
-				console.log("pay " + payment)
-				console.log("actual_working " + actual_working)
+				var emp_leave = workingData[0].sum_emp_leave;				
 				
 				if(payment == ''){
-					$("#txt_working_day").text('-');
+					$("#txt_working_day").text('').append('<a class="text-warning">Set employee type</a>');
 				}else{
 					$("#txt_working_day").text(payment == '1' ?  actual_working + "/" + working_day : actual_working + "/" + (term_day == '' ? '0' : term_day) );
 				}

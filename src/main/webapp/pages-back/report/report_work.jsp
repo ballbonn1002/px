@@ -242,7 +242,7 @@
 		 	       						var working_day = row.working_day;
 		 	       						var return_text = '';
 		 	       						if(payment == ''){
-		 	       							return_text = '-'
+		 	       							return_text = '<a class="text-warning">Set employee type</a>'
 		 	       						}else{
 		 	       							return_text = payment == '1' ?  actual_working + "/" + working_day : actual_working + "/" + (term_day == '' ? '0' : term_day);
 		 	       						}
