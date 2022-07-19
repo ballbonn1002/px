@@ -893,16 +893,19 @@ public class PayrollReportAction extends ActionSupport {
 						Integer valInteger = Integer.parseInt((String)countUser.get(j).get("employee_count").toString());
 						Integer month_arrInteger = mon-1;
 							for (int month_iterator = month_arrInteger; month_iterator < 12 ; month_iterator++) {
-								Integer current_valueInteger = count_userList.get(dp_name.indexOf(departString)).get(month_iterator);
-								if (expression == 0) {
-									count_userList.get(dp_name.indexOf(departString)).set(month_iterator,current_valueInteger + valInteger);
-								}else {
-									count_userList.get(dp_name.indexOf(departString)).set(month_iterator,current_valueInteger - valInteger);
+								if (!(dp_name.indexOf(departString) < 0 || dp_name.indexOf(departString) >= count_userList.size())) {
+									Integer current_valueInteger = count_userList.get(dp_name.indexOf(departString)).get(month_iterator);
+									if (expression == 0) {
+										count_userList.get(dp_name.indexOf(departString)).set(month_iterator,current_valueInteger + valInteger);
+									}else {
+										count_userList.get(dp_name.indexOf(departString)).set(month_iterator,current_valueInteger - valInteger);
+									}
 								}
 							}						
-						}	
-					}	
+						}
+					}
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			count_userList = null;
@@ -946,11 +949,12 @@ public class PayrollReportAction extends ActionSupport {
 				}
 			}
 			
-			log.debug(count_userList);
+			//log.debug(count_userList);
 			count_userList = FormatGraph(count_userList, dp_name, countUserStartInYearByYear,0);
 			count_userList = FormatGraph(count_userList, dp_name, countUserEndInYearByYear,1);
 					
 			Map<String, Object> jsonMap = new HashMap<String, Object>();
+			//log.debug(count_userList);
 			for (String name : dp_name) {
 				jsonMap.put(name, count_userList.get(dp_name.indexOf(name)));
 			}
