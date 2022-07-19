@@ -916,7 +916,7 @@ public class PayrollReportAction extends ActionSupport {
 	public String getGraphData() {//findAll
 		try {
 			String Year = request.getParameter("year");
-			String allDepartmentId = request.getParameter("allDepartmentId");			
+			String allDepartmentId = request.getParameter("allDepartmentId");	
 			List<String> dp_name = Arrays.asList(allDepartmentId.split("\\s*,\\s*"));
 			List<List<Integer>> count_userList = new ArrayList<List<Integer>>();
 
@@ -983,8 +983,48 @@ public class PayrollReportAction extends ActionSupport {
 		}
 		
 	}
+	
 	public String reportDepartment() {
 		try {
+			return SUCCESS;
+		} catch (Exception e) {
+			return ERROR;
+		}
+	}
+	
+	public String getDepartment() {
+		try {
+			List<Map<String, Object>> findAllDeparmentIdList  = departmentDAO.findAllList();
+			
+			Gson gson = new Gson(); 
+            String json = gson.toJson(findAllDeparmentIdList); 
+            request.setAttribute("json", json);		
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+		
+	}
+	
+	public String getDataMonthDepartmentStatistics() {
+		try {
+			String mYear = request.getParameter("year_pick");
+			String mDepart = request.getParameter("depart");
+			//List<String> department = Arrays.asList(mDepart.split("\\s*,\\s*"));
+			//log.debug(department);
+			log.debug(mYear);
+			
+			List<Map<String, Object>> getMonthStatistics = payment_groupDAO.getMonthStatic(mYear,mDepart);
+			request.setAttribute("GetMonthStatistics", getMonthStatistics);
+			
+			//log.debug(findMonth);
+			//log.debug(getMonthStatistics);
+			
+			Gson gson = new Gson(); 
+            String json = gson.toJson(getMonthStatistics); 
+            request.setAttribute("json", json);	
+			
 			return SUCCESS;
 		} catch (Exception e) {
 			return ERROR;
