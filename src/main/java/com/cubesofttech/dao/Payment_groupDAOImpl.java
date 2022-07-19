@@ -229,21 +229,6 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 	}
 	
 	@Override
-	public List<Map<String, Object>> monthSalary(String mYear, String mDepart) throws Exception {
-		Session session =  this.sessionFactory.getCurrentSession(); 
-		List<Map<String, Object>> findMonth = null;
-		try {
-			String sql = "SELECT payment_group.payment_group_id, payment_group.name, EXTRACT(YEAR FROM payment_group.payment_date) AS year, EXTRACT(MONTH FROM payment_group.payment_date) AS month, SUM(payment.total_pay) AS sum_total_pay, user.position_id, user.department_id FROM payment_group LEFT JOIN payment ON payment_group.payment_group_id = payment.payment_group_id LEFT JOIN user ON payment.user_id = user.id LEFT JOIN department ON department.department_id = user.department_id WHERE department.department_id = '"+mDepart+"' AND EXTRACT(YEAR FROM payment_group.payment_date) = '"+mYear+"' GROUP BY payment.payment_group_id";
-			SQLQuery query = session.createSQLQuery(sql);
-			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
-			findMonth = query.list();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return findMonth; 
-	}
-	
-	@Override
 	public List<Map<String, Object>> multiSalaryMonth(String mYear, String mDepart) throws Exception {
 		Session session =  this.sessionFactory.getCurrentSession(); 
 		List<Map<String, Object>> multiSelectMonth = null;
@@ -364,7 +349,34 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 		}
 		return multiSelectYear; 
 	}
-
+	
+	@Override
+	public List<Map<String, Object>> getMonthStatic(String mYear, String mDepart) throws Exception {
+		Session session =  this.sessionFactory.getCurrentSession(); 
+		List<Map<String, Object>> findMonthStatic = null;
+		
+		try {
+			String[] strArray = null;
+			strArray = mDepart.split(",");
+			
+			String sql = "SELECT payment_group.payment_group_id, payment_group.name, EXTRACT(YEAR FROM payment_group.payment_date) AS year, EXTRACT(MONTH FROM payment_group.payment_date) AS month, SUM(payment.total_pay) AS sum_total_pay, user.department_id FROM payment_group LEFT JOIN payment ON payment_group.payment_group_id = payment.payment_group_id AND EXTRACT(YEAR FROM payment_group.payment_date) = '"+mYear+"' LEFT JOIN user ON payment.user_id = user.id LEFT JOIN department ON department.department_id = user.department_id WHERE department.department_id = '"+strArray[0]+"'";
+			for (int i = 0; i< strArray.length; i++){
+				sql += " OR department.department_id = '"+strArray[i]+"'";
+			}
+			sql += "GROUP BY month, year, user.department_id";
+			
+			//String sql = "SELECT payment_group.payment_group_id, payment_group.name, EXTRACT(YEAR FROM payment_group.payment_date) AS year, EXTRACT(MONTH FROM payment_group.payment_date) AS month, SUM(payment.total_pay) AS sum_total_pay, user.department_id FROM payment_group LEFT JOIN payment ON payment_group.payment_group_id = payment.payment_group_id AND EXTRACT(YEAR FROM payment_group.payment_date) = '"+mYear+"' LEFT JOIN user ON payment.user_id = user.id LEFT JOIN department ON department.department_id = user.department_id WHERE department.department_id = 'AE' OR department.department_id = 'AE' OR department.department_id = 'GP' OR department.department_id = 'HR' OR department.department_id = 'IN' OR department.department_id = 'IT' OR department.department_id = 'MA' OR department.department_id = 'MM' OR department.department_id = 'MS' OR department.department_id = 'OP' GROUP BY month, year, user.department_id";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			findMonthStatic = query.list();
+		
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return findMonthStatic;
+	}
 
 	@Override
 	public List<Payment_group> testList(Integer payment_group_id) throws Exception {
@@ -461,18 +473,15 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 	}
 
 	@Override
-	public List<Map<String, Object>> paymentStatistics(List<String> listOfYear) throws Exception {
+	public List<Map<String, Object>> paymentStatistics(String year) throws Exception {
 		List<Map<String, Object>> query_listMap = null;
 		Session session =  this.sessionFactory.getCurrentSession(); 
 		try {
 			String sql = ""; 
-	        for (int i = 0 ; i < listOfYear.size() ; i++) {
-	        	sql += "SELECT sum(payment.total_pay) as totol_pay \r\n"
-	        			+ "FROM payment_group \r\n"
-	        			+ "JOIN payment on payment.payment_group_id = payment_group.payment_group_id \r\n"
-	        			+ "WHERE year(payment_group.payment_date)='"+listOfYear.get(i)+"' GROUP BY month(payment_group.payment_date);";
-	        	
-	        }
+	         sql="SELECT sum(payment.total_pay) as total_pay\r\n"
+	         		+ "FROM payment_group \r\n"
+	         		+ "JOIN payment on payment.payment_group_id = payment_group.payment_group_id\r\n"
+	         		+ "WHERE year(payment_group.payment_date)='"+year+"'  GROUP BY month(payment_group.payment_date);";
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 			query_listMap = query.list();

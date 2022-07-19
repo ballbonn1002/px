@@ -581,6 +581,8 @@
 			<result name="success">/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		
+		<!-- report_salary -->
 		<action name="report_salary_depart"
 			class="com.cubesofttech.action.PayrollReportAction" method="reportSalaryDepart">
 			<result name="success" type="tiles">report_salary_depart</result>
@@ -825,6 +827,16 @@
 		<action name="report_department"
 			class="com.cubesofttech.action.PayrollReportAction" method="reportDepartment">
 			<result name="success" type="tiles">report_department</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="getDepart"
+			class="com.cubesofttech.action.PayrollReportAction" method="getDepartment">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="pickDataMonth"
+			class="com.cubesofttech.action.PayrollReportAction" method="getDataMonthDepartmentStatistics">
+			<result name="success">/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
 			
