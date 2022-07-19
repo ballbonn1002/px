@@ -28,11 +28,11 @@ public interface Payment_groupDAO {
 	
 	public List<Map<String, Object>> findYear() throws Exception;
 	
-	public List<Map<String, Object>> monthSalary(String mYear, String mDepart) throws Exception;
-	
 	public List<Map<String, Object>> multiSalaryMonth(String mYear, String mDepart) throws Exception;
 	
 	public List<Map<String, Object>> multiSalaryYear(String mYear, String mDepart) throws Exception;
+	
+	public List<Map<String, Object>> getMonthStatic(String mYear, String mDepart) throws Exception;
 	
 	public List<Payment_group> testList(Integer payment_group_id) throws Exception;
 	
