@@ -216,7 +216,7 @@ ALTER TABLE `user_payment_config`
 
 -- 30/06/2022 Eric Update payment_group:
 ALTER TABLE payment_group CHANGE name name VARCHAR(64) NULL
-  
+
 -- Update user 05/07/2022 Job:
 UPDATE `user` SET `department_id` = 'IT', `position_id` = 'SA', `time_create` = NULL, `time_update` = NULL, `password_update` = NULL, `last_login_failed_time` = NULL WHERE `user`.`id` = 'test.data1';
 
@@ -245,3 +245,6 @@ update user set end_date = CAST((select max(work_hours_time_work) from work_hour
 ALTER TABLE `sys_role` CHANGE `sys_role_id` `sys_role_id` BIGINT(20) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `permission` CHANGE `permission_id` `permission_id` BIGINT(20) NOT NULL AUTO_INCREMENT;
 
+--Update UserSalary 19/07/2022 ryu:
+
+ALTER TABLE `user_salary` CHANGE `user_salary_id` `user_salary_id` BIGINT(20) NOT NULL AUTO_INCREMENT;

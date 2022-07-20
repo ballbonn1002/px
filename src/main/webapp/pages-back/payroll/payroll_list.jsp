@@ -305,18 +305,28 @@ $(document).ready(function() {
 	};
 
 function call_submit() {
-	var getUserList = [];
+	let getUserList = [];
 	$('#getUser tr').each(function() {
 		$(this).find(".checkbox-tick:checked").each(function() {
-			var values = [];
-			//console.log($(this).closest("tr").find('td.getEmpId').text());
-			values.push($(this).closest("tr").find('td.getId').text());
-			getUserList.push(values.join(", "));
+			let values = { 'name' :  $(this).closest("tr").find('td.getId').text()};
+			getUserList.push(values);
 		});
 	});
-	console.log(getUserList);
 	
-	location.href = "payroll_form?userList=" + getUserList;
+	$.ajax({
+		method : "POST",
+		url: "addPayroll",
+		type: "JSON",
+		traditional: true,
+		data : {
+			"userList" : JSON.stringify(getUserList)
+		},
+		success : function(data){
+			data = JSON.parse(data);
+			location.href = "payroll_form?paymentGroupId=" + data.id;
+		}
+	})
+	
 };
 </script>
 
