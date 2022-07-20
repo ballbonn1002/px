@@ -16,6 +16,8 @@
 <c:set var="now" value="<%=new java.util.Date()%>" />
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+	
+
 <!-- VENDOR CSS -->
 <link rel="stylesheet"
 	href="pages-back/assets/vendor/bootstrap/css/bootstrap.min.css">
@@ -82,18 +84,18 @@ span {
 						
 						<td>
 							<span class="text-secondary">OT 1.5 (hr)</span>
-							<input type="text" class="form-control" id="ot15" value="0.00">
+							<input type="text" class="form-control" id="ot15" value="0:00">
 						</td>
 						
 					</tr>
 					<tr>
 						<td>
 							<span class="text-secondary">OT 2 (hr)</span>
-							<input type="text" class="form-control" id="ot2" value="0.00">
+							<input type="text" class="form-control" id="ot2" value="0:00">
 						</td>
 						<td>
 							<span class="text-secondary">OT 3 (hr)</span>
-							<input type="text" class="form-control" id="ot3" value="0.00">
+							<input type="text" class="form-control" id="ot3"  value="0:00">
 						</td>
 					</tr>
 					
@@ -275,6 +277,7 @@ span {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
+
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
