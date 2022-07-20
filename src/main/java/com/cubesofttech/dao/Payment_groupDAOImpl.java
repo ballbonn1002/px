@@ -1,8 +1,12 @@
 package com.cubesofttech.dao;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -10,13 +14,16 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.jfree.util.Log;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.cubesofttech.action.PaymentTypeAction;
 import com.cubesofttech.model.Payment_group;
 
 @Repository
 public class Payment_groupDAOImpl implements Payment_groupDAO{
+	private static final Logger log = Logger.getLogger(PaymentTypeAction.class);
 	@Autowired
     private SessionFactory sessionFactory;
 	
@@ -473,24 +480,33 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 	}
 
 	@Override
-	public List<Map<String, Object>> paymentStatistics(String year) throws Exception {
-		List<Map<String, Object>> query_listMap = null;
+	public JSONArray paymentStatistics(String year) throws Exception {
+		List<String> List = new ArrayList<String>();
+		List<Map<String, Object>>  query_listMap = null;
+		JSONArray json_array = new JSONArray();
 		Session session =  this.sessionFactory.getCurrentSession(); 
 		try {
-			String sql = ""; 
-	         sql="SELECT sum(payment.total_pay) as total_pay\r\n"
-	         		+ "FROM payment_group \r\n"
-	         		+ "JOIN payment on payment.payment_group_id = payment_group.payment_group_id\r\n"
-	         		+ "WHERE year(payment_group.payment_date)='"+year+"'  GROUP BY month(payment_group.payment_date);";
+			log.debug(year);
+			String sql = "SELECT sum(payment.total_pay) as total_pay FROM payment_group JOIN payment on payment.payment_group_id = payment_group.payment_group_id WHERE year(payment_group.payment_date)='"+year+"' GROUP BY month(payment_group.payment_date);";	
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 			query_listMap = query.list();
-			Log.debug(query_listMap);
+			Iterator itr = query_listMap.iterator();
+			int i = 0;
+			while(itr.hasNext()){
+				Map<String, Object> map  = (Map<String, Object>) itr.next();
+					JSONArray array_cell = new JSONArray();
+					Object value = map.get("total_pay");
+				    array_cell.put(value);
+				    json_array.put(array_cell);
+				
+				i++;
+				}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return query_listMap;
+		return json_array;
 	}
 
 }
