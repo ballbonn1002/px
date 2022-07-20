@@ -216,7 +216,7 @@ ALTER TABLE `user_payment_config`
 
 -- 30/06/2022 Eric Update payment_group:
 ALTER TABLE payment_group CHANGE name name VARCHAR(64) NULL
-  
+
 -- Update user 05/07/2022 Job:
 UPDATE `user` SET `department_id` = 'IT', `position_id` = 'SA', `time_create` = NULL, `time_update` = NULL, `password_update` = NULL, `last_login_failed_time` = NULL WHERE `user`.`id` = 'test.data1';
 
@@ -232,7 +232,19 @@ ALTER TABLE `user_salary` ADD `position_id` VARCHAR(4) CHARACTER SET utf8mb4 COL
 --Update UserSalary 15/07/2022 ryu:
 ALTER TABLE `user_salary` CHANGE `description` `description` VARCHAR(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;
 
+-- UAT 2022 July 16
+
+ --Update employee_type 18/07/2022 BEST:
+ALTER TABLE `employee_type` CHANGE `employee_type_id` `employee_type_id` BIGINT(20) NOT NULL AUTO_INCREMENT;
+
+--Update User 18/07/2022 film: ให้แก้ xampp\phpMyAdmin\libraries\config.default.php ค้นหา $cfg['ExecTimeLimit'] ให้แก้เป็น = 0 เพื่อกันปัญหา maximum time limit แล้ว query ข้อมูลได้ไม่หมด
+update user set end_date = CAST((select max(work_hours_time_work) from work_hours w where w.user_create = id) AS DATE) where enable = 0 AND end_date IS NULL;
+
+
+--Update  18/07/2022 TAN:
+ALTER TABLE `sys_role` CHANGE `sys_role_id` `sys_role_id` BIGINT(20) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `permission` CHANGE `permission_id` `permission_id` BIGINT(20) NOT NULL AUTO_INCREMENT;
+
 --Update UserSalary 19/07/2022 ryu:
 
 ALTER TABLE `user_salary` CHANGE `user_salary_id` `user_salary_id` BIGINT(20) NOT NULL AUTO_INCREMENT;
-

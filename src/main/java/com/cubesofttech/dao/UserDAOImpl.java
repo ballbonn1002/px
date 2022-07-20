@@ -46,7 +46,7 @@ public class UserDAOImpl implements UserDAO {
 		Session session = this.sessionFactory.getCurrentSession();
 		List<User> userList = null;
 		try {
-			String sql = "SELECT * FROM user" ; 
+			String sql = "SELECT * FROM `user` ORDER BY id ASC;" ; 
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 			userList = query.list();

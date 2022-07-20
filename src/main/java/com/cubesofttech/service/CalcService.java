@@ -371,11 +371,15 @@ public class CalcService {
 	}
 	
 	
-	public Double calculateOT(String userId,Double Otcount,Double otMulitple) throws Exception{
+	public Double calculateOT(String userId,String Otcount,Double otMulitple) throws Exception{
 		Double SalaryOT = null;
 		Double SalaryPerHour = calculateSalaryPerHour(userId);
+		String[] arrOftime = Otcount.split(":");
+		Double Otcount_hour = Double.parseDouble(arrOftime[0]);
+		Double Otcount_min = (Double.parseDouble(arrOftime[1]))/60;
+		
 		try {
-			SalaryOT = SalaryPerHour * otMulitple * Otcount;
+			SalaryOT = SalaryPerHour * otMulitple * (Otcount_hour+Otcount_min);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

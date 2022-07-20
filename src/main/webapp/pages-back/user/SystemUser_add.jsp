@@ -5,31 +5,27 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="/WEB-INF/tlds/permission.tld" prefix="perm"%>
-<c:set var="now" value="<%=new java.util.Date()%>" />
-<fmt:formatDate value="${bean.date}" pattern="dd-MM-yyyy" />
-<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-<link
-	href="../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css"
-	rel="stylesheet" type="text/css" />
-<script src="../assets/global/plugins/jquery.min.js"
-	type="text/javascript"></script>
-<script
-	src="../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js"
-	type="text/javascript"></script>
-<script
-	src="../assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js"
-	type="text/javascript"></script>
-<script src="../assets/pages/scripts/ui-sweetalert.min.js"
-	type="text/javascript"></script>
-<link
-	href="../assets/global/plugins/bootstrap-sweetalert/sweetalert.css"
-	rel="stylesheet" type="text/css" />
-	<script src="assets/bundles/libscripts.bundle.js"></script>    
-<script src="assets/bundles/vendorscripts.bundle.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" type="text/css" />
+<!-- VENDOR CSS -->
+<link rel="stylesheet" href="pages-back/assets/vendor/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="pages-back/assets/vendor/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="pages-back/assets/vendor/table-dragger/table-dragger.min.css">
+<!-- MAIN CSS -->
+<link rel="stylesheet" href="pages-back/assets/css/main.css">
+<link rel="stylesheet" href="pages-back/assets/css/color_skins.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css">
 <style>
 input[type="checkbox"] {
 	accent-color: #0275d8;
 }
+
+.select2-container .select2-selection--single {
+        height: 36px;
+        border-color: #C2CAD8 !important;
+    }
 </style>
 
 <div class="block-header">
@@ -67,20 +63,20 @@ input[type="checkbox"] {
 				<div class="row">
 					<div class="col-6 ">
 						<div class="form-group">
-								<label for="recipient-name" class="control-label">UserID<span style="color:red;"> *</span></label> 
+								<label for="recipient-name" class="control-label">User ID<span style="color:red;"> *</span></label> 
 								<div class="input-group mb-3">
-									<input type="text" id="sysuserID" name="IDuser" class="form-control" value="${sysuserList.sys_user_id}">  
+									<input type="text" id="sysuserID" name="IDuser" class="form-control" pattern="[A-Za-z0-9.]{1,}" value="${sysuserList.sys_user_id}">  
                                 </div>  
                               </div>
                           </div>
                           <div class="col-6">
 						<div class="form-group">
 								<label for="recipient-name" class="control-label">Role<span style="color:red;"> *</span></label> 
-								<select id="userRole" class="form-control show-tick ms search-select" name="user_role">
-												<option disabled selected hidden >เลือก</option>
-												<c:forEach var="role" items="${roleList}">	
-													<option value="${role.id}"
-														<c:if test="${sysuserList.sys_role_id eq role.id }"> selected </c:if>>${role.id}</option>
+								<select id="userRole" class="js-example-basic-multiple-limit" style="width: 100%;" name="user_role">
+												<option disabled selected hidden selected = "selected"> </option>
+												<c:forEach var="sysrole" items="${sysroleList}">	
+													<option value="${sysrole.name}"
+														<c:if test="${sysuserList.sys_role_id eq sysrole.name }"> selected </c:if>>${sysrole.name}</option>
 												</c:forEach>
 									</select>
 						</div>
@@ -101,17 +97,13 @@ input[type="checkbox"] {
 							<div class="form-group">		
 								<label for="recipient-name" class="control-label" style="margin-top: 5px;">Employee</label>
 								<div class="input-group mb-3">	
-									<select id="username"  name="user_name" class="form-control show-tick ms search-select select2me">
-											 	<option disabled hidden selected = "selected" >เลือก</option> 
+									<select id="username"  name="user_name" class="js-example-basic-multiple-limit1" style="width: 100%;">
+											 	<option disabled hidden selected = "selected" > </option>  
 												 <c:forEach var="user" items="${userList}">	
 													<option value="${user.id}"
 														<c:if test="${sysuserList.user_id eq user.id }"> selected </c:if>>${user.id}</option>
 												</c:forEach>
 									</select>
-								  	<div class="input-group-append">
-                                    	<button id="reset" class="btn btn-default" type="button">x</button>
-                                	</div> 
-
 									</div>
 							</div>
 							</div>
@@ -124,7 +116,8 @@ input[type="checkbox"] {
 							<div class="col-6">
 							<div class="form-group" >
 								<label for="recipient-name" class="control-label" style="margin-top: 5px;">Email</label> 
-								 <input id="email" type="email" name="user_email"  class="form-control"  value="${sysuserList.email}" autocomplete="off">
+								 <input id="email" type="email" name="user_email"  class="form-control email" placeholder="example@example.com"  
+								 pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$" value="${sysuserList.email}">
 							</div>
 							
 							  <input type="checkbox"  id="userIsactive" name="user_isactive"  value="${sysuserList.is_active}" 
@@ -137,7 +130,8 @@ input[type="checkbox"] {
 					<div class="col-6">
 						<div class="form-group">
 								<label for="recipient-name" class="control-label" style="margin-top: 5px;">Phone</label> 
-								<input id="tel" type="text" name="user_tel" class="form-control" value="${sysuserList.phone}" autocomplete="off">
+								<input id="tel" type="text" name="user_tel" class="form-control mobile-phone-number" 
+								pattern="[0-9]{10}" maxlength="10" value="${sysuserList.phone}">
 						</div>
 					</div>
 				</div>
@@ -147,7 +141,6 @@ input[type="checkbox"] {
 								</div> 
 			</div>
 			<hr>
-
 		<div class="portlet-title" style = "padding-bottom: 30px; padding-top: 15px; padding-left: 13px;">
 			<div class="caption">
 				<h5>ตั้งรหัสผ่าน</h5>
@@ -164,14 +157,12 @@ input[type="checkbox"] {
 			<div id="pass">
 				   	<div class="form-group">
                         	<label for="" class="control-label">Password</label>
-                             	<input type="password" class="form-control"  id="password"
-                                    name="password" placeholder="Password" value="${sysuserList.password}">
+                             	<input type="password" class="form-control"  id="password" name="password" placeholder="Password" value="${sysuserList.password}">
                       </div>
  				
 				   <div class="form-group">
                         <label for="" class="control-label">Confirm Password</label>
-                             <input type="password" class="form-control" id="password_c"
-                                    name="password_confirm" placeholder="Password" value="${sysuserList.password}">
+                             <input type="password" class="form-control" id="password_c" name="password_confirm" placeholder="Password" value="${sysuserList.password}">
                    </div>
                    
                    <div id="notsame" style="color:#E7505A; text-color::#E7505A; display:none;">
@@ -192,10 +183,8 @@ input[type="checkbox"] {
                       	</div>
                 </div>
 				</div>
-
 								    </div>
 								   </div>
-							   
 							    <div  style="text-align: right; margin-top: 3rem; margin-bottom: 1.5rem;">
 									<a id="edit" type="reset" class="btn btn-secondary" href="SystemUser_list" style="width: 8%;">ยกเลิก</a>
 									<button id="sub" type="submit" class="btn btn-success" style="width: 8%;" disabled>บันทึก</button>
@@ -210,8 +199,21 @@ input[type="checkbox"] {
 			</div>
 		</div>	
 	</div>
-
-<!-- END FORM-->
+<script>
+$(document).ready(function() {
+	$(".js-example-basic-multiple-limit1").select2({
+		dropdownAutoWidth : true,
+	    placeholder: "เลือก",
+	    allowClear: true
+	});
+	
+	$(".js-example-basic-multiple-limit").select2({
+		dropdownAutoWidth : true,
+	    placeholder: "เลือก",
+	    allowClear: false
+	});
+});
+</script>
 <script>
  $(document).ready(function(){
 	 var sysuserID = $('#sysuserID').val();
@@ -282,7 +284,7 @@ $("#submit").click(function () {
 			//console.log(role);
 			//console.log(value);
 			
-			if(value==null){
+			if(value == null){
 				$('#email').empty();
 				$('#name').empty();
 				$('#tel').empty();

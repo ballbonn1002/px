@@ -72,7 +72,7 @@
 					<div class="col-md-3">
 						<select class="select2 form-control" style="width: 100%" id="user" name="user">
 							<c:forEach var="user" items="${UsersList}" varStatus="status">
-								<option value="${user.id }">${user.name}</option>
+								<option value="${user.id }">${user.department_id} - ${user.empoyee_id} ${user.name} </option>
 							</c:forEach>
 						</select>
 					</div>
@@ -358,13 +358,14 @@ var b = parseInt(count_month);
  	                       "targets": 7,
  	                       "render": function (data, type, row) {
  	                    	   if(data == '0'){
- 	                    		  return '<button class="btn btn-sm btn-warning">Waiting for Approving</button>'; 
+ 	                    		  
+ 	                    		  return '<span class="badge badge-warning">Waiting for Approving</span>'; 
  	                    	   }
  	                    	   if(data == '1'){
-  	                    		  return '<button class="btn btn-sm btn-success">Approved</button>'; 
+  	                    		  return '<span class="badge badge-success">Approved</span>'; 
   	                    	   }
  	                    	   if(data == '2'){
-   	                    		  return '<button class="btn btn-sm btn-danger">Reject</button>'; 
+   	                    		  return '<span class="badge badge-danger">Reject</span>'; 
    	                    	   }
  	 									
  	                         }
@@ -483,9 +484,15 @@ var b = parseInt(count_month);
 				var emp_working_day = workingData[0].sum_emp_working;
 				var emp_working_hr = workingData[0].sum_emp_working_hr;
 				var emp_absent = workingData[0].sum_emp_absent;
-				var emp_leave = workingData[0].sum_emp_leave;
+				var emp_leave = workingData[0].sum_emp_leave;				
 				
-				$("#txt_working_day").text(payment == '0' ? actual_working + "/" + term_day : actual_working + "/" + working_day);
+				if(payment == ''){
+					$("#txt_working_day").text('').append('<a class="text-warning">Set employee type</a>');
+				}else{
+					$("#txt_working_day").text(payment == '1' ?  actual_working + "/" + working_day : actual_working + "/" + (term_day == '' ? '0' : term_day) );
+				}
+				
+				
 				$("#txt_working_hr").text(emp_working_hr.toFixed(2));
 				$("#txt_absent").text(emp_absent.toFixed(2));
 				$("#txt_leave").text(emp_leave.toFixed(2));		

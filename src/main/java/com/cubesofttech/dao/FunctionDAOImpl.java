@@ -93,7 +93,7 @@ public class FunctionDAOImpl implements FunctionDAO {
 		try {
 			StringBuilder sql = new StringBuilder();
 			sql.append("select\n");
-			sql.append("id,name,payment,term,term_day,\n");
+			sql.append("id,name,ifnull(payment,'') payment,ifnull(term,'') term,ifnull(term_day,'') term_day,\n");
 			sql.append("(case when (select e.payment from user u left join employee_type e on e.employee_type_id = u.employee_type_id where id = :userId ) = 0 then\n");
 			sql.append("((select e.term_day from user u left join employee_type e on e.employee_type_id = u.employee_type_id where id = :userId )) else sum(isWorking) end) as actual_working_day,\n");
 			sql.append("ifnull(sum(isWorkingDay),0) as actual_working_per_month,\n");

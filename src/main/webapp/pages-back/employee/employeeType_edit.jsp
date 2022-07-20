@@ -79,7 +79,7 @@
         					<select id="" class="form-control show-tick ms search-select" name="term_day">
         							<option value="0">วันทำงานจริง</option>
         						<c:forEach var="i" begin="1" end="31">
-        							<option value='${i}' <c:if test="${emptype.term_day == i}">selected</c:if>><c:out value="${i}"/>&nbsp;วันทำงานจริง</option>
+        							<option value='${i}'><c:out value="${i}"/></option>
         						</c:forEach>
         					</select>
         				</div>

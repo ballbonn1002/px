@@ -273,7 +273,7 @@ vertical-align: middle !important;
 										<div class="col-sm-3">
 											<div class="form-group">
 												<label for="recipient-name" class="control-label" style="padding-left: 12px;">ประกันสังคม</label>
-												<input type="text" name="social" class="form-control"  value="${payment_groupList[0].social_security }" style="border:none; background-color:transparent;" readonly />
+												<input type="text" name="social" class="form-control"  value="${payment_groupList[0].social_security } %" style="border:none; background-color:transparent;" readonly />
 											</div>
 										</div>
 										<div class="col-sm-3">
@@ -559,12 +559,10 @@ $(document).ready(function(){
 	    }
 	  });
 });
-	
+          
           var x = $('#table2').find('tr.tbody').length
           console.log(x);
-          $('#employee').val(x);
-	
-
+          $('#employee').val(x+ " ราย");
 	
 
 </script>

@@ -94,66 +94,134 @@
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 	
+	<!-- <script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-base.min.js"></script>  -->
+	
 <script>
-var pick_year = $("#year_pick").val();
-console.log(pick_year);
-$.ajax({
-	url : "pickDataMonth",
-	method : "POST",
-	type : "JSON",
-	data : {
-		"year_pick" : pick_year,
-	},
-	success : function(data) {
-	}
-})
+var depart_id = [];
+var myChart = null;
+const department_color = {  "AE":"#dc3545",
+							"GP":"#9360f7",
+							"HR":"#ff9ca5",
+							"IN":"#28a745",
+							"IT":"#ff66bf",
+							"MA":"#e7d2ac",
+							"MM":"#b38805",
+							"MS":"#77a7ff",
+							"OP":"#ffc107", }
+
+function getDepart_id(){
+	$.ajax({
+		url: "getDepart",
+		method: "POST",
+		type: "JSON",
+		data: {},
+			success:function(data){
+				
+				data.forEach(function(dp_name,index){
+					depart_id.push(dp_name["department_id"])
+				})
+				depart_id.sort()
+				console.log(depart_id);
+				generate_graph(data);
+				yearPick()
+				//console.log(myChart);
+				
+				//generateBarChart()
+
+			}
+	})
+}
 
 function yearPick(){
 	var pick_year = $("#year_pick").val();
-	console.log(pick_year);
+	//console.log(pick_year);
+	console.log(depart_id.join(','))
 	$.ajax({
 		url : "pickDataMonth",
 		method : "POST",
 		type : "JSON",
 		data : {
 			"year_pick" : pick_year,
+			"depart" : depart_id.join(','),
 		},
 		success : function(data) {
+			console.log(data);
+			let g_data = generate_data(data);
+			myChart.data.datasets = g_data;
+			myChart.update();
+			//console.log(data.month);
+			
 		}
 	})
 }
 
-$(document).ready(function() {
+function generate_data(data_graph){
+	var department = [];
+	var dataset = [];
+	
+	for(let i = 0; i < depart_id.length; i++){
+		var buffer = [0,0,0,0,0,0,0,0,0,0,0,0];
+		//console.log(buffer);
+		department.push(buffer);
+	}
+	
+	data_graph.forEach(function(data_g){
+		var ind = depart_id.indexOf(data_g.department_id);
+		var ind_mnt = data_g.month-1;
+		//console.log(ind);
+		//console.log(ind_mnt);
+		
+		department[ind][ind_mnt] = data_g.sum_total_pay;
+	})
+	for(let i = 0; i < department.length; i++){
+		dataset.push({ 
+			label: depart_id[i],
+  			data: department[i],
+  			borderColor: department_color[depart_id[i]],
+  			backgroundColor: department_color[depart_id[i]],
+  			fill: false
+		})
+	}
+	return dataset;
+}
+
+function generate_graph(data_graph){
 	var xValues = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-	new Chart("myChart", {
+	//var departValue = generate_data(data_graph);
+	//console.log(departValue);
+	
+	var departId = depart_id;
+	console.log(departId);
+	
+	
+	
+	myChart = new Chart("myChart", {
   	type: "line",
   	data: {
     		labels: xValues,
-    		datasets: [{ 
-    		label: "AE",
-      		data: [2500,4423,5260,22000,22200,4123,7897,24589,43232,35234,9900,12300],
-      		borderColor: "#77A7FF",
-      		backgroundColor: "#77A7FF",
-      		fill: false
-    	}, { 
-    		label: "IT",
-      		data: [3000,50000,32342,40000,42000,30000,76890,40000,48789,49898,42341,46756],
-      		borderColor: "#38B8EA",
-      		backgroundColor: "#38B8EA",
-      		fill: false
-    	}, { 
-    		label: "IN",
-      		data: [0,0,0,5000,7200,0,0,0,0,0,0,0],
-      		borderColor: "#007BFF",
-      		backgroundColor: "#007BFF",
-      		fill: false
-    	}]
-  	},
+    		
+    		datasets: [],
+  		},
   	options: {
-    	legend: {display: true}
+    	legend: {display: true},
+  		scales: {
+            yAxes: [{
+                    display: true,
+                    ticks: {
+                        beginAtZero: true,
+                    },
+                    //afterDataLimits(scale) {
+                        //scale.max = scale.max*1.2;
+                      //}
+            
+                }]
+            },
   	}
 	});
-	
+}
+
+$(document).ready(function() {
+	getDepart_id()
 });
 </script>
 

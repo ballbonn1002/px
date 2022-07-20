@@ -236,7 +236,18 @@
 		 	            {
 		 	                     "targets": 2,
 		 	                     "render": function (data, type, row, meta) {
-		 	                             return data + '/' + row.working_day;
+		 	        					var payment = row.payment;
+		 	       						var term_day = row.term_day;
+		 	       						var actual_working = row.actual_working;
+		 	       						var working_day = row.working_day;
+		 	       						var return_text = '';
+		 	       						if(payment == ''){
+		 	       							return_text = '<a class="text-warning">Set employee type</a>'
+		 	       						}else{
+		 	       							return_text = payment == '1' ?  actual_working + "/" + working_day : actual_working + "/" + (term_day == '' ? '0' : term_day);
+		 	       						}
+		 	       						
+		 	       						return return_text;
 		 	                       }
 		 	                  },
 			 	            	{
