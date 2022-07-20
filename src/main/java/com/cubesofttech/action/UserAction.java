@@ -33,6 +33,7 @@ import com.cubesofttech.dao.LeaveTypeDAO;
 import com.cubesofttech.dao.LeaveUserDAO;
 import com.cubesofttech.dao.PositionDAO;
 import com.cubesofttech.dao.RoleDAO;
+import com.cubesofttech.dao.Sys_roleDAO;
 import com.cubesofttech.dao.SysuserDAO;
 import com.cubesofttech.dao.UserDAO;
 import com.cubesofttech.model.Borrow;
@@ -45,6 +46,7 @@ import com.cubesofttech.model.Leaves;
 import com.cubesofttech.model.Page;
 import com.cubesofttech.model.Position;
 import com.cubesofttech.model.Role;
+import com.cubesofttech.model.Sys_role;
 import com.cubesofttech.model.Sysuser;
 import com.cubesofttech.model.User;
 import com.cubesofttech.util.Convert;
@@ -70,7 +72,9 @@ public class UserAction extends ActionSupport {
 	public static final String ONLINEUSER = "onlineUser";
 	public static final String Sysuser = "sysuser";
 
-
+	@Autowired
+	private Sys_roleDAO sys_roleDAO;
+	
 	@Autowired
 	private EquipmentDAO equipmentDAO;
 
@@ -1360,8 +1364,8 @@ public String listuser() {
 		List<User> userList = userDAO.findAll();
 		request.setAttribute("userList", userList);
 		
-		List<Role> roleList = roleDAO.findAll();
-		request.setAttribute("roleList", roleList);
+		List<Sys_role> sysroleList = sys_roleDAO.findAll();
+		request.setAttribute("sysroleList", sysroleList);
 		
 		return SUCCESS;
 	} catch (Exception e) {
@@ -1450,8 +1454,8 @@ public String save_sysuser() {
         		List<User> userList = userDAO.findAll();
         		request.setAttribute("userList", userList);
         		
-        		List<Role> roleList = roleDAO.findAll();
-        		request.setAttribute("roleList", roleList);
+        		List<Sys_role> sysroleList = sys_roleDAO.findAll();
+        		request.setAttribute("sysroleList", sysroleList);
 
                 return SUCCESS;
             } catch (Exception e) {
@@ -1496,11 +1500,11 @@ public String SysuserEdit(){
 		sysuserList = sysuserDAO.findById(sysuserId);
 		request.setAttribute("sysuserList", sysuserList);  
 		
+		List<Sys_role> sysroleList = sys_roleDAO.findAll();
+		request.setAttribute("sysroleList", sysroleList);
+		
 		List<User> userList = userDAO.findAll();
 		request.setAttribute("userList", userList);
-		
-		List<Role> roleList = roleDAO.findAll();
-		request.setAttribute("roleList", roleList);
 		return SUCCESS;
 	}catch (Exception e){
 		e.printStackTrace();
