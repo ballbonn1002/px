@@ -113,9 +113,12 @@ public class FunctionAction extends ActionSupport {
 		try {
 			
 			String userId = request.getParameter("userId"); 
-			double countOt15 = Double.parseDouble(request.getParameter("ot15"));
-			double countOt2 = Double.parseDouble(request.getParameter("ot2"));
-			double countOt3 = Double.parseDouble(request.getParameter("ot3"));
+			String countOt15 = request.getParameter("ot15");
+			String countOt2 = request.getParameter("ot2");
+			String countOt3 = request.getParameter("ot3");
+			//double countOt15 = Double.parseDouble(request.getParameter("ot15"));
+			//double countOt2 = Double.parseDouble(request.getParameter("ot2"));
+			//double countOt3 = Double.parseDouble(request.getParameter("ot3"));
 			
 			Double salaryPerDay = null;
 			Double salaryPerHour = null;

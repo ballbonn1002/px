@@ -140,7 +140,7 @@ public class PayrollReportAction extends ActionSupport {
 		try {
 			List<Payment_type> payment_type = payment_typeDAO.findType();
 			request.setAttribute("paymentTypeList", payment_type);
-
+				
 			List<User> user = userDAO.userList();
 			request.setAttribute("userList", user);
 

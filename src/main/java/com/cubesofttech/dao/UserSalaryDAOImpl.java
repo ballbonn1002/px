@@ -7,7 +7,7 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.transform.AliasToEntityMapResultTransformer;
-
+import org.jfree.util.Log;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -88,8 +88,9 @@ public class UserSalaryDAOImpl implements UserSalaryDAO{
 		Session session = this.sessionFactory.getCurrentSession();
 		Map<String, Object> userSocialSecureById = null;
 		try {
-			String sql = "SELECT user.id,user.social_security,user.enable,user_salary.amount FROM user LEFT JOIN user_salary ON user.id = user_salary.user_id  WHERE user.enable=1 AND user.id = '"+uId+"' ORDER BY id";
+			String sql = "SELECT user.id,user.social_security,user.enable,user_salary.amount FROM user LEFT JOIN user_salary ON user.id = user_salary.user_id  WHERE user.enable=1 AND user.id = :uId ORDER BY id";
 			SQLQuery query = session.createSQLQuery(sql);
+			query.setParameter("uId", uId);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 			userSocialSecureById = (Map<String, Object>) query.list().get(0);
 		} catch (Exception e) {

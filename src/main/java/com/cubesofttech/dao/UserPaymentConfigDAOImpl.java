@@ -169,7 +169,6 @@ public class UserPaymentConfigDAOImpl implements UserPaymentConfigDAO{
 			cr.add(Restrictions.eq("paymentypeId", paymenttypeId));
 			cr.add(Restrictions.eq("userId", userId));
 			userPayment = (UserPaymentConfig) cr.list().get(0);
-			System.out.println("HELLO");
 		}
 		catch (Exception e) {
 			return null;
@@ -177,7 +176,6 @@ public class UserPaymentConfigDAOImpl implements UserPaymentConfigDAO{
 		return userPayment;
 	}
 	
-
 
 
 

@@ -72,7 +72,7 @@
 					<div class="col-md-3">
 						<select class="select2 form-control" style="width: 100%" id="user" name="user">
 							<c:forEach var="user" items="${UsersList}" varStatus="status">
-								<option value="${user.id }">${user.name}</option>
+								<option value="${user.id }">${user.department_id} - ${user.empoyee_id} ${user.name} </option>
 							</c:forEach>
 						</select>
 					</div>
@@ -358,13 +358,14 @@ var b = parseInt(count_month);
  	                       "targets": 7,
  	                       "render": function (data, type, row) {
  	                    	   if(data == '0'){
- 	                    		  return '<button class="btn btn-sm btn-warning">Waiting for Approving</button>'; 
+ 	                    		  
+ 	                    		  return '<span class="badge badge-warning">Waiting for Approving</span>'; 
  	                    	   }
  	                    	   if(data == '1'){
-  	                    		  return '<button class="btn btn-sm btn-success">Approved</button>'; 
+  	                    		  return '<span class="badge badge-success">Approved</span>'; 
   	                    	   }
  	                    	   if(data == '2'){
-   	                    		  return '<button class="btn btn-sm btn-danger">Reject</button>'; 
+   	                    		  return '<span class="badge badge-danger">Reject</span>'; 
    	                    	   }
  	 									
  	                         }

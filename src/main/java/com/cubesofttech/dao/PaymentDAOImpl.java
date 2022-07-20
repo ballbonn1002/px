@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.cubesofttech.model.Payment;
+import com.cubesofttech.model.UserSalary;
 
 
 @Repository
@@ -192,6 +193,53 @@ public class PaymentDAOImpl implements PaymentDAO{
         } 
         return count;
 	}
+	
+	@Override
+	public Payment findById(Integer payment_id) throws Exception {
+		// TODO Auto-generated method stub
+		Session session = this.sessionFactory.getCurrentSession();
+		Payment payment = null;
+        try {
+        	payment = (Payment) session.get(Payment.class, payment_id);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            //session.close();
+        }
+        return payment;
+	}
+
+	@Override
+	public List<Map<String, Object>> getPaymentTable(int paymentGroupId) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Map<String, Object>> payment = null;
+		try {
+			String sqlUpdate = "select "
+					+ "			u.user_id,user.name,p.employee_type_id,p.employee_type_name,p.status,p.absent,p.absence"
+					+ "			from payment as p"
+					+ "			inner join user_salary as u on u.user_id = p.user_id"
+					+ "			inner join employee_type et on p.employee_type_id = et.employee_type_id"
+					+ "			inner join user on user.id = u.user_id"
+					+ "			where u.date = ("
+					+ "			    select max(u2.date) from user_salary as u2"
+					+ "				where u2.user_id = u.user_id"
+					+ "			) and ("
+					+ "				p.payment_group_id = :pg_id"
+					+ "			)"
+					+ "			group by u.user_id;";
+			SQLQuery query = session.createSQLQuery(sqlUpdate);
+			query.setParameter("pg_id",paymentGroupId);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE); 
+			payment = query.list();
+		
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return payment;
+	}
+	
+	
 	
 	
 	
