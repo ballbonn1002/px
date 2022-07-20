@@ -1017,7 +1017,7 @@ public class PayrollReportAction extends ActionSupport {
 			String mDepart = request.getParameter("depart");
 			//List<String> department = Arrays.asList(mDepart.split("\\s*,\\s*"));
 			//log.debug(department);
-			log.debug(mYear);
+			//log.debug(mYear);
 			
 			List<Map<String, Object>> getMonthStatistics = payment_groupDAO.getMonthStatic(mYear,mDepart);
 			request.setAttribute("GetMonthStatistics", getMonthStatistics);
