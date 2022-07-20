@@ -11,6 +11,7 @@
 <script
 	src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <c:set var="now" value="<%=new java.util.Date()%>" />
+<fmt:setLocale value="en_US" scope="session" />
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 <!-- VENDOR CSS -->
@@ -90,9 +91,30 @@ to {
 			</div>
 			<div class="col-lg-6 col-md-4 col-sm-3 col-3">
 				<div style="text-align: right">
-					<span class="tag badge badge-info"
-						style="color: #449cff; border-color: #449cff; padding: 10px 18px; font-size: 14px; background-color: white;">inprogress
-					</span>
+					<c:choose>
+						<c:when test="${paymentGroup.status == 1}">
+							<span class="tag badge badge-info"
+								style="color: #449cff; border-color: #449cff; padding: 10px 18px; font-size: 14px; background-color: white;">inprogress
+							</span>
+						</c:when>
+						<c:when test="${paymentGroup.status == 2}">
+							<span class="tag badge badge-info"
+								style="color: #88c426; border-color: #88c426; padding: 10px 18px; font-size: 14px; background-color: white;">confirm</span>
+						</c:when>
+						<c:when test="${paymentGroup.status == 3}">
+							<span class="tag badge badge-info"
+								style="color: #9772FB; border-color: #9772FB; padding: 10px 18px; font-size: 14px; background-color: white;">partial
+								payment</span>
+						</c:when>
+						<c:when test="${paymentGroup.status == 4}">
+							<span class="tag badge badge-info"
+								style="color: #22AF46; border-color: #22AF46; padding: 10px 18px; font-size: 14px; background-color: white;">completed</span>
+						</c:when>
+						<c:when test="${paymentGroup.status == 5}">
+							<span class="tag badge badge-info"
+								style="color: #7F8487; border-color: #7F8487; padding: 10px 18px; font-size: 14px; background-color: white;">inactive</span>
+						</c:when>
+					</c:choose>
 				</div>
 
 			</div>
@@ -110,7 +132,7 @@ to {
 			<div class="row">
 				<div class="col-12 col-sm-12 col-lg-4">
 					<h4 class="card-title">
-						Payroll ID<span style="padding-left: 8px; color: #449CFF;">1</span>
+						Payroll ID<span style="padding-left: 8px; color: #449CFF;">${paymentGroup.payment_group_id}</span>
 					</h4>
 				</div>
 				<div
@@ -141,104 +163,108 @@ to {
 			</div>
 		</div>
 		<div class="body">
-					<div class="portlet-body" style="margin-top: 20px">
-						<form>
-							<div class="container">
-								<div class="row">
-									<div class="col-12">
+			<div class="portlet-body" style="margin-top: 20px">
+				<form>
+					<div class="container">
+						<div class="row">
+							<div class="col-12">
+								<div
+									class="d-flex flex-column flex-sm-column flex-lg-row justify-content-between">
+									<div
+										class="d-flex flex-column flex-sm-column flex-lg-row align-items-center">
 										<div
-											class="d-flex flex-column flex-sm-column flex-lg-row justify-content-between">
-											<div
-												class="d-flex flex-column flex-sm-column flex-lg-row align-items-center">
-												<div
-													class="d-flex flex-column align-items-center align-items-sm-center align-items-lg-end">
-													<p class="mb-0">รวมค่าใช้จ่ายพนักงาน</p>
-													<h2 style="color: #333333;">45,500.00</h2>
-												</div>
-												<div class="d-none d-sm-none d-lg-block"
-													style="width: 1px; height: 60px; background: #EBEDF3; margin: 16px"></div>
-												<div
-													class="d-flex flex-column align-items-center align-items-sm-center align-items-lg-end">
-													<p class="mb-0">รวมจ่ายสุทธิ</p>
-													<h2 style="color: #2898CB;">43,591.70</h2>
-												</div>
-												<div class="d-none d-sm-none d-lg-block"
-													style="width: 1px; height: 60px; background: #EBEDF3; margin: 16px"></div>
-												<div
-													class="d-flex flex-column align-items-center align-items-sm-center align-items-lg-end">
-													<p class="mb-0">รวมรายการหัก</p>
-													<h2 style="color: #E7505A;">1,500.00</h2>
-												</div>
-											</div>
-											<div class="mt-auto">
-												<p>Created: 25 April 2022</p>
-											</div>
+											class="d-flex flex-column align-items-center align-items-sm-center align-items-lg-end">
+											<p class="mb-0">รวมค่าใช้จ่ายพนักงาน</p>
+											<h2 style="color: #333333;">45,500.00</h2>
+										</div>
+										<div class="d-none d-sm-none d-lg-block"
+											style="width: 1px; height: 60px; background: #EBEDF3; margin: 16px"></div>
+										<div
+											class="d-flex flex-column align-items-center align-items-sm-center align-items-lg-end">
+											<p class="mb-0">รวมจ่ายสุทธิ</p>
+											<h2 style="color: #2898CB;">43,591.70</h2>
+										</div>
+										<div class="d-none d-sm-none d-lg-block"
+											style="width: 1px; height: 60px; background: #EBEDF3; margin: 16px"></div>
+										<div
+											class="d-flex flex-column align-items-center align-items-sm-center align-items-lg-end">
+											<p class="mb-0">รวมรายการหัก</p>
+											<h2 style="color: #E7505A;">1,500.00</h2>
 										</div>
 									</div>
-								</div>
-								<div class="row">
-									<div class="col-12">
-										<div class="form-group">
-											<input class="form-control" value="Payroll April 2022"
-												style="color: #449CFF;" />
-										</div>
+									<div class="mt-auto">
+										<p>Created: <fmt:formatDate pattern="dd MMMM yyyy" value="${paymentGroup.timeCreate}" /></p>
 									</div>
-								</div>
-								<div class="row">
-									<div class="col-6 col-sm-6 col-lg-3 ">
-										<label>ช่วงวันที่</label>
-										<div class="form-group">
-											<input data-provide="datepicker" data-date-autoclose="true"
-												data-date-format="dd/mm/yyyy" name="startDate" id="startDate"
-												class="form-control">
-										</div>
-									</div>
-									<div class="col-6 col-sm-6 col-lg-3 ">
-										<label>ถึงวันที่</label>
-										<div class="form-group">
-											<input data-provide="datepicker" data-date-autoclose="true"
-												data-date-format="dd/mm/yyyy" name="endDate" id="endDate"
-												class="form-control">
-										</div>
-									</div>
-									<div class="col-6 col-sm-6 col-lg-3 ">
-										<label>วันที่ชำระ</label>
-										<div class="form-group">
-											<input data-provide="datepicker" data-date-autoclose="true"
-												data-date-format="dd/mm/yyyy" name="bday"
-												class="form-control">
-										</div>
-									</div>
-									<div class="col-6 col-sm-6 col-lg-3 ">
-										<label>ประกันสังคม</label>
-										<div class="input-group mb-3">
-											<input type="text" class="form-control" value="5"
-												aria-describedby="basic-addon2">
-											<div class="input-group-append">
-												<span class="input-group-text" id="basic-addon2"
-													style="font-size: 14px; background-color: white">%</span>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-12">
-										<label>หมายเหตุ</label>
-										<div class="form-group">
-											<input class="form-control"
-												value="ทำเงินเดือนวันที่ 25/4/2022" />
-										</div>
-									</div>
-								</div>
-								<div class="clearfix mt-1 mb-1">
-									<button type="button" class="btn btn-success  float-lg-right m-2">บันทึกรายการ</button>
-									<button type="button" class="btn btn-light  float-lg-right m-2">ยกเลิก</button>
 								</div>
 							</div>
-						</form>	
+						</div>
+						<div class="row">
+							<div class="col-12">
+								<div class="form-group">
+									<input id = "payroll_name" class="form-control"
+										value = "${paymentGroup.name}"
+										style="color: #449CFF;" required />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-6 col-sm-6 col-lg-3 ">
+								<label>ช่วงวันที่</label>
+								<div class="form-group">
+									<input id = "payroll_start_date" data-provide="datepicker" data-date-autoclose="true"
+										data-date-format="dd-mm-yyyy" name="startDate" id="startDate"
+										class="form-control" required value = "<fmt:setLocale value="en_US" scope="session"/><fmt:formatDate value="${paymentGroup.start_date}"  type = "both" 
+       								timeStyle = "medium" pattern="dd-MM-yyyy "  />">
+								</div>
+							</div>
+							<div class="col-6 col-sm-6 col-lg-3 ">
+								<label>ถึงวันที่</label>
+								<div class="form-group">
+									<input id = "payroll_end_date" data-provide="datepicker" data-date-autoclose="true"
+										data-date-format="dd-mm-yyyy" name="endDate" id="endDate"
+										class="form-control" required value = "<fmt:setLocale value="en_US" scope="session"/><fmt:formatDate value="${paymentGroup.end_date}"  type = "both" 
+       								timeStyle = "medium" pattern="dd-MM-yyyy "  />">
+								</div>
+							</div>
+							<div class="col-6 col-sm-6 col-lg-3 ">
+								<label>วันที่ชำระ</label>
+								<div class="form-group">
+									<input id = "payroll_pay_date_" data-provide="datepicker" data-date-autoclose="true"
+										value="<fmt:setLocale value="en_US" scope="session"/><fmt:formatDate value="${paymentGroup.payment_date}"  type = "both" 
+       								timeStyle = "medium" pattern="dd-MM-yyyy "  />"
+										data-date-format="dd-mm-yyyy" name="bday" class="form-control"
+										required>
+								</div>
+							</div>
+							<div class="col-6 col-sm-6 col-lg-3 ">
+								<label>ประกันสังคม</label>
+								<div class="input-group mb-3">
+									<input id = "payroll_ss" type="text" class="form-control" value="${paymentGroup.social_security}" required
+										aria-describedby="basic-addon2">
+									<div class="input-group-append">
+										<span class="input-group-text" id="basic-addon2"
+											style="font-size: 14px; background-color: white">%</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-12">
+								<label>หมายเหตุ</label>
+								<div class="form-group">
+									<input id = "information" class="form-control" value="${paymentGroup.description}" />
+								</div>
+							</div>
+						</div>
+						<div class="clearfix mt-1 mb-1">
+							<button id = "payroll_save" type="button" class="btn btn-success  float-lg-right m-2">บันทึกรายการ</button>
+							<button type="button" class="btn btn-light  float-lg-right m-2">ยกเลิก</button>
+						</div>
 					</div>
-				</div>
+				</form>
+			</div>
 		</div>
+	</div>
 </div>
 
 <div class="container">
@@ -247,16 +273,16 @@ to {
 			<div class="table-responsive">
 				<div class="row">
 					<div class="col-12 col-sm-12 col-lg-6">
-						<div class = "d-inline-flex mb-5 mb-sm-5 my-lg-3">
+						<div class="d-inline-flex mb-5 mb-sm-5 my-lg-3">
 
-								<button class="tag badge badge-info mx-1"
-									style="color: #333333; border-color: #333333; font-size: 14px; padding: 10px 18px">แก้ไขพนักงาน</button>
+							<button class="tag badge badge-info mx-1"
+								style="color: #333333; border-color: #333333; font-size: 14px; padding: 10px 18px">แก้ไขพนักงาน</button>
 
-								<select class="form-control mx-1">
-									<option value="Mr.">สถานะทั้งหมด</option>
-									<option value="Mrs.">....</option>
-									<option value="Ms.">....</option>
-								</select>
+							<select class="form-control mx-1">
+								<option value="Mr.">สถานะทั้งหมด</option>
+								<option value="Mrs.">....</option>
+								<option value="Ms.">....</option>
+							</select>
 						</div>
 
 					</div>
@@ -288,8 +314,9 @@ to {
 				</div>
 				<div class="row">
 					<div class="col-12">
+						
 						<table
-							class="table table-bordered table-hover table-striped dataTable"
+							class="table table-bordered table-striped dataTable"
 							id="list_example">
 							<thead>
 								<tr>
@@ -414,12 +441,49 @@ to {
 	$(document).ready(function() {
 		
 		var table = $('#list_example').DataTable({
+			"ajax" : {
+				url : "getPayrollTable",
+				type : "POST",
+				data : {"paymentGroupId" : ${paymentGroup.payment_group_id}}
+				},
+				"columns": [
+		            {
+		                className: 'dt-control',
+		                orderable: false,
+		                data: null,
+		                defaultContent: '',
+		            },
+		            { data: 'index' },
+		            { data: 'name' },
+		            { data: 'employeeType' },
+		            { data: 'term' },
+		            { data: 'salary' },
+		            { data: 'totalincome' },
+		            { data: 'totaloutcome' },
+		            { data: 'totalamount' },
+		            { data: 'status' }
+		        ],
 			//"ordering": false,
 			"order" : [],
 			"bFilter" : false,
 			"lengthChange" : false,
 
 		});
+		
+		/*$('#payroll_save').on("click" , function() {
+			$.ajax({
+		    	type: 'POST',
+		    	url: "savePayroll?payrollGroupId="+${paymentGroup.payment_group_id},
+		    	
+		    	dataType: "JSON", // data type expected from server
+		    	success: function (data) {
+		           	console.log(data);
+		    	},
+		    	error: function(error) {
+		           	console.log('Error: ' + error);
+		    	}
+		});
+		})*/
 
 		$('#list_example tbody').on('click', 'td.dt-control', function() {
 			var tr = $(this).closest('tr');
@@ -439,6 +503,27 @@ to {
 
 	function payroll_format(d) {
 		// `d` is the original data object for the row
+		console.log(d);
+		let expense = "";
+		let income = "";
+		d.income.forEach((d,i) => {
+			income = income.concat(`<tr>
+							<td style="text-align: left; padding-top: 10px;">`+d.payment_type_id+`</td>
+							<td style="text-align: left; padding-top: 10px;">`+d.payment_type_name+`</td>
+							<td style="text-align: right; padding-top: 10px;"><input class = "form-control text-right" value = "`+d.amount+`"></td>
+			</tr>`);
+		})
+		
+		d.expense.forEach((d,i) => {
+			expense = expense.concat(`<tr>
+							<td style="text-align: left; padding-top: 10px;">`+d.payment_type_id+`</td>
+							<td style="text-align: left; padding-top: 10px;">`+d.payment_type_name+`</td>
+							<td style="text-align: right; padding-top: 10px;"><input class = "form-control text-right" value = "`+d.amount+`"></td>
+			</tr>`);
+		})
+		
+		
+		
 		return `
 		<div class = "p-2 m-2"><span style = "color: #737373;">สรุปการทำงานตามช่วงเวลา <a href="javascript:void(0);">เพิ่มเติม</a></span></div>
 		<table class = "mb-2">
@@ -448,7 +533,7 @@ to {
 					<th style="text-align: center;">ชั่วโมงทำงานจริง</th>
 					<th style="text-align: center;">สาย/ออกก่อนเวลา<br /> หัก60 นาที(ชม.)</th>
 					<th style="text-align: center;">ขาดงาน(วัน)</th>
-					<th style="text-align: center;">รางานไม่รับค่าจ้าง (วัน)</th>
+					<th style="text-align: center;">ลางานไม่รับค่าจ้าง (วัน)</th>
 					<th style="text-align: center;">ล่วงเวลา 1.5 เท่า(ชม.)</th>
 					<th style="text-align: center;">ล่วงเวลา 2 เท่า(ชม.)</th>
 					<th style="text-align: center;">ล่วงเวลา 3 เท่า(ชม.)</th>
@@ -457,12 +542,12 @@ to {
 			<tbody>
 				<tr>
 					<!--<td style="display:none">${paymentgl.time_create}</td>-->
-					<td style="text-align: center; padding-top: 10px;"><input class = "form-control"  style = "text-align: center" value = 30></td>
-					<td style="text-align: center; padding-top: 10px;">180:00</td>
+					<td style="text-align: center; padding-top: 10px;"><input class = "form-control"  style = "text-align: center" value = "`+d.workingDays+`"></td>
+					<td style="text-align: center; padding-top: 10px;">`+d.workingHours.toFixed(2)+`</td>
 					<td style="text-align: center; padding-top: 10px;">0:00</td>
 					<td style="text-align: center; padding-top: 10px;"><input class = "form-control"  style = "text-align: center" value = "0:00"></td>
-					<td style="text-align: center; padding-top: 10px;"><input class = "form-control" style = "text-align: center" value = "0:00"></td>
-					<td style="text-align: center; padding-top: 10px;"><input class = "form-control"  style = "text-align: center" value = "0:00"></td>
+					<td style="text-align: center; padding-top: 10px;"><input class = "form-control" style = "text-align: center" value = "`+d.absent+`"></td>
+					<td style="text-align: center; padding-top: 10px;"><input class = "form-control"  style = "text-align: center" value = "`+d.absence+`"></td>
 					<td style="text-align: center; padding-top: 10px;"><input class = "form-control" style = "text-align: center" value = "0:00"></td>
 					<td style="text-align: center; padding-top: 10px;"><input class = "form-control"  style = "text-align: center" value = "0:00"></td>
 				</tr>
@@ -481,17 +566,7 @@ to {
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td style="text-align: left; padding-top: 10px;">SL</td>
-							<td style="text-align: left; padding-top: 10px;">เงินเดือน</td>
-							<td style="text-align: right; padding-top: 10px;"><input class = "form-control text-right" value = "45,000.00"></td>
-						</tr>
-						<tr>
-							<td style="text-align: left; padding-top: 10px;">OT1</td>
-							<td style="text-align: left; padding-top: 10px;">ล่วงเวลา
-								1.5 เท่า</td>
-							<td style="text-align: right; padding-top: 10px;"><input class = "form-control text-right" value = "0.00"></td>
-						</tr>
+						`+income+`
 					</tbody>
 				</table>
 			</div>
@@ -507,17 +582,7 @@ to {
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td style="text-align: left; padding-top: 10px;">SSI</td>
-							<td style="text-align: left; padding-top: 10px;">ประกันสังคม</td>
-							<td style="text-align: right; padding-top: 10px;"><input class = "form-control text-right" value = "1,500.00"></td>
-						</tr>
-						<tr>
-							<td style="text-align: left; padding-top: 10px;">TAX</td>
-							<td style="text-align: left; padding-top: 10px;">ภาษีหัก ญ
-								ที่จ่าย</td>
-							<td style="text-align: right; padding-top: 10px;"><input class = "form-control text-right" value = "0.00"></td>
-						</tr>
+						`+expense+`
 					</tbody>
 				</table>
 			</div>
