@@ -24,5 +24,9 @@ public interface PaymentDAO {
     
     public long dashboardEmpTypeMonth(String EmpId, String month, String year) throws Exception;
     public long dashboardEmpTypeYear(String EmpId, String year) throws Exception;
+    
+    public Payment findById(Integer payment_id) throws Exception;
+    
+    public List<Map<String, Object>> getPaymentTable(int paymentGroupId) throws Exception;
 
 }
