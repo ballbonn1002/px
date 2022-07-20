@@ -8,6 +8,7 @@ import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.jfree.util.Log;
@@ -40,7 +41,7 @@ public class Payment_typeDAOImpl implements Payment_typeDAO{
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Payment_type> paymentTypeList = null;
 		try {
-			paymentTypeList = session.createCriteria(Payment_type.class).list();
+			paymentTypeList = session.createCriteria(Payment_type.class).addOrder(Order.asc("sequence")).list();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

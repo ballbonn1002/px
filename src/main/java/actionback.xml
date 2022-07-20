@@ -139,9 +139,15 @@
 			<result name="success" type="tiles">payroll_list</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		<action name="addPayroll"
+			class="com.cubesofttech.action.PayrollAction" method="addPayroll">
+		</action>
+		<action name="getPayrollTable"
+			class="com.cubesofttech.action.PayrollAction" method="getTable">
+		</action>
 		
 		<action name="payroll_form"
-			class="com.cubesofttech.action.PayrollAction" method="addPayroll"  >
+			class="com.cubesofttech.action.PayrollAction" method="formPayroll"  >
 			<result name="success" type="tiles">payroll_form</result>
 			<result name="error">/index.jsp</result>
 		</action>
