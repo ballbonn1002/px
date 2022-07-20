@@ -59,7 +59,7 @@
                                 <br>
                                 <div class="form-group" align="center">
 	                                <span class="tag badge badge-info" >
-	                                v. 2022 Jul 16 r1
+	                                v. 2022 Jul 20
 	                                </span>
                                 </div>
 
