@@ -246,6 +246,7 @@ public class FunctionAction extends ActionSupport {
 			
 		    if(flag.equals("1")) {
 		    	List<List<Double>> y = calCService.calculateTax(money);
+		    	log.debug(y);
 		    	List<Double> tan = y.get(0);
 		    	List<Double> best = y.get(1);   
 		    	log.debug(best);

@@ -828,7 +828,7 @@ public class PayrollReportAction extends ActionSupport {
 		try {
 			
 			
-			String year = request.getParameter("year");
+			/*String year = request.getParameter("year");
 			log.debug(year);
 			List<String> yearList = Arrays.asList(year.split("\\s*,\\s*"));
 			log.debug("yearList: " + yearList);
@@ -836,14 +836,44 @@ public class PayrollReportAction extends ActionSupport {
 			String yyy = yearList.get(yearList.size() - 1);
 			//log.debug(yearList[]);
 			//query code
-			List<Map<String, Object>> paymentChart = payment_groupDAO.paymentStatistics(yyy);
+			JSONArray paymentChart = payment_groupDAO.paymentStatistics(yyy);
+			log.debug(paymentChart);
+			/*log.debug(paymentChart.size());
+			for(int i = 0; i < paymentChart.size(); i++) {
+					
+			}
+		(paymentChart.get(0)).values();
+			//List<String> flag = (List<String>) paymentChart.getClass();
+			JSONArray jsonarr = new JSONArray();
+			JSONObject arr = new JSONObject(); 
+			arr.put("name", yyy);
+			arr.put("data",paymentChart);
+			jsonarr.put(arr);
+			log.debug(jsonarr);
 			
 					
             Gson gson = new Gson(); 
-            String json = gson.toJson(paymentChart);
+            String json = gson.toJson(arr);
             log.debug(json);
+            
 
-            request.setAttribute("json", json);	 
+            request.setAttribute("json", jsonarr.toString());	 */
+			String year = request.getParameter("year");
+			List<String> yearList = Arrays.asList(year.split("\\s*,\\s*"));
+			
+			JSONArray arr_list = new JSONArray();
+			for(int i = 0; i < yearList.size(); i++) {
+				JSONArray res = payment_groupDAO.paymentStatistics(yearList.get(i));
+				log.debug(res);
+				JSONArray arr = new JSONArray();
+
+				JSONObject obj_cell = new JSONObject();
+                obj_cell.put("data", res);
+                obj_cell.put("name", yearList.get(i));
+                arr_list.put(obj_cell);
+			}				
+
+            request.setAttribute("json", arr_list.toString());
             return SUCCESS;
 		}catch (Exception e) {
 			e.printStackTrace();
