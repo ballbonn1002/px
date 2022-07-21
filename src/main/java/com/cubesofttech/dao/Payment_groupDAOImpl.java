@@ -486,27 +486,36 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 		JSONArray json_array = new JSONArray();
 		Session session =  this.sessionFactory.getCurrentSession(); 
 		try {
-			log.debug(year);
+			if(year != "") {
 			String sql = "SELECT sum(payment.total_pay) as total_pay FROM payment_group JOIN payment on payment.payment_group_id = payment_group.payment_group_id WHERE year(payment_group.payment_date)='"+year+"' GROUP BY month(payment_group.payment_date);";	
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 			query_listMap = query.list();
-			Iterator itr = query_listMap.iterator();
-			int i = 0;
-			while(itr.hasNext()){
-				Map<String, Object> map  = (Map<String, Object>) itr.next();
-					JSONArray array_cell = new JSONArray();
-					Object value = map.get("total_pay");
-				    array_cell.put(value);
-				    json_array.put(array_cell);
-				
-				i++;
+			if(query_listMap == null || query_listMap.isEmpty()) {
+			   for(int i = 0;i<12;i++) {
+				   JSONArray array_cell = new JSONArray();
+				   int set = 0;
+				   array_cell.put(set);
+				   json_array.put(array_cell);
+			   }
+			}else {
+				Iterator itr = query_listMap.iterator();
+				int i = 0;
+				while(itr.hasNext()){
+					Map<String, Object> map  = (Map<String, Object>) itr.next();
+					    JSONArray array_cell = new JSONArray();
+						Object value = map.get("total_pay");
+					    array_cell.put(value);
+					    json_array.put(array_cell);
+					i++;
 				}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			}
+			}
+	} catch (Exception e) {
+		e.printStackTrace();
+	}	
 
-		return json_array;
+	return json_array;
+	
 	}
-
 }
