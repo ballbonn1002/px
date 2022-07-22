@@ -1072,7 +1072,15 @@ public class PayrollReportAction extends ActionSupport {
 			return ERROR;
 		}
 	}
-
 	
+	
+	public String report_year() {
+		try {
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+	}	
 	
 }
