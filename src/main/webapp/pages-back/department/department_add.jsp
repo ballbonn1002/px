@@ -9,6 +9,8 @@
 <c:set var="now" value="<%=new java.util.Date()%>" />
 <fmt:formatDate value="${bean.date}" pattern="dd-MM-yyyy" />
 
+<style>
+</style>
 
 <div class="block-header">
     <div class="row">
@@ -38,25 +40,41 @@
 				
 				<div class="portlet-body">
 				<!-- BEGIN FORM-->
+				</div>
 					<div class="panel-body">
-						<form action="saveDepart" method="POST">
+						<form action="javascript:submitAddDepartmentForm()" id="addDepartForm" class="needs-validation" novalidate method="POST">
 							<div class="form-group">
-								<label for="recipient-name" class="control-label">ID:</label> <input
-								type="text" name="ID" required class="form-control">
+								<label for="recipient-name" class="control-label req">ID:<span style="color:red;"> *</span></label> 
+								<input	type="text" name="ID" id="depart_id" required class="form-control form_department_control" pattern="[a-zA-Z0-9.]+" autocomplete="no">
+								
+								<div id="canuse" style="color: #28A745; text-color:#28A745; display:none; width:100%;">
+									<i class="icon-check"></i>&nbsp;&nbsp;You can use this id
+								</div>
+								<div id="cannotuse" style="color: #FAAD14; text-color:#FAAD14; display:none;">
+									<i class="icon-check"></i>&nbsp;&nbsp;You can not use this id
+								</div>
+								
+								<div class="invalid-feedback">กรอกได้เฉพาะ ภาษาอังฤกษ ตัวเลข . (จุด) ห้ามซ้ำกับ Id เดิม และห้ามปล่อยฟิลนี้ว่าง</div>
+								
+
+													        
 							</div>
 							<div class="form-group">
-								<label for="recipient-name" class="control-label">Name:</label> <input
-								type="text" name="name" required class="form-control">
+								<label for="recipient-name" class="control-label req">Name:<span style="color:red;"> *</span></label>
+								<input type="text" name="name" required class="form-control form_department_control" autocomplete="no">
+								<div class="invalid-feedback">required this field</div>
 							</div>
 							<div class="form-group">
 								<label for="recipient-name" class="control-label">Decription:</label>
-								<input type="text" name="deptdes" required class="form-control">
+								<input type="text" name="deptdes" class="form-control form_department_control">
 							</div>
 							<div class="form-group">
 								<label for="recipient-name" class="control-label">Prefix
-								ID:</label> <input type="text" name="deptpre" required
-								class="form-control">
-							</div>				
+								ID:</label> <input type="text" name="deptpre"	class="form-control form_department_control">
+							</div>
+										
+										
+										
 							<input type="hidden" name="logonUser" value="${logonUser}">
 							<!-- กำหนดวันที่ Time Create -->
 							<div>
@@ -77,8 +95,10 @@
 								</div>
 							<!-- End Time Create -->
 							</div>
+							
+							
 								<div  style="text-align: right">
-									<button type="reset" class="btn btn-outline-secondary"> ยกเลิก</button>
+									<button type="button" onclick="history.back()" class="btn btn-outline-secondary"> ยกเลิก</button>
 									<button type="submit" class="btn btn-success"> บันทึก</button>
 								</div>
 						</form>
@@ -95,6 +115,8 @@
 
 
 <script>
+var duplicate_id = false
+
 function datechenge() {
 	var fulldate = "${fulldate}".trim();//??????????????
 	var Userdate = $("#mydate").val();//???????????
@@ -107,15 +129,134 @@ function datechenge() {
 	}		
 }
 
+function checkDupId(){
+	//$('#depart_id').on('keyup blur', function() {
+		var flag = true;
+		var id = $('#depart_id').val();
+		
+		if(id != ""){
+				$.ajax({
+					url: "checkDupDepart",
+					method: "POST" ,
+					type: "JSON" ,
+					data: {
+						"ID" : id
+					},
+					success:function(data){
+						var input = document.getElementById('depart_id')
+						input.classList.remove('is-invalid')
+				        input.classList.remove('is-valid')
+		        	
+						if (data.flag == 0 && input.checkValidity() == true) {
+							duplicate_id = true
+							$("#canuse").show();
+							$("#cannotuse").hide();
+							$("#depart_id").addClass('is-valid');
+						} else {
+							duplicate_id = false
+							$("#canuse").hide();
+							$("#cannotuse").show();
+							$("#depart_id").addClass('is-invalid');
+						}
+					}
+				})
+			
+			}else{
+				duplicate_id = false
+				var input = document.getElementById('depart_id')
+				input.classList.add('is-invalid')
+				$("#canuse").hide();
+				$("#cannotuse").hide();
+			}
+	//})
+}
+
+//original code from w3schools & codeply
+/************** https://www.w3schools.com/bootstrap4/bootstrap_forms.asp ***************/
+/************** https://www.codeply.com/p/mzBNbAlOvQ *****************/
+function validate() {
+		  'use strict';
+		  window.addEventListener('load', function() {
+		    var forms = document.getElementsByClassName('needs-validation');
+		    var inputs = document.getElementsByClassName('form_department_control')
+
+		    Array.prototype.filter.call(forms, function(form) {
+		    
+		    
+		      form.addEventListener('submit', function(event) { 
+		    	
+		    	showWasValidate()
+		    	//form.classList.add('was-validated');
+		        if (form.checkValidity() === false || duplicate_id == false) {
+		          event.preventDefault();
+		          event.stopPropagation();
+		        }		        
+		        
+		      }, false);
+		      
+		    });
+		    
+		    
+		    Array.prototype.filter.call(inputs, function(input) {
+		    	
+			      input.addEventListener('blur', function(event) {
+			    	checkDupId()//check duplicate id
+
+					if (input.id != 'depart_id'){
+						// reset
+				        input.classList.remove('is-invalid')
+				        input.classList.remove('is-valid')
+				        
+				        if (input.checkValidity() === false) {
+				        		input.classList.add('is-invalid')
+				        }
+				        else{
+				            input.classList.add('is-valid')
+				        }					
+					}
+			      }, false);
+			    });
+		    
+		 }, false);
+};
+
+function showWasValidate(){
+	
+	var inputs = document.getElementsByClassName('form_department_control')
+    Array.prototype.filter.call(inputs, function(input) {
+    	
+		if (input.id != 'depart_id'){
+			// reset
+			checkDupId()
+		     input.classList.remove('is-invalid')
+		     input.classList.remove('is-valid')
+		        
+		        if (input.checkValidity() === false) {
+		        		input.classList.add('is-invalid')
+		        }
+		        else{
+		            input.classList.add('is-valid')
+		        }					
+		}
+
+	});
+}
+
+function submitAddDepartmentForm(){
+	let data_ = $("#addDepartForm").serializeArray()
+	console.log(data_)
+
+	$.ajax({url: "saveDepart",method: "POST",data: data_,
+	success:function(){
+		document.location = "department_list";
+	}})
+}
+
+
 $(document).ready(function() {
-
-	var value = "${flag}";
-	if (value == 1) {
-
-		swal('Please!', 'Check Department ID Duplicate', 'warning');
-	}
+	validate()
+	
 });
-
 </script>
 <link
 	href="../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css"

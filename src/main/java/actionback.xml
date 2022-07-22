@@ -379,12 +379,20 @@
 			<result name="success" type="tiles">department_add</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		
+		<action name="checkDupDepart"
+			class="com.cubesofttech.action.DepartmentAction" method="checkDupDepart">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
 		<action name="saveDepart"
 			class="com.cubesofttech.action.DepartmentAction" method="saveDepart">
 			<result name="success" type="tiles">department_list</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
 			<result name="error">/index.jsp</result>
 			<result name="input" type="tiles">department_add</result>
 		</action>
+		
 		<action name="Department_delete"
 			class="com.cubesofttech.action.DepartmentAction"
 			method="deleteDepartment">
