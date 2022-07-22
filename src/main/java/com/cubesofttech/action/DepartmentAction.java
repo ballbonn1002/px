@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.beust.jcommander.internal.Console;
 import com.cubesofttech.dao.DepartmentDAO;
 import com.cubesofttech.model.Department;
 import com.cubesofttech.model.User;
@@ -34,15 +35,17 @@ public class DepartmentAction extends ActionSupport {
 	
 	public String list() {
 		try {
-					List<Department> departmentList = departmentDAO.findAll();
-					request.setAttribute(Department, departmentList);
-					return SUCCESS;
-				} catch (Exception e) {
-					log.error(e);
-					
-					return ERROR;
-				}
-		   }
+			List<Department> departmentList = departmentDAO.findAll();
+			log.debug(departmentList);
+			request.setAttribute(Department, departmentList);
+			return SUCCESS;
+		} catch (Exception e) {
+			log.error(e);
+			return ERROR;
+		}
+	}
+	
+	
 	public String deleteDepartment(){
 		try{
 			String idDepart = request.getParameter("id");
@@ -54,7 +57,6 @@ public class DepartmentAction extends ActionSupport {
 			request.setAttribute(Department, departmentList);
 			return SUCCESS;
 		}catch (Exception e){
-			
 			return ERROR;
 		}
 		
@@ -62,6 +64,7 @@ public class DepartmentAction extends ActionSupport {
 	public String updateDepart(){
 		try{
 			String idDepart = request.getParameter("id");
+			log.debug(idDepart);
 			Department departmentList = new Department();
 			departmentList = departmentDAO.findById(idDepart);
 			request.setAttribute(Department, departmentList);  //à¸ªà¹ˆà¸‡à¸„à¹ˆà¸²à¸ˆà¸²à¸�à¸«à¸¥à¸±à¸‡à¹„à¸›à¸«à¸™à¹‰à¸²
@@ -119,6 +122,36 @@ public class DepartmentAction extends ActionSupport {
 			return ERROR;
 		}
 	}
+	
+	
+	public String checkDupDepart() {
+		try {
+			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login 
+			String logonUser = ur.getId(); // Username login 
+			String idDepart = request.getParameter("ID");
+			
+			Department departmentCheck =  departmentDAO.findById(idDepart); // ทำการหา ID
+			Map<String,String> flag = new HashMap<String, String>();
+			
+			
+			
+			if(departmentCheck != null){ // Check ว่า Id มีการซ้ำไหม ถ้าซ้ำ return input
+				flag.put("flag", "1");
+			}else {
+				flag.put("flag", "0");
+			}
+			log.debug(flag);
+			Gson gson = new Gson();
+			String json = gson.toJson(flag); 
+			request.setAttribute("json",json);
+			
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+	}
+	
 	public String saveDepart() {
 		try{
 			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login 
@@ -155,7 +188,7 @@ public class DepartmentAction extends ActionSupport {
 			request.setAttribute(Department, departmentList);
 			return SUCCESS;
 		}catch (Exception e){
-			
+			e.printStackTrace();
 			return ERROR;
 		}
 	}

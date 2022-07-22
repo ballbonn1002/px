@@ -90,10 +90,8 @@
 			value="/pages-back/role/role_list.jsp" />
 	</definition>
 	<definition name="department_list" extends="masterLayout">
-		<put-attribute name="title"
-			value="Department Management" />
-		<put-attribute name="body"
-			value="/pages-back/department/department_list.jsp" />
+		<put-attribute name="title"	value="Department Management" />
+		<put-attribute name="body"	value="/pages-back/department/department_list.jsp" />
 	</definition>
 	<definition name="department_add" extends="masterLayout">
 		<put-attribute name="title" value="Add Department" />

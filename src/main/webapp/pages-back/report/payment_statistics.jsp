@@ -102,13 +102,8 @@
 					<h6>Payment Statistics
 					<span class="col-sm-4 pull-right ">
 									   <select class="js-example-basic-multiple form-control" name="states[]" multiple="multiple" id="yearpicker" >
-									      
-										  <option selected = "selected" ><%=new java.util.Date().getYear() + 1900%></option>									 
-							            <% for(int i = new java.util.Date().getYear() + 1900 - 1 ; i > 2000; i-=1) { %>
-										  <option><%=i%></option>
-	            						<% } %>
+										 
 										</select>
-										
 					</span>   
 					          	
 		            </h6>
@@ -131,7 +126,21 @@
 
 
   
- 
+ <script>
+ var currentYear = new Date().getFullYear()
+ max = currentYear - 10
+ var option = "";
+ for (var year = currentYear; year > max; year--) {
+   
+     var option = document.createElement("option");
+     option.text = year;
+     option.value = year;
+     
+     document.getElementById("yearpicker").appendChild(option)
+     
+ }
+ document.getElementById("yearpicker").value = currentYear;
+ </script>
 <script>
 $('#yearpicker').datepicker({
 		orientation: 'bottom'
@@ -162,7 +171,8 @@ function setChart(data){
 	console.log(data);
 	Highcharts.chart('container', {
 		  chart: {
-		    type: 'line'
+		    type: 'line',
+		    ignoreHiddenSeries: false
 		  },
 		  navigation: {
 		        buttonOptions: {

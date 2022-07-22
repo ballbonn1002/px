@@ -869,8 +869,16 @@ public class PayrollReportAction extends ActionSupport {
 
 				JSONObject obj_cell = new JSONObject();
                 obj_cell.put("data", res);
-                obj_cell.put("name", yearList.get(i));
-                arr_list.put(obj_cell);
+            	if(res.length() == 0 ) {
+            		//int e = 1;
+            		 
+            		 obj_cell.put("showInLegend", false);
+            		obj_cell.put("visible", false);
+            		// log.debug(e);
+            	}else {
+            		obj_cell.put("name", yearList.get(i));
+            	}
+                   arr_list.put(obj_cell);
 			}				
 
             request.setAttribute("json", arr_list.toString());
