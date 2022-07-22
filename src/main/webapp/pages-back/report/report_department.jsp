@@ -121,7 +121,7 @@ function getDepart_id(){
 					depart_id.push(dp_name["department_id"])
 				})
 				depart_id.sort()
-				console.log(depart_id);
+				//console.log(depart_id);
 				generate_graph(data);
 				yearPick()
 				//console.log(myChart);
@@ -135,7 +135,7 @@ function getDepart_id(){
 function yearPick(){
 	var pick_year = $("#year_pick").val();
 	//console.log(pick_year);
-	console.log(depart_id.join(','))
+	//console.log(depart_id.join(','))
 	$.ajax({
 		url : "pickDataMonth",
 		method : "POST",
@@ -145,7 +145,7 @@ function yearPick(){
 			"depart" : depart_id.join(','),
 		},
 		success : function(data) {
-			console.log(data);
+			//console.log(data);
 			let g_data = generate_data(data);
 			myChart.data.datasets = g_data;
 			myChart.update();
@@ -191,7 +191,7 @@ function generate_graph(data_graph){
 	//console.log(departValue);
 	
 	var departId = depart_id;
-	console.log(departId);
+	//console.log(departId);
 	
 	
 	
