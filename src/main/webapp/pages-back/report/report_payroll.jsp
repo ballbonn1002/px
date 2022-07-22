@@ -7,21 +7,10 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 
-<link href="../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet" type="text/css" />
-		
-<script src="../assets/global/plugins/jquery.min.js" type="text/javascript"></script>
-
-<script src="../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js"type="text/javascript"></script>
 
 <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 
-<script src="../assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js"type="text/javascript"></script>
-			
-<script src="../assets/pages/scripts/ui-sweetalert.min.js"type="text/javascript"></script>
 
-<link
-		href="../assets/global/plugins/bootstrap-sweetalert/sweetalert.css"
-		rel="stylesheet" type="text/css" />
 <script>
 			
 				$("tr:not(:first)").each(function (index ) {
@@ -58,10 +47,10 @@ text-align:center;
 				<div>
 					<h6 class="card-title">รายงาน รายการจ่ายเงินเดือน 
 						<span class="col-md-3 pull-right">
-							<span class="input-group input-large date-picker input-daterange"  data-date-format="dd-mm-yyyy">
-								<input name="Date-Start" placeholder="Start Date" type="text" onMouseOver="(this.type='date')" onMouseOut="(this.type='text')"  id="datefilterfrom" class="form-control" data-date-split-input="true">
+							<span class="input-group input-large date-picker input-daterange"  data-date-format="DD MMM yyyy">
+								<input name="Date-Start" placeholder="Start Date" type="text" onMouseOver="(this.type='date')" data-date-format="DD MMM yyyy" onMouseOut="(this.type='text')"  id="datefilterfrom" class="form-control" data-date-split-input="true">
                            		<span class="" style="margin-top:7px;margin-right:10px;margin-left:10px;"> to </span>
-                          		<input name="Date-End" placeholder="End Date" type="text" onMouseOver="(this.type='date')" onMouseOut="(this.type='text')"  id="datefilterto" class="form-control" data-date-split-input="true">
+                          		<input name="Date-End" placeholder="End Date" type="text" onMouseOver="(this.type='date')" data-date-format="DD MMM yyyy" onMouseOut="(this.type='text')"  id="datefilterto" class="form-control" data-date-split-input="true">
        
 							</span>
 						</span>
@@ -75,7 +64,7 @@ text-align:center;
 					<div class="portlet-body">
 						<div class="portlet box white">
 							<div class="table-responsive">
-								<table id="myTable" class="table table-hover js-basic-example table-custom m-b-0 no-footer table-striped">
+								<table id="myTable" class="table table-hover js-basic-example table-custom m-b-0 no-footer ">
 									<thead>
 										<tr>
 											<th>Payroll ID</th>
@@ -130,8 +119,10 @@ function myFunction(id) {
 </script>
 <script>
 function filterRows() {
-	  var from = $('#datefilterfrom').val();
+	var from = $('#datefilterfrom').val();
 	  var to = $('#datefilterto').val();
+	  //var ffrom = moment(from,"DD MMM yyyy");
+	  //console.log("ffrom: "+ffrom);
       console.log(from);
       console.log(to);
 	  if (!from && !to) { // no value for from and to
@@ -142,19 +133,19 @@ function filterRows() {
 	  to = to || '2999-12-31';
 
 	  var dateFrom = moment(from);
-	  console.log(dateFrom);
+	 // console.log(dateFrom);
 	  var dateTo = moment(to);
-	  console.log(dateTo);
-	  $('#myTable tr.high').each(function(i, tr) {
-	    var val = $(tr).find("td:nth-child(3)").text();
-	    var dateVal = moment(val, "DD MMM yyyy");
-	    var visible = (dateVal.isBetween(dateFrom, dateTo, null, [])) ? "" : "none"; // [] for inclusive
-	    $(tr).css('display', visible);
-	  });
-	}
+	  //console.log(dateTo);
+	  $('#myTable tr').each(function(i, tr) {
+		    var val = $(tr).find("td:nth-child(4)").text();
+		    var dateVal = moment(val, "DD MMM YYYY");
+		    var visible = (dateVal.isBetween(dateFrom, dateTo, null, [])) ? "" : "none"; // [] for inclusive
+		    $(tr).css('display', visible);
+		  });
+		}
 
-	$('#datefilterfrom').on("change", filterRows);
-	$('#datefilterto').on("change", filterRows);
+		$('#datefilterfrom').on("change", filterRows);
+		$('#datefilterto').on("change", filterRows);
 
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
@@ -165,12 +156,35 @@ document.querySelectorAll('td.fix').forEach((e)=>{
 </script>-->
 <script>
 $(document).ready(function(){
-	$('#myTable').dataTable( {
-		 language: {
-		        search: "_INPUT_",
-		        searchPlaceholder: "Search..."
-		    }
-	} );
-});
+	var t = $('#myTable').DataTable({
+	 	"bPaginate": false,
+	  	"bLengthChange": false,
+	  	"bFilter": true,
+	  	"bInfo": false,
+	  	"bAutoWidth": false,
+			language: {
+ 				search: " ",
+	        	searchPlaceholder: "Search" 
+	   		} ,
+	   	 columnDefs: [
+	            {
+	                searchable: true,
+	                orderable: false,
+	                targets: 0,
+	                type: 'date-euro'
+	            },
+	        ],
+	        order: [[1, 'asc']],
+	    });
+	 
+	    t.on('order.dt search.dt', function () {
+	        let i = 1;
+	 
+	        t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+	            this.data(i++);
+	        });
+	    }).draw();
+	});
+
 </script>
 
