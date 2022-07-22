@@ -337,6 +337,12 @@
 			<result name="success" type="tiles">position_add</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		
+		<action name="CheckPositionID"
+			class="com.cubesofttech.action.PositionAction" method="CheckPositionID">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
 
 		<action name="savePosition"
 			class="com.cubesofttech.action.PositionAction" method="savePosition">
