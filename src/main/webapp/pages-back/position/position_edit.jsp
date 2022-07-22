@@ -4,7 +4,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<script
+
+<!--<script
 	src="${pageContext.request.contextPath}/assets/global/plugins/fancybox/lib/jquery-1.10.1.min.js"
 	type="text/javascript"></script>
 <script
@@ -12,13 +13,15 @@
 	type="text/javascript"></script>
 <script
 	src="${pageContext.request.contextPath}/assets/global/plugins/bootstrap/js/bootstrap.js"
-	type="text/javascript"></script>
+	type="text/javascript"></script> -->
+	
+	
 <script src="https://code.jquery.com/jquery-1.9.1.min.js"
 	type="text/javascript"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"
 	type="text/javascript"></script>
-<script src="../assets/ajax/jquery-1.10.2.js" type="text/javascript"></script>
+<!-- <script src="../assets/ajax/jquery-1.10.2.js" type="text/javascript"></script> -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"
 	type="text/javascript"></script>
@@ -51,18 +54,18 @@
 					</div>
 					<div class="portlet-body">
 						<div class="body">
-							<form action="updatePosition" method="POST">
+							<form id="form_update" action="javascript:updateData()" method="POST" class="was-validated">
 							
 								<!-- Start Hidden ID เอาไว้ไม่ใช้โชว์ใน view -->
 								<div class="form-group">
-									<label class="control-label" id="idlabel">Position ID :</label>
+									<label class="control-label" id="idlabel">Position ID<span style="color:red;"> *</span></label>
 									<input type="text" name="positionId" class="form-control" value="${positionList.positionId}" disabled>
 									<input type="hidden" name="positionId" value="${positionList.positionId}">
 								</div>
 								<!-- End Hidden -->
 					
 								<div class="form-group">
-									<label class="control-label" id="namelabel">Department ID :</label>
+									<label class="control-label" id="namelabel">Department<span style="color:red;"> *</span></label>
 									<select class="bs-select form-control" name="departmentId" id="departmentId">
 										<c:forEach var="department" items="${departmentList}">
 											<option value="${department.department_id}"
@@ -73,7 +76,7 @@
 								</div>
 					
 								<div class="form-group">
-									<label class="control-label" id="namelabel">Name :</label>
+									<label class="control-label" id="namelabel">Name<span style="color:red;"> *</span></label>
 									<input type="text" name="name" class="form-control" id="name"
 											maxlength="240" value="${positionList.name}" required> 
 									<input type="hidden" name="id_date" class="form-control" required>
@@ -84,8 +87,8 @@
 								<div class="form-group">
 									<label class="control-label" id="namelabel">Description :</label>
 									<input type="text" name="description" class="form-control" id="description"
-											maxlength="240" value="${positionList.description}" required> 
-									<input type="hidden" name="id_date" class="form-control" required>
+											maxlength="240" value="${positionList.description}"> 
+									<input type="hidden" name="id_date" class="form-control">
 									<div class="form-control-focus"></div>
 									<!--<span class="help-block">Please fill the information</span> -->
 								</div>
@@ -134,9 +137,30 @@
 			$("#labeldetail").hide();
 		}
 	}
+	
+	function updateData(){
+		//var positionId = $("#position_id").val();
+		//var departId = $("#depart_id").val();
+		var update_data = $("#form_update").serializeArray();
+		//var namePosition = $("#name_position").val();
+		//var description = $("#name_description").val();
+		//var prefix = $("#prefix").val();
+		console.log(update_data);
+		//console.log(departId);
+		$.ajax({
+			url : "updatePosition",
+			method : "POST",
+			data : update_data,
+			
+			success : function() {
+				document.location = "position_list";
+				//console.log(data)
+			}
+		})
+	}
 </script>
 
-<link
+<!-- <link
 	href="../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css"
 	rel="stylesheet" type="text/css" />
 <script src="../assets/global/plugins/jquery.min.js"
@@ -153,4 +177,4 @@
 	type="text/javascript"></script>
 <link
 	href="../assets/global/plugins/bootstrap-sweetalert/sweetalert.css"
-	rel="stylesheet" type="text/css" />
+	rel="stylesheet" type="text/css" /> -->

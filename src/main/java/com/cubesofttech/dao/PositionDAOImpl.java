@@ -60,6 +60,39 @@ public class PositionDAOImpl implements PositionDAO {
 		}
 		return position;
 		}
+	
+	@Override
+	public List<Position> findAllPosition() throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Position> position = null;
+		try {
+			String sql = " SELECT * FROM position";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			position = query.list();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return position;
+	}
+	
+	@Override
+	public List<Map<String, Object>> findPositionId(String id) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List id1 = null;
+		try {
+			String sql = " SELECT * FROM position WHERE position_id = :id ";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setParameter("id", id);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			id1 = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return id1;
+
+	}
 
 	@Override
     public Position findById(String position_id) throws Exception {

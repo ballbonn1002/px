@@ -13,6 +13,10 @@ public interface PositionDAO {
     
     public List<Position> findAll() throws Exception;
     
+    public List<Position> findAllPosition() throws Exception;
+    
+    public List<Map<String, Object>> findPositionId(String id) throws Exception;
+    
     public void update(Position position) throws Exception;
     
     public void delete(Position position) throws Exception;
