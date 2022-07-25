@@ -518,4 +518,114 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 	return json_array;
 	
 	}
+
+	@Override
+	public JSONArray paymentchartIn(String year) throws Exception {
+		List<Map<String, Object>>  query_listMap = null;
+		JSONArray json_array = new JSONArray();
+		Session session =  this.sessionFactory.getCurrentSession(); 
+		try {
+			if(year != "") {
+				String sql = "select \r\n"
+						+ "SUM(case WHEN month(payment_group.payment_date) = '01' then payment.income_net else 0 end) as 'Jan'\r\n"
+						+ ",SUM(case WHEN month(payment_group.payment_date) = '02' then payment.income_net else 0 end) as 'Feb'\r\n"
+						+ ",SUM(case WHEN month(payment_group.payment_date) = '03' then payment.income_net else 0 end) as 'Mar'\r\n"
+						+ ",SUM(case WHEN month(payment_group.payment_date) = '04' then payment.income_net else 0 end) as 'Apr'\r\n"
+						+ ",SUM(case WHEN month(payment_group.payment_date) = '05' then payment.income_net else 0 end) as 'May'\r\n"
+						+ ",SUM(case WHEN month(payment_group.payment_date) = '06' then payment.income_net else 0 end) as 'Jun'\r\n"
+						+ ",SUM(case WHEN month(payment_group.payment_date) = '07' then payment.income_net else 0 end) as 'Jul'\r\n"
+						+ ",SUM(case WHEN month(payment_group.payment_date) = '08' then payment.income_net else 0 end) as 'Aug'\r\n"
+						+ ",SUM(case WHEN month(payment_group.payment_date) = '09' then payment.income_net else 0 end) as 'Sep'\r\n"
+						+ ",SUM(case WHEN month(payment_group.payment_date) = '10' then payment.income_net else 0 end) as 'Oct'\r\n"
+						+ ",SUM(case WHEN month(payment_group.payment_date) = '11' then payment.income_net else 0 end) as 'Nov'\r\n"
+						+ ",SUM(case WHEN month(payment_group.payment_date) = '12' then payment.income_net else 0 end) as 'Dec'\r\n"
+						+ "FROM payment\r\n"
+						+ "JOIN payment_group ON payment_group.payment_group_id = payment.payment_group_id\r\n"
+						+ "WHERE year(payment_group.payment_date) = '"+year+"'";
+				SQLQuery query = session.createSQLQuery(sql);
+				query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+				query_listMap = query.list();
+				if(query_listMap == null || query_listMap.isEmpty()) {
+					   for(int i = 0;i<12;i++) {
+						   JSONArray array_cell = new JSONArray();
+						   int set = 0;
+						   array_cell.put(set);
+						   json_array.put(array_cell);
+					   }
+					}else {
+						Iterator itr = query_listMap.iterator();
+						while(itr.hasNext()){
+			                List<String> monthList = Arrays.asList("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
+			                Map<String, Object> map  = (Map<String, Object>) itr.next();
+			                for(int i=0;i<monthList.size();i++) {
+			                    JSONArray array_cell = new JSONArray();
+			                    String smonth = monthList.get(i);
+			                    Object value = map.get(smonth);
+			                    array_cell.put(smonth);
+			                    array_cell.put(value);
+			                    json_array.put(array_cell);
+			                }
+					}
+			}
+		}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return json_array;
+	}
+
+	@Override
+	public JSONArray paymentchartEx(String year) throws Exception {
+		List<Map<String, Object>>  query_listMap = null;
+		JSONArray json_array = new JSONArray();
+		Session session =  this.sessionFactory.getCurrentSession(); 
+		try {
+			if(year != "") {
+				String sql = "select \r\n"
+						+ "SUM(case WHEN month(payment_group.payment_date) = '01' then payment.expend_net else 0 end) as 'Jan'\r\n"
+						+ ",SUM(case WHEN month(payment_group.payment_date) = '02' then payment.expend_net else 0 end) as 'Feb'\r\n"
+						+ ",SUM(case WHEN month(payment_group.payment_date) = '03' then payment.expend_net else 0 end) as 'Mar'\r\n"
+						+ ",SUM(case WHEN month(payment_group.payment_date) = '04' then payment.expend_net else 0 end) as 'Apr'\r\n"
+						+ ",SUM(case WHEN month(payment_group.payment_date) = '05' then payment.expend_net else 0 end) as 'May'\r\n"
+						+ ",SUM(case WHEN month(payment_group.payment_date) = '06' then payment.expend_net else 0 end) as 'Jun'\r\n"
+						+ ",SUM(case WHEN month(payment_group.payment_date) = '07' then payment.expend_net else 0 end) as 'Jul'\r\n"
+						+ ",SUM(case WHEN month(payment_group.payment_date) = '08' then payment.expend_net else 0 end) as 'Aug'\r\n"
+						+ ",SUM(case WHEN month(payment_group.payment_date) = '09' then payment.expend_net else 0 end) as 'Sep'\r\n"
+						+ ",SUM(case WHEN month(payment_group.payment_date) = '10' then payment.expend_net else 0 end) as 'Oct'\r\n"
+						+ ",SUM(case WHEN month(payment_group.payment_date) = '11' then payment.expend_net else 0 end) as 'Nov'\r\n"
+						+ ",SUM(case WHEN month(payment_group.payment_date) = '12' then payment.expend_net else 0 end) as 'Dec'\r\n"
+						+ "FROM payment\r\n"
+						+ "JOIN payment_group ON payment_group.payment_group_id = payment.payment_group_id\r\n"
+						+ "WHERE year(payment_group.payment_date) = '"+year+"'";
+				SQLQuery query = session.createSQLQuery(sql);
+				query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+				query_listMap = query.list();
+				if(query_listMap == null || query_listMap.isEmpty()) {
+					   for(int i = 0;i<12;i++) {
+						   JSONArray array_cell = new JSONArray();
+						   int set = 0;
+						   array_cell.put(set);
+						   json_array.put(array_cell);
+					   }
+					}else {
+						Iterator itr = query_listMap.iterator();
+						while(itr.hasNext()){
+			                List<String> monthList = Arrays.asList("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
+			                Map<String, Object> map  = (Map<String, Object>) itr.next();
+			                for(int i=0;i<monthList.size();i++) {
+			                    JSONArray array_cell = new JSONArray();
+			                    String smonth = monthList.get(i);
+			                    Object value = map.get(smonth);
+			                    array_cell.put(smonth);
+			                    array_cell.put(value);
+			                    json_array.put(array_cell);
+			                }
+					}
+			}
+		}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return json_array;
+	}
 }

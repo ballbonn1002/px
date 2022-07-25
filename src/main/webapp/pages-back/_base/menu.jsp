@@ -92,7 +92,7 @@
                                                 <li><a href="payment_statistics">Payment Statistics</a> </li>
                                                 <li><a href="employeeReport">Employee Statistics</a> </li>
                                                 <li><a href="report_department">Department Statistics</a> </li>                                    
-                                                <li><a href="chart-jquery-knob.html">Jquery Knob</a> </li>
+                                                <li><a href="Payment_chart">Payment Chart</a></li>
                                                 <li><a href="chart-sparkline.html">Sparkline Chart</a></li>
                                                 <li><a href="chart-peity.html">Peity</a></li>
                                                 <li><a href="chart-c3.html">C3 Charts</a></li>
