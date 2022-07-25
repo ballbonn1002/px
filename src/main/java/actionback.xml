@@ -346,9 +346,9 @@
 
 		<action name="savePosition"
 			class="com.cubesofttech.action.PositionAction" method="savePosition">
-			<result name="success" type="tiles">position_list</result>
+			<result name="success">/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
-			<result name="input" type="chain">position_add</result>
+			<!-- <result name="input" type="chain">position_add</result> -->
 		</action>
 
 		<action name="position_delete"
