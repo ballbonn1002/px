@@ -57,7 +57,7 @@
 				</div>
 				<div class="portlet-body">
 					<div class="panel-body">
-						<form action="updateDepart" method="POST">
+						<form action="javascript:submitUpdateDepartmentForm()" id="updateDepartForm" method="POST">
 		
 						<!-- Start Hidden ID เอาไว้ไม่ใช้โชว์ใน view -->
 						<div class="form-group form-lg-line-input col-md-12">
@@ -102,7 +102,7 @@
 								<label class="col-md-3 control-label" for="form_control_1"></label>
 								<div class="col-md-12">
 									<div  style="text-align: right">
-										<button type="reset" class="btn btn-outline-secondary"> ยกเลิก</button>
+										<button type="button" onclick="history.back()" class="btn btn-outline-secondary"> ยกเลิก</button>
 										<button type="submit" class="btn btn-success"> บันทึก</button>
 									</div>
 								</div>
@@ -128,12 +128,13 @@
 							</div>
 						<!-- End Time Create -->
 						</div>
+						</form>
 						</div>
 
 						<div class="row ">
 							<div class="col-md-12"></div>
 						</div>
-					</form>
+					
 				</div>
 			</div>
 			</div>
@@ -152,6 +153,18 @@
 			$("#labeldetail").hide();
 		}
 	}
+	
+	function submitUpdateDepartmentForm(){
+
+		let data_ = $("#updateDepartForm").serializeArray()
+		console.log(data_)
+
+		$.ajax({url: "updateDepart",method: "POST",data: data_,
+		success:function(){
+			document.location = "department_list";
+		}})
+	}
+	
 </script>
 
 <link

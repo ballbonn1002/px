@@ -9,6 +9,8 @@
 
 <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 <c:set var="now" value="<%=new java.util.Date()%>" />
+
+
 <style type="text/css">
 /* class สำหรับแถวแรกของรายละเอียด */
 .tr_odd {
@@ -38,11 +40,17 @@ tr{
 </style>
 <script>
 				
-				$("tr:not(:first)").each(function (index ) {
-					   $(this).css('animation-delay',index *0.01 +'s');
-					}); 
+$("tr:not(:first)").each(function (index ) {
+$(this).css('animation-delay',index *0.01 +'s');
+}); 
 								
-				</script>
+</script>
+
+<script	src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<script	src="https://cdn.jsdelivr.net/gh/mgalante/jquery.redirect@master/jquery.redirect.js"></script>
+
+
 <div class="block-header">
     <div class="row">
         <div class="col-lg-6 col-md-8 col-sm-12">
@@ -63,18 +71,16 @@ tr{
 				
 				<div class="portlet light bordered">
 					<div class="portlet-title" >
-						<div class="caption">
-							 <span style="font-weight: bold; font-size: 20px"
-								   class="caption-subject font-red sbold uppercase" >เเผนก</span> 
-							 <span class="caption-helper font-red"> <%-- ${role.name} --%> </span>
+						<div class="row">
+							<div class="col">
+								 <span style="font-weight: bold; font-size: 20px" class="caption-subject font-red sbold uppercase" >เเผนก</span> 
+								 <span class="caption-helper font-red"> <%-- ${role.name} --%> </span>					
+							</div>
+							<div class="col">
+								<a href="department_add" class="btn btn-info  float-right" style="margin-bottom: 30px;"  >&nbsp;เพิ่มเเผนก</a>
+							</div>
 						</div>
-		
-						<div class="actions right" style="text-align: right; ">
-							<a href="department_add" class="btn btn-info" style="margin-bottom: 30px;"  >&nbsp;เพิ่มเเผนก</a><!--  <a
-								class="btn btn-circle btn-icon-only btn-default fullscreen"
-								href="javascript:;" data-original-title="" title=""> </a> -->  <!--  class="btn green-meadow"-->  <!-- <i
-								class="fa fa-plus"></i> -->
-						</div>
+					
 					</div>
 		
 			<div class="portlet-body">
@@ -92,7 +98,7 @@ tr{
 						</div>
 						<!-- </div> -->
 						<div class="table-responsive">
-							<table  class="table table-hover js-basic-example table-custom m-b-0 no-footer ">
+							<table id="department_datatable" class="table js-basic-example table-hover table-custom m-b-0 no-footer ">
 								<thead>
 									<tr>
 										<th style="text-align: left; width: 10%">ลำดับ</th>
@@ -103,6 +109,7 @@ tr{
 										<th style="text-align: center;width: 5% "></th>
 									</tr>
 								</thead>
+					
 								<tbody>
 									<c:forEach var="test" items="${departmentList}">
 									<c:set var="counter" value="${counter + 1}" />
@@ -111,41 +118,59 @@ tr{
 											<td style="text-align: left; padding-top: 10px;">${test.department_id}</td>
 											<td style="text-align: left; padding-top: 10px;">${test.name}</td>
 											<td style="text-align: left; padding-top: 10px; text-align: left;">${test.description}</td>
-											<td style="text-align: left; padding-top: 10px;">${test.prefix_id}</td>
-											<!-- <td style="padding-top: 10px;">${test.user_create}</td>
-											<td style="padding-top: 10px;">${test.user_update}</td>
-											<td style="padding-top: 10px;"><fmt:formatDate
-												value="${test.time_create}" pattern=" dd-MMM-yyyy" /></td>
-											<td style="padding-top: 10px;"><fmt:formatDate
-												value="${test.time_update}" pattern=" dd-MMM-yyyy" /></td>-->
-											<td style="text-align:right;">                                            
-                                        		<a class="btn btn-outline-success" title="Edit" href="Department_edit?id=${test.department_id}">
+											<td style="text-align: left; padding-top: 10px;">${test.prefixId}</td>
+																							
+											<td style="text-align:right;">    
+                                   
+                                        		<a id="Edit_btn_${test.department_id}" class="btn btn-outline-success" title="Edit" href="Department_edit?id=${test.department_id}">
+                                        		<!-- <a id="Edit_btn_${test.department_id}" class="btn btn-outline-success" title="Edit">-->
+                                      
+                                      
                                         		<i class="fa fa-pencil"></i></a>
                                         		<a class="btn btn-outline-danger sred-intense sweet-${test.department_id}" title="Delete"
                                         			onclick="_gaq.push(['_trackEvent', 'example', 'try', 'Primary']);">
                                         		<i class="fa fa-trash-o"></i></a>
                                        		</td>
 										</tr>
-									<script>
-document.querySelector('.sweet-${test.department_id}').onclick = function(){
-	swal({
-	      title: "Are you sure!",
-	      text: "You will be deleting this id!",
-	      type: "info",
-	      showCancelButton: true,
-	      confirmButtonClass: 'btn-primary',
-	      confirmButtonText: 'OK'
-    }, function (inputValue) {
-        if (inputValue === false) return false;
-        if (inputValue === "") {
-          return false
-        }
-        document.location = "Department_delete?id=${test.department_id}";   //?id คือ parameter
-      });
-};
-</script>
-								</c:forEach>
-							</tbody>
+											<script>
+											/*
+											$('#Edit_btn_${test.department_id}').on('click',function(){
+												//console.log('${test.department_id}');
+												//document.location = "Department_edit?id=${test.department_id}";
+														$.ajax({url: "Department_edit",method: "GET",
+																data: {"id" : "${test.department_id}" ,},
+																	success:function(){
+																		//document.location = "Department_edit";
+																}})
+											})*/
+											
+											
+											document.querySelector('.sweet-${test.department_id}').onclick = function(){
+												swal({
+												      title: "Are you sure!",
+												      text: "You will be deleting this id!",
+												      type: "info",
+												      showCancelButton: true,
+												      confirmButtonClass: 'btn-primary',
+												      confirmButtonText: 'OK'
+											    }, function (inputValue) {
+											        if (inputValue === false) return false;
+											        if (inputValue === "") {
+											          return false
+											        }
+											        
+											        $.ajax({url: "Department_delete",method: "POST",
+														data: {"id" : "${test.department_id}" ,},
+															success:function(){
+																document.location = "department_list";
+														}})
+											        //document.location = "Department_delete?id=${test.department_id}";   //?id คือ parameter
+											      });
+											};
+											</script>
+									</c:forEach>
+								</tbody>
+							
 						</table>
 					</div>
 				</div>
@@ -156,12 +181,45 @@ document.querySelector('.sweet-${test.department_id}').onclick = function(){
 	</div>
 	</div>
 </div>
-	
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script>
+
+
+<link rel="stylesheet"	href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+<script>
+
 $(document).ready(function(){	
 
+	var datatb = $("#department_datatable").DataTable({
+		"bPaginate": false,
+	  	"bLengthChange": false,
+	  	"bFilter": true,
+	  	"bInfo": false,
+	  	"bAutoWidth": false,
+		language: {
+				search: " ",
+        	searchPlaceholder: "Search" 
+   		} ,
+   	 	columnDefs: [
+            {
+                searchable: false,
+                orderable: false,
+                targets: 0,
+            },
+        ],
+        order: [[1, 'asc']],
+	});
+	
+	
+	datatb.on('order.dt search.dt', function () {
+        let i = 1;
+ 
+        datatb.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+            this.data(i++);
+        });
+    }).draw();
+	/*
 	var value="${myselect}" ; 
 	var d = new Date();
 	if(value == 0 ){
@@ -170,11 +228,12 @@ $(document).ready(function(){
 		document.getElementById("all").selected = "true";
 	}else{
 	document.getElementById(value).selected = "true";
-   }
+   }*/
+	
 });
 </script>
 
-
+<!-- 
 	<link
 		href="../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css"
 		rel="stylesheet" type="text/css" />
@@ -192,3 +251,4 @@ $(document).ready(function(){
 	<link
 		href="../assets/global/plugins/bootstrap-sweetalert/sweetalert.css"
 		rel="stylesheet" type="text/css" />
+-->

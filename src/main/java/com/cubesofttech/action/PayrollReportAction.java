@@ -879,8 +879,8 @@ public class PayrollReportAction extends ActionSupport {
             		obj_cell.put("name", yearList.get(i));
             	}
                    arr_list.put(obj_cell);
-			}				
-
+			}	
+			log.debug(arr_list);
             request.setAttribute("json", arr_list.toString());
             return SUCCESS;
 		}catch (Exception e) {
@@ -1107,5 +1107,14 @@ public class PayrollReportAction extends ActionSupport {
 			return ERROR;
 		}
 	}
+	
+	public String report_year() {
+		try {
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+	}	
 	
 }

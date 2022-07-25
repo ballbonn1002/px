@@ -168,6 +168,7 @@ const department_color = {  "AE":"#dc3545",
 var department_id = [];
 var lineChart = null;
 var barChart = null;
+const labels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
 function getdepartment_id(){
 	$.ajax({
@@ -205,9 +206,9 @@ function generateBarChart(){
 				"allDepartmentId" : department_id.join(',') ,
 			},
 			success:function(data){
-				//console.log(data);
+				console.log(data);
 				
-				dataset = createGraphDataset(data);
+				dataset = createGraphDataset(data,year);
 				barChart.data.datasets = dataset;
 				barChart.update();
 				
@@ -227,9 +228,9 @@ function generateLineChart(){
 				"allDepartmentId" : department_id.join(',') ,
 			},
 			success:function(data){
-				//console.log(data);
+				console.log(data);
 				
-				dataset = createGraphDataset(data);
+				dataset = createGraphDataset(data,year);
 				lineChart.data.datasets = dataset;
 				lineChart.update();
 				
@@ -240,12 +241,23 @@ function generateLineChart(){
 //////////////////////////////////////////
 //form data
 
-function createGraphDataset(data){
+function createGraphDataset(data,year){
 	var dataset = [];
+	var year_now = "<fmt:formatDate value = '${now}'  type = 'both' timeStyle = 'medium' pattern='yyyy' />";
+	var month_now = "<fmt:formatDate value = '${now}'  type = 'both' timeStyle = 'medium' pattern='MM' />";
+	
 	for(let i = 0 ; i < department_id.length ; i++){
+		
+		var convert_data = data[department_id[i]]
+		if(year_now == year){
+			convert_data = convert_data.slice(0, month_now)
+		}else if (year > year_now){
+			convert_data = []
+		}
+			 
 		dataset.push({
 					   label : department_id[i],
-					   data: data[department_id[i]],
+					   data: convert_data,
 					   borderColor: department_color[department_id[i]],
 					   backgroundColor: department_color[department_id[i]],
 					   fill: false
@@ -262,7 +274,7 @@ function createBarGraph(){
 	barChart = new Chart("BarChart", {
 		  type: "bar",
 		  data: {
-		    labels: ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'],
+		    labels: labels,
 		    datasets: [], 
 		  },
 		  options: {
@@ -289,7 +301,7 @@ function createLineGraph(){
 	lineChart = new Chart("LineChart", {
 	  type: "line",
 	  data: {
-	    labels: ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'],
+	    labels: labels,
 	    datasets: [], 
 	  },
 	  options: {

@@ -38,7 +38,7 @@ public class PositionAction extends ActionSupport {
 
 	public String list() {
 		try {
-					List<Position> positionList = positionDAO.findAll();
+					List<Position> positionList = positionDAO.findAllPosition();
 					request.setAttribute(Position, positionList);
 					return SUCCESS;
 				} catch (Exception e) {
@@ -59,7 +59,33 @@ public class PositionAction extends ActionSupport {
 		}
 	}
 	
-
+	public String CheckPositionID() {
+		try {
+			String id = request.getParameter("position_id");
+			Map<String, String> obj = new HashMap<>();
+			List<Map<String, Object>> positionId = positionDAO.findPositionId(id);
+			//log.debug(positionId);
+			String s = positionId.toString();
+			if (s.equals("[]")) {
+				String x = "0";
+				obj.put("flag", x);
+			} else {
+				String a = "1";
+				obj.put("flag", a);
+			} 
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	        String json = gson.toJson(obj);
+	        PrintWriter out = response.getWriter();
+			out.print(json);
+			out.flush();
+			out.close(); 
+			
+	        //return null;
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	 }
 	
 	public String savePosition() {
 		try{
@@ -94,14 +120,15 @@ public class PositionAction extends ActionSupport {
 				position.setUserUpdate(logonUser);
 				position.setTimeCreate(DateUtil.getCurrentTime());
 				position.setTimeUpdate(DateUtil.getCurrentTime());
+				//log.debug(position);
 				
 			positionDAO.save(position);
 			}else{ // ถ้าซ้ำ ทำการ Alert โดยสร้าง Flag ไว้ในหน้า department_add
 				request.setAttribute("flag", "1");
 				return INPUT;
 			}
-			List<Position> positionList = positionDAO.findAll();
-			request.setAttribute(Position, positionList);
+			//List<Position> positionList = positionDAO.findAllPosition();
+			//request.setAttribute(Position, positionList);
 			return SUCCESS;
 		}catch (Exception e){
 			return ERROR;
@@ -161,8 +188,8 @@ public class PositionAction extends ActionSupport {
 			positionDAO.update(position);
 			
 			
-			List<Position> positionList = positionDAO.findAll();
-			request.setAttribute(Position, positionList);
+			//List<Position> positionList = positionDAO.findAll();
+			//request.setAttribute(Position, positionList);
 			
 			return SUCCESS;
 		}catch (Exception e){
@@ -178,7 +205,7 @@ public class PositionAction extends ActionSupport {
 			position = positionDAO.findById(positionId);
 			log.debug(position);
 			positionDAO.delete(position);
-			List<Position> positionList = positionDAO.findAll();
+			List<Position> positionList = positionDAO.findAllPosition();
 			request.setAttribute(Position, positionList);
 			return SUCCESS;
 		}catch (Exception e){

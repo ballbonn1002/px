@@ -35,12 +35,12 @@ tr{
 
 </style>
 <script>
-				
-				$("tr:not(:first)").each(function (index ) {
-					   $(this).css('animation-delay',index *0.01 +'s');
-					}); 
+	$("tr:not(:first)").each(function (index ) {
+		$(this).css('animation-delay',index *0.01 +'s');
+	}); 
 								
-				</script>
+</script>
+
 ${description}
 
 
@@ -84,7 +84,7 @@ ${description}
 							<!-- </div> -->
 							<div class="body">
 								<div class="table-responsive">
-									<table class="table table-hover js-basic-example dataTable table-custom m-b-0 no-footer">
+									<table class="table table-hover js-basic-example table-custom m-b-0 no-footer" id="myTable">
 										<thead>
 				                        	<tr>
 					                            <th height="41" style="width: 10%;">No</th>
@@ -159,24 +159,70 @@ ${description}
 	</div>
 </div>
 
+<!-- Search 
+<script src="/pages-back/assets/js/pages/tables/jquery-datatable.js"></script>-->
+
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script>
-$(document).ready(function(){	
+	
+var ctrlKeyDown = false;
 
-	var value="${myselect}" ; 
-	var d = new Date();
-	if(value == 0 ){
-		document.getElementById(d.getFullYear()).selected = "true";	
-	}else if(value == 2 ){  
-		document.getElementById("all").selected = "true";
-	}else{
-	document.getElementById(value).selected = "true";
-   }
+function keydown(e) { 
+
+    if ((e.which || e.keyCode) == 116 || ((e.which || e.keyCode) == 82 && ctrlKeyDown)) {
+        // Pressing F5 or Ctrl+R
+        e.preventDefault();
+    } else if ((e.which || e.keyCode) == 17) {
+        // Pressing  only Ctrl
+        ctrlKeyDown = true;
+    }
+};
+
+function keyup(e){
+    // Key up Ctrl
+    if ((e.which || e.keyCode) == 17) 
+        ctrlKeyDown = false;
+};
+
+
+$(document).ready(function(){	
+	
+	//$(document).on("keydown", keydown);
+    //$(document).on("keyup", keyup);
+	
+	var table = $('#myTable').DataTable({
+	 	"bPaginate": false,
+	  	"bLengthChange": false,
+	  	"bFilter": true,
+	  	"bInfo": false,
+	  	"bAutoWidth": false,
+			language: {
+ 				search: " ",
+	        	searchPlaceholder: "Search" 
+	   		} ,
+	   	 columnDefs: [
+	            {
+	                searchable: false,
+	                orderable: false,
+	                targets: 0,
+	            },
+	        ],
+	        order: [[1, 'asc']],
+	    });
+   
+   table.on('order.dt search.dt', function () {
+        let i = 1;
+ 
+        table.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+            this.data(i++);
+        });
+    }).draw();
+	
 });
 </script>
 
-	<link
+	<!-- <link
 		href="../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css"
 		rel="stylesheet" type="text/css" />
 	<script src="../assets/global/plugins/jquery.min.js"
@@ -192,4 +238,4 @@ $(document).ready(function(){
 		type="text/javascript"></script>
 	<link
 		href="../assets/global/plugins/bootstrap-sweetalert/sweetalert.css"
-		rel="stylesheet" type="text/css" />
+		rel="stylesheet" type="text/css" /> -->
