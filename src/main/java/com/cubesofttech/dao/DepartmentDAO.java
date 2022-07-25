@@ -13,6 +13,8 @@ public interface DepartmentDAO {
     public List<Map<String, Object>> sequense() throws Exception;
     public List<Map<String, Object>> sequense2() throws Exception;
     
+    public List<Map<String, Object>> fullNameDepartment() throws Exception;
+    
     public List<Department> findAll() throws Exception;
     public List<Map<String, Object>> findAllList() throws Exception;
     

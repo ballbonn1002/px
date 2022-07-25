@@ -8,6 +8,12 @@
 <c:set var="now" value="<%=new java.util.Date()%>" />
 <fmt:formatDate value="${bean.date}" pattern="dd-MM-yyyy" />
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" type="text/css" />
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
 <div class="block-header">
 	<div class="row">
     	<div class="col-lg-6 col-md-8 col-sm-12">
@@ -37,33 +43,46 @@
 					<div class="portlet-body">
 						<!-- BEGIN FORM-->
 						<div class="body">
-				
-							<form action="savePosition" method="POST">
+							<form id="form_send" action="javascript:sendData()" method="POST" class="was-validated">
 								<div class="form-group">
-									<label for="recipient-name" class="control-label">Position ID:</label> 
-									<input type="text" name="positionId" maxlength="4" required class="form-control">
+									<label for="recipient-name" class="control-label">Position ID<span style="color:red;"> *</span></label>
+										<div id="canuse" style="color: #28A745; text-color:#28A745; display:none; width:100%;">
+											<i class="icon-check"></i>&nbsp;&nbsp;You can use this id
+										</div>
+										<div id="cannotuse" style="color: #FAAD14; text-color:#FAAD14; display:none;">
+											<i class="icon-check"></i>&nbsp;&nbsp;You can not use this id
+										</div>
+										<div id="nofill" style="color: #FAAD14; text-color:#FAAD14; display:none;">
+											<i class="icon-check"></i>&nbsp;&nbsp;Please, Enter userID
+										</div>
+									<input type="text" id="position_id" name="positionId" maxlength="4" pattern="[A-Za-z0-9.]{1,}" required class="form-control">
+									
+										<div class="valid-feedback"></div>
+      									<div class="invalid-feedback">กรอกได้เฉพาะ ภาษาอังกฤษ ตัวเลข และ จุด(.) เท่านั้น และข้อมูลห้ามซ้ำ</div>
+										
 								</div>
 									
 								<div class="form-group">
-									<label for="recipient-name" class="control-label">Department ID:</label> 
-									<select class="bs-select form-control" name="user.departmentId">
+									<label for="recipient-name" class="control-label">Department<span style="color:red;"> *</span></label> 
+									<select id="depart_id" class="form-control" name="user.departmentId" required>
+										<option disabled hidden selected = "selected" > </option>
 											<c:forEach var="department" items="${departmentList}">
-												<option value="${department.department_id}" <c:if test="true">  </c:if>>${department.department_id}</option>
+												<option value="${department.department_id}" <c:if test="true">  </c:if>>${department.department_id} - ${department.name}</option>
 											</c:forEach>
 										</select>
 								</div>
 											
 								<div class="form-group">
-									<label for="recipient-name" class="control-label">Name:</label> <input
-										type="text" name="name" required class="form-control">
+									<label for="recipient-name" class="control-label">Name<span style="color:red;"> *</span></label> <input
+										type="text" name="name" id="name_position" required class="form-control">
 								</div>
 								<div class="form-group">
 									<label for="recipient-name" class="control-label">Decription:</label>
-									<input type="text" name="description" required class="form-control">
+									<input type="text" name="description" class="form-control">
 								</div>
 								<div class="form-group">
 									<label for="recipient-name" class="control-label">Prefix
-										ID:</label> <input type="text" name="prefix" required
+										ID:</label> <input type="text" name="prefix" 
 										class="form-control">
 								</div>				
 								<input type="hidden" name="logonUser" value="${logonUser}">
@@ -81,7 +100,7 @@
 									<div class="col-md-2">
 										<input name="date" id="date"
 											value="<fmt:formatDate value="${now}"  type = "both" 
-				        timeStyle = "medium" pattern="dd-MM-yyyy "  />"
+				        					timeStyle = "medium" pattern="dd-MM-yyyy "  />"
 											onchange="datechenge()"
 											class="form-control input-lg form-control-inline input-medium date-picker test"
 											size="9" type="hidden" onkeypress='return false'>
@@ -90,8 +109,8 @@
 				
 								</div>
 								<div style="text-align:right;">
-									<a type="reset" class="btn btn-outline-secondary" href="position_list"></i>Cancel</a>
-									<button type="submit" class="btn btn-success">Save</button>
+									<a type="reset" class="btn btn-outline-secondary" href="position_list">Cancel</a>
+									<button id="submit_position" type="submit" class="btn btn-success" >Save</button>
 								</div>
 							</form>
 						</div>
@@ -102,6 +121,11 @@
     	</div>
 	</div>
 </div>
+
+<script>
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script>
 function datechenge() {
@@ -116,17 +140,107 @@ function datechenge() {
 	}		
 }
 
-$(document).ready(function() {
+function sendData(){
+	var form_data = $("#form_send").serializeArray();
+	$.ajax({
+		url : "savePosition",
+		method : "POST",
+		type: "JSON" ,
+		data : form_data,
+		
+		success : function(data) {
+			//var value = data;
+			//console.log(data);
+			//console.log(document.location = "position_list");
+			if (data == null) {
+				document.location = "position_list";
+				//console.log(data);
+				
+			} else{
+				console.log(data);
+				swal('Position ID', 'มีข้อมูลซ้ำกัน โปรดกรอกใหม่', 'warning');
+			}
+			
+		}
+	})
+}
 
-	var value = "${flag}";
-	if (value == 1) {
-
-		swal('Please!', 'Check Position ID Duplicate', 'warning');
+function checkPattern(data){
+	let text = data;
+	let pattern = /^[a-zA-Z\s\d.]+$/;
+	
+	console.log(pattern.test(text));
+	if(pattern.test(text) == true){
+		return true;
 	}
+	else{
+		return false;
+	}
+}
+
+$(document).ready(function() {
+	$('#position_id').on('keyup', function() {
+		var id = $('#position_id').val();
+		
+		if(id != ""){
+			$.ajax({
+				url: "CheckPositionID",
+				method: "POST" ,
+				type: "JSON" ,
+				data: {
+					"position_id" : id
+				},
+				success:function(data){
+					$("#position_id").removeClass("is-invalid");
+					$("#position_id").removeClass("is-valid");
+					//console.log(value);
+					//console.log(data.toString().indexOf("1"));
+					
+					if (data.toString().indexOf("1") == -1 && checkPattern(id) == true) {
+						$("#position_id").addClass("is-valid");
+						$("#canuse").show();
+						$("#cannotuse").hide();
+						$("#nofill").hide();	
+						
+					} else {	
+						$("#position_id").addClass("is-invalid");
+						//swal('Please!', 'Check Position ID Duplicate', 'warning');
+						$("#canuse").hide();
+						$("#cannotuse").show();
+						$("#nofill").hide();
+				} 
+				}
+			})
+			}else{
+				$("#position_id").addClass("is-invalid");
+				$("#canuse").hide();
+				$("#cannotuse").hide();
+				$("#nofill").show();
+			}
+	})
+	
+	document.getElementById("position_id").addEventListener("invalid", warnFunction);
+	function warnFunction(){
+		$("#position_id").addClass("is-invalid");
+	}
+	
+	/*function warnDepart(){
+		swal({
+			title: 'Department',
+			text: 'โปรดส่งใครมารักฉันที'
+		});
+	}*/
+	
+	/*$(".placeholder").select2({
+		dropdownAutoWidth : true,
+	    placeholder: "เลือก",
+	    allowClear: false
+	});*/
+	
 });
 
 </script>
-<link
+<!-- <link
 	href="../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css"
 	rel="stylesheet" type="text/css" />
 <script src="../assets/global/plugins/jquery.min.js"
@@ -142,4 +256,4 @@ $(document).ready(function() {
 	type="text/javascript"></script>
 <link
 	href="../assets/global/plugins/bootstrap-sweetalert/sweetalert.css"
-	rel="stylesheet" type="text/css" />
+	rel="stylesheet" type="text/css" /> -->

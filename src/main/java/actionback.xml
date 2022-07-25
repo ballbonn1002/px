@@ -353,12 +353,18 @@
 			<result name="success" type="tiles">position_add</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		
+		<action name="CheckPositionID"
+			class="com.cubesofttech.action.PositionAction" method="CheckPositionID">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
 
 		<action name="savePosition"
 			class="com.cubesofttech.action.PositionAction" method="savePosition">
-			<result name="success" type="tiles">position_list</result>
+			<result name="success">/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
-			<result name="input" type="chain">position_add</result>
+			<!-- <result name="input" type="chain">position_add</result> -->
 		</action>
 
 		<action name="position_delete"
@@ -386,21 +392,29 @@
 		</action>
 		
 		<!-- Department -->
-		<action name="department_list"
-			class="com.cubesofttech.action.DepartmentAction" method="list">
+		<action name="department_list"	class="com.cubesofttech.action.DepartmentAction" method="list">
 			<result name="success" type="tiles">department_list</result>
+			<result name="error">/index.jsp</result>
 		</action>
 		<action name="department_add"
 			class="com.cubesofttech.action.DepartmentAction" method="addDepart">
 			<result name="success" type="tiles">department_add</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		
+		<action name="checkDupDepart"
+			class="com.cubesofttech.action.DepartmentAction" method="checkDupDepart">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
 		<action name="saveDepart"
 			class="com.cubesofttech.action.DepartmentAction" method="saveDepart">
 			<result name="success" type="tiles">department_list</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
 			<result name="error">/index.jsp</result>
 			<result name="input" type="tiles">department_add</result>
 		</action>
+		
 		<action name="Department_delete"
 			class="com.cubesofttech.action.DepartmentAction"
 			method="deleteDepartment">
@@ -790,8 +804,16 @@
 			<result name="success" >/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
-		
-		
+		<action name="Payment_chart"
+			class="com.cubesofttech.action.PayrollReportAction" method="">
+			<result name="success" type="tiles">Payment_chart</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="paymentchart"
+			class="com.cubesofttech.action.PayrollReportAction" method="paymentchart">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
 		<!-- BonusReport -->
 		
 		<action name="BonusReport"
@@ -861,6 +883,15 @@
 			<result name="success">/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		
 			
+		<!-- report_year -->
+		<action name="report_year"
+			class="com.cubesofttech.action.PayrollReportAction" method="report_year">
+			<result name="success" type="tiles">report_year</result>
+			<result name="error">/index.jsp</result>
+		</action>
+
+
 	</package>
 </struts>

@@ -140,7 +140,7 @@ public class PayrollReportAction extends ActionSupport {
 		try {
 			List<Payment_type> payment_type = payment_typeDAO.findType();
 			request.setAttribute("paymentTypeList", payment_type);
-
+				
 			List<User> user = userDAO.userList();
 			request.setAttribute("userList", user);
 
@@ -828,7 +828,7 @@ public class PayrollReportAction extends ActionSupport {
 		try {
 			
 			
-			String year = request.getParameter("year");
+			/*String year = request.getParameter("year");
 			log.debug(year);
 			List<String> yearList = Arrays.asList(year.split("\\s*,\\s*"));
 			log.debug("yearList: " + yearList);
@@ -836,14 +836,52 @@ public class PayrollReportAction extends ActionSupport {
 			String yyy = yearList.get(yearList.size() - 1);
 			//log.debug(yearList[]);
 			//query code
-			List<Map<String, Object>> paymentChart = payment_groupDAO.paymentStatistics(yyy);
+			JSONArray paymentChart = payment_groupDAO.paymentStatistics(yyy);
+			log.debug(paymentChart);
+			/*log.debug(paymentChart.size());
+			for(int i = 0; i < paymentChart.size(); i++) {
+					
+			}
+		(paymentChart.get(0)).values();
+			//List<String> flag = (List<String>) paymentChart.getClass();
+			JSONArray jsonarr = new JSONArray();
+			JSONObject arr = new JSONObject(); 
+			arr.put("name", yyy);
+			arr.put("data",paymentChart);
+			jsonarr.put(arr);
+			log.debug(jsonarr);
 			
 					
             Gson gson = new Gson(); 
-            String json = gson.toJson(paymentChart);
+            String json = gson.toJson(arr);
             log.debug(json);
+            
 
-            request.setAttribute("json", json);	 
+            request.setAttribute("json", jsonarr.toString());	 */
+			String year = request.getParameter("year");
+			List<String> yearList = Arrays.asList(year.split("\\s*,\\s*"));
+			
+			JSONArray arr_list = new JSONArray();
+			for(int i = 0; i < yearList.size(); i++) {
+				JSONArray res = payment_groupDAO.paymentStatistics(yearList.get(i));
+				log.debug(res);
+				JSONArray arr = new JSONArray();
+
+				JSONObject obj_cell = new JSONObject();
+                obj_cell.put("data", res);
+            	if(res.length() == 0 ) {
+            		//int e = 1;
+            		 
+            		 obj_cell.put("showInLegend", false);
+            		obj_cell.put("visible", false);
+            		// log.debug(e);
+            	}else {
+            		obj_cell.put("name", yearList.get(i));
+            	}
+                   arr_list.put(obj_cell);
+			}	
+			log.debug(arr_list);
+            request.setAttribute("json", arr_list.toString());
             return SUCCESS;
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -1017,7 +1055,7 @@ public class PayrollReportAction extends ActionSupport {
 			String mDepart = request.getParameter("depart");
 			//List<String> department = Arrays.asList(mDepart.split("\\s*,\\s*"));
 			//log.debug(department);
-			log.debug(mYear);
+			//log.debug(mYear);
 			
 			List<Map<String, Object>> getMonthStatistics = payment_groupDAO.getMonthStatic(mYear,mDepart);
 			request.setAttribute("GetMonthStatistics", getMonthStatistics);
@@ -1035,6 +1073,48 @@ public class PayrollReportAction extends ActionSupport {
 		}
 	}
 
+	public String paymentchart() {
+		try {
+			String year = request.getParameter("year");
+			log.debug(year);
+			JSONArray arr_list = new JSONArray();
+			JSONArray income = payment_groupDAO.paymentchartIn(year);
+			JSONArray expend = payment_groupDAO.paymentchartEx(year);
+			//log.debug(income);
+			//log.debug(expend);
+			
+			//List<String> monthList = Arrays.asList("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
+			String[] month = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+			
+			for(int i=0; i<month.length; i++) {
+				JSONObject obj_data = new JSONObject();
+				JSONObject obj_cell = new JSONObject();
+				//log.debug(month[i]);
+				obj_cell.put("name", month[i]);
+				obj_cell.put("y", income.get(i));
+				obj_cell.put("drilldown", month[i]);
+				obj_cell.put("color", "#28A745");
+				obj_data.put("data",obj_cell);
+				arr_list.put(obj_data);
+			}
+			
+			
+			request.setAttribute("json", arr_list.toString());
+			log.debug(arr_list.toString());
+			
+			return SUCCESS;
+		}catch(Exception e) {
+			return ERROR;
+		}
+	}
 	
+	public String report_year() {
+		try {
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+	}	
 	
 }

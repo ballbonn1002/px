@@ -7,21 +7,9 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 
-<link href="../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet" type="text/css" />
-		
-<script src="../assets/global/plugins/jquery.min.js" type="text/javascript"></script>
 
-<script src="../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js"type="text/javascript"></script>
 
 <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-
-<script src="../assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js"type="text/javascript"></script>
-			
-<script src="../assets/pages/scripts/ui-sweetalert.min.js"type="text/javascript"></script>
-
-<link
-		href="../assets/global/plugins/bootstrap-sweetalert/sweetalert.css"
-		rel="stylesheet" type="text/css" />
 <script>
 			
 				$("tr:not(:first)").each(function (index ) {
@@ -261,5 +249,12 @@ $(document).ready(function(){
 		        searchPlaceholder: "Search..."
 		    }
 	} );
+	
+	document.onkeydown = function (e) {
+		  if (e.keyCode === 116) {
+		    return false;
+		  }
+		};
+		
 });
 </script>

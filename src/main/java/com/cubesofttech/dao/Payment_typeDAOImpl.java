@@ -48,6 +48,7 @@ public class Payment_typeDAOImpl implements Payment_typeDAO{
 		return paymentTypeList;
 	}
 
+    @Override
     public List<Payment_type> findtype1() throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Payment_type> paymentTypeList01 = null;
@@ -62,7 +63,7 @@ public class Payment_typeDAOImpl implements Payment_typeDAO{
 		return paymentTypeList01;
 	}
 
-
+    @Override
     public List<Payment_type> findtype0() throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Payment_type> paymentTypeList00 = null;
@@ -77,11 +78,12 @@ public class Payment_typeDAOImpl implements Payment_typeDAO{
 		return paymentTypeList00;
 	}
 
+    @Override
     public List<Payment_type> findType() throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Payment_type> paymentTypeList1 = null;
 		try {
-			String sql = "SELECT payment_type_id , payment_type_name , sequence , type FROM payment_type ORDER BY sequence;";
+			String sql = "SELECT payment_type_id , payment_type_name , sequence , type FROM payment_type  ORDER BY type DESC , sequence";
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 			paymentTypeList1 = query.list();
@@ -90,8 +92,7 @@ public class Payment_typeDAOImpl implements Payment_typeDAO{
 		}
 		return paymentTypeList1;
 	}
-
-
+    
     @Override
     public List<Map<String, Object>> findAllList() throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();
@@ -229,7 +230,8 @@ public class Payment_typeDAOImpl implements Payment_typeDAO{
 							+ "JOIN payment_type ON payment_type.payment_type_id = payment_detail.payment_type_id "
 							+ "JOIN payment ON payment_detail.payment_id = payment.payment_id "
 							+ "JOIN payment_group ON payment.payment_group_id = payment_group.payment_group_id "
-							+ "WHERE payment_detail.user_id='"+user_id+"' AND payment_group.start_date >= '"+start_date+"' AND payment_group.end_date <= '"+end_date+"'";
+							+ "WHERE payment_detail.user_id='"+user_id+"' AND payment_group.start_date >= '"+start_date+"' AND payment_group.end_date <= '"+end_date+"' "
+							+ "ORDER BY payment_detail.payment_id , payment_type.type DESC , payment_type.sequence";
 
 				SQLQuery query = session.createSQLQuery(sql);
 				query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);

@@ -33,8 +33,7 @@
                     <li class="breadcrumb-item"><a href="page.blank"><i class="icon-home"></i></a></li>                            
                     <li class="breadcrumb-item">รายงาน</li>
                     <li class="breadcrumb-item active">รายงาน เงินเดือน/ค่าจ้างสะสม</li>
-                </ul>
-                
+                </ul> 
         </div>            
     </div>
 </div>
@@ -90,9 +89,8 @@
                          </thead>
                          <tbody id="body">
                          	<c:forEach var="test" items="${paymentTypeList}">
-                       		<c:set var="counter" value="${counter+1}"/>
                          	<tr>
-                         		<c:if test="${test.type == 1}">	
+                         		<c:if test="${test.type == 1 }">	
 									<td style="min-width:140px">${test.payment_type_id}</td>
                          			<td style="min-width:170px">${test.payment_type_name}</td>
                          		</c:if>
@@ -109,7 +107,6 @@
                          </thead>
                          <tbody>
                          	<c:forEach var="test" items="${paymentTypeList}">
-                       		<c:set var="counter" value="${counter+1}"/>
                          	<tr>
                          		<c:if test="${test.type == 0}">	
 									<td style="min-width:140px">${test.payment_type_id}</td>
@@ -126,6 +123,7 @@
    		</div>
 	</div>
 </div>
+
 <script>
 $(document).ready(function() {
 	$(".js-example-basic-multiple-limit").select2({
@@ -134,6 +132,7 @@ $(document).ready(function() {
 	});
 });
 </script>
+
 <script>	
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

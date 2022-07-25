@@ -3,6 +3,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
+
 import com.cubesofttech.model.Payment_group;
 
 
@@ -42,5 +44,9 @@ public interface Payment_groupDAO {
 	
 	public List<Payment_group> listForReportById(Integer payment_group_id) throws Exception;
 	
-	public List<Map<String, Object>> paymentStatistics(String year) throws Exception;
+	public JSONArray paymentStatistics(String year) throws Exception;
+	
+	public JSONArray paymentchartIn(String year) throws Exception;
+	
+	public JSONArray paymentchartEx(String year) throws Exception;
 }

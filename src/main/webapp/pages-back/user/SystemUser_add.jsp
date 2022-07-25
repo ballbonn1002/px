@@ -8,6 +8,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" type="text/css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
 <!-- VENDOR CSS -->
 <link rel="stylesheet" href="pages-back/assets/vendor/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="pages-back/assets/vendor/font-awesome/css/font-awesome.min.css">
@@ -26,6 +27,16 @@ input[type="checkbox"] {
         height: 36px;
         border-color: #C2CAD8 !important;
     }
+    
+::-ms-reveal {
+  display: none;
+}
+
+.t_icon {
+    cursor: pointer;
+    margin-left: -30px;
+}
+
 </style>
 
 <div class="block-header">
@@ -131,7 +142,7 @@ input[type="checkbox"] {
 						<div class="form-group">
 								<label for="recipient-name" class="control-label" style="margin-top: 5px;">Phone</label> 
 								<input id="tel" type="text" name="user_tel" class="form-control mobile-phone-number" 
-								pattern="[0-9]{10}" maxlength="10" value="${sysuserList.phone}">
+								pattern="[0-9]{10}" maxlength="10"  value="${sysuserList.phone}">
 						</div>
 					</div>
 				</div>
@@ -156,13 +167,18 @@ input[type="checkbox"] {
 					<div class="col-6">
 			<div id="pass">
 				   	<div class="form-group">
-                        	<label for="" class="control-label">Password</label>
-                             	<input type="password" class="form-control"  id="password" name="password" placeholder="Password" value="${sysuserList.password}">
-                      </div>
- 				
+                        	<label class="control-label">Password</label>
+                        <div  class="search-form">
+                            <input type="password" class="form-control input-field"  id="password" name="password" placeholder="Password" value="${sysuserList.password}">	
+                      		<button type="button" class="btn btn-default"> <i class="bi bi-eye-slash" id="togglePassword" ></i></button>
+						</div>
+ 					</div>
 				   <div class="form-group">
                         <label for="" class="control-label">Confirm Password</label>
+                        <div  class="search-form">
                              <input type="password" class="form-control" id="password_c" name="password_confirm" placeholder="Password" value="${sysuserList.password}">
+                   			 <button type="button" class="btn btn-default"> <i class="bi bi-eye-slash" id="togglePassword_c"></i></button>
+						</div>
                    </div>
                    
                    <div id="notsame" style="color:#E7505A; text-color::#E7505A; display:none;">
@@ -199,6 +215,42 @@ input[type="checkbox"] {
 			</div>
 		</div>	
 	</div>
+<script>
+$(document).ready(function() {
+	const togglePassword = document.querySelector("#togglePassword");
+	const password = document.querySelector("#password");
+    togglePassword.addEventListener('click', function (e) {
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.classList.toggle('bi-eye');
+    });
+    });
+</script>
+<script>
+$(document).ready(function() {
+	const togglePassword = document.querySelector("#togglePassword_c");
+	const password = document.querySelector("#password_c");
+    togglePassword.addEventListener('click', function (e) {
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.classList.toggle('bi-eye');
+    });
+    });
+</script>
+<script>
+	var x = document.getElementById("tel");
+	var y = document.getElementById("sysuserID");
+	var z = document.getElementById("email");
+	x.oninvalid = function(event) {
+    	event.target.setCustomValidity('เบอร์โทรศัพท์ไม่ถูกต้อง');
+	}
+	y.oninvalid = function(event) {
+    	event.target.setCustomValidity('กรอกได้เฉพาะ ภาษาอังกฤษ ตัวเลข และ จุด(.) เท่านั้น');
+	}
+	z.oninvalid = function(event) {
+    	event.target.setCustomValidity('อีเมลไม่ถูกต้อง');
+	}
+</script>
 <script>
 $(document).ready(function() {
 	$(".js-example-basic-multiple-limit1").select2({

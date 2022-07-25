@@ -96,6 +96,21 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 	}
     
     @Override
+	public List<Map<String, Object>> fullNameDepartment() throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Map<String, Object>> department_id = null;
+		try {
+			String sql = " SELECT department_id, name, CONCAT(department_id) FROM department  ORDER BY department_id ASC  ";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			department_id = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return department_id;
+	}
+    
+    @Override
 	public List<Map<String, Object>> sequense2() throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Map<String, Object>> department_id = null;
