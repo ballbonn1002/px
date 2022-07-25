@@ -859,6 +859,15 @@
 			<result name="success">/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		
 			
+		<!-- report_year -->
+		<action name="report_year"
+			class="com.cubesofttech.action.PayrollReportAction" method="report_year">
+			<result name="success" type="tiles">report_year</result>
+			<result name="error">/index.jsp</result>
+		</action>
+
+
 	</package>
 </struts>
