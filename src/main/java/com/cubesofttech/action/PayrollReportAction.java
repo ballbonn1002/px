@@ -1073,6 +1073,39 @@ public class PayrollReportAction extends ActionSupport {
 		}
 	}
 
-	
+	public String paymentchart() {
+		try {
+			String year = request.getParameter("year");
+			log.debug(year);
+			JSONArray arr_list = new JSONArray();
+			JSONArray income = payment_groupDAO.paymentchartIn(year);
+			JSONArray expend = payment_groupDAO.paymentchartEx(year);
+			//log.debug(income);
+			//log.debug(expend);
+			
+			//List<String> monthList = Arrays.asList("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
+			String[] month = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+			
+			for(int i=0; i<month.length; i++) {
+				JSONObject obj_data = new JSONObject();
+				JSONObject obj_cell = new JSONObject();
+				//log.debug(month[i]);
+				obj_cell.put("name", month[i]);
+				obj_cell.put("y", income.get(i));
+				obj_cell.put("drilldown", month[i]);
+				obj_cell.put("color", "#28A745");
+				obj_data.put("data",obj_cell);
+				arr_list.put(obj_data);
+			}
+			
+			
+			request.setAttribute("json", arr_list.toString());
+			log.debug(arr_list.toString());
+			
+			return SUCCESS;
+		}catch(Exception e) {
+			return ERROR;
+		}
+	}
 	
 }

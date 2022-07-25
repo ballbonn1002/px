@@ -343,7 +343,11 @@
 		<put-attribute name="body"
 			value="/pages-back/report/payment_statistics.jsp" />
 	</definition>
-	
+	<definition name="Payment_chart" extends="masterLayout">
+		<put-attribute name="title" value="Payment Chart"/>
+		<put-attribute name="body"
+			value="/pages-back/report/Payment_chart.jsp"/>
+	</definition>
 	
 	<!-- Report Bonus -->
 	
