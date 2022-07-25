@@ -49,7 +49,7 @@ public class PositionAction extends ActionSupport {
 		   }
 	public String addPosition(){
 		try{
-			List<Map<String, Object>> departmentList = departmentDAO.sequense();
+			List<Map<String, Object>> departmentList = departmentDAO.fullNameDepartment();
 			request.setAttribute("departmentList", departmentList);
 			return SUCCESS;
 			
@@ -124,11 +124,17 @@ public class PositionAction extends ActionSupport {
 				
 			positionDAO.save(position);
 			}else{ // ถ้าซ้ำ ทำการ Alert โดยสร้าง Flag ไว้ในหน้า department_add
+				//String posiCheck = positionCheck.toString();
+				//log.debug(posiCheck);
 				request.setAttribute("flag", "1");
-				return INPUT;
 			}
 			//List<Position> positionList = positionDAO.findAllPosition();
 			//request.setAttribute(Position, positionList);
+			//return SUCCESS;
+			
+			Gson gson = new Gson(); 
+            String json = gson.toJson(positionCheck); 
+            request.setAttribute("json", json);	
 			return SUCCESS;
 		}catch (Exception e){
 			return ERROR;
@@ -142,7 +148,7 @@ public class PositionAction extends ActionSupport {
 			positionList = positionDAO.findById(positionId);
 			request.setAttribute(Position, positionList);  //ส่งค่าจากหลังไปหน้า
 			
-			List<Map<String, Object>> departmentList = departmentDAO.sequense();
+			List<Map<String, Object>> departmentList = departmentDAO.fullNameDepartment();
 		//	String departmentId = request.getParameter("department_id");
 		//	Department departmentList = new Department();
 		//	departmentList = departmentDAO.findById(departmentId);
