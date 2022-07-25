@@ -45,4 +45,8 @@ public interface Payment_groupDAO {
 	public List<Payment_group> listForReportById(Integer payment_group_id) throws Exception;
 	
 	public JSONArray paymentStatistics(String year) throws Exception;
+	
+	public JSONArray paymentchartIn(String year) throws Exception;
+	
+	public JSONArray paymentchartEx(String year) throws Exception;
 }

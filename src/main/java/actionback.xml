@@ -788,8 +788,16 @@
 			<result name="success" >/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
-		
-		
+		<action name="Payment_chart"
+			class="com.cubesofttech.action.PayrollReportAction" method="">
+			<result name="success" type="tiles">Payment_chart</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="paymentchart"
+			class="com.cubesofttech.action.PayrollReportAction" method="paymentchart">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
 		<!-- BonusReport -->
 		
 		<action name="BonusReport"
