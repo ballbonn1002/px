@@ -323,7 +323,7 @@ function call_submit() {
 		},
 		success : function(data){
 			data = JSON.parse(data);
-			location.href = "payroll_form?paymentGroupId=" + data.id;
+			window.location.href = "payroll_form?paymentGroupId=" + data.id;
 		}
 	})
 	

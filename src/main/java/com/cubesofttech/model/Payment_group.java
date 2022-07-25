@@ -11,10 +11,14 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 @Entity
 @Table(name = "payment_group")
 @NamedQueries({
     @NamedQuery(name = "Payment_group.findAll", query = "SELECT t FROM Payment_group t")})
+
+
 public class Payment_group implements Serializable {
 	public  Payment_group() {
 		

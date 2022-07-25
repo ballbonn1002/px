@@ -11,6 +11,7 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -216,7 +217,7 @@ public class PaymentDAOImpl implements PaymentDAO{
 		List<Map<String, Object>> payment = null;
 		try {
 			String sqlUpdate = "select "
-					+ "			u.user_id,user.name,p.employee_type_id,p.employee_type_name,p.status,p.absent,p.absence"
+					+ "			u.user_id,user.name,p.employee_type_id,p.employee_type_name,p.status,p.absent,p.absence,p.payment_id,p.OT1,p.OT2,p.OT3,p.actual_day,p.actual_hours"
 					+ "			from payment as p"
 					+ "			inner join user_salary as u on u.user_id = p.user_id"
 					+ "			inner join employee_type et on p.employee_type_id = et.employee_type_id"
@@ -238,6 +239,62 @@ public class PaymentDAOImpl implements PaymentDAO{
 		}
 		return payment;
 	}
+	
+	
+	@Override
+	public List<Payment> findAllByGroupId(String paymentGroupId) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Payment> payment = null;
+		try {
+		Criteria cr = session.createCriteria(Payment.class);
+		cr.add(Restrictions.eq("payment_group_id", paymentGroupId));
+		payment = cr.list();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return payment;
+		
+	}
+
+	@Override
+	public List<Map<String, Object>> getStatusByGroupId(String paymentGroupId) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Map<String, Object>> payment = null;
+		try {
+			String sqlUpdate = "select status"
+					+ "			from payment"
+					+ "			where payment_group_id = :pg_id";
+			SQLQuery query = session.createSQLQuery(sqlUpdate);
+			query.setParameter("pg_id",paymentGroupId);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE); 
+			payment = query.list();
+		
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return payment;
+	}
+
+	@Override
+	public List<Map<String, Object>> getTotalPayByGroupId(String paymentGroupId) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Map<String, Object>> payment = null;
+		try {
+			String sqlUpdate = "select sum(salary) as salary, sum(income_net) as income_net, sum(expend_net) as expend_net , sum(total_pay) as total_pay"
+					+ "			from payment"
+					+ "			where payment_group_id = :pg_id";
+			SQLQuery query = session.createSQLQuery(sqlUpdate);
+			query.setParameter("pg_id",paymentGroupId);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE); 
+			payment = query.list();
+		
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return payment;
+	}
+
 	
 	
 	
