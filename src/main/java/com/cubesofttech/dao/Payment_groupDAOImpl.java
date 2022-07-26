@@ -628,4 +628,23 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 		}
 		return json_array;
 	}
+
+	@Override
+	public Map<String, Object> getMonthYearByIdnUserId(Integer payment_group_id, String userId) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		Map<String, Object> paymentGroupList = null;
+		try {
+			String sql = "SELECT month(pg.end_date) as month , year(pg.end_date) as year FROM payment p"
+					+ "	inner join payment_group pg on p.payment_group_id = pg.payment_group_id"
+					+ "	where p.payment_group_id = :pId and user_id = :userId";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setParameter("pId", payment_group_id);
+			query.setParameter("userId", userId);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			paymentGroupList = (Map<String, Object>) query.list().get(0);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return paymentGroupList;
+	}
 }

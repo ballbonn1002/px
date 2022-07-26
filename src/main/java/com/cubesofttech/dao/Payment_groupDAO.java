@@ -49,4 +49,7 @@ public interface Payment_groupDAO {
 	public JSONArray paymentchartIn(String year) throws Exception;
 	
 	public JSONArray paymentchartEx(String year) throws Exception;
+	
+	public Map<String, Object> getMonthYearByIdnUserId(Integer payment_group_id ,String userId) throws Exception;
+	
 }

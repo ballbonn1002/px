@@ -210,8 +210,8 @@ to {
 													style="text-align: left; width: 10%">Payroll ID</th>
 												<th style="text-align: left; width: 15%">รายการ</th>
 												<th style="text-align: left; width: 15%">กำหนดชำระ</th>
-												<th style="text-align: left; width: 20%">รวมค่าใช้จ่ายพนักงาน</th>
-												<th style="text-align: left; width: 15%">ยอดรวมสุทธิ</th>
+												<th style="text-align: right; width: 20%">รวมค่าใช้จ่ายพนักงาน</th>
+												<th style="text-align: right; width: 15%">ยอดรวมสุทธิ</th>
 												<th style="text-align: left; width: 10%">ดำเนินการ</th>
 												<th style="text-align: left; width: 20%">สถานะ</th>
 												<th style="text-align: left; width: 20%">Action</th>
@@ -225,8 +225,8 @@ to {
 													<td style="text-align: left; padding-top: 10px;">${paymentgroupList.payment_group_id}</td>
 													<td style="text-align: left; padding-top: 10px;">${paymentgroupList.name}</td>
 													<td style="text-align: left; padding-top: 10px;">${paymentgroupList.payment_date}</td>
-													<td style="text-align: left; padding-top: 10px;">${paymentgroupList.salary + paymentgroupList.income_net}</td>
-													<td style="text-align: left; padding-top: 10px;">${paymentgroupList.expend_net}</td>
+													<td class = "price-value" style="text-align: right; padding-top: 10px;">${paymentgroupList.salary + paymentgroupList.income_net}</td>
+													<td class = "price-value" style="text-align: right; padding-top: 10px;">${paymentgroupList.expend_net}</td>
 													<td style="text-align: left; padding-top: 10px;">${status[c.index].payment_count}/${paymentgroupList.payment_count}</td>
 													<td style="text-align: left; padding-top: 10px;"><c:choose>
 
@@ -247,7 +247,7 @@ to {
 																<span class="tag badge badge-info"
 																	style="color: #22AF46; border-color: #22AF46;">completed</span>
 															</c:when>
-															<c:when test="${paymentgroupList.status == 5}">
+															<c:when test="${paymentgroupList.status == 0}">
 																<span class="tag badge badge-info"
 																	style="color: #7F8487; border-color: #7F8487;">inactive</span>
 															</c:when>
@@ -301,6 +301,10 @@ $(document).ready(function() {
 		$('#list_example').DataTable({
 			"order": []
 		});
+		$('.price-value').each(function(i,obj) {
+			$('.price-value').eq(i).text(formatValue($('.price-value').eq(i).text()))
+		})
+		
 		}
 )
 function cancelPayrollGroup(id) {
@@ -353,6 +357,9 @@ function cancelPayrollGroup(id) {
 	function call_user() {
 		$('#selectUser').modal();
 	};
+	function formatValue(value) {
+		return (Math.round(parseFloat(value) * 100) / 100).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
+	}
 
 function call_submit() {
 	let getUserList = [];
