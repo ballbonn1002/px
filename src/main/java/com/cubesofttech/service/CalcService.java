@@ -326,12 +326,21 @@ public class CalcService {
 		Map<String, Object> cubesoftUserSalariesById = userSalaryDAO.findSsiById(uId);
 		
 		BigDecimal bd = (BigDecimal) cubesoftUserSalariesById.get("amount");
+		String ssi = (String) cubesoftUserSalariesById.get("social_security");
 		double salary = bd.doubleValue();
+		int social_status = Integer.parseInt(ssi);
+		log.debug(salary);
+		//log.debug(social_status);
 		
-		if(salary >15000) {
-			calSocialSecurity = (15000*percent/100);
+		if(social_status == 1) {
+			if(salary >15000) {
+				calSocialSecurity = (15000*percent/100);
+			} else {
+				calSocialSecurity = (salary*percent/100);
+			}
 		} else {
-			calSocialSecurity = (salary*percent/100);
+			log.debug(ssi);
+			return calSocialSecurity;
 		}
 		//calSocialSecurity = String.valueOf(s);
 		//log.debug(salary);
