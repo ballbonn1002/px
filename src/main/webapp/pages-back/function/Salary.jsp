@@ -282,6 +282,29 @@ function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+function isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
+function convertStringToTime(string_input) {
+    if ((string_input.includes('.')) || (string_input.includes(':')) || isNumeric(string_input)) {
+        string_input = string_input.replace('.', ':');
+    } else {
+        return "00:00";
+    }
+
+    var str1 = string_input.split(':')[0];
+    var str2 = string_input.split(':')[1] == null ? "00": string_input.split(':')[1];
+
+    str1 = str1.length <= 3 ? str1 : "00";
+    str2 = str2.length > 2 ? "00" : ((str2 + "0".repeat(2 - str2.length)) > 59 ? "00" : (str2 + "0".repeat(2 - str2.length)));
+
+    if (!isNumeric(str1) || !isNumeric(str2)) {
+        return "00:00";
+    }
+    return str1 + ":" + str2;
+}
+
 $(document).ready(function(){
 
 	$("#select_user_id").on('change',function(){
@@ -323,14 +346,15 @@ $(document).ready(function(){
 		
 		//get value
 		var user_id = $("#select_user_id").val();
-		var OT15 = $("#ot15").val();
-		var OT2 = $("#ot2").val();
-		var OT3 = $("#ot3").val();
-		//var Salary_payment_type = ($('#Salary_payment_type').val());
-		//var Salary_term = $('#Salary_term').val();
-		//var Salary_term_day = $('#Salary_term_day').val();
-		//var Salary_amount = $('#Salary_amount').val();
+			
+		var OT15 = convertStringToTime($("#ot15").val());
+		var OT2 = convertStringToTime($("#ot2").val());
+		var OT3 = convertStringToTime($("#ot3").val());
 		
+		$("#ot15").val(OT15);
+		$("#ot2").val(OT2);
+		$("#ot3").val(OT3);
+				
 		//send ajax
 		$.ajax({
 			url: "calculateOTData",
@@ -359,7 +383,6 @@ $(document).ready(function(){
 			}
 		})
 		///////////////
-		
 	});
 	
 	
