@@ -956,20 +956,21 @@ public class PayrollReportAction extends ActionSupport {
 		return count_userList;
 	}
 	
+	
 	public String getGraphData() {//findAll
 		try {
 			String Year = request.getParameter("year");
 			String allDepartmentId = request.getParameter("allDepartmentId");	
 			List<String> dp_name = Arrays.asList(allDepartmentId.split("\\s*,\\s*"));
 			List<List<Integer>> count_userList = new ArrayList<List<Integer>>();
+			
+			//log.debug(Year);
+			//log.debug(Year.getClass());
 
 			List<Map<String, Object>> countUserByYearList = userDAO.countUserOutOfYearByYear(Year);
 			List<Map<String, Object>> countUserStartInYearByYear = userDAO.countUserStartInYearByYear(Year);
 			List<Map<String, Object>> countUserEndInYearByYear = userDAO.countUserEndInYearByYear(Year);
-			//log.debug(countUserByYearList);
-			
-			//log.debug(countUserEndInYearByYear);
-			
+
 			for (String name : dp_name) {
 				//get index of
 				Integer ind = null;
@@ -1010,6 +1011,87 @@ public class PayrollReportAction extends ActionSupport {
 			e.printStackTrace();
 			return ERROR;
 		}	
+	}
+	
+	public Map<String,Object> FormatList_ReportYear(List<List<Integer>> lst,List<String> dp_name,Integer year){
+		LocalDate today = LocalDate.now();
+		int currentYear = today.getYear();
+		int currentMonth = today.getMonthValue();
+		
+		Map<String,Object> FormatList_ReportYear = new HashMap<String,Object>();
+		
+		try {
+			for (int i = 0 ; i < lst.size() ; i++) {				
+				//FormatList_ReportYear.add(  new ArrayList<>(Arrays.asList(lst.get(i).get( (currentYear==year?(currentMonth-1):11) ))) );
+				FormatList_ReportYear.put(dp_name.get(i),  new ArrayList<>(Arrays.asList(lst.get(i).get( (currentYear==year?(currentMonth-1):11) ))) );
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			FormatList_ReportYear = null;
+		}
+			return FormatList_ReportYear;
+	}
+	
+	public String get_report_year_data() {
+		try {
+			String yearList = request.getParameter("year_list");
+			String allDepartmentId = request.getParameter("allDepartmentId");
+			List<String> year_list = Arrays.asList(yearList.split("\\s*,\\s*"));
+			List<String> dp_name = Arrays.asList(allDepartmentId.split("\\s*,\\s*"));
+			
+			Map<String, Object> reportMultipleYear = new HashMap<String, Object>();
+			
+			/*******************************/
+			for (int ind_year = 0 ; ind_year < year_list.size() ;ind_year++) {
+			
+				List<List<Integer>> count_userList = new ArrayList<List<Integer>>();
+				List<Map<String, Object>> countUserByYearList = userDAO.countUserOutOfYearByYear(year_list.get(ind_year));
+				List<Map<String, Object>> countUserStartInYearByYear = userDAO.countUserStartInYearByYear(year_list.get(ind_year));
+				List<Map<String, Object>> countUserEndInYearByYear = userDAO.countUserEndInYearByYear(year_list.get(ind_year));
+	
+				
+				for (String name : dp_name) {
+					//get index of
+					Integer ind = null;
+					for (int i = 0 ; i < countUserByYearList.size(); i++) {
+						if(countUserByYearList.get(i).get("department_id").equals(name)) {
+							ind = i;
+							break;
+						}
+					}
+					if(ind != null) {
+						List<Integer> buffer_listIntegers = new ArrayList<Integer>();
+						for (int mon = 1 ; mon < 13 ; mon++) {//for loop month
+							buffer_listIntegers.add( Integer.parseInt((String)countUserByYearList.get(ind).get("employee_count").toString()) );
+						}
+						count_userList.add(buffer_listIntegers);
+						
+					}else {
+						count_userList.add(new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0)));
+					}
+				}
+				
+				count_userList = FormatGraph(count_userList, dp_name, countUserStartInYearByYear,0);
+				count_userList = FormatGraph(count_userList, dp_name, countUserEndInYearByYear,1);
+				
+				Map<String,Object> ReportYear = FormatList_ReportYear(count_userList,dp_name,Integer.parseInt(year_list.get(ind_year)));
+								
+				reportMultipleYear.put(year_list.get(ind_year),ReportYear);
+				
+			}
+			/*******************************/
+			log.debug(reportMultipleYear);
+						
+			Gson gson = new Gson(); 
+            String json = gson.toJson(reportMultipleYear); 
+            request.setAttribute("json", json);	
+            
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
 	}
 	
 	public String getAllDeparmentId() {
@@ -1134,6 +1216,8 @@ public class PayrollReportAction extends ActionSupport {
 			e.printStackTrace();
 			return ERROR;
 		}
-	}	
+	}
+
+	
 	
 }
