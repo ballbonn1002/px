@@ -112,16 +112,12 @@ public class PayrollAction extends ActionSupport {
 
 			List<Map<String, Object>> user = userDAO.findAllDuplicatePayroll(paymentGroupId);
 			request.setAttribute("userList", user);
-			
-			List<Map<String,Object>> status = paymentDAO.getStatusByGroupId(paymentGroupId);
-			List<Map<String,Object>> payment = paymentDAO.getTotalPayByGroupId(paymentGroupId);
-			
+
+			List<Map<String, Object>> status = paymentDAO.getStatusByGroupId(paymentGroupId);
+			List<Map<String, Object>> payment = paymentDAO.getTotalPayByGroupId(paymentGroupId);
+
 			request.setAttribute("status", status);
 			request.setAttribute("payment", payment);
-			
-			
-			
-			
 
 			return SUCCESS;
 		} catch (Exception e) {
@@ -136,22 +132,20 @@ public class PayrollAction extends ActionSupport {
 			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login
 			String logonUser = ur.getId(); // Username login
 			String paymentGroupId = request.getParameter("paymentGroupId");
-			List<Map<String, Object>> status = paymentDAO.getStatusByGroupId(paymentGroupId);
 			Map<String, String> obj = new HashMap<>();
-			log.debug(paymentDAO);
-			for(int i = 0; i < status.size() ; i++) {
-				if (!status.get(i).get("status").equals("0")) {
-					obj.put("status", "0");
-					Gson gson = new GsonBuilder().setPrettyPrinting().create();
-					String json = gson.toJson(obj);
-					PrintWriter out = response.getWriter();
-					out.print(json);
-					out.flush();
-					out.close();
-					return null;
-				}
-			}
 			Payment_group payment_group = payment_groupDAO.findById(Integer.parseInt(paymentGroupId));
+			log.debug(paymentDAO);
+			if (payment_group.getStatus().equals("2") || payment_group.getStatus().equals("3")
+					|| payment_group.getStatus().equals("4")) {
+				obj.put("status", "0");
+				Gson gson = new GsonBuilder().setPrettyPrinting().create();
+				String json = gson.toJson(obj);
+				PrintWriter out = response.getWriter();
+				out.print(json);
+				out.flush();
+				out.close();
+				return null;
+			}
 			payment_group.setStatus("0");
 			payment_group.setSystem("0");
 			payment_group.setUser_update(logonUser);
@@ -184,29 +178,27 @@ public class PayrollAction extends ActionSupport {
 			// iterate BaseData
 			for (int i = 0; i < baseData.size(); i++) {
 				JSONObject jo = new JSONObject();
-				Map<String, Object> monthYearObject = payment_groupDAO.getMonthYearByIdnUserId(Integer.parseInt(paymentGroupId),(String) baseData.get(i).get("user_id"));
-				int month = (int)monthYearObject.get("month");
-				int year = (int)monthYearObject.get("year");
+				Map<String, Object> monthYearObject = payment_groupDAO.getMonthYearByIdnUserId(
+						Integer.parseInt(paymentGroupId), (String) baseData.get(i).get("user_id"));
+				int month = (int) monthYearObject.get("month");
+				int year = (int) monthYearObject.get("year");
 				if (month == 1) {
 					month = 12;
 					year = year - 1;
-				}
-				else {
+				} else {
 					month = month - 1;
 				}
-				Map<String, Object> remark = paymentDAO.getRemarkByDatenUserId(month, year, (String) baseData.get(i).get("user_id"));
-				//log.debug("remark = " + remark);
+				Map<String, Object> remark = paymentDAO.getRemarkByDatenUserId(month, year,
+						(String) baseData.get(i).get("user_id"));
+				// log.debug("remark = " + remark);
 				if (Objects.isNull(remark)) {
 					jo.put("historyRemark", "-");
-				}
-				else if (Objects.isNull(remark.get("remark"))) {
+				} else if (Objects.isNull(remark.get("remark"))) {
 					jo.put("historyRemark", "-");
-				}
-				else {
+				} else {
 					jo.put("historyRemark", remark.get("remark"));
 				}
-				
-				
+
 				// id
 				jo.put("id", baseData.get(i).get("user_id"));
 				// payment_id
@@ -240,6 +232,8 @@ public class PayrollAction extends ActionSupport {
 					break;
 				}
 				jo.put("status", status);
+				
+				jo.put("groupStatus", paymentGroup.getStatus());
 				// วันทำงาน
 				jo.put("workingDays", baseData.get(i).get("actual_day"));
 				// ชี่วโมงทำงานจริง
@@ -251,8 +245,7 @@ public class PayrollAction extends ActionSupport {
 				// remark
 				if (Objects.isNull(baseData.get(i).get("remark"))) {
 					jo.put("remark", "");
-				}
-				else {
+				} else {
 					jo.put("remark", baseData.get(i).get("remark"));
 				}
 
@@ -526,20 +519,20 @@ public class PayrollAction extends ActionSupport {
 				// ----- income&expend net -----//
 				List<Map<String, Object>> incomeNetList = userpaymentconfigDAO.sumIncomeById(userId);
 				List<Map<String, Object>> expendNetList = userpaymentconfigDAO.sumExpendById(userId);
-				
+
 				List<Payment_type> paymentType = payment_typeDAO.findAll();
 				double saveOutcome_net = 0;
-				for (int i = 0; i < paymentType.size() ; i++) {
+				for (int i = 0; i < paymentType.size(); i++) {
 					switch (paymentType.get(i).getPayment_type_id()) {
 					case "SSI":
-						saveOutcome_net = calCService.calSsi(Double.parseDouble(payment_group.getSocial_security()),userId) + saveOutcome_net;
+						saveOutcome_net = calCService.calSsi(Double.parseDouble(payment_group.getSocial_security()),
+								userId) + saveOutcome_net;
 						break;
 					case "TAX":
 						saveOutcome_net = calCService.calTaxPerMonth(userId) + saveOutcome_net;
 						break;
 					}
 				}
-				
 
 				BigDecimal incomeNet = (BigDecimal) incomeNetList.get(0).get("total");
 				BigDecimal expendNet = (BigDecimal) expendNetList.get(0).get("total");
@@ -699,13 +692,14 @@ public class PayrollAction extends ActionSupport {
 				// ----- income&expend net -----//
 				List<Map<String, Object>> incomeNetList = userpaymentconfigDAO.sumIncomeById(userId);
 				List<Map<String, Object>> expendNetList = userpaymentconfigDAO.sumExpendById(userId);
-				
+
 				List<Payment_type> paymentType = payment_typeDAO.findAll();
 				double saveOutcome_net = 0;
-				for (int i = 0; i < paymentType.size() ; i++) {
+				for (int i = 0; i < paymentType.size(); i++) {
 					switch (paymentType.get(i).getPayment_type_id()) {
 					case "SSI":
-						saveOutcome_net = calCService.calSsi(Double.parseDouble(payment_group.getSocial_security()),userId) + saveOutcome_net;
+						saveOutcome_net = calCService.calSsi(Double.parseDouble(payment_group.getSocial_security()),
+								userId) + saveOutcome_net;
 						break;
 					case "TAX":
 						saveOutcome_net = calCService.calTaxPerMonth(userId) + saveOutcome_net;
@@ -716,15 +710,14 @@ public class PayrollAction extends ActionSupport {
 				BigDecimal incomeNet = (BigDecimal) incomeNetList.get(0).get("total");
 				BigDecimal expendNet = (BigDecimal) expendNetList.get(0).get("total");
 				BigDecimal extraExpendNet = new BigDecimal(saveOutcome_net);
-				
-				
+
 				if (incomeNet == null) {
 					incomeNet = BigDecimal.ZERO;
 				}
 				if (expendNet == null) {
 					expendNet = BigDecimal.ZERO;
 				}
-				
+
 				expendNet = expendNet.add(extraExpendNet);
 				// log.debug("expendNet = " + expendNet);
 				// log.debug("incomeNet = " + incomeNet);
@@ -898,22 +891,20 @@ public class PayrollAction extends ActionSupport {
 					}
 				}
 			}
-			List<Map<String,Object>> gStatus = paymentDAO.getStatusByGroupId(payment.getPayment_group_id());
-			List<Map<String,Object>> gPayment = paymentDAO.getTotalPayByGroupId(payment.getPayment_group_id());
-			//log.debug(gStatus);
-			//log.debug(gPayment);
+			List<Map<String, Object>> gStatus = paymentDAO.getStatusByGroupId(payment.getPayment_group_id());
+			List<Map<String, Object>> gPayment = paymentDAO.getTotalPayByGroupId(payment.getPayment_group_id());
+			// log.debug(gStatus);
+			// log.debug(gPayment);
 			JSONArray ja = new JSONArray();
 			int inprogress = 0;
 			int waiting = 0;
 			int confirm = 0;
-			for (int i = 0; i < gStatus.size() ; i++) {
+			for (int i = 0; i < gStatus.size(); i++) {
 				if (gStatus.get(i).get("status").equals("0")) {
 					inprogress = inprogress + 1;
-				}
-				else if (gStatus.get(i).get("status").equals("1")) {
+				} else if (gStatus.get(i).get("status").equals("1")) {
 					waiting = waiting + 1;
-				}
-				else if (gStatus.get(i).get("status").equals("2")) {
+				} else if (gStatus.get(i).get("status").equals("2")) {
 					confirm = confirm + 1;
 				}
 			}
@@ -924,13 +915,12 @@ public class PayrollAction extends ActionSupport {
 			JSONObject jk3 = new JSONObject();
 			jk.put("confirm", confirm);
 			ja.add(jk);
-			
-			
+
 			jo.put("status", status);
 			jo.put("gStatus", ja);
 			jo.put("gPayment", gPayment);
 			log.debug(jo);
-			
+
 			PrintWriter out = response.getWriter();
 			out.print(jo);
 			out.flush();
@@ -941,6 +931,7 @@ public class PayrollAction extends ActionSupport {
 		return null;
 
 	}
+
 	public String savePayroll() {
 		try {
 			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login
@@ -953,7 +944,7 @@ public class PayrollAction extends ActionSupport {
 			String payroll_ss = request.getParameter("payroll_ss");
 			String information = request.getParameter("information");
 			String function = request.getParameter("function");
-			Payment_group payment_group =  payment_groupDAO.findById(Integer.parseInt(paymentGroupId));
+			Payment_group payment_group = payment_groupDAO.findById(Integer.parseInt(paymentGroupId));
 			payment_group.setName(payroll_name);
 			payment_group.setStart_date(Convert.parseDate(payroll_start_date));
 			payment_group.setEnd_date(Convert.parseDate(payroll_end_date));
@@ -975,29 +966,28 @@ public class PayrollAction extends ActionSupport {
 			out.print(json);
 			out.flush();
 			out.close();
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			
+
 		}
 		return null;
 	}
-	
+
 	public String savePayrollGroup() {
 		try {
 			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login
 			String logonUser = ur.getId(); // Username login
 			String paymentGroupId = request.getParameter("paymentGroupId");
 			String function = request.getParameter("function");
-			Payment_group payment_group =  payment_groupDAO.findById(Integer.parseInt(paymentGroupId));
+			Payment_group payment_group = payment_groupDAO.findById(Integer.parseInt(paymentGroupId));
 			switch (function) {
-			case "confirm" :
+			case "confirm":
 				payment_group.setStatus("2");
 				break;
-			case "partial" :
+			case "partial":
 				payment_group.setStatus("3");
 				break;
-			case "full" :
+			case "full":
 				payment_group.setStatus("4");
 				break;
 			}
@@ -1010,13 +1000,11 @@ public class PayrollAction extends ActionSupport {
 			out.print(json);
 			out.flush();
 			out.close();
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			
+
 		}
 		return null;
 	}
-
 
 }

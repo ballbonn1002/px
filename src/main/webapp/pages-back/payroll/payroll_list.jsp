@@ -224,7 +224,8 @@ to {
 													<!--<td style="display:none">${paymentgl.time_create}</td>-->
 													<td style="text-align: left; padding-top: 10px;">${paymentgroupList.payment_group_id}</td>
 													<td style="text-align: left; padding-top: 10px;">${paymentgroupList.name}</td>
-													<td style="text-align: left; padding-top: 10px;">${paymentgroupList.payment_date}</td>
+													<td style="text-align: left; padding-top: 10px;"><fmt:setLocale value="en_US" scope="session"/><fmt:formatDate value="${paymentgroupList.payment_date}"  type = "both" 
+       								timeStyle = "medium" pattern="dd MMMM yyyy"  /></td>
 													<td class = "price-value" style="text-align: right; padding-top: 10px;">${paymentgroupList.salary + paymentgroupList.income_net}</td>
 													<td class = "price-value" style="text-align: right; padding-top: 10px;">${paymentgroupList.expend_net}</td>
 													<td style="text-align: left; padding-top: 10px;">${status[c.index].payment_count}/${paymentgroupList.payment_count}</td>
