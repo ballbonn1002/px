@@ -489,7 +489,23 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 		Session session =  this.sessionFactory.getCurrentSession(); 
 		try {
 			if(year != "") {
-			String sql = "SELECT sum(payment.total_pay) as total_pay FROM payment_group JOIN payment on payment.payment_group_id = payment_group.payment_group_id WHERE year(payment_group.payment_date)='"+year+"' GROUP BY month(payment_group.payment_date);";	
+			String sql = "select \r\n"
+					+ "COALESCE(SUM(CASE WHEN month(payment_group.payment_date) = '01' THEN payment.total_pay else 0 end),0) as 'Jan',\r\n"
+					+ "COALESCE(SUM(CASE WHEN month(payment_group.payment_date) = '02'  THEN payment.total_pay else 0 end),0) as 'Feb',\r\n"
+					+ "COALESCE(SUM(CASE WHEN month(payment_group.payment_date) = '03' THEN payment.total_pay else 0 end),0) as 'Mar',\r\n"
+					+ "COALESCE(SUM(CASE WHEN month(payment_group.payment_date) = '04' THEN payment.total_pay else 0 end),0) as 'Apr',\r\n"
+					+ "COALESCE(SUM(CASE WHEN month(payment_group.payment_date) = '05' THEN payment.total_pay else 0 end),0) as 'May',\r\n"
+					+ "COALESCE(SUM(CASE WHEN month(payment_group.payment_date) = '06' THEN payment.total_pay else 0 end),0) as 'Jun',\r\n"
+					+ "COALESCE(SUM(CASE WHEN month(payment_group.payment_date) = '07' THEN payment.total_pay else 0 end),0) as 'Jul',\r\n"
+					+ "COALESCE(SUM(CASE WHEN month(payment_group.payment_date) = '08' THEN payment.total_pay else 0 end),0) as 'Aug',\r\n"
+					+ "COALESCE(SUM(CASE WHEN month(payment_group.payment_date) = '09' THEN payment.total_pay else 0 end),0) as 'Sep',\r\n"
+					+ "COALESCE(SUM(CASE WHEN month(payment_group.payment_date) = '10' THEN payment.total_pay else 0 end),0) as 'Oct',\r\n"
+					+ "COALESCE(SUM(CASE WHEN month(payment_group.payment_date) = '11' THEN payment.total_pay else 0 end),0) as 'Nov',\r\n"
+					+ "COALESCE(SUM(CASE WHEN month(payment_group.payment_date) = '12' THEN payment.total_pay else 0 end),0) as 'Dec'\r\n"
+					+ "\r\n"
+					+ "FROM payment_group \r\n"
+					+ "JOIN payment on payment.payment_group_id = payment_group.payment_group_id \r\n"
+					+ "WHERE year(payment_group.payment_date)='"+year+"';";	
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 			query_listMap = query.list();
@@ -502,15 +518,19 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 			   }
 			}else {
 				Iterator itr = query_listMap.iterator();
-				int i = 0;
 				while(itr.hasNext()){
+					List<String> monthList = Arrays.asList("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
 					Map<String, Object> map  = (Map<String, Object>) itr.next();
-					    JSONArray array_cell = new JSONArray();
-						Object value = map.get("total_pay");
+					for(int i=0;i<monthList.size();i++) {
+						JSONArray array_cell = new JSONArray();
+						String smonth = monthList.get(i);
+						Object value = map.get(smonth);
+						array_cell.put(smonth);
 					    array_cell.put(value);
 					    json_array.put(array_cell);
-					i++;
-				}
+					}
+					
+					}
 			}
 			}
 	} catch (Exception e) {

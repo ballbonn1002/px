@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -862,6 +863,14 @@ public class PayrollReportAction extends ActionSupport {
 			String year = request.getParameter("year");
 			List<String> yearList = Arrays.asList(year.split("\\s*,\\s*"));
 			
+			int month;
+	        GregorianCalendar date = new GregorianCalendar();      
+	        month = date.get(Calendar.MONTH);
+	        int fullyear;
+	        fullyear = date.get(Calendar.YEAR);
+	        System.out.println("Current month is  " + month);
+	        System.out.println("Current year is  " + fullyear);
+	        
 			JSONArray arr_list = new JSONArray();
 			for(int i = 0; i < yearList.size(); i++) {
 				JSONArray res = payment_groupDAO.paymentStatistics(yearList.get(i));
