@@ -120,25 +120,25 @@ to {
 				<div style="text-align: right">
 					<c:choose>
 						<c:when test="${paymentGroup.status == 1}">
-							<span class="tag badge badge-info"
+							<span class="tag badge badge-info" id = "badge"
 								style="color: #449cff; border-color: #449cff; padding: 10px 18px; font-size: 14px; background-color: white;">inprogress
 							</span>
 						</c:when>
 						<c:when test="${paymentGroup.status == 2}">
-							<span class="tag badge badge-info"
+							<span class="tag badge badge-info" id = "badge"
 								style="color: #88c426; border-color: #88c426; padding: 10px 18px; font-size: 14px; background-color: white;">confirm</span>
 						</c:when>
 						<c:when test="${paymentGroup.status == 3}">
-							<span class="tag badge badge-info"
+							<span class="tag badge badge-info" id = "badge"
 								style="color: #9772FB; border-color: #9772FB; padding: 10px 18px; font-size: 14px; background-color: white;">partial
 								payment</span>
 						</c:when>
 						<c:when test="${paymentGroup.status == 4}">
-							<span class="tag badge badge-info"
+							<span class="tag badge badge-info" id = "badge"
 								style="color: #22AF46; border-color: #22AF46; padding: 10px 18px; font-size: 14px; background-color: white;">completed</span>
 						</c:when>
 						<c:when test="${paymentGroup.status == 0}">
-							<span class="tag badge badge-info"
+							<span class="tag badge badge-info" id = "badge"
 								style="color: #7F8487; border-color: #7F8487; padding: 10px 18px; font-size: 14px; background-color: white;">inactive</span>
 						</c:when>
 					</c:choose>
@@ -171,7 +171,7 @@ to {
 								class="tag badge badge-info mx-2 my-1 my-sm-1 mx-sm-2  mx-lg-1 my-lg-1"
 								style="color: #E7505A; border-color: #E7505A; font-size: 14px; padding: 10px 18px">ยกเลิกรายการ</button>
 							<select id = "payroll-group-status" class="form-control mx-2 my-1 mx-sm-2 my-sm-1 mx-lg-1" <c:if test = "${!(paymentGroup.status == 2 || paymentGroup.status == 3 || paymentGroup.status == 4)}">disabled</c:if>>
-								<option disabled selected> สถานะทั้งหมด </option>
+								<option disabled selected> เลือกการชำระเงิน </option>
 								<option value="3">ชำระเงินบางส่วน</option>
 								<option value="4">ชำระเงินทั้งหมด</option>
 							</select>
@@ -179,7 +179,7 @@ to {
 						<div>
 							<button id = "savePayrollGroup" <c:if test = "${inprogress_count > 0}">disabled</c:if>
 								class="tag badge badge-info mx-2 my-1 my-sm-1 mx-sm-2  mx-lg-1 my-lg-1" 
-								style="color: #9A9999; border-color: #9A9999; font-size: 14px; padding: 10px 18px;">ยืนยันรายการเงินเดือน</button>
+								style="<c:if test = "${inprogress_count > 0}">color: #9A9999; border-color: #9A9999;</c:if> <c:if test = "${inprogress_count == 0}">color: #22AF46; border-color: #22AF46;</c:if> font-size: 14px; padding: 10px 18px;">ยืนยันรายการเงินเดือน</button>
 							<button
 								class="tag badge badge-info mx-2 my-1 my-sm-1 mx-sm-2 mx-lg-1 my-lg-1"
 								style="color: #9A9999; border-color: #9A9999; font-size: 14px; padding: 10px 18px;">ปริ้น</button>
@@ -242,20 +242,20 @@ to {
 								<label>ช่วงวันที่</label>
 								<div class="form-group">
 									<input id="payroll_start_date" data-provide="datepicker"
-										data-date-autoclose="true" data-date-format="dd-mm-yyyy"
+										data-date-autoclose="true" data-date-format="dd MM yyyy"
 										name="startDate" id="startDate" class="form-control" required
 										value="<fmt:setLocale value="en_US" scope="session"/><fmt:formatDate value="${paymentGroup.start_date}"  type = "both" 
-       								timeStyle = "medium" pattern="dd-MM-yyyy "  />">
+       								timeStyle = "medium" pattern="dd MMMM yyyy"  />">
 								</div>
 							</div>
 							<div class="col-6 col-sm-6 col-lg-3 ">
 								<label>ถึงวันที่</label>
 								<div class="form-group">
 									<input id="payroll_end_date" data-provide="datepicker"
-										data-date-autoclose="true" data-date-format="dd-mm-yyyy"
+										data-date-autoclose="true" data-date-format="dd MM yyyy"
 										name="endDate" id="endDate" class="form-control" required
 										value="<fmt:setLocale value="en_US" scope="session"/><fmt:formatDate value="${paymentGroup.end_date}"  type = "both" 
-       								timeStyle = "medium" pattern="dd-MM-yyyy "  />">
+       								timeStyle = "medium" pattern="dd MMMM yyyy"  />">
 								</div>
 							</div>
 							<div class="col-6 col-sm-6 col-lg-3 ">
@@ -264,8 +264,8 @@ to {
 									<input id="payroll_pay_date" data-provide="datepicker"
 										data-date-autoclose="true"
 										value="<fmt:setLocale value="en_US" scope="session"/><fmt:formatDate value="${paymentGroup.payment_date}"  type = "both" 
-       								timeStyle = "medium" pattern="dd-MM-yyyy "  />"
-										data-date-format="dd-mm-yyyy" name="bday" class="form-control"
+       								timeStyle = "medium" pattern="dd MMMM yyyy"  />"
+										data-date-format="dd MM yyyy" name="bday" class="form-control"
 										required>
 								</div>
 							</div>
@@ -760,7 +760,6 @@ to {
 		$('#list_example tbody').on('change','.workingdays,.absent-control,.absence-control,.ot1-control,.ot2-control,.ot3-control',function() {
 			var value = $(this).val();
 			var control = $(this).attr("class").split(" ")[0];
-			console.log(control);
 			var classname = null;
 			var tr = $(this).closest('.row-data').parent();
 			var baseTr = tr.prev();
@@ -850,7 +849,6 @@ to {
 			row.invalidate();
 			changePaymentSummary();
 			changePayment(baseTr);
-			console.log(payment.amount)
 			
 		})
 		
@@ -863,9 +861,7 @@ to {
 			var row = table.row(baseTr);
 			var row_data = row.data();
 			var payment = row_data.expense[findPayment(row_data.expense,classname)];
-			
-			console.log(classname)
-			
+					
 			
 			payment.amount = parseFloat(value);
 			row.invalidate();
@@ -880,7 +876,6 @@ to {
 			var baseTr = tr.prev();
 			var row = table.row(baseTr);
 			var row_data = row.data();
-			console.log(row_data);
 			$.ajax({
 				method : "POST",
 				url: "userPayment",
@@ -892,7 +887,6 @@ to {
 				},
 				success : function(data){
 					data = JSON.parse(data);
-					console.log(data);
 					switch(data.status) {
 					  case "0":
 					    row_data.status = "inprogress";
@@ -906,7 +900,7 @@ to {
 					}
 					row.invalidate();
 					row.child.hide();
-					changeGlobalPayment(data.gPayment[0] , data.gStatus[0] , "0")
+					changeGlobalPayment(data.gPayment[0] , data.gStatus[0])
 					baseTr.removeClass('shown');
 					$("#list_example").trigger("draw.dt");
 					
@@ -941,7 +935,6 @@ to {
 							},
 							success : function(data){
 								data = JSON.parse(data);
-								console.log(data);
 								switch(data.status) {
 								  case "0":
 								    row_data.status = "inprogress";
@@ -955,7 +948,7 @@ to {
 								}
 								row.invalidate();
 								row.child.hide();
-								changeGlobalPayment(data.gPayment[0] , data.gStatus[0] , "0")
+								changeGlobalPayment(data.gPayment[0] , data.gStatus[0])
 								baseTr.removeClass('shown');
 								$("#list_example").trigger("draw.dt");
 								
@@ -1016,66 +1009,6 @@ to {
 				  }
 				})
 		})
-		/*function formatTime(text){
-				if(text.includes('.')){
-					var str1 = text.split('.')[0];
-					var str2 = text.split('.')[1];
-					if(str1.length <= 3){
-						if(str2.length >= 2){	
-							if (str2 > 59) {
-								return str1 + ":00"
-							}
-							return str1 + ":" + str2
-						} else if(str2.length < 2){
-							if (str2 > 5) {
-								return str1+":00"
-							}
-							return  str1 + ":" + str2 + "0"		
-						}
-					} else {
-						return "00:00";
-					}
-				} else {
-					if(!text.includes(':')){
-						$(this).val(text + ":00");
-						var str3 = text.split(':')[0];
-						var str4 = text.split(':')[1];
-						if(str3.length <= 3){
-							if(str4.length >= 2){
-								if (str4 > 59) {
-									return str3 + ":00"
-								}
-								return str3+":"+str4		
-							} else if(str4.length < 2){
-								if (str4 > 5) {
-									return str3+":00"
-								}
-								return str3 + ":" + str4 + "0"		
-							}
-						} else {
-							return "00:00";
-						}
-					} else {
-						var str3 = text.split(':')[0];
-						var str4 = text.split(':')[1];
-						if(str3.length <= 3){
-							if(str4.length >= 2){
-								if (str4 > 59) {
-									return str3 + ":00"
-								}
-								return str3 + ":" + str4
-							} else if(str4.length < 2){
-								if (str4 > 5) {
-									return str3 + ":00"
-								}
-								return str3 + ":" + str4 + "0"
-							}
-						} else {
-							return "00:00";
-						}
-					}
-				}
-		}*/
 		
 		function changeGlobalPayment(payment , status) {
 			$("#totalincome").text(formatValue(payment.salary + payment.income_net));
@@ -1088,26 +1021,22 @@ to {
 			
 			if (status.inprogress > 0) {
 				$("#savePayrollGroup").attr('disabled',true);
+				$("#savePayrollGroup").css({"color":"#9A9999" , "border-color":"#9A9999"});
 			}
 			else {
 				$("#savePayrollGroup").attr('disabled',false);
-			}
-			
-			
-			
-			
+				$("#savePayrollGroup").css({"color":"#22AF46" , "border-color":"#22AF46"});
+				
+			}		
 		    
 			
 		}
 		
 		function changePaymentSummary() {
 			let tableData = table.ajax.json().data;
-			console.log(tableData);
 			
 			let income = []
 		    let expense = []
-		    console.log(income)
-		    console.log(expense)
 		    let totalincome = 0;
 		    let totalexpense = 0;
 		    for (let i = 0; i < tableData.length; i++) {
@@ -1145,10 +1074,6 @@ to {
 		    let incomeElement = "";
 		    let expenseElement = "";
 		    for (let i = 0 ; i < income.length ; i++) {
-		    	/*console.log(income[i])
-		    	console.log(income[i].payment_type_id)
-		    	console.log(income[i].payment_type_name)
-		    	console.log(income[i].amount)*/
 		    	incomeElement = incomeElement.concat(`<tr>
 						<td style="text-align: left; padding-top: 10px;">`+income[i].payment_type_id+`</td>
 						<td style="text-align: left; padding-top: 10px;">`+income[i].payment_type_name+`</td>
@@ -1312,13 +1237,39 @@ to {
 			</tr>`);
 		})
 		
-		let saveButton = "";
-		if (d.status === "inprogress") {
-			saveButton = `<button type="button" style = "border: 1px solid #C2CAD8;" class="save-payment btn btn-light  float-lg-right m-2">บันทึก</button>`;
+		
+		let allButton = "";
+		
+		if (d.groupStatus === "2" || d.groupStatus === "3" || d.groupStatus === "4") {
+			if (d.status == "inprogress") {
+				allButton = `<button class="confirm-payment btn btn-success float-lg-right m-2 " disabled>ยืนยันรายการ</button>
+					<button type="button" style = "color : white;" class="waiting-payment btn btn-warning  float-lg-right m-2" disabled>รอชำระเงิน</button>
+					<button type="button" style = "border: 1px solid #C2CAD8;" class="save-payment btn btn-light  float-lg-right m-2" disabled>บันทึก</button>
+					<button type="button" style = "border: 1px solid #C2CAD8;" class="cancel-payment btn btn-light  float-lg-right m-2" disabled>ยกเลิก</button>`
+			}
+			else {
+				allButton = `<button class="confirm-payment btn btn-success float-lg-right m-2 " disabled>ยืนยันรายการ</button>
+					<button type="button" style = "color : white;" class="waiting-payment btn btn-warning  float-lg-right m-2" disabled>รอชำระเงิน</button>
+					<button type="button" style = "border: 1px solid #C2CAD8;" class="save-payment btn btn-light  float-lg-right m-2" disabled>แก้ไข</button>
+					<button type="button" style = "border: 1px solid #C2CAD8;" class="cancel-payment btn btn-light  float-lg-right m-2" disabled>ยกเลิก</button>`
+			}
+		
 		}
 		else {
-			saveButton = `<button type="button" style = "border: 1px solid #C2CAD8;" class="save-payment btn btn-light  float-lg-right m-2">แก้ไข</button>`
+			if (d.status == "inprogress") {
+				allButton = `<button class="confirm-payment btn btn-success float-lg-right m-2 ">ยืนยันรายการ</button>
+					<button type="button" style = "color : white;" class="waiting-payment btn btn-warning  float-lg-right m-2">รอชำระเงิน</button>
+					<button type="button" style = "border: 1px solid #C2CAD8;" class="save-payment btn btn-light  float-lg-right m-2">บันทึก</button>
+					<button type="button" style = "border: 1px solid #C2CAD8;" class="cancel-payment btn btn-light  float-lg-right m-2">ยกเลิก</button>`
+			}
+			else {
+				allButton = `<button class="confirm-payment btn btn-success float-lg-right m-2 ">ยืนยันรายการ</button>
+					<button type="button" style = "color : white;" class="waiting-payment btn btn-warning  float-lg-right m-2">รอชำระเงิน</button>
+					<button type="button" style = "border: 1px solid #C2CAD8;" class="save-payment btn btn-light  float-lg-right m-2">แก้ไข</button>
+					<button type="button" style = "border: 1px solid #C2CAD8;" class="cancel-payment btn btn-light  float-lg-right m-2">ยกเลิก</button>`
+			}
 		}
+
 		
 		
 		
@@ -1394,10 +1345,7 @@ to {
 			<p style = "color: #E7505A;">หมายเหตุ จากงวดที่แล้ว : `+d.historyRemark+`</p>
 		</div>
 		<div class="clearfix my-3">
-			<button class="confirm-payment btn btn-success  float-lg-right m-2">ยืนยันรายการ</button>
-			<button type="button" style = "color : white;" class="waiting-payment btn btn-warning  float-lg-right m-2">รอชำระเงิน</button>`
-			+saveButton+
-			`<button type="button" style = "border: 1px solid #C2CAD8;" class="cancel-payment btn btn-light  float-lg-right m-2">ยกเลิก</button>
+			`+allButton+`
 		</div>
 	</div>
 		`
