@@ -602,7 +602,6 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 		List<String> List = new ArrayList<String>();
 		List<Map<String, Object>>  query_listMap = null;
 		JSONArray json_array = new JSONArray();
-		List<BigDecimal> List = new ArrayList<BigDecimal>();
 		Session session =  this.sessionFactory.getCurrentSession(); 
 		try {
 			if(year != "") {
