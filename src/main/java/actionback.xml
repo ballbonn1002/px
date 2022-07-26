@@ -158,6 +158,10 @@
 			class="com.cubesofttech.action.PayrollAction" method="savePayroll">
 		</action>
 		
+		<action name = "savePayrollGroup"
+			class="com.cubesofttech.action.PayrollAction" method="savePayrollGroup">
+		</action>
+		
 		<action name="payroll_form"
 			class="com.cubesofttech.action.PayrollAction" method="formPayroll"  >
 			<result name="success" type="tiles">payroll_form</result>
