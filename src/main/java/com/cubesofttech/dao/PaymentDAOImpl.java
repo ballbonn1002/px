@@ -98,9 +98,8 @@ public class PaymentDAOImpl implements PaymentDAO{
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Map<String, Object>> payment = null;
 		try {
-			String sql = "select pg.payment_group_id, pg.name, pg.payment_date, pg.status, SUM(p.salary) as salary ,SUM(p.income_net) as income_net, "
-					+ "SUM(p.expend_net) as expend_net,COUNT(p.payment_id) as payment_count FROM payment as p "
-					+ "inner join payment_group as pg On p.payment_group_id = pg.payment_group_id Group by p.payment_group_id ORDER BY pg.time_create DESC;";
+			String sql = "select pg.payment_group_id, pg.name, pg.payment_date, pg.status, SUM(p.salary) as salary ,SUM(p.income_net) as income_net,SUM(p.expend_net) as expend_net,COUNT(p.payment_id) as payment_count FROM payment as p "
+					+ "inner join payment_group as pg On p.payment_group_id = pg.payment_group_id where pg.status != 0 Group by p.payment_group_id ORDER BY pg.time_create DESC;";
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE); 
 			payment = query.list();
@@ -120,6 +119,7 @@ public class PaymentDAOImpl implements PaymentDAO{
 					+ "			FROM Payment as p"
 					+ "			inner join payment_group as pg"
 					+ "			On p.payment_group_id = pg.payment_group_id"
+					+ "			where pg.status != 0"
 					+ "			Group by p.payment_group_id"
 					+ "			Order by pg.time_create DESC";
 			SQLQuery query = session.createSQLQuery(sqlUpdate);
@@ -217,7 +217,7 @@ public class PaymentDAOImpl implements PaymentDAO{
 		List<Map<String, Object>> payment = null;
 		try {
 			String sqlUpdate = "select "
-					+ "			u.user_id,user.name,p.employee_type_id,p.employee_type_name,p.status,p.absent,p.absence,p.payment_id,p.OT1,p.OT2,p.OT3,p.actual_day,p.actual_hours"
+					+ "			u.user_id,user.name,p.employee_type_id,p.employee_type_name,p.status,p.absent,p.absence,p.payment_id,p.OT1,p.OT2,p.OT3,p.actual_day,p.actual_hours,p.remark"
 					+ "			from payment as p"
 					+ "			inner join user_salary as u on u.user_id = p.user_id"
 					+ "			inner join employee_type et on p.employee_type_id = et.employee_type_id"

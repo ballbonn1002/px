@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -114,7 +115,7 @@ public class PayrollAction extends ActionSupport {
 			List<Map<String,Object>> status = paymentDAO.getStatusByGroupId(paymentGroupId);
 			List<Map<String,Object>> payment = paymentDAO.getTotalPayByGroupId(paymentGroupId);
 			
-			log.debug(payment);
+			log.debug(status);
 			
 			request.setAttribute("status", status);
 			request.setAttribute("payment", payment);
@@ -134,13 +135,26 @@ public class PayrollAction extends ActionSupport {
 			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login
 			String logonUser = ur.getId(); // Username login
 			String paymentGroupId = request.getParameter("paymentGroupId");
+			List<Map<String, Object>> status = paymentDAO.getStatusByGroupId(paymentGroupId);
+			Map<String, String> obj = new HashMap<>();
+			for(int i = 0; i < status.size() ; i++) {
+				if (status.get(i).get("status").equals("0")) {
+					obj.put("status", "0");
+					Gson gson = new GsonBuilder().setPrettyPrinting().create();
+					String json = gson.toJson(obj);
+					PrintWriter out = response.getWriter();
+					out.print(json);
+					out.flush();
+					out.close();
+					return null;
+				}
+			}
 			Payment_group payment_group = payment_groupDAO.findById(Integer.parseInt(paymentGroupId));
 			payment_group.setStatus("0");
 			payment_group.setSystem("0");
 			payment_group.setUser_update(logonUser);
 			payment_group.setTimeUpdate(DateUtil.getCurrentTime());
 			payment_groupDAO.update(payment_group);
-			Map<String, String> obj = new HashMap<>();
 			obj.put("status", "1");
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
 			String json = gson.toJson(obj);
@@ -168,6 +182,7 @@ public class PayrollAction extends ActionSupport {
 			// iterate BaseData
 			for (int i = 0; i < baseData.size(); i++) {
 				JSONObject jo = new JSONObject();
+				log.debug(baseData.get(i).get("remark"));
 				// id
 				jo.put("id", baseData.get(i).get("user_id"));
 				// payment_id
@@ -209,6 +224,13 @@ public class PayrollAction extends ActionSupport {
 				jo.put("absent", baseData.get(i).get("absent"));
 				// ลางานไม่รับค่าจ้าง
 				jo.put("absence", baseData.get(i).get("absence"));
+				// remark
+				if (Objects.isNull(baseData.get(i).get("remark"))) {
+					jo.put("remark", "");
+				}
+				else {
+					jo.put("remark", baseData.get(i).get("remark"));
+				}
 
 				jo.put("ot1", baseData.get(i).get("OT1"));
 				jo.put("ot2", baseData.get(i).get("OT2"));
@@ -782,6 +804,7 @@ public class PayrollAction extends ActionSupport {
 				payment.setOT1((String) jsonData.get("ot1"));
 				payment.setOT2((String) jsonData.get("ot2"));
 				payment.setOT3((String) jsonData.get("ot3"));
+				payment.setRemark((String) jsonData.get("remark"));
 
 				payment.setUser_update(logonUser);
 				payment.setTime_update(DateUtil.getCurrentTime());
@@ -841,6 +864,7 @@ public class PayrollAction extends ActionSupport {
 			String payroll_pay_date = request.getParameter("payroll_pay_date");
 			String payroll_ss = request.getParameter("payroll_ss");
 			String information = request.getParameter("information");
+			String function = request.getParameter("function");
 			Payment_group payment_group =  payment_groupDAO.findById(Integer.parseInt(paymentGroupId));
 			payment_group.setName(payroll_name);
 			payment_group.setStart_date(Convert.parseDate(payroll_start_date));
@@ -850,6 +874,9 @@ public class PayrollAction extends ActionSupport {
 			payment_group.setDescription(information);
 			payment_group.setUser_update(logonUser);
 			payment_group.setTimeUpdate(DateUtil.getCurrentTime());
+			if (function.equals("confirm")) {
+				payment_group.setStatus("2");
+			}
 			log.debug(payment_group);
 			payment_groupDAO.save(payment_group);
 			Map<String, String> obj = new HashMap<>();
@@ -867,5 +894,41 @@ public class PayrollAction extends ActionSupport {
 		}
 		return null;
 	}
+	
+	public String savePayrollGroup() {
+		try {
+			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login
+			String logonUser = ur.getId(); // Username login
+			String paymentGroupId = request.getParameter("paymentGroupId");
+			String function = request.getParameter("function");
+			Payment_group payment_group =  payment_groupDAO.findById(Integer.parseInt(paymentGroupId));
+			switch (function) {
+			case "confirm" :
+				payment_group.setStatus("2");
+				break;
+			case "partial" :
+				payment_group.setStatus("3");
+				break;
+			case "full" :
+				payment_group.setStatus("4");
+				break;
+			}
+			payment_groupDAO.save(payment_group);
+			Map<String, String> obj = new HashMap<>();
+			obj.put("status", "1");
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			String json = gson.toJson(obj);
+			PrintWriter out = response.getWriter();
+			out.print(json);
+			out.flush();
+			out.close();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			
+		}
+		return null;
+	}
+
 
 }

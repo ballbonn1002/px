@@ -81,11 +81,22 @@ to {
  <c:set var = "inprogress_count" scope = "session" value = "${0}"/>
  <c:set var = "waiting" scope = "session" value = "${0}"/>
  <c:set var = "confirm" scope = "session" value = "${0}"/>
-<c:forEach var="s" items="${status[0]}">
-      <c:out value = "${s}"/>
+  <c:set var="statusSize" value="${fn:length(status)}" />
+<c:forEach var = "i" begin = "0" end = "${statusSize}">
+       <c:choose>
+         
+         <c:when test = "${status[i].status == 0}">
+         	<c:set var="inprogress_count" value="${inprogress_count + 1}" />
+         </c:when>
+         <c:when test = "${status[i].status == 1}">
+          	<c:set var="waiting" value="${waiting + 1}" />
+         </c:when>
+         <c:when test = "${status[i].status == 2}">
+         	<c:set var="confirm" value="${confirm + 1}" />
+         </c:when>
+      </c:choose>
 </c:forEach>
 
- <c:out value = "${confirm}"/>
       
       
 <div class="container">
@@ -159,15 +170,15 @@ to {
 							<button id="cancelPayrollGroup"
 								class="tag badge badge-info mx-2 my-1 my-sm-1 mx-sm-2  mx-lg-1 my-lg-1"
 								style="color: #E7505A; border-color: #E7505A; font-size: 14px; padding: 10px 18px">ยกเลิกรายการ</button>
-							<select class="form-control mx-2 my-1 mx-sm-2 my-sm-1 mx-lg-1">
-								<option value="Mr.">สถานะทั้งหมด</option>
-								<option value="Mrs.">....</option>
-								<option value="Ms.">....</option>
+							<select id = "payroll-group-status" class="form-control mx-2 my-1 mx-sm-2 my-sm-1 mx-lg-1" <c:if test = "${!(paymentGroup.status == 2 || paymentGroup.status == 3 || paymentGroup.status == 4)}">disabled</c:if>>
+								<option disabled selected> สถานะทั้งหมด </option>
+								<option value="3">ชำระเงินบางส่วน</option>
+								<option value="4">ชำระเงินทั้งหมด</option>
 							</select>
 						</div>
 						<div>
-							<button
-								class="tag badge badge-info mx-2 my-1 my-sm-1 mx-sm-2  mx-lg-1 my-lg-1"
+							<button id = "savePayrollGroup" <c:if test = "${inprogress_count > 0}">disabled</c:if>
+								class="tag badge badge-info mx-2 my-1 my-sm-1 mx-sm-2  mx-lg-1 my-lg-1" 
 								style="color: #9A9999; border-color: #9A9999; font-size: 14px; padding: 10px 18px;">ยืนยันรายการเงินเดือน</button>
 							<button
 								class="tag badge badge-info mx-2 my-1 my-sm-1 mx-sm-2 mx-lg-1 my-lg-1"
@@ -318,21 +329,21 @@ to {
 							<div
 								class="d-flex flex-column flex-sm-column flex-lg-row align-items-center">
 								<p style="margin-bottom: 0px;">รอดำเนินการ&nbsp;&nbsp;</p>
-								<h3 style="color: #333333;">2</h3>
+								<h3 style="color: #333333;">${inprogress_count}</h3>
 							</div>
 							<div class="d-none d-sm-none d-lg-block"
 								style="right: 0px; top: -20px; width: 1px; height: 40px; background: #EBEDF3 0% 0% no-repeat padding-box; margin: 16px"></div>
 							<div
 								class="d-flex flex-column flex-sm-column flex-lg-row align-items-center">
 								<p style="margin-bottom: 0px;">รอชำระเงิน&nbsp;&nbsp;</p>
-								<h3 style="color: #333333;">0</h3>
+								<h3 style="color: #333333;">${waiting}</h3>
 							</div>
 							<div class="d-none d-sm-none d-lg-block"
 								style="right: 0px; top: -20px; width: 1px; height: 40px; background: #EBEDF3 0% 0% no-repeat padding-box; margin: 16px"></div>
 							<div
 								class="d-flex flex-column flex-sm-column flex-lg-row align-items-center">
 								<p style="margin-bottom: 0px;">ยืนยัน&nbsp;&nbsp;</p>
-								<h3 style="color: #333333;">1</h3>
+								<h3 style="color: #333333;">${confirm}</h3>
 							</div>
 						</div>
 					</div>
@@ -345,17 +356,17 @@ to {
 							<thead>
 								<tr>
 									<th class="details-control"></th>
-									<th class="sorting_asc" style="text-align: right">ลำดับ</th>
+									<th class="sorting_asc" style="text-align: left">ลำดับ</th>
 									<th class="sorting" style="text-align: left;">พนักงาน</th>
-									<th class="sorting" style="text-align: center;">Employee
+									<th class="sorting" style="text-align: left;">Employee
 										type</th>
 									<th class="sorting" style="text-align: left;">วันทำงาน</th>
 									<th class="sorting" style="text-align: right;">เงินเดือน</th>
-									<th class="sorting" style="text-align: left;">รายได้
+									<th class="sorting" style="text-align: right;">รายได้
 										เพิ่มเติม</th>
-									<th class="sorting" style="text-align: center;">รายการหัก</th>
+									<th class="sorting" style="text-align: right;">รายการหัก</th>
 									<th class="sorting" style="text-align: right;">รายได้สุทธิ</th>
-									<th class="sorting" style="text-align: right;">สถานะ</th>
+									<th class="sorting" style="text-align: left;">สถานะ</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -363,7 +374,7 @@ to {
 									<!--<td style="display:none">${paymentgl.time_create}</td>-->
 									<td class="dt-control" style="padding-top: 10px;"></td>
 									<td style="text-align: center; padding-top: 10px;">1</td>
-									<td style="text-align: left; padding-top: 10px;">โหลดข้อมูลล้มเหลว</td>
+									<td style="text-align: center; padding-top: 10px;">โหลดข้อมูลล้มเหลว</td>
 									<td style="text-align: center; padding-top: 10px;">ได้โปรด
 										ทำตามขั้นตอน</td>
 									<td style="text-align: center; padding-top: 10px;">NULL</td>
@@ -537,22 +548,27 @@ to {
 		            { data: 'salary',
 		              "render" : function(data,type,row,meta) {
 		            	 	  return formatValue(data);
-		              }
+		              },
+		              className: "text-right",
 		            },
 		            { data: 'totalincome',
 			              "render" : function(data,type,row,meta) {
 			            	  return formatValue(data);
-			              }
+			              },
+			              className: "text-right"
 		            },
 		            { data: 'totalexpense',
 			              "render" : function(data,type,row,meta) {
 			            	  return formatValue(data);
-			              }
+			              },
+			              className: "text-right",
 		            },
 		            { data: 'totalamount',
 			              "render" : function(data,type,row,meta) {
 			            	  return formatValue(data);
-			              }
+			              },
+			              className: "text-right",
+			              
 		            },
 		            { data: 'status' }
 		        ],
@@ -571,6 +587,8 @@ to {
 		    $(".number").each(function () {
 		            $(this).html(++n);
 		        })
+		    
+		    console.log(table.ajax.json())
 		})
 		
 		$('#payroll_save').on("click" , function() {
@@ -585,15 +603,82 @@ to {
 					"payroll_pay_date" : $("#payroll_pay_date").val(),
 					"payroll_ss" : $("#payroll_ss").val(),
 					"information" : $("#information").val(),
+					"function" : "save",
 		    	},
 		    	
 		    	dataType: "JSON", // data type expected from server
 		    	success: function (data) {
 		    		if (data.status === "1") {
-						location.reload();
+		    			Swal.fire('บันทึกสำเร็จ', '', 'success')
 					}
 		    	},
 		});
+		})
+		
+		$('#savePayrollGroup').on('click',function() {
+			Swal.fire({
+				  title: 'ต้องการที่จะยืนยันรายการหรือไม่',
+				  showDenyButton: true,
+				  confirmButtonText: 'ยืนยัน',
+				  denyButtonText: `ไม่ยืนยัน`,
+				}).then((result) => {
+				  /* Read more about isConfirmed, isDenied below */
+				  if (result.isConfirmed) {
+						var classname = $(this).attr("class").split(" ")[0];
+						var tr = $(this).closest('.row-data').parent();
+						var baseTr = tr.prev();
+						var row = table.row(baseTr);
+						$.ajax({
+							method : "POST",
+							url: "savePayrollGroup",
+							type: "JSON",
+							traditional: true,
+							data : {
+								"paymentGroupId" : ${paymentGroup.payment_group_id}, 
+								"function" : "confirm",
+							},
+							success : function(data){
+								data = JSON.parse(data);
+								if (data.status === "1") {
+									location.reload();
+								}
+								else{
+									Swal.fire('มีข้อผิดพลาดบางอย่างเกิดขึ้น', '', 'info')
+								}
+							}
+						})
+				  } else if (result.isDenied) {
+					  Swal.fire('ยกเลิกการทำรายการ', '', 'info')
+				  }
+				})
+		})
+		$("#payroll-group-status").on("change",function() {
+			let type = "";
+			if ($(this).val() === "3") {
+				type = "partial"
+			}
+			else {
+				type = "full"
+			}
+			$.ajax({
+				method : "POST",
+				url: "savePayrollGroup",
+				type: "JSON",
+				traditional: true,
+				data : {
+					"paymentGroupId" : ${paymentGroup.payment_group_id}, 
+					"function" : type,
+				},
+				success : function(data){
+					data = JSON.parse(data);
+					if (data.status === "1") {
+						location.reload();
+					}
+					else{
+						Swal.fire('มีข้อผิดพลาดบางอย่างเกิดขึ้น', '', 'info')
+					}
+				}
+			})
 		})
 		
 		$('#payroll_cancel').on("click" , function() {
@@ -630,25 +715,33 @@ to {
 				},
 				success : function(data){
 					data = JSON.parse(data);
-					console.log(data);
 					if (data.status === "1") {
 						table.ajax.reload();
 					}
 				}
 			})
 		})
+		
+		$('#list_example tbody').on('change','.remark-detail',function() {
+			var value = $(this).val();
+			var control = $(this).attr("class").split(" ")[0];
+			var classname = null;
+			var tr = $(this).closest('.row-data').parent();
+			var baseTr = tr.prev();
+			var row = table.row(baseTr);
+			var row_data = row.data();
+			row_data.remark = value;
+		})
 	
 
 		$('#list_example tbody').on('click', 'td.dt-control', function() {
 			var tr = $(this).closest('tr');
 			var row = table.row(tr);
-			console.log(tr)
 
 			if (row.child.isShown()) {
 				// This row is already open - close it
 				row.child.hide();
 				tr.removeClass('shown');
-				$("#list_example").trigger("draw.dt");
 			} else {
 				// Open this row
 				var tb = $(this).closest('tbody');
@@ -657,12 +750,11 @@ to {
 					table.row(child.eq(i)).child.hide();
 					tb.find("shown").eq(i).removeClass('shown');
 				}
-				console.log(child)
 				row.child(payroll_format(row.data()),"row-data").show();
 				tr.addClass('shown');
 				changePayment(tr);
-				$("#list_example").trigger("draw.dt");
 			}
+			$("#list_example").trigger("draw.dt");
 		});
 		
 		$('#list_example tbody').on('change','.workingdays,.absent-control,.absence-control,.ot1-control,.ot2-control,.ot3-control',function() {
@@ -677,7 +769,7 @@ to {
 			
 			switch(control) {
 			  case "workingdays":
-				 classname = "SL";
+				classname = "SL";
 				row_data.workingDays = value;
 				row_data.term = value + "/" + row_data.term.split("/")[1]
 				payment = row_data.income[findPayment(row_data.income,classname)];
@@ -789,7 +881,6 @@ to {
 				},
 				success : function(data){
 					data = JSON.parse(data);
-					console.log(data);
 					if (data.status === "1") {
 						location.reload();
 					}
@@ -823,7 +914,6 @@ to {
 							},
 							success : function(data){
 								data = JSON.parse(data);
-								console.log(data);
 								if (data.status === "1") {
 									location.reload();
 								}
@@ -874,7 +964,6 @@ to {
 							},
 							success : function(data){
 								data = JSON.parse(data);
-								console.log(data);
 								if (data.status === "1") {
 									window.location.href = "payroll_list"
 								}
@@ -1027,7 +1116,6 @@ to {
 
 	function payroll_format(d) {
 		// `d` is the original data object for the row
-		console.log(d);
 		let expense = "";
 		let income = "";
 		d.income.forEach((d,i) => {
@@ -1046,6 +1134,13 @@ to {
 			</tr>`);
 		})
 		
+		let saveButton = "";
+		if (d.status === "inprogress") {
+			saveButton = `<button type="button" style = "border: 1px solid #C2CAD8;" class="save-payment btn btn-light  float-lg-right m-2">บันทึก</button>`;
+		}
+		else {
+			saveButton = `<button type="button" style = "border: 1px solid #C2CAD8;" class="save-payment btn btn-light  float-lg-right m-2">แก้ไข</button>`
+		}
 		
 		
 		
@@ -1117,19 +1212,15 @@ to {
 		</div>
 		<div class = "col-12">
 			<p>หมายเหตุ :</p>
-				<select class="form-control">
-					<option>เดือนนี้ทำงานที่ Site มีการลาไม่รับค่าจ้าง 1 วัน ไปหักเงินเดือนหน้า</option>
-					<option></option>
-				</select>
+				<input class="remark-detail form-control" value ="`+d.remark+`">
 			<p style = "color: #E7505A;">หมายเหตุ จากงวดที่แล้ว : -</p>
 		</div>
 		<div class="clearfix my-3">
 			<button class="confirm-payment btn btn-success  float-lg-right m-2">ยืนยันรายการ</button>
-			<button type="button" style = "color : white;" class="waiting-payment btn btn-warning  float-lg-right m-2">รอชำระเงิน</button>
-			<button type="button" style = "border: 1px solid #C2CAD8;" class="save-payment btn btn-light  float-lg-right m-2">บันทึก</button>
-			<button type="button" style = "border: 1px solid #C2CAD8;" class="cancel-payment btn btn-light  float-lg-right m-2">ยกเลิก</button>
+			<button type="button" style = "color : white;" class="waiting-payment btn btn-warning  float-lg-right m-2">รอชำระเงิน</button>`
+			+saveButton+
+			`<button type="button" style = "border: 1px solid #C2CAD8;" class="cancel-payment btn btn-light  float-lg-right m-2">ยกเลิก</button>
 		</div>
-		
 	</div>
 		`
 	}
