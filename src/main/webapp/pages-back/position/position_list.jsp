@@ -141,7 +141,14 @@ ${description}
 												        if (inputValue === "") {
 												          return false
 												        }
-												        document.location = "position_delete?position_id=${test.position_id}";   //?id คือ parameter
+												        
+												        //console.log(${test.position_id});
+												        $.ajax({url: "position_delete",method: "POST",
+															data: {"position_id" : "${test.position_id}" ,},
+																success:function(){
+																	document.location = "position_list";
+															}})
+												        //document.location = "position_delete?position_id=${test.position_id}";   //?id คือ parameter
 												      });
 												};
 												</script>

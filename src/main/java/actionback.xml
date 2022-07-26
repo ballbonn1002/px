@@ -142,14 +142,34 @@
 		<action name="addPayroll"
 			class="com.cubesofttech.action.PayrollAction" method="addPayroll">
 		</action>
+		<action name="editPayroll"
+			class="com.cubesofttech.action.PayrollAction" method="editPayroll">
+		</action>
 		<action name="getPayrollTable"
 			class="com.cubesofttech.action.PayrollAction" method="getTable">
+		</action>
+		<action name="cancelPayrollGroup"
+			class="com.cubesofttech.action.PayrollAction" method="cancelPayrollGroup">
+		</action>
+		<action name="userPayment"
+			class="com.cubesofttech.action.PayrollAction" method="userPayment">
+		</action>
+		<action name = "savePayroll"
+			class="com.cubesofttech.action.PayrollAction" method="savePayroll">
+		</action>
+		
+		<action name = "savePayrollGroup"
+			class="com.cubesofttech.action.PayrollAction" method="savePayrollGroup">
 		</action>
 		
 		<action name="payroll_form"
 			class="com.cubesofttech.action.PayrollAction" method="formPayroll"  >
 			<result name="success" type="tiles">payroll_form</result>
 			<result name="error">/index.jsp</result>
+		</action>
+		
+		<action name="payrollCalculator"
+			class="com.cubesofttech.action.PayrollAction" method="payrollCalculator"  >
 		</action>
 		
 		<!-- Role -->
@@ -346,9 +366,9 @@
 
 		<action name="savePosition"
 			class="com.cubesofttech.action.PositionAction" method="savePosition">
-			<result name="success" type="tiles">position_list</result>
+			<result name="success">/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
-			<result name="input" type="chain">position_add</result>
+			<!-- <result name="input" type="chain">position_add</result> -->
 		</action>
 
 		<action name="position_delete"

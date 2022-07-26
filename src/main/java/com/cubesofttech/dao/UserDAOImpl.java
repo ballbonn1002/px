@@ -1234,6 +1234,26 @@ public class UserDAOImpl implements UserDAO {
 		return countUserList;
 	}
 
+	@Override
+	public List<Map<String, Object>> findAllDuplicatePayroll(String payrollGroupId) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Map<String, Object>> userList = null;
+		try {
+			String sql = "SELECT user.id as userid, employee_id, user.name as name, user.department_id as dep, position.name as pos, employee_type.name as emp_type , if (user.id in (SELECT p.user_id FROM payment p WHERE p.payment_group_id = :pgid),1,0) as checkbox FROM `user` "
+						 + "LEFT JOIN position ON user.position_id = position.position_id "
+						 + "LEFT JOIN employee_type ON user.employee_type_id = employee_type.employee_type_id";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setParameter("pgid", payrollGroupId);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			userList = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return userList;
+	}
+	
+	
+
 	
 	
 	

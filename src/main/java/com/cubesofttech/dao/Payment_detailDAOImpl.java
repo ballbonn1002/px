@@ -8,9 +8,12 @@ import java.time.YearMonth;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.xmlbeans.impl.xb.xsdschema.RestrictionDocument.Restriction;
+import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -111,6 +114,22 @@ public class Payment_detailDAOImpl implements Payment_detailDAO {
 			e.printStackTrace();
 		}
 		return count;
+	}
+	
+	@Override
+	public List<Payment_detail> searchPaymentDetailByPidnUid(String pId,String uId) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Payment_detail> payment_detail = null;
+		try {
+			Criteria cr = session.createCriteria(Payment_detail.class);
+			cr.add(Restrictions.eq("payment_id", pId));
+			cr.add(Restrictions.eq("user_id", uId));
+			payment_detail = cr.list();
+            
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return payment_detail;
 	}
 	
 	

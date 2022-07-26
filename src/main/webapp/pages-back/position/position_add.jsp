@@ -13,7 +13,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 
 <div class="block-header">
 	<div class="row">
@@ -44,7 +43,7 @@
 					<div class="portlet-body">
 						<!-- BEGIN FORM-->
 						<div class="body">
-							<form id="form_send" action="javascript:sendData()" method="POST" class="needs-validation">
+							<form id="form_send" action="javascript:sendData()" method="POST" class="was-validated">
 								<div class="form-group">
 									<label for="recipient-name" class="control-label">Position ID<span style="color:red;"> *</span></label>
 										<div id="canuse" style="color: #28A745; text-color:#28A745; display:none; width:100%;">
@@ -59,16 +58,16 @@
 									<input type="text" id="position_id" name="positionId" maxlength="4" pattern="[A-Za-z0-9.]{1,}" required class="form-control">
 									
 										<div class="valid-feedback"></div>
-      									<div class="invalid-feedback">กรอกได้ 4 ตัว เฉพาะ ภาษาอังกฤษ ตัวเลข และ จุด(.) เท่านั้น และข้อมูลห้ามซ้ำ</div>
+      									<div class="invalid-feedback">กรอกได้เฉพาะ ภาษาอังกฤษ ตัวเลข และ จุด(.) เท่านั้น และข้อมูลห้ามซ้ำ</div>
 										
 								</div>
 									
 								<div class="form-group">
 									<label for="recipient-name" class="control-label">Department<span style="color:red;"> *</span></label> 
 									<select id="depart_id" class="form-control" name="user.departmentId" required>
-										<option disabled selected hidden selected = "selected"> </option>
+										<option disabled hidden selected = "selected" > </option>
 											<c:forEach var="department" items="${departmentList}">
-												<option value="${department.department_id}" <c:if test="true">  </c:if>>${department.department_id}</option>
+												<option value="${department.department_id}" <c:if test="true">  </c:if>>${department.department_id} - ${department.name}</option>
 											</c:forEach>
 										</select>
 								</div>
@@ -149,14 +148,18 @@ function sendData(){
 		type: "JSON" ,
 		data : form_data,
 		
-		success : function() {
-			document.location = "position_list";
-			/*var value = "${flag}";
-			console.log(value);
-			if (value == 1) {
-				console.log(value);
-				swal('Please!', 'Check Position ID Duplicate', 'warning');
-			}*/
+		success : function(data) {
+			//var value = data;
+			//console.log(data);
+			//console.log(document.location = "position_list");
+			if (data == null) {
+				document.location = "position_list";
+				//console.log(data);
+				
+			} else{
+				console.log(data);
+				swal('Position ID', 'มีข้อมูลซ้ำกัน โปรดกรอกใหม่', 'warning');
+			}
 			
 		}
 	})
@@ -190,6 +193,7 @@ $(document).ready(function() {
 				success:function(data){
 					$("#position_id").removeClass("is-invalid");
 					$("#position_id").removeClass("is-valid");
+					//console.log(value);
 					//console.log(data.toString().indexOf("1"));
 					
 					if (data.toString().indexOf("1") == -1 && checkPattern(id) == true) {
@@ -200,6 +204,7 @@ $(document).ready(function() {
 						
 					} else {	
 						$("#position_id").addClass("is-invalid");
+						//swal('Please!', 'Check Position ID Duplicate', 'warning');
 						$("#canuse").hide();
 						$("#cannotuse").show();
 						$("#nofill").hide();
@@ -214,31 +219,6 @@ $(document).ready(function() {
 			}
 	})
 	
-	/*$("#submit_position").on('click', function() {
-				var positionId = $("#position_id").val();
-				var departId = $("#depart_id").val();
-				var namePosition = $("#name_position").val();
-				var description = $("#name_description").val();
-				var prefix = $("#prefix").val();
-				//console.log(positionId);
-				//console.log(departId);
-				$.ajax({
-					url : "savePosition",
-					method : "POST",
-					data : {
-						"position_id" : positionId,
-						type : "JSON",
-					"depart_id" : departId,
-						"name_position" : namePosition,
-						"name_description" : description,
-						"prefix" : prefix,
-					},
-					success : function(data) {
-						//console.log(data)
-					}
-				})
-			});*/
-	
 	document.getElementById("position_id").addEventListener("invalid", warnFunction);
 	function warnFunction(){
 		$("#position_id").addClass("is-invalid");
@@ -251,11 +231,11 @@ $(document).ready(function() {
 		});
 	}*/
 	
-	$(".placeholder").select2({
+	/*$(".placeholder").select2({
 		dropdownAutoWidth : true,
 	    placeholder: "เลือก",
 	    allowClear: false
-	});
+	});*/
 	
 });
 

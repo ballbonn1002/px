@@ -133,4 +133,6 @@ public interface UserDAO {
 	
 	public List<Map<String,Object>> countUserEndInYearByYear(String year) throws Exception;
 	
+	public List<Map<String, Object>> findAllDuplicatePayroll(String payrollGroupId) throws Exception;
+	
 }

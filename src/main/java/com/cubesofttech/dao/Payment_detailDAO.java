@@ -19,5 +19,7 @@ public interface Payment_detailDAO {
     public long dashboardPaymentMonth(String paymentType,String month,String year) throws Exception;
     
     public long dashboardPaymentYear(String paymentType,String year)throws Exception;
+    
+    public List<Payment_detail> searchPaymentDetailByPidnUid(String pId,String uId) throws Exception;
 
 }

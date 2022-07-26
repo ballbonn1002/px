@@ -69,7 +69,7 @@
 									<select class="bs-select form-control" name="departmentId" id="departmentId">
 										<c:forEach var="department" items="${departmentList}">
 											<option value="${department.department_id}"
-												<c:if test="${positionList.departmentId eq department.department_id }"> selected </c:if>>${department.department_id}
+												<c:if test="${positionList.departmentId eq department.department_id }"> selected </c:if>>${department.department_id} - ${department.name}
 											</option>
 										</c:forEach>
 									</select>
