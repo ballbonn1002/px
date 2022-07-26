@@ -28,7 +28,7 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 	private static final Logger log = Logger.getLogger(PaymentTypeAction.class);
 	@Autowired
     private SessionFactory sessionFactory;
-	
+
 	@Override
     public void save(Payment_group payment_group) throws Exception{
         Session session = this.sessionFactory.getCurrentSession();
@@ -36,7 +36,7 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
         session.flush();
         //session.close();
     }
-	
+
 	@Override
     public void update(Payment_group payment_group) throws Exception {
         Session session = this.sessionFactory.getCurrentSession();
@@ -45,7 +45,7 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
         session.flush();
         //session.close();
     }
-	
+
 	@Override
     public void delete(Payment_group payment_group) throws Exception {
         Session session = this.sessionFactory.getCurrentSession();
@@ -53,7 +53,7 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
         session.flush();
         //session.close();
     }
-	
+
 	@Override
 	public Integer getMaxId() throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();
@@ -77,7 +77,7 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 			return new Integer(0);
 		}
 	}
-	
+
 	@Override
     public List<Payment_group> findAll() throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();
@@ -92,7 +92,7 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 		}
 		return list;
 	}
-    
+
 
     @Override
     public Payment_group findById(Integer  Payment_group_id) throws Exception {
@@ -105,7 +105,7 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
             e.printStackTrace();
         }finally{
             //session.close();
-        }        
+        }
         return payment_group;
     }
 
@@ -126,11 +126,11 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 		}
 		return paymentGroupList;
 	}
-	
+
 	@Override
 	public List<Map<String, Object>> findAndSumBonusByYear(String userId,String Year) throws Exception {
 		List<Map<String, Object>> query_listMap = null;
-		Session session =  this.sessionFactory.getCurrentSession(); 
+		Session session =  this.sessionFactory.getCurrentSession();
 		try {
 			String sql = "SELECT payment.user_id , payment_detail.payment_type_id , EXTRACT(MONTH FROM payment_group.payment_date) AS payment_month , EXTRACT(YEAR FROM payment_group.payment_date) AS payment_year,payment_detail.amount FROM payment JOIN payment_group ON payment.user_id = '"+userId+"' AND payment_group.payment_group_id = payment.payment_group_id AND payment_group.payment_date LIKE '"+Year+"%' JOIN payment_detail ON payment.payment_id = payment_detail.payment_id";
 			String sum_sql = " UNION SELECT payment.user_id , 'SUM0' AS payment_type_id , EXTRACT(MONTH FROM payment_group.payment_date) AS payment_month , EXTRACT(YEAR FROM payment_group.payment_date) AS payment_year, SUM(payment_detail.amount) AS amount"
@@ -143,7 +143,7 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 							+ " AND payment_detail.payment_type_id IN ('SSI','TAX','TISCO','LATE','ABSENT','ABSENCE','StudentLoan')"
 							+ " GROUP BY payment_month";
 			sql = sql + sum_sql;
-			
+
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 			query_listMap = query.list();
@@ -154,13 +154,13 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 
 		return query_listMap;
 	}
-	
+
 	@Override
 	public List<Map<String, Object>> findAndSumBonusByMultipleYear(String userId,List<String> listOfYear) throws Exception {
 		List<Map<String, Object>> query_listMap = null;
-		Session session =  this.sessionFactory.getCurrentSession(); 
+		Session session =  this.sessionFactory.getCurrentSession();
 		try {
-			String sql = ""; 
+			String sql = "";
 	        for (int i = 0 ; i < listOfYear.size() ; i++) {
 	        	sql += "SELECT payment.user_id , payment_detail.payment_type_id , EXTRACT(YEAR FROM payment_group.payment_date) AS payment_year , SUM(payment_detail.amount ) AS amount FROM payment JOIN payment_group ON payment.user_id = '"+userId+"' AND payment_group.payment_group_id = payment.payment_group_id AND payment_group.payment_date LIKE '"+listOfYear.get(i)+"%' JOIN payment_detail ON payment.payment_id = payment_detail.payment_id  GROUP BY payment_type_id";
 	        	String sum_sql = " UNION SELECT payment.user_id , 'SUM0' AS payment_type_id , EXTRACT(YEAR FROM payment_group.payment_date) AS payment_year, SUM(payment_detail.amount) AS amount"
@@ -173,7 +173,7 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 			        			+ " AND payment_detail.payment_type_id IN ('SSI','TAX','TISCO','LATE','ABSENT','ABSENCE','StudentLoan')"
 			        			+ " GROUP BY payment_year ";
 	        	sql = sql + sum_sql;
-	        	
+
 	        	if (i < listOfYear.size()-1 ) {
 	        		sql += "UNION ";
 	        	}
@@ -188,12 +188,12 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 
 		return query_listMap;
 	}
-	
-	
+
+
 //	@Override
 //	public List<Map<String, Object>> findSumBonusByYear(String userId,String Year) throws Exception {
 //		List<Map<String, Object>> query_listMap = null;
-//		Session session =  this.sessionFactory.getCurrentSession(); 
+//		Session session =  this.sessionFactory.getCurrentSession();
 //		try {
 //			String sql = "SELECT payment.user_id , 'SUM0' AS payment_type_id ,'Bouns' AS payment_type_name , EXTRACT(MONTH FROM payment_group.payment_date) AS payment_month , EXTRACT(YEAR FROM payment_group.payment_date) AS payment_year, SUM(payment_detail.amount) AS amount"
 //					+ " FROM payment JOIN payment_group ON payment.user_id = '"+userId+"' AND payment_group.payment_group_id = payment.payment_group_id AND payment_group.payment_date LIKE '"+Year+"%' JOIN payment_detail ON payment.payment_id = payment_detail.payment_id"
@@ -224,7 +224,7 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 
 	@Override
 	public List<Map<String, Object>> findYear() throws Exception {
-		Session session =  this.sessionFactory.getCurrentSession(); 
+		Session session =  this.sessionFactory.getCurrentSession();
 		List<Map<String, Object>> findYearSalary = null;
 		try {
 			String sql = "SELECT EXTRACT(YEAR FROM payment_group.payment_date) AS year FROM payment_group GROUP BY EXTRACT(YEAR FROM payment_group.payment_date)";
@@ -234,30 +234,30 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return findYearSalary; 
+		return findYearSalary;
 	}
-	
+
 	@Override
 	public List<Map<String, Object>> multiSalaryMonth(String mYear, String mDepart) throws Exception {
-		Session session =  this.sessionFactory.getCurrentSession(); 
+		Session session =  this.sessionFactory.getCurrentSession();
 		List<Map<String, Object>> multiSelectMonth = null;
 		try {
 			String[] strArray = null;
 			strArray = mDepart.split(",");
-			
+
 			String salary = "SELECT payment_group.payment_group_id, payment_group.name, EXTRACT(YEAR FROM payment_group.payment_date) AS year, EXTRACT(MONTH FROM payment_group.payment_date) AS month, SUM(payment.total_pay) AS sum_total_pay, user.department_id FROM payment_group LEFT JOIN payment ON payment_group.payment_group_id = payment.payment_group_id AND EXTRACT(YEAR FROM payment_group.payment_date) = '"+mYear+"' LEFT JOIN user ON payment.user_id = user.id LEFT JOIN department ON department.department_id = user.department_id WHERE department.department_id = '"+strArray[0]+"'";
 			for (int i = 0; i< strArray.length; i++){
 				salary += " OR department.department_id = '"+strArray[i]+"'";
 			}
 			salary += "GROUP BY month, year, user.department_id";
-			
+
 			String sum = " UNION ";
 			sum += "SELECT payment_group.payment_group_id, 'sum_depart' AS name, EXTRACT(YEAR FROM payment_group.payment_date) AS year, '13' AS month, SUM(payment.total_pay) AS sum_total_pay, user.department_id FROM payment_group LEFT JOIN payment ON payment_group.payment_group_id = payment.payment_group_id AND EXTRACT(YEAR FROM payment_group.payment_date) = '"+mYear+"' LEFT JOIN user ON payment.user_id = user.id LEFT JOIN department ON department.department_id = user.department_id WHERE department.department_id = '"+strArray[0]+"'";
 			for (int i = 0; i< strArray.length; i++){
 				sum += " OR department.department_id = '"+strArray[i]+"'";
 			}
 			sum += "GROUP BY user.department_id";
-			
+
 			String sumAll = " UNION ";
 			sumAll += "SELECT 'sumAll' AS payment_group_id, 'sum_all' AS name, EXTRACT(YEAR FROM payment_group.payment_date) AS year, '13' AS month, SUM(payment.total_pay) AS sum_total_pay, 'sum' AS department_id\r\n"
 					+ "FROM payment_group"
@@ -267,7 +267,7 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 				sumAll += " OR department.department_id = '"+strArray[i]+"'";
 			}
 			sumAll += "GROUP BY payment_group_id";
-			
+
 			String sumMonth = " UNION ";
 			sumMonth += "SELECT payment_group.payment_group_id, 'Month' AS name, EXTRACT(YEAR FROM payment_group.payment_date) AS year, EXTRACT(MONTH FROM payment_group.payment_date) AS month, SUM(payment.total_pay) AS sum_total_pay, 'sum' AS department_id \r\n"
 					+ "FROM payment_group"
@@ -277,7 +277,7 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 				sumMonth += " OR department.department_id = '"+strArray[i]+"'";
 			}
 			sumMonth += "GROUP BY year, month";
-			
+
 			String sql = salary + sum + sumAll + sumMonth;
 			//System.out.println(sql);
 			SQLQuery query = session.createSQLQuery(sql);
@@ -286,12 +286,12 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return multiSelectMonth; 
+		return multiSelectMonth;
 	}
-	
+
 	@Override
 	public List<Map<String, Object>> multiSalaryYear(String mYear, String mDepart) throws Exception {
-		Session session =  this.sessionFactory.getCurrentSession(); 
+		Session session =  this.sessionFactory.getCurrentSession();
 		List<Map<String, Object>> multiSelectYear = null;
 		try {
 			String[] strArrayDepart = null;
@@ -299,7 +299,7 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 			strArrayDepart = mDepart.split(",");
 			strArrayYear = mYear.split(",");
 			String sql = "";
-			
+
 			for(int i = 0; i < strArrayYear.length; i++) {
 				String salary = "SELECT payment_group.payment_group_id, 'sum_depart' AS name, EXTRACT(YEAR FROM payment_group.payment_date) AS year, 'sum_year' AS month, SUM(payment.total_pay) AS sum_total_pay, user.department_id FROM payment_group LEFT JOIN payment ON payment_group.payment_group_id = payment.payment_group_id AND EXTRACT(YEAR FROM payment_group.payment_date) = '"+strArrayYear[i]+"' LEFT JOIN user ON payment.user_id = user.id LEFT JOIN department ON department.department_id = user.department_id WHERE department.department_id = '"+strArrayDepart[0]+"'";
 				for (int j = 0; j< strArrayDepart.length; j++){
@@ -307,7 +307,7 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 				}
 				salary += "GROUP BY user.department_id UNION ";
 				sql += salary;
-				
+
 			}
 			for(int i = 0; i < strArrayYear.length; i++) {
 				String sum = "SELECT 'sumAll' AS payment_group_id, 'sum_all' AS name, EXTRACT(YEAR FROM payment_group.payment_date) AS year, 'sumAllDepartAndYear' AS month, SUM(payment.total_pay) AS sum_total_pay, 'sum' AS department_id FROM payment_group LEFT JOIN payment ON payment_group.payment_group_id = payment.payment_group_id AND EXTRACT(YEAR FROM payment_group.payment_date) = '"+strArrayYear[i]+"'  LEFT JOIN user ON payment.user_id = user.id LEFT JOIN department ON department.department_id = user.department_id WHERE department.department_id = '"+strArrayDepart[0]+"'";
@@ -316,9 +316,9 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 				}
 				sum += "GROUP BY payment_group_id UNION ";
 				sql += sum;
-				
+
 			}
-			
+
 			String sumAllYear = "SELECT table1.payment_group_id as payment_group_id, table1.name as name, table1.year as year, table1.month as month, SUM(table1.sum_total_pay) AS sum_total_pay, table1.department_id AS department_id FROM (";
 			for(int i = 0; i < strArrayYear.length; i++) {
 				sumAllYear += "SELECT 'sumAllYear' AS payment_group_id, 'sum_all_year' AS name, '9999' AS year, 'sumAllYear' AS month, SUM(payment.total_pay) AS sum_total_pay, user.department_id FROM payment_group INNER JOIN payment ON payment_group.payment_group_id = payment.payment_group_id AND EXTRACT(YEAR FROM payment_group.payment_date) = '"+strArrayYear[i]+"' INNER JOIN user ON payment.user_id = user.id INNER JOIN department ON department.department_id = user.department_id WHERE department.department_id = '"+strArrayDepart[0]+"'";
@@ -329,12 +329,12 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 			}
 			sumAllYear = sumAllYear.substring(0,sumAllYear.length()-7);
 			sumAllYear += ") AS table1 GROUP BY table1.department_id UNION ";
-			
-			
+
+
 			String sumAll = "SELECT table1.payment_group_id as payment_group_id, table1.name as name, table1.year as year, table1.month as month, SUM(table1.sum_total_pay) AS sum_total_pay, table1.department_id AS department_id FROM (";
 			for(int i = 0; i < strArrayYear.length; i++) {
 				sumAll += "SELECT 'sumAll' AS payment_group_id, 'sum_all' AS name, '9999' AS year, 'sumAllDepartAndYear' AS month, SUM(payment.total_pay) AS sum_total_pay, 'sum' AS department_id FROM payment_group LEFT JOIN payment ON payment_group.payment_group_id = payment.payment_group_id AND EXTRACT(YEAR FROM payment_group.payment_date) = '"+strArrayYear[i]+"' LEFT JOIN user ON payment.user_id = user.id LEFT JOIN department ON department.department_id = user.department_id WHERE department.department_id = '"+strArrayDepart[0]+"'";
-				
+
 				for (int j = 0; j< strArrayDepart.length; j++){
 					sumAll += " OR department.department_id = '"+strArrayDepart[j]+"'";
 				}
@@ -343,10 +343,10 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 			sumAll = sumAll.substring(0,sumAll.length()-7);
 			sumAll += ") AS table1 GROUP BY table1.department_id";
 			//sumAll += "GROUP BY payment_group_id UNION ";
-			
-			
+
+
 			sql = sql + sumAllYear + sumAll;
-				
+
 			//sql = sql.substring(0,sql.length()-6);
 			//System.out.println(sql);
 			SQLQuery query = session.createSQLQuery(sql);
@@ -356,41 +356,41 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return multiSelectYear; 
+		return multiSelectYear;
 	}
-	
+
 	@Override
 	public List<Map<String, Object>> getMonthStatic(String mYear, String mDepart) throws Exception {
-		Session session =  this.sessionFactory.getCurrentSession(); 
+		Session session =  this.sessionFactory.getCurrentSession();
 		List<Map<String, Object>> findMonthStatic = null;
-		
+
 		try {
 			String[] strArray = null;
 			strArray = mDepart.split(",");
-			
+
 			String sql = "SELECT payment_group.payment_group_id, payment_group.name, EXTRACT(YEAR FROM payment_group.payment_date) AS year, EXTRACT(MONTH FROM payment_group.payment_date) AS month, SUM(payment.total_pay) AS sum_total_pay, user.department_id FROM payment_group LEFT JOIN payment ON payment_group.payment_group_id = payment.payment_group_id AND EXTRACT(YEAR FROM payment_group.payment_date) = '"+mYear+"' LEFT JOIN user ON payment.user_id = user.id LEFT JOIN department ON department.department_id = user.department_id WHERE department.department_id = '"+strArray[0]+"'";
 			for (int i = 0; i< strArray.length; i++){
 				sql += " OR department.department_id = '"+strArray[i]+"'";
 			}
 			sql += "GROUP BY month, year, user.department_id";
-			
+
 			//String sql = "SELECT payment_group.payment_group_id, payment_group.name, EXTRACT(YEAR FROM payment_group.payment_date) AS year, EXTRACT(MONTH FROM payment_group.payment_date) AS month, SUM(payment.total_pay) AS sum_total_pay, user.department_id FROM payment_group LEFT JOIN payment ON payment_group.payment_group_id = payment.payment_group_id AND EXTRACT(YEAR FROM payment_group.payment_date) = '"+mYear+"' LEFT JOIN user ON payment.user_id = user.id LEFT JOIN department ON department.department_id = user.department_id WHERE department.department_id = 'AE' OR department.department_id = 'AE' OR department.department_id = 'GP' OR department.department_id = 'HR' OR department.department_id = 'IN' OR department.department_id = 'IT' OR department.department_id = 'MA' OR department.department_id = 'MM' OR department.department_id = 'MS' OR department.department_id = 'OP' GROUP BY month, year, user.department_id";
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 			findMonthStatic = query.list();
-		
+
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return findMonthStatic;
 	}
 
 	@Override
 	public List<Payment_group> testList(Integer payment_group_id) throws Exception {
 		// TODO Auto-generated method stub
-		Session session =  this.sessionFactory.getCurrentSession(); 
+		Session session =  this.sessionFactory.getCurrentSession();
 		List<Payment_group> findList = null;
 		try {
 			String sql = "SELECT payment_group.payment_group_id, payment_detail.* FROM `payment_detail` JOIN payment ON payment.payment_id = payment_detail.payment_id JOIN payment_group ON payment_group.payment_group_id = payment.payment_group_id WHERE payment.user_id ='test.data1' AND payment_group.payment_group_id="+payment_group_id+"";
@@ -400,13 +400,13 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return findList; 
+		return findList;
 	}
 
 	@Override
 	public List<Payment_group> listConvert(Integer payment_group_id) throws Exception {
 		// TODO Auto-generated method stub
-		Session session =  this.sessionFactory.getCurrentSession(); 
+		Session session =  this.sessionFactory.getCurrentSession();
 		List<Payment_group> findList = null;
 		try {
 			String sql = "SELECT payment_detail.user_id, \r\n"
@@ -442,13 +442,13 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return findList; 
+		return findList;
 	}
 
 	@Override
 	public List<Payment_group> searchByDate(String startDate, String endDate) throws Exception {
 		// TODO Auto-generated method stub
-		Session session =  this.sessionFactory.getCurrentSession(); 
+		Session session =  this.sessionFactory.getCurrentSession();
 		List<Payment_group> findList = null;
 		try {
 			String sql = "SELECT * FROM `payment_group`WHERE start_date >= '"+startDate+"' AND end_date <= '"+endDate+"'";
@@ -458,7 +458,7 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return findList; 
+		return findList;
 	}
 
 	@Override
@@ -471,7 +471,7 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 					+ "JOIN payment ON payment_group.payment_group_id = payment.payment_group_id\r\n"
 					+ "WHERE payment_group.payment_group_id="+payment_group_id+"\r\n"
 					+ "GROUP BY payment_group.payment_group_id;	\r\n";
-					
+
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 			paymentGroupList = query.list();
@@ -486,7 +486,7 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 		List<String> List = new ArrayList<String>();
 		List<Map<String, Object>>  query_listMap = null;
 		JSONArray json_array = new JSONArray();
-		Session session =  this.sessionFactory.getCurrentSession(); 
+		Session session =  this.sessionFactory.getCurrentSession();
 		try {
 			if(year != "") {
 			String sql = "select \r\n"
@@ -535,17 +535,17 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 			}
 	} catch (Exception e) {
 		e.printStackTrace();
-	}	
+	}
 
 	return json_array;
-	
+
 	}
 
 	@Override
 	public List<BigDecimal> paymentchartIn(String year) throws Exception {
         List<String>  query_listMap = null;
         JSONArray json_array = new JSONArray();
-        Session session =  this.sessionFactory.getCurrentSession(); 
+        Session session =  this.sessionFactory.getCurrentSession();
         List<BigDecimal> List = new ArrayList<BigDecimal>();
         try {
             if(year != "") {
@@ -583,7 +583,7 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 	public List<BigDecimal> paymentchartEx(String year) throws Exception {
         List<String>  query_listMap = null;
         JSONArray json_array = new JSONArray();
-        Session session =  this.sessionFactory.getCurrentSession(); 
+        Session session =  this.sessionFactory.getCurrentSession();
         List<BigDecimal> List = new ArrayList<BigDecimal>();
         try {
             if(year != "") {
@@ -622,7 +622,7 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 		List<String> List = new ArrayList<String>();
 		List<Map<String, Object>>  query_listMap = null;
 		JSONArray json_array = new JSONArray();
-		Session session =  this.sessionFactory.getCurrentSession(); 
+		Session session =  this.sessionFactory.getCurrentSession();
 		try {
 			if(year != "") {
 			List<String> monthList = Arrays.asList("01","02","03","04","05","06","07","08","09","10","11","12");
@@ -646,12 +646,12 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 					+ "join payment on payment_detail.payment_id = payment.payment_id \r\n"
 					+ "join payment_group  on payment.payment_group_id = payment_group.payment_group_id\r\n"
 					+ "join payment_type  on payment_type.payment_type_id = payment_detail.payment_type_id ";
-				
+
 				for(int i=0; i<monthList.size(); i++) {
 					sql2 = "WHERE month(payment_group.payment_date) = '"+monthList.get(i)+"' AND year(payment_group.payment_date) = '"+year+"'";
 				}
 				sql = sql1 + sql2;
-			
+
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 			query_listMap = query.list();
@@ -675,14 +675,31 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 	                    array_cell.put(value);
 	                    json_array.put(array_cell);
 	                }
-				} 
+				}
 			}
 			}
 	} catch (Exception e) {
 		e.printStackTrace();
-	}	
+	}
 	return json_array;
 	}
 
-	
+	@Override
+	public Map<String, Object> getMonthYearByIdnUserId(Integer payment_group_id, String userId) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		Map<String, Object> paymentGroupList = null;
+		try {
+			String sql = "SELECT month(pg.end_date) as month , year(pg.end_date) as year FROM payment p"
+					+ "	inner join payment_group pg on p.payment_group_id = pg.payment_group_id"
+					+ "	where p.payment_group_id = :pId and user_id = :userId";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setParameter("pId", payment_group_id);
+			query.setParameter("userId", userId);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			paymentGroupList = (Map<String, Object>) query.list().get(0);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return paymentGroupList;
+	}
 }

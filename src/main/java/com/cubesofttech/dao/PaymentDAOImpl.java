@@ -295,6 +295,31 @@ public class PaymentDAOImpl implements PaymentDAO{
 		return payment;
 	}
 
+	@Override
+	public Map<String, Object> getRemarkByDatenUserId(int month, int year, String userId) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		Map<String, Object> payment = null;
+		try {
+			String sqlUpdate = "SELECT p.remark FROM payment p"
+					+ "			inner join payment_group pg on p.payment_group_id = pg.payment_group_id"
+					+ "			where ((month(pg.start_date) = :month and year(pg.start_date) = :year) or (month(pg.end_date) = :month and year(pg.end_date) = :year))"
+					+ "			and pg.status != 0"
+					+ "			and user_id = :userId";
+			SQLQuery query = session.createSQLQuery(sqlUpdate);
+			query.setParameter("month",month);
+			query.setParameter("year", year);
+			query.setParameter("userId", userId);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			if (query.list().size() > 0) {
+				payment = (Map<String, Object>)query.list().get(0);
+			}
+		
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return payment;
+	}
+
 	
 	
 	

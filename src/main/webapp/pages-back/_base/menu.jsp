@@ -93,7 +93,7 @@
                                                 <li><a href="employeeReport">Employee Statistics</a> </li>
                                                 <li><a href="report_department">Department Statistics</a> </li>
                                                 <li><a href="Payment_chart">Payment Chart</a></li>
-                                                <li><a href="report_year">Test Statistics</a> </li>
+                                                <li><a href="report_year">Employee yearly statistics</a> </li>
                                                 <li><a href="chart-peity.html">Peity</a></li>
                                                 <li><a href="chart-c3.html">C3 Charts</a></li>
                                                 <li><a href="chart-gauges.html">Gauges</a></li>

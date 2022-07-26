@@ -324,7 +324,7 @@ to {
 
 					</div>
 					<div class="col-12 col-sm-12 col-lg-6">
-						<div
+						<div id = "payment-status"
 							class="d-flex flex-column flex-sm-column flex-lg-row align-items-center justify-content-end">
 							<div
 								class="d-flex flex-column flex-sm-column flex-lg-row align-items-center">
@@ -403,7 +403,7 @@ to {
 			<div class="row">
 				<div class="col-lg-6 col-sm-12">
 					<div class="table-responsive">
-						<table class="table payment-table">
+						<table class="table payment-table payment-group-income">
 							<thead>
 								<tr>
 									<th class="" style="text-align: left; width: 30%">รายได้</th>
@@ -430,7 +430,7 @@ to {
 				</div>
 				<div class="col-lg-6 col-sm-12">
 					<div class="table-responsive">
-						<table class="table payment-table">
+						<table class="table payment-table payment-group-expense">
 							<thead>
 								<tr>
 									<th style="text-align: left; width: 30%">รายการหัก</th>
@@ -587,8 +587,8 @@ to {
 		    $(".number").each(function () {
 		            $(this).html(++n);
 		        })
+		        changePaymentSummary();
 		    
-		    console.log(table.ajax.json())
 		})
 		
 		$('#payroll_save').on("click" , function() {
@@ -760,50 +760,60 @@ to {
 		$('#list_example tbody').on('change','.workingdays,.absent-control,.absence-control,.ot1-control,.ot2-control,.ot3-control',function() {
 			var value = $(this).val();
 			var control = $(this).attr("class").split(" ")[0];
+			console.log(control);
 			var classname = null;
 			var tr = $(this).closest('.row-data').parent();
 			var baseTr = tr.prev();
 			var row = table.row(baseTr);
 			var row_data = row.data();
 			var payment = null;
+			var realvalue = null;
 			
 			switch(control) {
 			  case "workingdays":
 				classname = "SL";
+				realvalue = value;
 				row_data.workingDays = value;
 				row_data.term = value + "/" + row_data.term.split("/")[1]
 				payment = row_data.income[findPayment(row_data.income,classname)];
 				break;
 			  case "absent-control":
 			    classname = "ABSENT";
-			    row_data.absent = value;
+			    realvalue = formatDate(value);
+			    $(this).val(realvalue)
+			    row_data.absent = realvalue;
 			    payment = row_data.expense[findPayment(row_data.expense,classname)];
 			    break;
 			  case "absence-control":
 				classname = "ABSENCE";
-				row_data.absence = value;
+				realvalue = formatDate(value);
+				$(this).val(realvalue)
+				row_data.absence = realvalue;
 				payment = row_data.expense[findPayment(row_data.expense,classname)];
 			    break;
 			  case "ot1-control":
 				classname = "OT1";
-				this.val(value);
-				row_data.ot1 = value;
+				realvalue = formatTime(value);
+				$(this).val(realvalue)
+				row_data.ot1 = realvalue;
 				payment = row_data.income[findPayment(row_data.income,classname)];
 				break;
 			  case "ot2-control":
 				classname = "OT2";
-				this.val(value);
-				row_data.ot2 = value;
+				realvalue = formatTime(value);
+				$(this).val(realvalue)
+				row_data.ot2 = realvalue;
 				payment = row_data.income[findPayment(row_data.income,classname)];
 				break;
 			  case "ot3-control":
 				classname = "OT3";
-				this.val(value);
-				row_data.ot3 = value;
+				realvalue = formatTime(value);
+				$(this).val(realvalue)
+				row_data.ot3 = realvalue;
 				payment = row_data.income[findPayment(row_data.income,classname)];
 				break;
 			}
-		
+			
 			var result = $(tr).find("."+classname);
 			
 			$.ajax({
@@ -813,14 +823,15 @@ to {
 				data: {
 					"function" : classname,
 					"id" : row_data.id,
-					"value" : value,
+					"value" : realvalue,
 					},
 				success:function(data){
 					data = jQuery.parseJSON(data);
 					payment.amount = data.amount;
-					row.data(row_data).invalidate();
+					row.invalidate();
 					result.val(formatValue(data.amount));
 					changePayment(baseTr);
+					changePaymentSummary();
 				}
 			});
 		})
@@ -834,33 +845,31 @@ to {
 			var row = table.row(baseTr);
 			var row_data = row.data();
 			var payment = row_data.income[findPayment(row_data.income,classname)];
-			var result = $(tr).find("."+classname);
 			
-			payment.amount = value;
-			row.data(row_data).invalidate();
-			
+			payment.amount = parseFloat(value);
+			row.invalidate();
+			changePaymentSummary();
 			changePayment(baseTr);
+			console.log(payment.amount)
 			
 		})
 		
 		$('#list_example tbody').on('change','.payment-table-expense input',function() {
 			var value = $(this).val();
-			$(this).val(formatValue($(this).val()))
+			$(this).val(formatValue(value))
 			var classname = $(this).attr("class").split(" ")[0];
 			var tr = $(this).closest('.row-data').parent();
 			var baseTr = tr.prev();
 			var row = table.row(baseTr);
 			var row_data = row.data();
 			var payment = row_data.expense[findPayment(row_data.expense,classname)];
-			var result = $(tr).find("."+classname);
+			
+			console.log(classname)
 			
 			
-			
-			
-			payment.amount = value;
-			row.data(row_data).invalidate();
-			result.val(value);
-			
+			payment.amount = parseFloat(value);
+			row.invalidate();
+			changePaymentSummary();
 			changePayment(baseTr);
 			
 		})
@@ -870,6 +879,8 @@ to {
 			var tr = $(this).closest('.row-data').parent();
 			var baseTr = tr.prev();
 			var row = table.row(baseTr);
+			var row_data = row.data();
+			console.log(row_data);
 			$.ajax({
 				method : "POST",
 				url: "userPayment",
@@ -881,9 +892,24 @@ to {
 				},
 				success : function(data){
 					data = JSON.parse(data);
-					if (data.status === "1") {
-						location.reload();
+					console.log(data);
+					switch(data.status) {
+					  case "0":
+					    row_data.status = "inprogress";
+						break;
+					  case "1":
+						row_data.status = "waiting to pay";
+						break;
+					  case "2":
+						row_data.status = "confirm";
+						break;
 					}
+					row.invalidate();
+					row.child.hide();
+					changeGlobalPayment(data.gPayment[0] , data.gStatus[0] , "0")
+					baseTr.removeClass('shown');
+					$("#list_example").trigger("draw.dt");
+					
 				}
 			})
 			
@@ -891,6 +917,11 @@ to {
 		})
 		
 		$('#list_example tbody').on('click','.cancel-payment',function() {
+			var classname = $(this).attr("class").split(" ")[0];
+			var tr = $(this).closest('.row-data').parent();
+			var baseTr = tr.prev();
+			var row = table.row(baseTr);
+			var row_data = row.data();
 			Swal.fire({
 				  title: 'ต้องการที่จะบันทึกหรือไม่',
 				  showDenyButton: true,
@@ -899,27 +930,35 @@ to {
 				}).then((result) => {
 				  /* Read more about isConfirmed, isDenied below */
 				  if (result.isConfirmed) {
-						var classname = $(this).attr("class").split(" ")[0];
-						var tr = $(this).closest('.row-data').parent();
-						var baseTr = tr.prev();
-						var row = table.row(baseTr);
-						$.ajax({
+					  $.ajax({
 							method : "POST",
 							url: "userPayment",
 							type: "JSON",
 							traditional: true,
 							data : {
-								"function" : "save-payment",
+								"function" : classname,
 								"data" : JSON.stringify(row.data()), 
 							},
 							success : function(data){
 								data = JSON.parse(data);
-								if (data.status === "1") {
-									location.reload();
+								console.log(data);
+								switch(data.status) {
+								  case "0":
+								    row_data.status = "inprogress";
+									break;
+								  case "1":
+									row_data.status = "waiting to pay";
+									break;
+								  case "2":
+									row_data.status = "confirm";
+									break;
 								}
-								else{
-									Swal.fire('มีข้อผิดพลาดบางอย่างเกิดขึ้น', '', 'info')
-								}
+								row.invalidate();
+								row.child.hide();
+								changeGlobalPayment(data.gPayment[0] , data.gStatus[0] , "0")
+								baseTr.removeClass('shown');
+								$("#list_example").trigger("draw.dt");
+								
 							}
 						})
 				  } else if (result.isDenied) {
@@ -966,6 +1005,9 @@ to {
 								data = JSON.parse(data);
 								if (data.status === "1") {
 									window.location.href = "payroll_list"
+								}
+								else if (data.status == "0") {
+									Swal.fire('ไม่สามารถยกเลิกได้', '', 'error')
 								}
 							}
 						})
@@ -1035,6 +1077,98 @@ to {
 				}
 		}*/
 		
+		function changeGlobalPayment(payment , status) {
+			$("#totalincome").text(formatValue(payment.salary + payment.income_net));
+			$("#totalpay").text(formatValue(payment.total_pay));
+			$("#expendnet").text(formatValue(payment.expend_net));
+			
+			$("#payment-status div h3").eq(0).text(status.inprogress);
+			$("#payment-status div h3").eq(1).text(status.waiting);
+			$("#payment-status div h3").eq(2).text(status.confirm);
+			
+			if (status.inprogress > 0) {
+				$("#savePayrollGroup").attr('disabled',true);
+			}
+			else {
+				$("#savePayrollGroup").attr('disabled',false);
+			}
+			
+			
+			
+			
+		    
+			
+		}
+		
+		function changePaymentSummary() {
+			let tableData = table.ajax.json().data;
+			console.log(tableData);
+			
+			let income = []
+		    let expense = []
+		    console.log(income)
+		    console.log(expense)
+		    let totalincome = 0;
+		    let totalexpense = 0;
+		    for (let i = 0; i < tableData.length; i++) {
+				for (let j = 0 ; j < tableData[i].income.length ; j++) {
+					let hasData = false;
+					for (let k = 0; k < income.length; k++){
+						if (income[k].payment_type_id === tableData[i].income[j].payment_type_id) {
+							income[k].amount = tableData[i].income[j].amount + income[k].amount;
+							hasData = true;
+							break;
+						}
+			    	}
+					if (!hasData) {
+						income.push(JSON.parse(JSON.stringify(tableData[i].income[j])))
+					}
+					totalincome  = totalincome + tableData[i].income[j].amount;
+				}
+				for (let j = 0 ; j < tableData[i].expense.length ; j++) {
+					let hasData = false;
+					for (let k = 0; k < expense.length; k++){
+						if (expense[k].payment_type_id === tableData[i].expense[j].payment_type_id) {
+							expense[k].amount = tableData[i].expense[j].amount + expense[k].amount;
+							hasData = true;
+							break;
+						}
+			    	}
+					if (!hasData) {
+						expense.push(JSON.parse(JSON.stringify(tableData[i].expense[j])))
+					}
+					totalexpense  = totalexpense + tableData[i].expense[j].amount;
+				}
+		    	
+		    }
+		    
+		    let incomeElement = "";
+		    let expenseElement = "";
+		    for (let i = 0 ; i < income.length ; i++) {
+		    	/*console.log(income[i])
+		    	console.log(income[i].payment_type_id)
+		    	console.log(income[i].payment_type_name)
+		    	console.log(income[i].amount)*/
+		    	incomeElement = incomeElement.concat(`<tr>
+						<td style="text-align: left; padding-top: 10px;">`+income[i].payment_type_id+`</td>
+						<td style="text-align: left; padding-top: 10px;">`+income[i].payment_type_name+`</td>
+						<td style="text-align: right; padding-top: 10px;">`+formatValue(income[i].amount)+`</td>
+					</tr>`)
+		    }
+		    for (let i = 0 ; i < expense.length ; i++) {
+		    	expenseElement = expenseElement.concat(`<tr>
+						<td style="text-align: left; padding-top: 10px;">`+expense[i].payment_type_id+`</td>
+						<td style="text-align: left; padding-top: 10px;">`+expense[i].payment_type_name+`</td>
+						<td style="text-align: right; padding-top: 10px;">`+formatValue(expense[i].amount)+`</td>
+					</tr>`)
+		    }
+		    $('.payment-group-income thead tr').children().eq(2).text(formatValue(totalincome))
+		    $('.payment-group-income tbody').html(incomeElement)
+		    
+		    $('.payment-group-expense thead tr').children().eq(2).text(formatValue(totalexpense))
+		    $('.payment-group-expense tbody').html(expenseElement)
+		}
+		
 		
 		function changePayment(element) {
 			var baseElement = element.children()
@@ -1062,6 +1196,50 @@ to {
 			$("#list_example").trigger("draw.dt");
 		
 	}
+		
+		function isNumeric(n) {
+            return !isNaN(parseFloat(n)) && isFinite(n);
+        }
+
+        function formatTime(string_input) {
+
+            if ((string_input.includes('.')) || (string_input.includes(':')) || isNumeric(string_input)) {
+                string_input = string_input.replace('.', ':');
+            } else {
+                return "00:00";
+            }
+
+            var str1 = string_input.split(':')[0];
+            var str2 = string_input.split(':')[1] == null ? "00": string_input.split(':')[1];
+
+
+            str1 = str1.length <= 3 ? str1 : "00";
+            str2 = str2.length > 2 ? "00" : ((str2 + "0".repeat(2 - str2.length)) > 59 ? "00" : (str2 + "0".repeat(2 - str2.length)));
+
+            if (!isNumeric(str1) || !isNumeric(str2)) {
+                return "00:00";
+            }
+            return str1 + ":" + str2;
+        }
+
+        function formatDate(string_input) {
+            if ((string_input.includes('.')) || (string_input.includes(':')) || isNumeric(string_input)) {
+                string_input = string_input.replace(':', '.');
+            } else {
+                return "00.00";
+            }
+
+            var str1 = string_input.split('.')[0];
+            var str2 = string_input.split('.')[1] == null ? "00": string_input.split('.')[1];
+
+            str1 = str1.length <= 3 ? str1 : "00";
+            str2 = str2.length > 2 ? "00" : ((str2 + "0".repeat(2 - str2.length)) > 99 ? "00" : (str2 + "0".repeat(2 - str2.length)));
+
+            if (!isNumeric(str1) || !isNumeric(str2)) {
+                return "00.00";
+            }
+            return str1 + "." + str2;
+        }
 		
 		
 		
@@ -1213,7 +1391,7 @@ to {
 		<div class = "col-12">
 			<p>หมายเหตุ :</p>
 				<input class="remark-detail form-control" value ="`+d.remark+`">
-			<p style = "color: #E7505A;">หมายเหตุ จากงวดที่แล้ว : -</p>
+			<p style = "color: #E7505A;">หมายเหตุ จากงวดที่แล้ว : `+d.historyRemark+`</p>
 		</div>
 		<div class="clearfix my-3">
 			<button class="confirm-payment btn btn-success  float-lg-right m-2">ยืนยันรายการ</button>
