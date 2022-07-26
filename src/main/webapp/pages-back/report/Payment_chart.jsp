@@ -120,10 +120,9 @@ function yearPick(){
 		},
 		success:function(data){
 			console.log(JSON.stringify(data));
-			//console.log("test");
-			//setChart(data);
+			setChart(data);
 		}
-	})
+	});
 	}
 	
 $(document).ready(function() {
@@ -132,8 +131,8 @@ $(document).ready(function() {
 </script>
 
 <script>
-//function setChart(data){
-	//console.log(data);
+function setChart(data){
+	console.log(data);
 Highcharts.chart('container', {
     chart: {
         type: 'column'
@@ -165,13 +164,10 @@ Highcharts.chart('container', {
           }
       },
       
-    series: [{ data :
-    	[{
-    	drilldown:"Jan",color:"#28A745",name:"Jan",y:1500},{"drilldown":"Feb","color":"#28A745","name":"Feb","y":100},{"drilldown":"Mar","color":"#28A745","name":"Mar","y":100},{"drilldown":"Apr","color":"#28A745","name":"Apr","y":100},{"drilldown":"May","color":"#28A745","name":"May","y":100},{"drilldown":"Jun","color":"#28A745","name":"Jun","y":100},{"drilldown":"Jul","color":"#28A745","name":"Jul","y":100},{"drilldown":"Aug","color":"#28A745","name":"Aug","y":100},{"drilldown":"Sep","color":"#28A745","name":"Sep","y":100},{"drilldown":"Oct","color":"#28A745","name":"Oct","y":100},{"drilldown":"Nov","color":"#28A745","name":"Nov","y":100},{"drilldown":"Dec","color":"#28A745","name":"Dec","y":100}
-    	]
-    }]
-    });
-
+    series: data
+    
+});
+}
     
     
  /*   {

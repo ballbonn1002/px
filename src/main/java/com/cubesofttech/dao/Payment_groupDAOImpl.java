@@ -1,5 +1,6 @@
 package com.cubesofttech.dao;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -520,112 +521,145 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 	}
 
 	@Override
-	public JSONArray paymentchartIn(String year) throws Exception {
-		List<Map<String, Object>>  query_listMap = null;
-		JSONArray json_array = new JSONArray();
-		Session session =  this.sessionFactory.getCurrentSession(); 
-		try {
-			if(year != "") {
-				String sql = "select \r\n"
-						+ "SUM(case WHEN month(payment_group.payment_date) = '01' then payment.income_net else 0 end) as 'Jan'\r\n"
-						+ ",SUM(case WHEN month(payment_group.payment_date) = '02' then payment.income_net else 0 end) as 'Feb'\r\n"
-						+ ",SUM(case WHEN month(payment_group.payment_date) = '03' then payment.income_net else 0 end) as 'Mar'\r\n"
-						+ ",SUM(case WHEN month(payment_group.payment_date) = '04' then payment.income_net else 0 end) as 'Apr'\r\n"
-						+ ",SUM(case WHEN month(payment_group.payment_date) = '05' then payment.income_net else 0 end) as 'May'\r\n"
-						+ ",SUM(case WHEN month(payment_group.payment_date) = '06' then payment.income_net else 0 end) as 'Jun'\r\n"
-						+ ",SUM(case WHEN month(payment_group.payment_date) = '07' then payment.income_net else 0 end) as 'Jul'\r\n"
-						+ ",SUM(case WHEN month(payment_group.payment_date) = '08' then payment.income_net else 0 end) as 'Aug'\r\n"
-						+ ",SUM(case WHEN month(payment_group.payment_date) = '09' then payment.income_net else 0 end) as 'Sep'\r\n"
-						+ ",SUM(case WHEN month(payment_group.payment_date) = '10' then payment.income_net else 0 end) as 'Oct'\r\n"
-						+ ",SUM(case WHEN month(payment_group.payment_date) = '11' then payment.income_net else 0 end) as 'Nov'\r\n"
-						+ ",SUM(case WHEN month(payment_group.payment_date) = '12' then payment.income_net else 0 end) as 'Dec'\r\n"
-						+ "FROM payment\r\n"
-						+ "JOIN payment_group ON payment_group.payment_group_id = payment.payment_group_id\r\n"
-						+ "WHERE year(payment_group.payment_date) = '"+year+"'";
-				SQLQuery query = session.createSQLQuery(sql);
-				query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
-				query_listMap = query.list();
-				if(query_listMap == null || query_listMap.isEmpty()) {
-					   for(int i = 0;i<12;i++) {
-						   JSONArray array_cell = new JSONArray();
-						   int set = 0;
-						   array_cell.put(set);
-						   json_array.put(array_cell);
-					   }
-					}else {
-						Iterator itr = query_listMap.iterator();
-						while(itr.hasNext()){
-			                List<String> monthList = Arrays.asList("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
-			                Map<String, Object> map  = (Map<String, Object>) itr.next();
-			                for(int i=0;i<monthList.size();i++) {
-			                    JSONArray array_cell = new JSONArray();
-			                    String smonth = monthList.get(i);
-			                    Object value = map.get(smonth);
-			                    array_cell.put(smonth);
-			                    array_cell.put(value);
-			                    json_array.put(array_cell);
-			                }
-					}
-			}
-		}
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		return json_array;
-	}
+	public List<BigDecimal> paymentchartIn(String year) throws Exception {
+        List<String>  query_listMap = null;
+        JSONArray json_array = new JSONArray();
+        Session session =  this.sessionFactory.getCurrentSession(); 
+        List<BigDecimal> List = new ArrayList<BigDecimal>();
+        try {
+            if(year != "") {
+                String sql = "SELECT sum(payment.income_net) as income\r\n"
+                        + "FROM payment_group JOIN payment on payment.payment_group_id = payment_group.payment_group_id \r\n"
+                        + "WHERE year(payment_group.payment_date)='"+year+"' \r\n"
+                        + "GROUP BY month(payment_group.payment_date);";
+                SQLQuery query = session.createSQLQuery(sql);
+                query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+                query_listMap = query.list();
+                if(query_listMap == null || query_listMap.isEmpty()) {
+                       for(int i = 0;i<12;i++) {
+                           JSONArray array_cell = new JSONArray();
+                           int set = 0;
+                           array_cell.put(set);
+                           json_array.put(array_cell);
+                       }
+                    }else {
+                        Iterator itr = query_listMap.iterator();
+                        int i = 0;
+                        while(itr.hasNext()){
+                            Map<String, Object> map  = (Map<String, Object>) itr.next();
+                                List.add((BigDecimal) map.get("income"));
+                            i++;
+                        }
+            }
+        }
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        return List;
+    }
 
 	@Override
-	public JSONArray paymentchartEx(String year) throws Exception {
+	public List<BigDecimal> paymentchartEx(String year) throws Exception {
+        List<String>  query_listMap = null;
+        JSONArray json_array = new JSONArray();
+        Session session =  this.sessionFactory.getCurrentSession(); 
+        List<BigDecimal> List = new ArrayList<BigDecimal>();
+        try {
+            if(year != "") {
+                String sql = "SELECT sum(payment.expend_net) as income\r\n"
+                        + "FROM payment_group JOIN payment on payment.payment_group_id = payment_group.payment_group_id \r\n"
+                        + "WHERE year(payment_group.payment_date)='"+year+"' \r\n"
+                        + "GROUP BY month(payment_group.payment_date);";
+                SQLQuery query = session.createSQLQuery(sql);
+                query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+                query_listMap = query.list();
+                if(query_listMap == null || query_listMap.isEmpty()) {
+                       for(int i = 0;i<12;i++) {
+                           JSONArray array_cell = new JSONArray();
+                           int set = 0;
+                           array_cell.put(set);
+                           json_array.put(array_cell);
+                       }
+                    }else {
+                        Iterator itr = query_listMap.iterator();
+                        int i = 0;
+                        while(itr.hasNext()){
+                            Map<String, Object> map  = (Map<String, Object>) itr.next();
+                                List.add((BigDecimal) map.get("income"));
+                            i++;
+                        }
+            }
+        }
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        return List;
+}
+
+	@Override
+	public JSONArray paymentDrilldowns(String year) throws Exception {
+		List<String> List = new ArrayList<String>();
 		List<Map<String, Object>>  query_listMap = null;
 		JSONArray json_array = new JSONArray();
 		Session session =  this.sessionFactory.getCurrentSession(); 
 		try {
 			if(year != "") {
-				String sql = "select \r\n"
-						+ "SUM(case WHEN month(payment_group.payment_date) = '01' then payment.expend_net else 0 end) as 'Jan'\r\n"
-						+ ",SUM(case WHEN month(payment_group.payment_date) = '02' then payment.expend_net else 0 end) as 'Feb'\r\n"
-						+ ",SUM(case WHEN month(payment_group.payment_date) = '03' then payment.expend_net else 0 end) as 'Mar'\r\n"
-						+ ",SUM(case WHEN month(payment_group.payment_date) = '04' then payment.expend_net else 0 end) as 'Apr'\r\n"
-						+ ",SUM(case WHEN month(payment_group.payment_date) = '05' then payment.expend_net else 0 end) as 'May'\r\n"
-						+ ",SUM(case WHEN month(payment_group.payment_date) = '06' then payment.expend_net else 0 end) as 'Jun'\r\n"
-						+ ",SUM(case WHEN month(payment_group.payment_date) = '07' then payment.expend_net else 0 end) as 'Jul'\r\n"
-						+ ",SUM(case WHEN month(payment_group.payment_date) = '08' then payment.expend_net else 0 end) as 'Aug'\r\n"
-						+ ",SUM(case WHEN month(payment_group.payment_date) = '09' then payment.expend_net else 0 end) as 'Sep'\r\n"
-						+ ",SUM(case WHEN month(payment_group.payment_date) = '10' then payment.expend_net else 0 end) as 'Oct'\r\n"
-						+ ",SUM(case WHEN month(payment_group.payment_date) = '11' then payment.expend_net else 0 end) as 'Nov'\r\n"
-						+ ",SUM(case WHEN month(payment_group.payment_date) = '12' then payment.expend_net else 0 end) as 'Dec'\r\n"
-						+ "FROM payment\r\n"
-						+ "JOIN payment_group ON payment_group.payment_group_id = payment.payment_group_id\r\n"
-						+ "WHERE year(payment_group.payment_date) = '"+year+"'";
-				SQLQuery query = session.createSQLQuery(sql);
-				query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
-				query_listMap = query.list();
-				if(query_listMap == null || query_listMap.isEmpty()) {
-					   for(int i = 0;i<12;i++) {
-						   JSONArray array_cell = new JSONArray();
-						   int set = 0;
-						   array_cell.put(set);
-						   json_array.put(array_cell);
-					   }
-					}else {
-						Iterator itr = query_listMap.iterator();
-						while(itr.hasNext()){
-			                List<String> monthList = Arrays.asList("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
-			                Map<String, Object> map  = (Map<String, Object>) itr.next();
-			                for(int i=0;i<monthList.size();i++) {
-			                    JSONArray array_cell = new JSONArray();
-			                    String smonth = monthList.get(i);
-			                    Object value = map.get(smonth);
-			                    array_cell.put(smonth);
-			                    array_cell.put(value);
-			                    json_array.put(array_cell);
-			                }
-					}
+			List<String> monthList = Arrays.asList("01","02","03","04","05","06","07","08","09","10","11","12");
+			String sql = null; String sql1 = null; String sql2 = null;
+			   sql1 = "select \r\n"
+					+ "SUM(CASE WHEN payment_detail.payment_type_id = 'OT1' THEN payment_detail.amount else 0 end) as 'OT1'\r\n"
+					+ ",SUM(CASE WHEN payment_detail.payment_type_id = 'OT2' THEN payment_detail.amount else 0 end) as 'OT2'\r\n"
+					+ ",SUM(CASE WHEN payment_detail.payment_type_id = 'OT3' THEN payment_detail.amount else 0 end) as 'OT3'\r\n"
+					+ ",SUM(CASE WHEN payment_detail.payment_type_id = 'VA' THEN payment_detail.amount else 0 end) as 'VA'\r\n"
+					+ ",SUM(CASE WHEN payment_detail.payment_type_id = 'TRAVEL' THEN payment_detail.amount else 0 end) as 'TRAVEL'\r\n"
+					+ ",SUM(CASE WHEN payment_detail.payment_type_id = 'BONUS' THEN payment_detail.amount else 0 end) as 'BONUS'\r\n"
+					+ ",SUM(CASE WHEN payment_detail.payment_type_id = 'EQUIPMENT' THEN payment_detail.amount else 0 end) as 'EQUIPMENT'\r\n"
+					+ ",SUM(CASE WHEN payment_detail.payment_type_id = 'SSI' THEN payment_detail.amount else 0 end) as 'SSI'\r\n"
+					+ ",SUM(CASE WHEN payment_detail.payment_type_id = 'TAX' THEN payment_detail.amount else 0 end) as 'TAX'\r\n"
+					+ ",SUM(CASE WHEN payment_detail.payment_type_id = 'TISCO' THEN payment_detail.amount else 0 end) as 'TISCO'\r\n"
+					+ ",SUM(CASE WHEN payment_detail.payment_type_id = 'LATE' THEN payment_detail.amount else 0 end) as 'LATE'\r\n"
+					+ ",SUM(CASE WHEN payment_detail.payment_type_id = 'ABSENT' THEN payment_detail.amount else 0 end) as 'ABSENT'\r\n"
+					+ ",SUM(CASE WHEN payment_detail.payment_type_id = 'ABSENCE' THEN payment_detail.amount else 0 end) as 'ABSENCE'\r\n"
+					+ ",SUM(CASE WHEN payment_detail.payment_type_id = 'StudentLoan' THEN payment_detail.amount else 0 end) as 'StudentLoan'\r\n"
+					+ "FROM payment_detail\r\n"
+					+ "join payment on payment_detail.payment_id = payment.payment_id \r\n"
+					+ "join payment_group  on payment.payment_group_id = payment_group.payment_group_id\r\n"
+					+ "join payment_type  on payment_type.payment_type_id = payment_detail.payment_type_id ";
+				
+				for(int i=0; i<monthList.size(); i++) {
+					sql2 = "WHERE month(payment_group.payment_date) = '"+monthList.get(i)+"' AND year(payment_group.payment_date) = '"+year+"'";
+				}
+				sql = sql1 + sql2;
+			
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			query_listMap = query.list();
+			if(query_listMap == null || query_listMap.isEmpty()) {
+			   for(int i = 0;i<12;i++) {
+				   JSONArray array_cell = new JSONArray();
+				   int set = 0;
+				   array_cell.put(set);
+				   json_array.put(array_cell);
+			   }
+			}else {
+				Iterator itr = query_listMap.iterator();
+	            while(itr.hasNext()){
+	                List<String> idList = Arrays.asList("OT1","OT2","OT3","VA","TRAVEL","BONUS","EQUIPMENT","SSI","TAX","TISCO","LATE","ABSENT","ABSENCE","StudentLoan");
+	                Map<String, Object> map  = (Map<String, Object>) itr.next();
+	                for(int i=0;i<monthList.size();i++) {
+	                    JSONArray array_cell = new JSONArray();
+	                    String smonth = idList.get(i);
+	                    Object value = map.get(smonth);
+	                    array_cell.put(smonth);
+	                    array_cell.put(value);
+	                    json_array.put(array_cell);
+	                }
+				} 
 			}
-		}
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		return json_array;
+			}
+	} catch (Exception e) {
+		e.printStackTrace();
+	}	
+	return json_array;
 	}
 }
