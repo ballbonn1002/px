@@ -120,10 +120,9 @@ function yearPick(){
 		},
 		success:function(data){
 			console.log(JSON.stringify(data));
-			//console.log("test");
 			setChart(data);
 		}
-	})
+	});
 	}
 	
 $(document).ready(function() {
@@ -165,8 +164,9 @@ Highcharts.chart('container', {
           }
       },
       
-    series:data
-    });
+    series: data
+    
+});
 }
     
     

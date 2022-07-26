@@ -50,4 +50,6 @@ public interface Payment_groupDAO {
 	public List<BigDecimal> paymentchartIn(String year) throws Exception;
 	
 	public List<BigDecimal> paymentchartEx(String year) throws Exception;
+	
+	public JSONArray paymentDrilldowns(String year) throws Exception;
 }
