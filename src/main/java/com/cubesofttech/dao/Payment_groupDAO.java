@@ -1,4 +1,5 @@
 package com.cubesofttech.dao;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +47,7 @@ public interface Payment_groupDAO {
 	
 	public JSONArray paymentStatistics(String year) throws Exception;
 	
-	public JSONArray paymentchartIn(String year) throws Exception;
+	public List<BigDecimal> paymentchartIn(String year) throws Exception;
 	
-	public JSONArray paymentchartEx(String year) throws Exception;
+	public List<BigDecimal> paymentchartEx(String year) throws Exception;
 }
