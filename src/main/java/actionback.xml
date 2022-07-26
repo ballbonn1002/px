@@ -875,7 +875,12 @@
 			<result name="success" type="tiles">report_year</result>
 			<result name="error">/index.jsp</result>
 		</action>
-
+		
+		<action name="get_report_year_data"
+			class="com.cubesofttech.action.PayrollReportAction" method="get_report_year_data">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
 
 	</package>
 </struts>
