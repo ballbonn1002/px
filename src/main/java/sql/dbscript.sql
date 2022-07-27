@@ -246,5 +246,11 @@ ALTER TABLE `sys_role` CHANGE `sys_role_id` `sys_role_id` BIGINT(20) NOT NULL AU
 ALTER TABLE `permission` CHANGE `permission_id` `permission_id` BIGINT(20) NOT NULL AUTO_INCREMENT;
 
 --Update UserSalary 19/07/2022 ryu:
-
 ALTER TABLE `user_salary` CHANGE `user_salary_id` `user_salary_id` BIGINT(20) NOT NULL AUTO_INCREMENT;
+
+--Update sys_user & sys_role 27/07/2022 Eric:
+INSERT INTO `sys_role` (`sys_role_id`, `name`, `description`, `administrator`, `user_create`, `user_update`, `time_create`, `time_update`) VALUES (NULL, 
+'superadmin', 'Super Administrator', '0', 'thanet.s', 'thanet.s', '2022-07-26 15:01:20', '2022-07-26 15:45:27')
+INSERT INTO `sys_user` (`sys_user_id`, `sys_role_id`, `user_id`, `name_th`, `email`, `phone`, `is_active`, `password`, `user_create`, `user_update`, 
+`time_create`, `time_update`) VALUES ('thanet.s', 'superadmin', 'Thanet.s', 'Thanet Sutphan', 'Thanet.s@cubesofttech.com', '', '1', 
+'1BAFCFB8D2AB7E4019F141C171C7ACFE', 'thanet.s', 'thanet.s', '2022-07-26 15:46:39', '2022-07-26 15:46:39');
