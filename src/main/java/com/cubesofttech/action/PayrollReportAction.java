@@ -1172,34 +1172,40 @@ public class PayrollReportAction extends ActionSupport {
 			JSONArray arr_superlist = new JSONArray();
 			JSONArray arr_list = new JSONArray();
 			JSONArray arr_list1 = new JSONArray();
+			JSONArray arr_list2 = new JSONArray();
 			JSONObject obj_data = new JSONObject();
 			JSONObject obj_data1 = new JSONObject();
 			
 			List<BigDecimal> income = payment_groupDAO.paymentchartIn(year);
 			List<BigDecimal> expend = payment_groupDAO.paymentchartEx(year);
-			List<BigDecimal> indrilldowns = payment_groupDAO.inDrilldowns(year);
-			List<BigDecimal> exdrilldowns = payment_groupDAO.exDrilldowns(year);
+			JSONArray indrilldowns = payment_groupDAO.inDrilldowns(year);
+			JSONArray exdrilldowns = payment_groupDAO.exDrilldowns(year);
+			log.debug(indrilldowns);
+			log.debug(exdrilldowns);
+			//int size = 7;
+			//List<List<BigDecimal>> inList = ListUtils.partition(indrilldowns, size);
+			//List<List<BigDecimal>> exList = ListUtils.partition(exdrilldowns, size);
 			
-			int size = 7;
-			List<List<BigDecimal>> inList = ListUtils.partition(indrilldowns, size);
-			List<List<BigDecimal>> exList = ListUtils.partition(exdrilldowns, size);
-			
-			log.debug(exList);
-			log.debug(inList);
+			//log.debug(exList);
+			//log.debug(inList);
 			
 			String[] month = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+			String[] month1 = {"Jan1","Feb2","Mar3","Apr4","May5","Jun6","Jul7","Aug8","Sep9","Oct10","Nov11","Dec12"};
 			String[] in = {"OT1","OT2","OT3","VA","TRAVEL","BONUS","EQUIPMENT"};
 			String[] ex = {"SSI","TAX","BONUS","TISCO","LATE","ABSENT","ABSENCE","StudentLoan"};
 			
+			
 			for(int i=0; i<income.size(); i++) {
+				
 				JSONObject obj_cell = new JSONObject();
 				obj_cell.put("name", month[i]);
 				obj_cell.put("y", income.get(i));
-				obj_cell.put("drilldown", month[i]);
 				obj_cell.put("color", "#28A745");
+				obj_cell.put("drilldown", month[i]);
+				obj_cell.put("data",indrilldowns.get(i));
 				arr_list.put(obj_cell);
 			}
-			obj_data.put("data",arr_list);
+			obj_data.put("agentinfo",arr_list);
 			obj_data.put("name", "รายการได้");
 			arr_superlist.put(obj_data);
 
@@ -1208,16 +1214,17 @@ public class PayrollReportAction extends ActionSupport {
 				JSONObject obj_cell1 = new JSONObject();
 				obj_cell1.put("name", month[i]);
 				obj_cell1.put("y", expend.get(i));
-				obj_cell1.put("drilldown", month[i]);
+				obj_cell1.put("drilldown", month1[i]);
 				obj_cell1.put("color", "#E7505A");
+				obj_cell1.put("data",exdrilldowns.get(i));
 				arr_list1.put(obj_cell1);
 			}
-			obj_data1.put("data",arr_list1);
+			obj_data1.put("agentinfo",arr_list1);
 			obj_data1.put("name", "รายการหัก");
 			arr_superlist.put(obj_data1);
 
 			
-			request.setAttribute("json", arr_superlist.toString());
+			request.setAttribute("json", arr_superlist);
 			//log.debug(arr_superlist.toString());
 			
 			return SUCCESS;
