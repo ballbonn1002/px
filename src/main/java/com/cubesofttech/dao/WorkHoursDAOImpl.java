@@ -24,9 +24,17 @@ public class WorkHoursDAOImpl implements WorkHoursDAO {
 		Session session = this.sessionFactory.getCurrentSession();
 		session.save(WorkHours);
 		session.flush();
-		// session.close();
-		
+		// session.close();		
 	}
+	
+	@Override
+	public void saveOrUpdate(WorkHours WorkHours) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		session.saveOrUpdate(WorkHours);
+		session.flush();
+		// session.close();		
+	}
+	
 	@Override
 	public List<Map<String, Object>> findAll() throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();

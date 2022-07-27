@@ -31,6 +31,14 @@ public class LeaveTypeDAOImpl implements LeaveTypeDAO {
 		session.flush();
 		// session.close();
 	}
+	
+	@Override
+	public void saveOrUpdate(LeaveType leavetype) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		session.saveOrUpdate(leavetype);
+		session.flush();
+		// session.close();
+	}
 
 	@Override
 public List<LeaveType> findAll() throws Exception {

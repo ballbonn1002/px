@@ -9,6 +9,8 @@ import com.cubesofttech.model.User;
 public interface UserDAO {
 
 	public void save(User user) throws Exception;
+	
+	public void saveOrUpdate(User user) throws Exception;
 
 	public List<User> findAll() throws Exception;
 	

@@ -885,9 +885,7 @@
 		<action name="pickDataMonth"
 			class="com.cubesofttech.action.PayrollReportAction" method="getDataMonthDepartmentStatistics">
 			<result name="success">/pages-back/common/json.jsp</result>
-			<result name="error">/index.jsp</result>
 		</action>
-		
 			
 		<!-- report_year -->
 		<action name="report_year"
@@ -895,12 +893,27 @@
 			<result name="success" type="tiles">report_year</result>
 			<result name="error">/index.jsp</result>
 		</action>
-		
+						
 		<action name="get_report_year_data"
 			class="com.cubesofttech.action.PayrollReportAction" method="get_report_year_data">
 			<result name="success">/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
 
+		<!-- Migration Data -->				
+		<action name="migrate"
+			class="com.cubesofttech.action.UserAction" method="">
+			<result name="success" type="tiles">migrate</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
+		<action name="migrateData"
+			class="com.cubesofttech.action.MigrateAction" method="migrateData">
+			<result name="success">/pages-back/common/json.jsp</result>
+		</action>
+		<action name="getMigrateList"
+			class="com.cubesofttech.action.MigrateAction" method="getMigrateList">
+			<result name="success">/pages-back/common/json.jsp</result>
+		</action>
 	</package>
 </struts>
