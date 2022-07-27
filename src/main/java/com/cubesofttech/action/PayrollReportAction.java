@@ -1168,29 +1168,25 @@ public class PayrollReportAction extends ActionSupport {
 	public String paymentchart() {
 		try {
 			String year = request.getParameter("year");
-			//log.debug(year);
 			JSONArray arr_superlist = new JSONArray();
+			JSONArray arr_superlist1 = new JSONArray();
 			JSONArray arr_list = new JSONArray();
 			JSONArray arr_list1 = new JSONArray();
+			JSONArray arr_list2 = new JSONArray();
+			JSONArray list = new JSONArray();
 			JSONObject obj_data = new JSONObject();
 			JSONObject obj_data1 = new JSONObject();
+			JSONObject obj_data2 = new JSONObject();
 			
 			List<BigDecimal> income = payment_groupDAO.paymentchartIn(year);
 			List<BigDecimal> expend = payment_groupDAO.paymentchartEx(year);
 			JSONArray indrilldowns = payment_groupDAO.inDrilldowns(year);
-			List<BigDecimal> exdrilldowns = payment_groupDAO.exDrilldowns(year);
+			JSONArray exdrilldowns = payment_groupDAO.exDrilldowns(year);
 			log.debug(indrilldowns);
-			//int size = 7;
-			//List<List<BigDecimal>> inList = ListUtils.partition(indrilldowns, size);
-			//List<List<BigDecimal>> exList = ListUtils.partition(exdrilldowns, size);
-			
-			//log.debug(exList);
-			//log.debug(inList);
+			log.debug(exdrilldowns);
 			
 			String[] month = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
 			String[] month1 = {"Jan1","Feb2","Mar3","Apr4","May5","Jun6","Jul7","Aug8","Sep9","Oct10","Nov11","Dec12"};
-			String[] in = {"OT1","OT2","OT3","VA","TRAVEL","BONUS","EQUIPMENT"};
-			String[] ex = {"SSI","TAX","BONUS","TISCO","LATE","ABSENT","ABSENCE","StudentLoan"};
 			
 			for(int i=0; i<income.size(); i++) {
 				JSONObject obj_cell = new JSONObject();
@@ -1215,7 +1211,19 @@ public class PayrollReportAction extends ActionSupport {
 			obj_data1.put("data",arr_list1);
 			obj_data1.put("name", "รายการหัก");
 			arr_superlist.put(obj_data1);
-
+			
+	/*		JSONObject obj_cell2 = new JSONObject();
+			for(int i=0; i<indrilldowns.length(); i++) {
+				list.put(indrilldowns.get(i));
+			}	
+			for(int i=0; i<month.length; i++) {
+			
+			obj_cell2.put("data", list);
+			obj_cell2.put("id", month[i]);
+			}
+			arr_list2.put(obj_cell2);
+			arr_superlist.put(arr_list2); */
+			
 			request.setAttribute("json", arr_superlist.toString());
 			log.debug(arr_superlist.toString());
 			

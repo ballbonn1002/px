@@ -53,7 +53,7 @@ public interface Payment_groupDAO {
 	
 	public JSONArray inDrilldowns(String year) throws Exception;
 	
-	public List<BigDecimal> exDrilldowns(String year) throws Exception;
+	public JSONArray exDrilldowns(String year) throws Exception;
 
 	public Map<String, Object> getMonthYearByIdnUserId(Integer payment_group_id ,String userId) throws Exception;
 }

@@ -120,7 +120,13 @@ function yearPick(){
 		},
 		success:function(data){
 			console.log(JSON.stringify(data));
-			setChart(data);
+			console.log(data);
+			var serie_data = []
+			console.log(data[0].length);
+			for(var i=0; i<data[0].length; i++){
+				console.log(data[0].data[i].y);
+			}
+
 		}
 	});
 	}
@@ -131,8 +137,8 @@ $(document).ready(function() {
 </script>
 
 <script>
-function setChart(data){
-	console.log(data);
+function setChart(serie_data){
+	//console.log(serie_data);
 Highcharts.chart('container', {
     chart: {
         type: 'column'
@@ -164,127 +170,13 @@ Highcharts.chart('container', {
           }
       },
       
-    series: data
+    series:  serie_data
+    ,
+    
+ //   drilldown:{
+ //   	series:
+  //  }
     
 });
 }
-    
-    
- /*   {
-        name: 'รายการหัก',
-        data: [{
-            name: 'Jan',
-            y: 5,
-            drilldown: 'democrats-2010'
-        }, {
-            name: 'Feb',
-            y: 2,
-            drilldown: 'democrats-2010'
-        }, {
-            name: 'Mar',
-            y: 4,
-            drilldown: 'other-2010'
-        },   {
-            name: 'Apr',
-            y: 7,
-            drilldown: 'democrats-2010'
-        }, {
-            name: 'May',
-            y: 0,
-            drilldown: 'other-2010'
-        }, {
-            name: 'Jun',
-            y: 14,
-            drilldown: 'democrats-2010'
-        }, {
-            name: 'Jul',
-            y: 17,
-            drilldown: 'other-2010'
-        }, {
-            name: 'Aug',
-            y: 2,
-            drilldown: 'democrats-2010'
-        }, {
-            name: 'Sep',
-            y: 3,
-            drilldown: 'other-2010'
-        }, {
-            name: 'Oct',
-            y: 9,
-            drilldown: 'democrats-2010'
-        }, {
-            name: 'Nov',
-            y: 7,
-            drilldown: 'other-2010'
-        }, {
-            name: 'Dec',
-            y: 1,
-            drilldown: 'other-2010'
-        }]
-    }],
-    
-    
-    drilldown: {
-        allowPointDrilldown: false,
-        series: [{
-            id: 'republican-2010',
-            name: 'Republican 2010',
-            data: [
-                ['East', 4],
-                ['West', 2],
-                ['North', 1],
-                ['Northes', 8],
-                ['South', 4]
-            ]
-        }, {
-            id: 'democrats-2010',
-            name: 'Republican 2010',
-            data: [
-                ['East', 6],
-                ['West', 2],
-                ['Westest', 6],
-                ['North', 2],
-                ['South', 4]
-            ]
-        }, {
-            id: 'other-2010',
-            name: 'Other 2010',
-            data: [
-                ['East', 2],
-                ['West', 7],
-                ['North', 3],
-                ['South', 2]
-            ]
-        }, {
-            id: 'republican-2014',
-            name: 'Republican 2014',
-            data: [
-                ['East', 2],
-                ['West', 4],
-                ['North', 1],
-                ['South', 7]
-            ]
-        }, {
-            id: 'democrats-2014',
-            name: 'Democrats 2014',
-            data: [
-                ['East', 4],
-                ['West', 2],
-                ['North', 5],
-                ['South', 3]
-            ]
-        }, {
-            id: 'other-2014',
-            name: 'Other 2014',
-            data: [
-                ['East', 7],
-                ['West', 8],
-                ['North', 2],
-                ['South', 2]
-            ]
-        }]
-    }  */
-    
-//});
-//}
 </script>
