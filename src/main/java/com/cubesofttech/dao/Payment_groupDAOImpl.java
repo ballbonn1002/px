@@ -523,35 +523,26 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 	@Override
 	public List<BigDecimal> paymentchartIn(String year) throws Exception {
         List<String>  query_listMap = null;
-        JSONArray json_array = new JSONArray();
         Session session =  this.sessionFactory.getCurrentSession(); 
         List<BigDecimal> List = new ArrayList<BigDecimal>();
         try {
-            if(year != "") {
-                String sql = "SELECT sum(payment.income_net) as income\r\n"
-                        + "FROM payment_group JOIN payment on payment.payment_group_id = payment_group.payment_group_id \r\n"
-                        + "WHERE year(payment_group.payment_date)='"+year+"' \r\n"
-                        + "GROUP BY month(payment_group.payment_date);";
+        	List<String> monthList = Arrays.asList("01","02","03","04","05","06","07","08","09","10","11","12");
+            	for(int i=0; i<monthList.size(); i++) {
+                String sql = "SELECT COALESCE(sum(payment.income_net),null) as income FROM payment_group "
+                		+ "JOIN payment on payment.payment_group_id = payment_group.payment_group_id "
+                		+ "WHERE month(payment_group.payment_date) = '"+monthList.get(i)+"' and year(payment_group.payment_date) = '"+year+"'";
                 SQLQuery query = session.createSQLQuery(sql);
                 query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
                 query_listMap = query.list();
-                if(query_listMap == null || query_listMap.isEmpty()) {
-                       for(int i = 0;i<12;i++) {
-                           JSONArray array_cell = new JSONArray();
-                           int set = 0;
-                           array_cell.put(set);
-                           json_array.put(array_cell);
-                       }
-                    }else {
-                        Iterator itr = query_listMap.iterator();
-                        int i = 0;
-                        while(itr.hasNext()){
-                            Map<String, Object> map  = (Map<String, Object>) itr.next();
-                                List.add((BigDecimal) map.get("income"));
-                            i++;
-                        }
-            }
-        }
+ 
+                    Iterator itr = query_listMap.iterator();
+                    int j = 0;
+                    while(itr.hasNext()){
+                        Map<String, Object> map  = (Map<String, Object>) itr.next();
+                        List.add((BigDecimal) map.get("income"));
+                      j++;
+                  }
+           }
         }catch(Exception e) {
             e.printStackTrace();
         }
@@ -561,35 +552,26 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 	@Override
 	public List<BigDecimal> paymentchartEx(String year) throws Exception {
         List<String>  query_listMap = null;
-        JSONArray json_array = new JSONArray();
         Session session =  this.sessionFactory.getCurrentSession(); 
         List<BigDecimal> List = new ArrayList<BigDecimal>();
         try {
-            if(year != "") {
-                String sql = "SELECT sum(payment.expend_net) as income\r\n"
-                        + "FROM payment_group JOIN payment on payment.payment_group_id = payment_group.payment_group_id \r\n"
-                        + "WHERE year(payment_group.payment_date)='"+year+"' \r\n"
-                        + "GROUP BY month(payment_group.payment_date);";
+        	List<String> monthList = Arrays.asList("01","02","03","04","05","06","07","08","09","10","11","12");
+        	for(int i=0; i<monthList.size(); i++) {
+        	String sql = "SELECT COALESCE(sum(payment.expend_net),null) as expend FROM payment_group "
+            		+ "JOIN payment on payment.payment_group_id = payment_group.payment_group_id "
+            		+ "WHERE month(payment_group.payment_date) = '"+monthList.get(i)+"' and year(payment_group.payment_date) = '"+year+"'";
                 SQLQuery query = session.createSQLQuery(sql);
                 query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
-                query_listMap = query.list();
-                if(query_listMap == null || query_listMap.isEmpty()) {
-                       for(int i = 0;i<12;i++) {
-                           JSONArray array_cell = new JSONArray();
-                           int set = 0;
-                           array_cell.put(set);
-                           json_array.put(array_cell);
-                       }
-                    }else {
-                        Iterator itr = query_listMap.iterator();
-                        int i = 0;
-                        while(itr.hasNext()){
-                            Map<String, Object> map  = (Map<String, Object>) itr.next();
-                                List.add((BigDecimal) map.get("income"));
-                            i++;
-                        }
+                query_listMap = query.list(); 
+                
+                    Iterator itr = query_listMap.iterator();
+                    int j = 0;
+                    while(itr.hasNext()){
+                         Map<String, Object> map  = (Map<String, Object>) itr.next();
+                          List.add((BigDecimal) map.get("expend"));
+                        j++;
+                   }
             }
-        }
         }catch(Exception e) {
             e.printStackTrace();
         }
@@ -597,16 +579,15 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 }
 
 	@Override
-	public JSONArray paymentDrilldowns(String year) throws Exception {
-		List<String> List = new ArrayList<String>();
+	public List<BigDecimal> inDrilldowns(String year) throws Exception {
 		List<Map<String, Object>>  query_listMap = null;
-		JSONArray json_array = new JSONArray();
+		//JSONArray json_array = new JSONArray();
+		List<BigDecimal> List = new ArrayList<BigDecimal>();
 		Session session =  this.sessionFactory.getCurrentSession(); 
 		try {
-			if(year != "") {
 			List<String> monthList = Arrays.asList("01","02","03","04","05","06","07","08","09","10","11","12");
-			String sql = null; String sql1 = null; String sql2 = null;
-			   sql1 = "select \r\n"
+			for(int i=0; i<monthList.size(); i++) {
+			 String  sql = "select \r\n"
 					+ "SUM(CASE WHEN payment_detail.payment_type_id = 'OT1' THEN payment_detail.amount else 0 end) as 'OT1'\r\n"
 					+ ",SUM(CASE WHEN payment_detail.payment_type_id = 'OT2' THEN payment_detail.amount else 0 end) as 'OT2'\r\n"
 					+ ",SUM(CASE WHEN payment_detail.payment_type_id = 'OT3' THEN payment_detail.amount else 0 end) as 'OT3'\r\n"
@@ -614,7 +595,58 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 					+ ",SUM(CASE WHEN payment_detail.payment_type_id = 'TRAVEL' THEN payment_detail.amount else 0 end) as 'TRAVEL'\r\n"
 					+ ",SUM(CASE WHEN payment_detail.payment_type_id = 'BONUS' THEN payment_detail.amount else 0 end) as 'BONUS'\r\n"
 					+ ",SUM(CASE WHEN payment_detail.payment_type_id = 'EQUIPMENT' THEN payment_detail.amount else 0 end) as 'EQUIPMENT'\r\n"
-					+ ",SUM(CASE WHEN payment_detail.payment_type_id = 'SSI' THEN payment_detail.amount else 0 end) as 'SSI'\r\n"
+					+ "FROM payment_detail\r\n"
+					+ "join payment on payment_detail.payment_id = payment.payment_id \r\n"
+					+ "join payment_group  on payment.payment_group_id = payment_group.payment_group_id\r\n"
+					+ "join payment_type  on payment_type.payment_type_id = payment_detail.payment_type_id "
+			 		+ "WHERE month(payment_group.payment_date) = '"+monthList.get(i)+"'"
+			 		+  "AND year(payment_group.payment_date) = '"+year+"'";
+			 
+				SQLQuery query = session.createSQLQuery(sql);
+				query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+				query_listMap = query.list();
+				
+                Iterator itr = query_listMap.iterator();
+                int j = 0;
+                List<String> idList = Arrays.asList("OT1","OT2","OT3","VA","TRAVEL","BONUS","EQUIPMENT");
+                while(itr.hasNext()){
+                     Map<String, Object> map  = (Map<String, Object>) itr.next();
+                     for(int k=0; k < idList.size(); k++) {
+                      List.add((BigDecimal) map.get(idList.get(k)));
+                     }
+                    j++;
+               }
+		/*		Iterator itr = query_listMap.iterator();
+	            while(itr.hasNext()){
+	                List<String> idList = Arrays.asList("OT1","OT2","OT3","VA","TRAVEL","BONUS","EQUIPMENT","SSI","TAX","TISCO","LATE","ABSENT","ABSENCE","StudentLoan");
+	                Map<String, Object> map  = (Map<String, Object>) itr.next();
+	                for(int j=0;j<idList.size();j++) {
+	                    JSONArray array_cell = new JSONArray();
+	                    String smonth = idList.get(j);
+	                    Object value = map.get(smonth);
+	                    array_cell.put(smonth);
+	                    array_cell.put(value);
+	                    json_array.put(array_cell);
+	                } 
+                }  */
+			}
+			
+	} catch (Exception e) {
+		e.printStackTrace();
+	}	
+	return List;
+	}
+
+	@Override
+	public List<BigDecimal> exDrilldowns(String year) throws Exception {
+		List<Map<String, Object>>  query_listMap = null;
+		List<BigDecimal> List = new ArrayList<BigDecimal>();
+		Session session =  this.sessionFactory.getCurrentSession(); 
+		try {
+			List<String> monthList = Arrays.asList("01","02","03","04","05","06","07","08","09","10","11","12");
+			for(int i=0; i<monthList.size(); i++) {
+			 String  sql = "select \r\n"
+					+ "SUM(CASE WHEN payment_detail.payment_type_id = 'SSI' THEN payment_detail.amount else 0 end) as 'SSI'\r\n"
 					+ ",SUM(CASE WHEN payment_detail.payment_type_id = 'TAX' THEN payment_detail.amount else 0 end) as 'TAX'\r\n"
 					+ ",SUM(CASE WHEN payment_detail.payment_type_id = 'TISCO' THEN payment_detail.amount else 0 end) as 'TISCO'\r\n"
 					+ ",SUM(CASE WHEN payment_detail.payment_type_id = 'LATE' THEN payment_detail.amount else 0 end) as 'LATE'\r\n"
@@ -624,42 +656,29 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 					+ "FROM payment_detail\r\n"
 					+ "join payment on payment_detail.payment_id = payment.payment_id \r\n"
 					+ "join payment_group  on payment.payment_group_id = payment_group.payment_group_id\r\n"
-					+ "join payment_type  on payment_type.payment_type_id = payment_detail.payment_type_id ";
+					+ "join payment_type  on payment_type.payment_type_id = payment_detail.payment_type_id "
+			 		+ "WHERE month(payment_group.payment_date) = '"+monthList.get(i)+"'"
+			 		+  "AND year(payment_group.payment_date) = '"+year+"'";
+			 
+				SQLQuery query = session.createSQLQuery(sql);
+				query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+				query_listMap = query.list();
 				
-				for(int i=0; i<monthList.size(); i++) {
-					sql2 = "WHERE month(payment_group.payment_date) = '"+monthList.get(i)+"' AND year(payment_group.payment_date) = '"+year+"'";
-				}
-				sql = sql1 + sql2;
-			
-			SQLQuery query = session.createSQLQuery(sql);
-			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
-			query_listMap = query.list();
-			if(query_listMap == null || query_listMap.isEmpty()) {
-			   for(int i = 0;i<12;i++) {
-				   JSONArray array_cell = new JSONArray();
-				   int set = 0;
-				   array_cell.put(set);
-				   json_array.put(array_cell);
-			   }
-			}else {
-				Iterator itr = query_listMap.iterator();
-	            while(itr.hasNext()){
-	                List<String> idList = Arrays.asList("OT1","OT2","OT3","VA","TRAVEL","BONUS","EQUIPMENT","SSI","TAX","TISCO","LATE","ABSENT","ABSENCE","StudentLoan");
-	                Map<String, Object> map  = (Map<String, Object>) itr.next();
-	                for(int i=0;i<monthList.size();i++) {
-	                    JSONArray array_cell = new JSONArray();
-	                    String smonth = idList.get(i);
-	                    Object value = map.get(smonth);
-	                    array_cell.put(smonth);
-	                    array_cell.put(value);
-	                    json_array.put(array_cell);
-	                }
-				} 
-			}
-			}
+                Iterator itr = query_listMap.iterator();
+                int j = 0;
+                List<String> idList = Arrays.asList("SSI","TAX","TISCO","LATE","ABSENT","ABSENCE","StudentLoan");
+                while(itr.hasNext()){
+                     Map<String, Object> map  = (Map<String, Object>) itr.next();
+                     for(int k=0; k < idList.size(); k++) {
+                      List.add((BigDecimal) map.get(idList.get(k)));
+                     }
+                    j++;
+               }
+	}
 	} catch (Exception e) {
 		e.printStackTrace();
 	}	
-	return json_array;
+	return List;
 	}
 }
+

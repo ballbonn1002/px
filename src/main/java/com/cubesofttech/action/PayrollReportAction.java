@@ -1077,7 +1077,7 @@ public class PayrollReportAction extends ActionSupport {
 	public String paymentchart() {
 		try {
 			String year = request.getParameter("year");
-			log.debug(year);
+			//log.debug(year);
 			JSONArray arr_superlist = new JSONArray();
 			JSONArray arr_list = new JSONArray();
 			JSONArray arr_list1 = new JSONArray();
@@ -1086,11 +1086,19 @@ public class PayrollReportAction extends ActionSupport {
 			
 			List<BigDecimal> income = payment_groupDAO.paymentchartIn(year);
 			List<BigDecimal> expend = payment_groupDAO.paymentchartEx(year);
-			JSONArray drilldowns = payment_groupDAO.paymentDrilldowns(year);
-			log.debug(drilldowns);
-			//log.debug(income);
-			//log.debug(expend);
+			List<BigDecimal> indrilldowns = payment_groupDAO.inDrilldowns(year);
+			List<BigDecimal> exdrilldowns = payment_groupDAO.exDrilldowns(year);
+			
+			int size = 7;
+			List<List<BigDecimal>> inList = ListUtils.partition(indrilldowns, size);
+			List<List<BigDecimal>> exList = ListUtils.partition(exdrilldowns, size);
+			
+			log.debug(exList);
+			log.debug(inList);
+			
 			String[] month = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+			String[] in = {"OT1","OT2","OT3","VA","TRAVEL","BONUS","EQUIPMENT"};
+			String[] ex = {"SSI","TAX","BONUS","TISCO","LATE","ABSENT","ABSENCE","StudentLoan"};
 			
 			for(int i=0; i<income.size(); i++) {
 				JSONObject obj_cell = new JSONObject();
@@ -1119,7 +1127,7 @@ public class PayrollReportAction extends ActionSupport {
 
 			
 			request.setAttribute("json", arr_superlist.toString());
-			log.debug(arr_superlist.toString());
+			//log.debug(arr_superlist.toString());
 			
 			return SUCCESS;
 		}catch(Exception e) {
