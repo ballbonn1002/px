@@ -1177,17 +1177,18 @@ public class PayrollReportAction extends ActionSupport {
 			
 			List<BigDecimal> income = payment_groupDAO.paymentchartIn(year);
 			List<BigDecimal> expend = payment_groupDAO.paymentchartEx(year);
-			List<BigDecimal> indrilldowns = payment_groupDAO.inDrilldowns(year);
+			JSONArray indrilldowns = payment_groupDAO.inDrilldowns(year);
 			List<BigDecimal> exdrilldowns = payment_groupDAO.exDrilldowns(year);
+			log.debug(indrilldowns);
+			//int size = 7;
+			//List<List<BigDecimal>> inList = ListUtils.partition(indrilldowns, size);
+			//List<List<BigDecimal>> exList = ListUtils.partition(exdrilldowns, size);
 			
-			int size = 7;
-			List<List<BigDecimal>> inList = ListUtils.partition(indrilldowns, size);
-			List<List<BigDecimal>> exList = ListUtils.partition(exdrilldowns, size);
-			
-			log.debug(exList);
-			log.debug(inList);
+			//log.debug(exList);
+			//log.debug(inList);
 			
 			String[] month = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+			String[] month1 = {"Jan1","Feb2","Mar3","Apr4","May5","Jun6","Jul7","Aug8","Sep9","Oct10","Nov11","Dec12"};
 			String[] in = {"OT1","OT2","OT3","VA","TRAVEL","BONUS","EQUIPMENT"};
 			String[] ex = {"SSI","TAX","BONUS","TISCO","LATE","ABSENT","ABSENCE","StudentLoan"};
 			
@@ -1203,12 +1204,11 @@ public class PayrollReportAction extends ActionSupport {
 			obj_data.put("name", "รายการได้");
 			arr_superlist.put(obj_data);
 
-			
 			for(int i=0; i < expend.size(); i++) {
 				JSONObject obj_cell1 = new JSONObject();
 				obj_cell1.put("name", month[i]);
 				obj_cell1.put("y", expend.get(i));
-				obj_cell1.put("drilldown", month[i]);
+				obj_cell1.put("drilldown", month1[i]);
 				obj_cell1.put("color", "#E7505A");
 				arr_list1.put(obj_cell1);
 			}
@@ -1216,9 +1216,8 @@ public class PayrollReportAction extends ActionSupport {
 			obj_data1.put("name", "รายการหัก");
 			arr_superlist.put(obj_data1);
 
-			
 			request.setAttribute("json", arr_superlist.toString());
-			//log.debug(arr_superlist.toString());
+			log.debug(arr_superlist.toString());
 			
 			return SUCCESS;
 		}catch(Exception e) {
