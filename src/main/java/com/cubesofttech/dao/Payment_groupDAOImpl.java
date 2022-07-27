@@ -639,9 +639,9 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 	                    array_cell.put(smonth);
 	                    array_cell.put(value);
 	                    json_array.put(array_cell);
-	                } 
+	                }
 	                json_array1.put(json_array);
-                }   
+                } 
 			}
 	} catch (Exception e) {
 		e.printStackTrace();
@@ -680,26 +680,25 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 				Iterator itr = query_listMap.iterator();
 	            while(itr.hasNext()){
 	            	json_array = new JSONArray(new ArrayList<String>());
-                List<String> idList = Arrays.asList("SSI","TAX","TISCO","LATE","ABSENT","ABSENCE","StudentLoan");
-                while(itr.hasNext()){
-                     Map<String, Object> map  = (Map<String, Object>) itr.next();
- 	                for(int j=0;j<idList.size();j++) {
- 	                    JSONArray array_cell = new JSONArray();
- 	                    String smonth = idList.get(j);
- 	                    Object value = map.get(smonth);
- 	                    array_cell.put(smonth);
- 	                    array_cell.put(value);
- 	                    json_array.put(array_cell);
- 	                } 
- 	                json_array1.put(json_array);
-                 }   
- 			}
-			}
-		}catch (Exception e) {
- 		e.printStackTrace();
- 	}	
- 	return json_array1;
- 	}
+
+	            	  List<String> idList = Arrays.asList("SSI","TAX","TISCO","LATE","ABSENT","ABSENCE","StudentLoan");
+	                Map<String, Object> map  = (Map<String, Object>) itr.next();
+	                for(int j=0;j<idList.size();j++) {
+	                    JSONArray array_cell = new JSONArray();
+	                    String smonth = idList.get(j);
+	                    Object value = map.get(smonth);
+	                    array_cell.put(smonth);
+	                    array_cell.put(value);
+	                    json_array.put(array_cell);
+	                }
+	                json_array1.put(json_array);
+                } 
+	}
+	} catch (Exception e) {
+		e.printStackTrace();
+	}	
+	return json_array1;
+	}
 
 	@Override
 	public Map<String, Object> getMonthYearByIdnUserId(Integer payment_group_id, String userId) throws Exception {

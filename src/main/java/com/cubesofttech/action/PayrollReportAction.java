@@ -1173,7 +1173,6 @@ public class PayrollReportAction extends ActionSupport {
 			JSONArray arr_list = new JSONArray();
 			JSONArray arr_list1 = new JSONArray();
 			JSONArray arr_list2 = new JSONArray();
-			JSONArray list = new JSONArray();
 			JSONObject obj_data = new JSONObject();
 			JSONObject obj_data1 = new JSONObject();
 			JSONObject obj_data2 = new JSONObject();
@@ -1188,15 +1187,18 @@ public class PayrollReportAction extends ActionSupport {
 			String[] month = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
 			String[] month1 = {"Jan1","Feb2","Mar3","Apr4","May5","Jun6","Jul7","Aug8","Sep9","Oct10","Nov11","Dec12"};
 			
+			
 			for(int i=0; i<income.size(); i++) {
+				
 				JSONObject obj_cell = new JSONObject();
 				obj_cell.put("name", month[i]);
 				obj_cell.put("y", income.get(i));
-				obj_cell.put("drilldown", month[i]);
 				obj_cell.put("color", "#28A745");
+				obj_cell.put("drilldown", month[i]);
+				obj_cell.put("data",indrilldowns.get(i));
 				arr_list.put(obj_cell);
 			}
-			obj_data.put("data",arr_list);
+			obj_data.put("agentinfo",arr_list);
 			obj_data.put("name", "รายการได้");
 			arr_superlist.put(obj_data);
 
@@ -1206,26 +1208,16 @@ public class PayrollReportAction extends ActionSupport {
 				obj_cell1.put("y", expend.get(i));
 				obj_cell1.put("drilldown", month1[i]);
 				obj_cell1.put("color", "#E7505A");
+				obj_cell1.put("data",exdrilldowns.get(i));
 				arr_list1.put(obj_cell1);
 			}
-			obj_data1.put("data",arr_list1);
+			obj_data1.put("agentinfo",arr_list1);
 			obj_data1.put("name", "รายการหัก");
 			arr_superlist.put(obj_data1);
+
 			
-	/*		JSONObject obj_cell2 = new JSONObject();
-			for(int i=0; i<indrilldowns.length(); i++) {
-				list.put(indrilldowns.get(i));
-			}	
-			for(int i=0; i<month.length; i++) {
-			
-			obj_cell2.put("data", list);
-			obj_cell2.put("id", month[i]);
-			}
-			arr_list2.put(obj_cell2);
-			arr_superlist.put(arr_list2); */
-			
-			request.setAttribute("json", arr_superlist.toString());
-			log.debug(arr_superlist.toString());
+			request.setAttribute("json", arr_superlist);
+			//log.debug(arr_superlist.toString());
 			
 			return SUCCESS;
 		}catch(Exception e) {

@@ -102,7 +102,7 @@
 				</div>
 				<div class="body">
 				<br>
-					<div id="container"></div>
+					<div id="paymentChart"></div>
 				</div>
 			</div>
 		</div>
@@ -119,14 +119,50 @@ function yearPick(){
 			"year" : year
 		},
 		success:function(data){
-			console.log(JSON.stringify(data));
 			console.log(data);
-			var serie_data = []
-			console.log(data[0].length);
-			for(var i=0; i<data[0].length; i++){
-				console.log(data[0].data[i].y);
-			}
+			
+			 var paymentJson = data;
+			
+			 var arr_series = [];
+			 var chartDrilldownData = [];
+			 var name = ["รายการได้","รายการหัก"];
+			 for(var j = 0;j < paymentJson.length;j++){
+				 var chartSeriesData = [];
+				
+			 
+			 for (var i = 0;i <paymentJson[j].agentinfo.length; i++){
+				 
+			     var series_name = paymentJson[j].agentinfo[i].name;
+			     
+			     var drill_id = paymentJson[j].agentinfo[i].drilldown;
+			    
+			      var series_data = paymentJson[j].agentinfo[i].y;
+			     
+			      series_data = typeof series_data == 'undefined'? 0:series_data;
+			    
+			      var drill_data = paymentJson[j].agentinfo[i].data;
+			      
+			      var color_data = paymentJson[j].agentinfo[i].color;
+			     
+			      
+			      chartSeriesData.push({
+		                 name: series_name,
+		                 y: parseFloat(series_data),
+		                 drilldown : drill_id ,
+		                 color: color_data
+		              });
+			    
+			      chartDrilldownData.push({
+			             data : drill_data,
+			             id: drill_id,
+			             name: series_name,
 
+			         });
+			     }
+			 	arr_series.push({"name":name[j],"data":chartSeriesData})
+			 	
+			 }
+			 setChart(arr_series,chartDrilldownData);
 		}
 	});
 	}
@@ -137,18 +173,54 @@ $(document).ready(function() {
 </script>
 
 <script>
-function setChart(serie_data){
-	//console.log(serie_data);
-Highcharts.chart('container', {
+function setChart(chartSeriesData,chartDrilldownData){
+Highcharts.chart("paymentChart", {
     chart: {
         type: 'column'
     },
     title: {
-        text: 'Payment Chart'
-    },
+	    text: '',
+	    	 style: {
+                 color: '#333333',
+                 fontFamily: 'Ubuntu,sans-serif',
+                 fontSize: '20px',
+                 fontWeight: 'bold',
+                 
+             }
+	  },
     xAxis: {
-        type: 'category'
+        type: 'category',
+        labels: {
+	        style: {
+	        	fontFamily: 'Ubuntu,sans-serif',
+	            fontSize:'16px',
+	            color: '#333333',
+	            fontWeight: '600'
+	          }
+	      }
     },
+    yAxis: {
+		  min: 0,
+        title: {
+      	  margin: 20,
+            text: '',
+            style: {
+                color: '#333333',
+                fontFamily: ' Ubuntu,sans-serif',
+                fontSize: '16px',
+                
+            }
+        },
+        labels: {
+      	  style: {
+                color: '#333333',
+                fontFamily: ' Ubuntu,sans-serif',
+                fontSize: '16px',
+                
+                
+            }
+        }
+	  },
     navigation: {
         buttonOptions: {
             enabled: false
@@ -170,13 +242,16 @@ Highcharts.chart('container', {
           }
       },
       
-    series:  serie_data
-    ,
+    series: chartSeriesData,
     
- //   drilldown:{
- //   	series:
-  //  }
+   drilldown:{
+       series: chartDrilldownData
+    }
+   
     
 });
 }
+    
+    
+ 
 </script>
