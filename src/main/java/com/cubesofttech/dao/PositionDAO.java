@@ -9,6 +9,8 @@ public interface PositionDAO {
     
     public void save(Position position) throws Exception;
     
+    public void saveOrUpdate(Position position) throws Exception;
+    
     public List<Map<String, Object>> sequense() throws Exception;
     
     public List<Position> findAll() throws Exception;

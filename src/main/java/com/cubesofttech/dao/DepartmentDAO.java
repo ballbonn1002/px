@@ -25,6 +25,8 @@ public interface DepartmentDAO {
     public void update(Department department) throws Exception;
     
     public void delete(Department department) throws Exception;
+    
+    public void saveOrUpdate(Department department) throws Exception;
 
 	public List<Department> search(String departmentId) throws Exception;
 }

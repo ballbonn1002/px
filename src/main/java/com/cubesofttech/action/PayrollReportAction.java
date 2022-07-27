@@ -1153,7 +1153,7 @@ public class PayrollReportAction extends ActionSupport {
 			request.setAttribute("GetMonthStatistics", getMonthStatistics);
 			
 			//log.debug(findMonth);
-			//log.debug(getMonthStatistics);
+			log.debug(getMonthStatistics);
 			
 			Gson gson = new Gson(); 
             String json = gson.toJson(getMonthStatistics); 
@@ -1168,49 +1168,56 @@ public class PayrollReportAction extends ActionSupport {
 	public String paymentchart() {
 		try {
 			String year = request.getParameter("year");
-			log.debug(year);
 			JSONArray arr_superlist = new JSONArray();
+			JSONArray arr_superlist1 = new JSONArray();
 			JSONArray arr_list = new JSONArray();
 			JSONArray arr_list1 = new JSONArray();
+			JSONArray arr_list2 = new JSONArray();
 			JSONObject obj_data = new JSONObject();
 			JSONObject obj_data1 = new JSONObject();
+			JSONObject obj_data2 = new JSONObject();
 			
 			List<BigDecimal> income = payment_groupDAO.paymentchartIn(year);
 			List<BigDecimal> expend = payment_groupDAO.paymentchartEx(year);
-			JSONArray drilldowns = payment_groupDAO.paymentDrilldowns(year);
-			log.debug(drilldowns);
-			//log.debug(income);
-			//log.debug(expend);
+			JSONArray indrilldowns = payment_groupDAO.inDrilldowns(year);
+			JSONArray exdrilldowns = payment_groupDAO.exDrilldowns(year);
+			log.debug(indrilldowns);
+			log.debug(exdrilldowns);
+			
 			String[] month = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+			String[] month1 = {"Jan1","Feb2","Mar3","Apr4","May5","Jun6","Jul7","Aug8","Sep9","Oct10","Nov11","Dec12"};
+			
 			
 			for(int i=0; i<income.size(); i++) {
+				
 				JSONObject obj_cell = new JSONObject();
 				obj_cell.put("name", month[i]);
 				obj_cell.put("y", income.get(i));
-				obj_cell.put("drilldown", month[i]);
 				obj_cell.put("color", "#28A745");
+				obj_cell.put("drilldown", month[i]);
+				obj_cell.put("data",indrilldowns.get(i));
 				arr_list.put(obj_cell);
 			}
-			obj_data.put("data",arr_list);
+			obj_data.put("agentinfo",arr_list);
 			obj_data.put("name", "รายการได้");
 			arr_superlist.put(obj_data);
 
-			
 			for(int i=0; i < expend.size(); i++) {
 				JSONObject obj_cell1 = new JSONObject();
 				obj_cell1.put("name", month[i]);
 				obj_cell1.put("y", expend.get(i));
-				obj_cell1.put("drilldown", month[i]);
+				obj_cell1.put("drilldown", month1[i]);
 				obj_cell1.put("color", "#E7505A");
+				obj_cell1.put("data",exdrilldowns.get(i));
 				arr_list1.put(obj_cell1);
 			}
-			obj_data1.put("data",arr_list1);
+			obj_data1.put("agentinfo",arr_list1);
 			obj_data1.put("name", "รายการหัก");
 			arr_superlist.put(obj_data1);
 
 			
-			request.setAttribute("json", arr_superlist.toString());
-			log.debug(arr_superlist.toString());
+			request.setAttribute("json", arr_superlist);
+			//log.debug(arr_superlist.toString());
 			
 			return SUCCESS;
 		}catch(Exception e) {

@@ -254,3 +254,40 @@ INSERT INTO `sys_role` (`sys_role_id`, `name`, `description`, `administrator`, `
 INSERT INTO `sys_user` (`sys_user_id`, `sys_role_id`, `user_id`, `name_th`, `email`, `phone`, `is_active`, `password`, `user_create`, `user_update`, 
 `time_create`, `time_update`) VALUES ('thanet.s', 'superadmin', 'Thanet.s', 'Thanet Sutphan', 'Thanet.s@cubesofttech.com', '', '1', 
 '1BAFCFB8D2AB7E4019F141C171C7ACFE', 'thanet.s', 'thanet.s', '2022-07-26 15:46:39', '2022-07-26 15:46:39');
+
+--Update for Migration 27/07/2022 Kung:
+CREATE TABLE `migrate` (
+  `migrate_id` bigint(32) NOT NULL AUTO_INCREMENT,
+  `action` varchar(32) NOT NULL,
+  `status` varchar(1) NOT NULL,
+  `select_num` varchar(32) NOT NULL,
+  `insert_num` varchar(32) NOT NULL,
+  `error_num` varchar(32) NOT NULL,
+  `description` longtext  NOT NULL,
+  `user_create` varchar(32) NOT NULL,
+  `user_update` varchar(32) NOT NULL,
+  `time_create` timestamp NULL DEFAULT NULL,
+  `time_update` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`migrate_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `migrate_detail` (
+  `migrate_detail_id` bigint(32) NOT NULL AUTO_INCREMENT,
+  `migrate_id` bigint(32) NOT NULL,
+  `status` varchar(1) NOT NULL,
+  `select_from` varchar(64) NOT NULL,
+  `insert_to` varchar(64) NOT NULL,
+  `select_num` varchar(32) NOT NULL,
+  `insert_num` varchar(32) NOT NULL,
+  `error_num` varchar(32) NOT NULL,
+  `user_create` varchar(32) NOT NULL,
+  `user_update` varchar(32) NOT NULL,
+  `time_create` timestamp NULL DEFAULT NULL,
+  `time_update` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`migrate_detail_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=176 DEFAULT CHARSET=utf8mb4
+
+ALTER TABLE `holiday` ADD `user_create` VARCHAR(32) NOT NULL AFTER `description`, 
+ADD `user_update` VARCHAR(32) NOT NULL AFTER `user_create`, 
+ADD `time_create` TIMESTAMP NULL DEFAULT NULL AFTER `user_update `, 
+ADD `time_update` TIMESTAMP NULL DEFAULT NULL AFTER `time_create`;

@@ -11,6 +11,8 @@ public interface LeaveDAO {
 	public List findLeaveId(String userId, Timestamp startDate, Timestamp endDate,String status)throws Exception;
 	
 	public void save(Leaves leaves) throws Exception;
+	
+	public void saveOrUpdate(Leaves leaves) throws Exception;
 
 	public List<Leaves> findAll() throws Exception;
 	
