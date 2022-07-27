@@ -280,3 +280,8 @@ CREATE TABLE `migrate_detail` (
   `time_update` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`migrate_detail_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=176 DEFAULT CHARSET=utf8mb4
+
+ALTER TABLE `holiday` ADD `user_create` VARCHAR(32) NOT NULL AFTER `description`, 
+ADD `user_update` VARCHAR(32) NOT NULL AFTER `user_create`, 
+ADD `time_create` TIMESTAMP NULL DEFAULT NULL AFTER `user_update `, 
+ADD `time_update` TIMESTAMP NULL DEFAULT NULL AFTER `time_create`;
