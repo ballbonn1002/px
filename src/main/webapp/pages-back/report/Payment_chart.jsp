@@ -102,7 +102,7 @@
 				</div>
 				<div class="body">
 				<br>
-					<div id="container"></div>
+					<div id="paymentChart"></div>
 				</div>
 			</div>
 		</div>
@@ -119,8 +119,50 @@ function yearPick(){
 			"year" : year
 		},
 		success:function(data){
-			console.log(JSON.stringify(data));
-			setChart(data);
+			console.log(data);
+			
+			 var paymentJson = data;
+			
+			 var arr_series = [];
+			 var chartDrilldownData = [];
+			 var name = ["รายการได้","รายการหัก"];
+			 for(var j = 0;j < paymentJson.length;j++){
+				 var chartSeriesData = [];
+				
+			 
+			 for (var i = 0;i <paymentJson[j].agentinfo.length; i++){
+				 
+			     var series_name = paymentJson[j].agentinfo[i].name;
+			     
+			     var drill_id = paymentJson[j].agentinfo[i].drilldown;
+			    
+			      var series_data = paymentJson[j].agentinfo[i].y;
+			     
+			      series_data = typeof series_data == 'undefined'? 0:series_data;
+			    
+			      var drill_data = paymentJson[j].agentinfo[i].data;
+			      
+			      var color_data = paymentJson[j].agentinfo[i].color;
+			     
+			      
+			      chartSeriesData.push({
+		                 name: series_name,
+		                 y: parseFloat(series_data),
+		                 drilldown : drill_id ,
+		                 color: color_data
+		              });
+			    
+			      chartDrilldownData.push({
+			             data : drill_data,
+			             id: drill_id,
+			             name: series_name,
+
+			         });
+			     }
+			 	arr_series.push({"name":name[j],"data":chartSeriesData})
+			 	
+			 }
+			 setChart(arr_series,chartDrilldownData);
 		}
 	});
 	}
@@ -131,18 +173,54 @@ $(document).ready(function() {
 </script>
 
 <script>
-function setChart(data){
-	console.log(data);
-Highcharts.chart('container', {
+function setChart(chartSeriesData,chartDrilldownData){
+Highcharts.chart("paymentChart", {
     chart: {
         type: 'column'
     },
     title: {
-        text: 'Payment Chart'
-    },
+	    text: '',
+	    	 style: {
+                 color: '#333333',
+                 fontFamily: 'Ubuntu,sans-serif',
+                 fontSize: '20px',
+                 fontWeight: 'bold',
+                 
+             }
+	  },
     xAxis: {
-        type: 'category'
+        type: 'category',
+        labels: {
+	        style: {
+	        	fontFamily: 'Ubuntu,sans-serif',
+	            fontSize:'16px',
+	            color: '#333333',
+	            fontWeight: '600'
+	          }
+	      }
     },
+    yAxis: {
+		  min: 0,
+        title: {
+      	  margin: 20,
+            text: '',
+            style: {
+                color: '#333333',
+                fontFamily: ' Ubuntu,sans-serif',
+                fontSize: '16px',
+                
+            }
+        },
+        labels: {
+      	  style: {
+                color: '#333333',
+                fontFamily: ' Ubuntu,sans-serif',
+                fontSize: '16px',
+                
+                
+            }
+        }
+	  },
     navigation: {
         buttonOptions: {
             enabled: false
@@ -164,127 +242,16 @@ Highcharts.chart('container', {
           }
       },
       
-    series: data
+    series: chartSeriesData,
+    
+   drilldown:{
+       series: chartDrilldownData
+    }
+   
     
 });
 }
     
     
- /*   {
-        name: 'รายการหัก',
-        data: [{
-            name: 'Jan',
-            y: 5,
-            drilldown: 'democrats-2010'
-        }, {
-            name: 'Feb',
-            y: 2,
-            drilldown: 'democrats-2010'
-        }, {
-            name: 'Mar',
-            y: 4,
-            drilldown: 'other-2010'
-        },   {
-            name: 'Apr',
-            y: 7,
-            drilldown: 'democrats-2010'
-        }, {
-            name: 'May',
-            y: 0,
-            drilldown: 'other-2010'
-        }, {
-            name: 'Jun',
-            y: 14,
-            drilldown: 'democrats-2010'
-        }, {
-            name: 'Jul',
-            y: 17,
-            drilldown: 'other-2010'
-        }, {
-            name: 'Aug',
-            y: 2,
-            drilldown: 'democrats-2010'
-        }, {
-            name: 'Sep',
-            y: 3,
-            drilldown: 'other-2010'
-        }, {
-            name: 'Oct',
-            y: 9,
-            drilldown: 'democrats-2010'
-        }, {
-            name: 'Nov',
-            y: 7,
-            drilldown: 'other-2010'
-        }, {
-            name: 'Dec',
-            y: 1,
-            drilldown: 'other-2010'
-        }]
-    }],
-    
-    
-    drilldown: {
-        allowPointDrilldown: false,
-        series: [{
-            id: 'republican-2010',
-            name: 'Republican 2010',
-            data: [
-                ['East', 4],
-                ['West', 2],
-                ['North', 1],
-                ['Northes', 8],
-                ['South', 4]
-            ]
-        }, {
-            id: 'democrats-2010',
-            name: 'Republican 2010',
-            data: [
-                ['East', 6],
-                ['West', 2],
-                ['Westest', 6],
-                ['North', 2],
-                ['South', 4]
-            ]
-        }, {
-            id: 'other-2010',
-            name: 'Other 2010',
-            data: [
-                ['East', 2],
-                ['West', 7],
-                ['North', 3],
-                ['South', 2]
-            ]
-        }, {
-            id: 'republican-2014',
-            name: 'Republican 2014',
-            data: [
-                ['East', 2],
-                ['West', 4],
-                ['North', 1],
-                ['South', 7]
-            ]
-        }, {
-            id: 'democrats-2014',
-            name: 'Democrats 2014',
-            data: [
-                ['East', 4],
-                ['West', 2],
-                ['North', 5],
-                ['South', 3]
-            ]
-        }, {
-            id: 'other-2014',
-            name: 'Other 2014',
-            data: [
-                ['East', 7],
-                ['West', 8],
-                ['North', 2],
-                ['South', 2]
-            ]
-        }]
-    }  */
-    
-//});
-//}
+ 
 </script>
