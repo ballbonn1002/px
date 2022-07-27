@@ -1153,7 +1153,7 @@ public class PayrollReportAction extends ActionSupport {
 			request.setAttribute("GetMonthStatistics", getMonthStatistics);
 			
 			//log.debug(findMonth);
-			//log.debug(getMonthStatistics);
+			log.debug(getMonthStatistics);
 			
 			Gson gson = new Gson(); 
             String json = gson.toJson(getMonthStatistics); 
