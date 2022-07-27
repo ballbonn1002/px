@@ -248,3 +248,35 @@ ALTER TABLE `permission` CHANGE `permission_id` `permission_id` BIGINT(20) NOT N
 --Update UserSalary 19/07/2022 ryu:
 
 ALTER TABLE `user_salary` CHANGE `user_salary_id` `user_salary_id` BIGINT(20) NOT NULL AUTO_INCREMENT;
+
+--Update for Migration 27/07/2022 Kung:
+CREATE TABLE `migrate` (
+  `migrate_id` bigint(32) NOT NULL AUTO_INCREMENT,
+  `action` varchar(32) NOT NULL,
+  `status` varchar(1) NOT NULL,
+  `select_num` varchar(32) NOT NULL,
+  `insert_num` varchar(32) NOT NULL,
+  `error_num` varchar(32) NOT NULL,
+  `description` longtext  NOT NULL,
+  `user_create` varchar(32) NOT NULL,
+  `user_update` varchar(32) NOT NULL,
+  `time_create` timestamp NULL DEFAULT NULL,
+  `time_update` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`migrate_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `migrate_detail` (
+  `migrate_detail_id` bigint(32) NOT NULL AUTO_INCREMENT,
+  `migrate_id` bigint(32) NOT NULL,
+  `status` varchar(1) NOT NULL,
+  `select_from` varchar(64) NOT NULL,
+  `insert_to` varchar(64) NOT NULL,
+  `select_num` varchar(32) NOT NULL,
+  `insert_num` varchar(32) NOT NULL,
+  `error_num` varchar(32) NOT NULL,
+  `user_create` varchar(32) NOT NULL,
+  `user_update` varchar(32) NOT NULL,
+  `time_create` timestamp NULL DEFAULT NULL,
+  `time_update` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`migrate_detail_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=176 DEFAULT CHARSET=utf8mb4

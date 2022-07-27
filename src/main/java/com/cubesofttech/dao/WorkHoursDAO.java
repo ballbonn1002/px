@@ -10,6 +10,8 @@ public interface WorkHoursDAO {
 	
 	public void save(WorkHours workHours) throws Exception;
 	
+	public void saveOrUpdate(WorkHours workHours) throws Exception;
+	
 	public List<Map<String, Object>> findAll() throws Exception;
 	/*
 	 * public List<Map<String, Object>> findworkmonthall(java.sql.Timestamp Datenow,

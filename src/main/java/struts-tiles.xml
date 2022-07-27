@@ -378,5 +378,13 @@
 		<put-attribute name="title" value="report" />
 		<put-attribute name="body"	value="/pages-back/report/report_year.jsp" />
 	</definition>
+
+
+	<!-- Migration -->
+	<definition name="migrate" extends="masterLayout">
+		<put-attribute name="title" value="Migrate Data" />
+		<put-attribute name="body"
+			value="/pages-back/migration/migrate.jsp" />
+	</definition>
 	
 </tiles-definitions>

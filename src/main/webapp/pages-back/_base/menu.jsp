@@ -132,6 +132,9 @@
                              </div>
                         </li>
                         <li class="nav-item dropdown mega-menu">
+                            <a href="migrate" class="nav-link"><i class="icon-cloud-download"></i> <span> Migrate Data </span></a>                          
+                        </li>
+                        <li class="nav-item dropdown mega-menu">
                             <a href="javascript:void(0)" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="icon-docs"></i> <span>Function</span></a>
                             <div class="dropdown-menu mega-main padding-0 animated fadeIn">
                                 <div class="row">

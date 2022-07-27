@@ -79,6 +79,15 @@ public class DepartmentDAOImpl implements DepartmentDAO{
         session.flush();
         //session.close();
     }
+    
+    @Override
+    public void saveOrUpdate(Department department) throws Exception {
+        Session session = this.sessionFactory.getCurrentSession();
+        session.clear();
+        session.saveOrUpdate(department);
+        session.flush();
+        //session.close();
+    }
 
     @Override
 	public List<Map<String, Object>> sequense() throws Exception {
