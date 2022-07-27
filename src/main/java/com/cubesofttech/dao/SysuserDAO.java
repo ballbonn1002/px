@@ -13,7 +13,7 @@ public interface SysuserDAO {
     public List<Map<String, Object>> findAllList() throws Exception;
     public List<Sysuser> findBySysuserId(String sysuserId) throws Exception;
     
-    public Sysuser findById(String id) throws Exception;
+    public Sysuser findById(String sys_user_id) throws Exception;
     public void update(Sysuser sysuser) throws Exception;
     
     public void delete(Sysuser sysuser) throws Exception;
@@ -22,5 +22,6 @@ public interface SysuserDAO {
 
 	public List<Map<String, Object>> findById2(String id) throws Exception;
 
+	public List<Map<String, Object>> sysUserEnable(String user);
 
 }

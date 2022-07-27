@@ -1,12 +1,7 @@
 
 package com.cubesofttech.action;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -22,13 +17,13 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.cubesofttech.dao.LeaveDAO;
 import com.cubesofttech.dao.RoleAuthorizedObjectDAO;
+import com.cubesofttech.dao.SysuserDAO;
 import com.cubesofttech.dao.UserDAO;
 import com.cubesofttech.dao.UserRoleDAO;
 import com.cubesofttech.dao.UserRpwDAO;
-
 import com.cubesofttech.model.RoleAuthorizedObject;
+import com.cubesofttech.model.Sysuser;
 import com.cubesofttech.model.User;
 import com.cubesofttech.model.UserRole;
 import com.cubesofttech.model.UserRpw;
@@ -48,6 +43,9 @@ public class LoginAction extends ActionSupport {
 	public static final String NODAY = "no_day";
 	public static final String EMAIL = "email";
 
+	@Autowired
+	private SysuserDAO sysUserDAO;
+	
 	@Autowired
 	private UserDAO userDAO;
 	
@@ -155,33 +153,33 @@ public class LoginAction extends ActionSupport {
 			String userlogin = request.getParameter("username");
 			request.setAttribute("userlogin", userlogin);
 			HttpSession session = request.getSession();
-			User user = userDAO.findById(username);
+			Sysuser user = sysUserDAO.findById(userlogin);
 			String md5Password = loginService.generateMD5(password);
-			List<Map<String, Object>> userActive = userDAO.UserEnable(userlogin);
+			List<Map<String, Object>> userActive = sysUserDAO.sysUserEnable(userlogin);
 			
 			if (user != null && md5Password.equals(user.getPassword()) && !userActive.isEmpty()) {
 				String chkLogin = "sc";
 				Cookie cSuccess = new Cookie("cooksc", chkLogin);
 				cSuccess.setMaxAge(60 * 60 * 24 * 15);
 				response.addCookie(cSuccess);
-				Set<String> userAuthority = new HashSet<>();
-				Constant.onlineUserList.add(user.getId());
+				//Set<String> userAuthority = new HashSet<>();
+				Constant.onlineUserList.add(user.getSys_user_id());
 
-				List<RoleAuthorizedObject> roleAuthorizedObjectList = roleAuthorizedObjectDAO
+				/*List<RoleAuthorizedObject> roleAuthorizedObjectList = roleAuthorizedObjectDAO
 						.findByRoleId(user.getRoleId());
 
 				userAuthority = loginService.addRoleByUserTable(roleAuthorizedObjectList, userAuthority);
 
 				List<UserRole> userRoleList = userRoleDAO.findByUserId(user.getId());
 
-				userAuthority = loginService.addRoleByUserRoleTabel(userRoleList, userAuthority);
+				userAuthority = loginService.addRoleByUserRoleTabel(userRoleList, userAuthority);*/
 
 				session.setAttribute("user", user);
 				session.setAttribute("onlineUser", user);
-				session.setAttribute("userAuthority", userAuthority);
+				//session.setAttribute("userAuthority", userAuthority);
 
-				User ur = (User) request.getSession().getAttribute("onlineUser");
-				String logonUser = ur.getId();
+				Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser");
+				String logonUser = ur.getSys_user_id();
 
 				
 				log.debug(Constant.onlineUserList);
