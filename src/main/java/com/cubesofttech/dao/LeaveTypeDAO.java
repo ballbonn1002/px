@@ -9,6 +9,8 @@ import com.cubesofttech.model.LeaveType;
 public interface LeaveTypeDAO {
 
 	public void save(LeaveType leavetype) throws Exception;
+	
+	public void saveOrUpdate(LeaveType leavetype) throws Exception;
 
 	public List<LeaveType> findAll() throws Exception;
 

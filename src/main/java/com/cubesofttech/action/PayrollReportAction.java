@@ -1153,7 +1153,7 @@ public class PayrollReportAction extends ActionSupport {
 			request.setAttribute("GetMonthStatistics", getMonthStatistics);
 			
 			//log.debug(findMonth);
-			//log.debug(getMonthStatistics);
+			log.debug(getMonthStatistics);
 			
 			Gson gson = new Gson(); 
             String json = gson.toJson(getMonthStatistics); 
@@ -1209,7 +1209,6 @@ public class PayrollReportAction extends ActionSupport {
 			obj_data.put("name", "รายการได้");
 			arr_superlist.put(obj_data);
 
-			
 			for(int i=0; i < expend.size(); i++) {
 				JSONObject obj_cell1 = new JSONObject();
 				obj_cell1.put("name", month[i]);

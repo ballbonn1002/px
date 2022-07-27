@@ -40,6 +40,14 @@ public class UserDAOImpl implements UserDAO {
 		session.flush();
 		// session.close();
 	}
+	
+	@Override
+	public void saveOrUpdate(User User) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		session.saveOrUpdate(User);
+		session.flush();
+		// session.close();
+	}
 
 	@Override
 	public List<User> findAll() throws Exception {

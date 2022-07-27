@@ -604,7 +604,7 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 		List<Map<String, Object>>  query_listMap = null;
 		JSONArray json_array = new JSONArray();
 		JSONArray json_array1 = new JSONArray();
-		List<BigDecimal> List = new ArrayList<BigDecimal>();
+		//List<BigDecimal> List = new ArrayList<BigDecimal>();
 		Session session =  this.sessionFactory.getCurrentSession(); 
 		try {
 			List<String> monthList = Arrays.asList("01","02","03","04","05","06","07","08","09","10","11","12");
@@ -644,6 +644,7 @@ public class Payment_groupDAOImpl implements Payment_groupDAO{
 	                json_array1.put(json_array);
                 } 
 			}
+			
 			
 	} catch (Exception e) {
 		e.printStackTrace();

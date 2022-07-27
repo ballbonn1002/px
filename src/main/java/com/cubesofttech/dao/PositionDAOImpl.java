@@ -30,6 +30,14 @@ public class PositionDAOImpl implements PositionDAO {
         session.flush();
         //session.close();
 	}
+	
+	@Override
+	public void saveOrUpdate(Position position) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+        session.saveOrUpdate(position);
+        session.flush();
+        //session.close();
+	}
 
 	@Override
 	public List<Map<String, Object>> sequense() throws Exception {
