@@ -34,5 +34,7 @@ public interface PaymentDAO {
     
     public List<Map<String, Object>> getStatusByGroupId(String paymentGroupId) throws Exception;
     public List<Map<String, Object>> getTotalPayByGroupId(String paymentGroupId) throws Exception;
+    
+    public Map<String, Object> getRemarkByDatenUserId(int month,int year, String userId) throws Exception;
 
 }

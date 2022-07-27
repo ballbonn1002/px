@@ -6,7 +6,7 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/sql" prefix = "sql"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
-
+<c:set var="now" value="<%=new java.util.Date()%>" />
 
 
 
@@ -168,7 +168,7 @@ $(document).ready(function() {
 </script>
 <script>
 function setChart(data){
-	console.log(data);
+	//console.log(data);
 	Highcharts.chart('container', {
 		  chart: {
 		    type: 'line',
@@ -254,6 +254,31 @@ function setChart(data){
 		});
 }
 </script>
+<script>
+function convertData(data){
+	//console.log(data);
+	var year_now = "<fmt:formatDate value = '${now}'  type = 'both' timeStyle = 'medium' pattern='yyyy' />";
+	var month_now = "<fmt:formatDate value = '${now}'  type = 'both' timeStyle = 'medium' pattern='MM' />";
+	var arr_data = [];
+	data.forEach(function(data_){
+		//console.log(data_["name"]);
+		if(data_["name"] == year_now){
+			var sss = data_["data"].slice(0,month_now);
+			var yyy = data_["data"].slice(month_now); 
+			console.log(yyy);
+			yyy.forEach(function(yyy_){
+				yyy_[1]=null;
+			})
+			var buffer = {"name":data_["name"],"data":sss.concat(yyy)};
+			arr_data.push(buffer);
+		}else{
+			arr_data.push(data_);
+		}
+	})
+	//console.log(arr_data);
+	return arr_data
+}
+</script>
    <script>
 function test(){
 	    let year = [];
@@ -269,8 +294,10 @@ function test(){
 				},
 				success:function(data){
 					let text = [];
-					console.log(JSON.stringify(data));
-					setChart(data);
+					//console.log(JSON.stringify(data));
+					
+					var test = convertData(data);
+					setChart(test);
 					/*for(let i = 0; i < data.length; i++){
 						//text += data[i].totol_pay + ",";
 						//text += Object.values(data[i]);

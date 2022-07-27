@@ -120,25 +120,25 @@ to {
 				<div style="text-align: right">
 					<c:choose>
 						<c:when test="${paymentGroup.status == 1}">
-							<span class="tag badge badge-info"
+							<span class="tag badge badge-info" id = "badge"
 								style="color: #449cff; border-color: #449cff; padding: 10px 18px; font-size: 14px; background-color: white;">inprogress
 							</span>
 						</c:when>
 						<c:when test="${paymentGroup.status == 2}">
-							<span class="tag badge badge-info"
+							<span class="tag badge badge-info" id = "badge"
 								style="color: #88c426; border-color: #88c426; padding: 10px 18px; font-size: 14px; background-color: white;">confirm</span>
 						</c:when>
 						<c:when test="${paymentGroup.status == 3}">
-							<span class="tag badge badge-info"
+							<span class="tag badge badge-info" id = "badge"
 								style="color: #9772FB; border-color: #9772FB; padding: 10px 18px; font-size: 14px; background-color: white;">partial
 								payment</span>
 						</c:when>
 						<c:when test="${paymentGroup.status == 4}">
-							<span class="tag badge badge-info"
+							<span class="tag badge badge-info" id = "badge"
 								style="color: #22AF46; border-color: #22AF46; padding: 10px 18px; font-size: 14px; background-color: white;">completed</span>
 						</c:when>
 						<c:when test="${paymentGroup.status == 0}">
-							<span class="tag badge badge-info"
+							<span class="tag badge badge-info" id = "badge"
 								style="color: #7F8487; border-color: #7F8487; padding: 10px 18px; font-size: 14px; background-color: white;">inactive</span>
 						</c:when>
 					</c:choose>
@@ -171,7 +171,7 @@ to {
 								class="tag badge badge-info mx-2 my-1 my-sm-1 mx-sm-2  mx-lg-1 my-lg-1"
 								style="color: #E7505A; border-color: #E7505A; font-size: 14px; padding: 10px 18px">ยกเลิกรายการ</button>
 							<select id = "payroll-group-status" class="form-control mx-2 my-1 mx-sm-2 my-sm-1 mx-lg-1" <c:if test = "${!(paymentGroup.status == 2 || paymentGroup.status == 3 || paymentGroup.status == 4)}">disabled</c:if>>
-								<option disabled selected> สถานะทั้งหมด </option>
+								<option disabled selected> เลือกการชำระเงิน </option>
 								<option value="3">ชำระเงินบางส่วน</option>
 								<option value="4">ชำระเงินทั้งหมด</option>
 							</select>
@@ -179,7 +179,7 @@ to {
 						<div>
 							<button id = "savePayrollGroup" <c:if test = "${inprogress_count > 0}">disabled</c:if>
 								class="tag badge badge-info mx-2 my-1 my-sm-1 mx-sm-2  mx-lg-1 my-lg-1" 
-								style="color: #9A9999; border-color: #9A9999; font-size: 14px; padding: 10px 18px;">ยืนยันรายการเงินเดือน</button>
+								style="<c:if test = "${inprogress_count > 0}">color: #9A9999; border-color: #9A9999;</c:if> <c:if test = "${inprogress_count == 0}">color: #22AF46; border-color: #22AF46;</c:if> font-size: 14px; padding: 10px 18px;">ยืนยันรายการเงินเดือน</button>
 							<button
 								class="tag badge badge-info mx-2 my-1 my-sm-1 mx-sm-2 mx-lg-1 my-lg-1"
 								style="color: #9A9999; border-color: #9A9999; font-size: 14px; padding: 10px 18px;">ปริ้น</button>
@@ -242,20 +242,20 @@ to {
 								<label>ช่วงวันที่</label>
 								<div class="form-group">
 									<input id="payroll_start_date" data-provide="datepicker"
-										data-date-autoclose="true" data-date-format="dd-mm-yyyy"
+										data-date-autoclose="true" data-date-format="dd MM yyyy"
 										name="startDate" id="startDate" class="form-control" required
 										value="<fmt:setLocale value="en_US" scope="session"/><fmt:formatDate value="${paymentGroup.start_date}"  type = "both" 
-       								timeStyle = "medium" pattern="dd-MM-yyyy "  />">
+       								timeStyle = "medium" pattern="dd MMMM yyyy"  />">
 								</div>
 							</div>
 							<div class="col-6 col-sm-6 col-lg-3 ">
 								<label>ถึงวันที่</label>
 								<div class="form-group">
 									<input id="payroll_end_date" data-provide="datepicker"
-										data-date-autoclose="true" data-date-format="dd-mm-yyyy"
+										data-date-autoclose="true" data-date-format="dd MM yyyy"
 										name="endDate" id="endDate" class="form-control" required
 										value="<fmt:setLocale value="en_US" scope="session"/><fmt:formatDate value="${paymentGroup.end_date}"  type = "both" 
-       								timeStyle = "medium" pattern="dd-MM-yyyy "  />">
+       								timeStyle = "medium" pattern="dd MMMM yyyy"  />">
 								</div>
 							</div>
 							<div class="col-6 col-sm-6 col-lg-3 ">
@@ -264,8 +264,8 @@ to {
 									<input id="payroll_pay_date" data-provide="datepicker"
 										data-date-autoclose="true"
 										value="<fmt:setLocale value="en_US" scope="session"/><fmt:formatDate value="${paymentGroup.payment_date}"  type = "both" 
-       								timeStyle = "medium" pattern="dd-MM-yyyy "  />"
-										data-date-format="dd-mm-yyyy" name="bday" class="form-control"
+       								timeStyle = "medium" pattern="dd MMMM yyyy"  />"
+										data-date-format="dd MM yyyy" name="bday" class="form-control"
 										required>
 								</div>
 							</div>
@@ -324,7 +324,7 @@ to {
 
 					</div>
 					<div class="col-12 col-sm-12 col-lg-6">
-						<div
+						<div id = "payment-status"
 							class="d-flex flex-column flex-sm-column flex-lg-row align-items-center justify-content-end">
 							<div
 								class="d-flex flex-column flex-sm-column flex-lg-row align-items-center">
@@ -403,7 +403,7 @@ to {
 			<div class="row">
 				<div class="col-lg-6 col-sm-12">
 					<div class="table-responsive">
-						<table class="table payment-table">
+						<table class="table payment-table payment-group-income">
 							<thead>
 								<tr>
 									<th class="" style="text-align: left; width: 30%">รายได้</th>
@@ -430,7 +430,7 @@ to {
 				</div>
 				<div class="col-lg-6 col-sm-12">
 					<div class="table-responsive">
-						<table class="table payment-table">
+						<table class="table payment-table payment-group-expense">
 							<thead>
 								<tr>
 									<th style="text-align: left; width: 30%">รายการหัก</th>
@@ -587,8 +587,8 @@ to {
 		    $(".number").each(function () {
 		            $(this).html(++n);
 		        })
+		        changePaymentSummary();
 		    
-		    console.log(table.ajax.json())
 		})
 		
 		$('#payroll_save').on("click" , function() {
@@ -766,44 +766,53 @@ to {
 			var row = table.row(baseTr);
 			var row_data = row.data();
 			var payment = null;
+			var realvalue = null;
 			
 			switch(control) {
 			  case "workingdays":
 				classname = "SL";
+				realvalue = value;
 				row_data.workingDays = value;
 				row_data.term = value + "/" + row_data.term.split("/")[1]
 				payment = row_data.income[findPayment(row_data.income,classname)];
 				break;
 			  case "absent-control":
 			    classname = "ABSENT";
-			    row_data.absent = value;
+			    realvalue = formatDate(value);
+			    $(this).val(realvalue)
+			    row_data.absent = realvalue;
 			    payment = row_data.expense[findPayment(row_data.expense,classname)];
 			    break;
 			  case "absence-control":
 				classname = "ABSENCE";
-				row_data.absence = value;
+				realvalue = formatDate(value);
+				$(this).val(realvalue)
+				row_data.absence = realvalue;
 				payment = row_data.expense[findPayment(row_data.expense,classname)];
 			    break;
 			  case "ot1-control":
 				classname = "OT1";
-				this.val(value);
-				row_data.ot1 = value;
+				realvalue = formatTime(value);
+				$(this).val(realvalue)
+				row_data.ot1 = realvalue;
 				payment = row_data.income[findPayment(row_data.income,classname)];
 				break;
 			  case "ot2-control":
 				classname = "OT2";
-				this.val(value);
-				row_data.ot2 = value;
+				realvalue = formatTime(value);
+				$(this).val(realvalue)
+				row_data.ot2 = realvalue;
 				payment = row_data.income[findPayment(row_data.income,classname)];
 				break;
 			  case "ot3-control":
 				classname = "OT3";
-				this.val(value);
-				row_data.ot3 = value;
+				realvalue = formatTime(value);
+				$(this).val(realvalue)
+				row_data.ot3 = realvalue;
 				payment = row_data.income[findPayment(row_data.income,classname)];
 				break;
 			}
-		
+			
 			var result = $(tr).find("."+classname);
 			
 			$.ajax({
@@ -813,14 +822,15 @@ to {
 				data: {
 					"function" : classname,
 					"id" : row_data.id,
-					"value" : value,
+					"value" : realvalue,
 					},
 				success:function(data){
 					data = jQuery.parseJSON(data);
 					payment.amount = data.amount;
-					row.data(row_data).invalidate();
+					row.invalidate();
 					result.val(formatValue(data.amount));
 					changePayment(baseTr);
+					changePaymentSummary();
 				}
 			});
 		})
@@ -834,33 +844,28 @@ to {
 			var row = table.row(baseTr);
 			var row_data = row.data();
 			var payment = row_data.income[findPayment(row_data.income,classname)];
-			var result = $(tr).find("."+classname);
 			
-			payment.amount = value;
-			row.data(row_data).invalidate();
-			
+			payment.amount = parseFloat(value);
+			row.invalidate();
+			changePaymentSummary();
 			changePayment(baseTr);
 			
 		})
 		
 		$('#list_example tbody').on('change','.payment-table-expense input',function() {
 			var value = $(this).val();
-			$(this).val(formatValue($(this).val()))
+			$(this).val(formatValue(value))
 			var classname = $(this).attr("class").split(" ")[0];
 			var tr = $(this).closest('.row-data').parent();
 			var baseTr = tr.prev();
 			var row = table.row(baseTr);
 			var row_data = row.data();
 			var payment = row_data.expense[findPayment(row_data.expense,classname)];
-			var result = $(tr).find("."+classname);
+					
 			
-			
-			
-			
-			payment.amount = value;
-			row.data(row_data).invalidate();
-			result.val(value);
-			
+			payment.amount = parseFloat(value);
+			row.invalidate();
+			changePaymentSummary();
 			changePayment(baseTr);
 			
 		})
@@ -870,6 +875,7 @@ to {
 			var tr = $(this).closest('.row-data').parent();
 			var baseTr = tr.prev();
 			var row = table.row(baseTr);
+			var row_data = row.data();
 			$.ajax({
 				method : "POST",
 				url: "userPayment",
@@ -881,9 +887,23 @@ to {
 				},
 				success : function(data){
 					data = JSON.parse(data);
-					if (data.status === "1") {
-						location.reload();
+					switch(data.status) {
+					  case "0":
+					    row_data.status = "inprogress";
+						break;
+					  case "1":
+						row_data.status = "waiting to pay";
+						break;
+					  case "2":
+						row_data.status = "confirm";
+						break;
 					}
+					row.invalidate();
+					row.child.hide();
+					changeGlobalPayment(data.gPayment[0] , data.gStatus[0])
+					baseTr.removeClass('shown');
+					$("#list_example").trigger("draw.dt");
+					
 				}
 			})
 			
@@ -891,6 +911,11 @@ to {
 		})
 		
 		$('#list_example tbody').on('click','.cancel-payment',function() {
+			var classname = $(this).attr("class").split(" ")[0];
+			var tr = $(this).closest('.row-data').parent();
+			var baseTr = tr.prev();
+			var row = table.row(baseTr);
+			var row_data = row.data();
 			Swal.fire({
 				  title: 'ต้องการที่จะบันทึกหรือไม่',
 				  showDenyButton: true,
@@ -899,27 +924,34 @@ to {
 				}).then((result) => {
 				  /* Read more about isConfirmed, isDenied below */
 				  if (result.isConfirmed) {
-						var classname = $(this).attr("class").split(" ")[0];
-						var tr = $(this).closest('.row-data').parent();
-						var baseTr = tr.prev();
-						var row = table.row(baseTr);
-						$.ajax({
+					  $.ajax({
 							method : "POST",
 							url: "userPayment",
 							type: "JSON",
 							traditional: true,
 							data : {
-								"function" : "save-payment",
+								"function" : classname,
 								"data" : JSON.stringify(row.data()), 
 							},
 							success : function(data){
 								data = JSON.parse(data);
-								if (data.status === "1") {
-									location.reload();
+								switch(data.status) {
+								  case "0":
+								    row_data.status = "inprogress";
+									break;
+								  case "1":
+									row_data.status = "waiting to pay";
+									break;
+								  case "2":
+									row_data.status = "confirm";
+									break;
 								}
-								else{
-									Swal.fire('มีข้อผิดพลาดบางอย่างเกิดขึ้น', '', 'info')
-								}
+								row.invalidate();
+								row.child.hide();
+								changeGlobalPayment(data.gPayment[0] , data.gStatus[0])
+								baseTr.removeClass('shown');
+								$("#list_example").trigger("draw.dt");
+								
 							}
 						})
 				  } else if (result.isDenied) {
@@ -967,6 +999,9 @@ to {
 								if (data.status === "1") {
 									window.location.href = "payroll_list"
 								}
+								else if (data.status == "0") {
+									Swal.fire('ไม่สามารถยกเลิกได้', '', 'error')
+								}
 							}
 						})
 				  } else if (result.isDenied) {
@@ -974,66 +1009,90 @@ to {
 				  }
 				})
 		})
-		/*function formatTime(text){
-				if(text.includes('.')){
-					var str1 = text.split('.')[0];
-					var str2 = text.split('.')[1];
-					if(str1.length <= 3){
-						if(str2.length >= 2){	
-							if (str2 > 59) {
-								return str1 + ":00"
-							}
-							return str1 + ":" + str2
-						} else if(str2.length < 2){
-							if (str2 > 5) {
-								return str1+":00"
-							}
-							return  str1 + ":" + str2 + "0"		
+		
+		function changeGlobalPayment(payment , status) {
+			$("#totalincome").text(formatValue(payment.salary + payment.income_net));
+			$("#totalpay").text(formatValue(payment.total_pay));
+			$("#expendnet").text(formatValue(payment.expend_net));
+			
+			$("#payment-status div h3").eq(0).text(status.inprogress);
+			$("#payment-status div h3").eq(1).text(status.waiting);
+			$("#payment-status div h3").eq(2).text(status.confirm);
+			
+			if (status.inprogress > 0) {
+				$("#savePayrollGroup").attr('disabled',true);
+				$("#savePayrollGroup").css({"color":"#9A9999" , "border-color":"#9A9999"});
+			}
+			else {
+				$("#savePayrollGroup").attr('disabled',false);
+				$("#savePayrollGroup").css({"color":"#22AF46" , "border-color":"#22AF46"});
+				
+			}		
+		    
+			
+		}
+		
+		function changePaymentSummary() {
+			let tableData = table.ajax.json().data;
+			
+			let income = []
+		    let expense = []
+		    let totalincome = 0;
+		    let totalexpense = 0;
+		    for (let i = 0; i < tableData.length; i++) {
+				for (let j = 0 ; j < tableData[i].income.length ; j++) {
+					let hasData = false;
+					for (let k = 0; k < income.length; k++){
+						if (income[k].payment_type_id === tableData[i].income[j].payment_type_id) {
+							income[k].amount = tableData[i].income[j].amount + income[k].amount;
+							hasData = true;
+							break;
 						}
-					} else {
-						return "00:00";
+			    	}
+					if (!hasData) {
+						income.push(JSON.parse(JSON.stringify(tableData[i].income[j])))
 					}
-				} else {
-					if(!text.includes(':')){
-						$(this).val(text + ":00");
-						var str3 = text.split(':')[0];
-						var str4 = text.split(':')[1];
-						if(str3.length <= 3){
-							if(str4.length >= 2){
-								if (str4 > 59) {
-									return str3 + ":00"
-								}
-								return str3+":"+str4		
-							} else if(str4.length < 2){
-								if (str4 > 5) {
-									return str3+":00"
-								}
-								return str3 + ":" + str4 + "0"		
-							}
-						} else {
-							return "00:00";
-						}
-					} else {
-						var str3 = text.split(':')[0];
-						var str4 = text.split(':')[1];
-						if(str3.length <= 3){
-							if(str4.length >= 2){
-								if (str4 > 59) {
-									return str3 + ":00"
-								}
-								return str3 + ":" + str4
-							} else if(str4.length < 2){
-								if (str4 > 5) {
-									return str3 + ":00"
-								}
-								return str3 + ":" + str4 + "0"
-							}
-						} else {
-							return "00:00";
-						}
-					}
+					totalincome  = totalincome + tableData[i].income[j].amount;
 				}
-		}*/
+				for (let j = 0 ; j < tableData[i].expense.length ; j++) {
+					let hasData = false;
+					for (let k = 0; k < expense.length; k++){
+						if (expense[k].payment_type_id === tableData[i].expense[j].payment_type_id) {
+							expense[k].amount = tableData[i].expense[j].amount + expense[k].amount;
+							hasData = true;
+							break;
+						}
+			    	}
+					if (!hasData) {
+						expense.push(JSON.parse(JSON.stringify(tableData[i].expense[j])))
+					}
+					totalexpense  = totalexpense + tableData[i].expense[j].amount;
+				}
+		    	
+		    }
+		    
+		    let incomeElement = "";
+		    let expenseElement = "";
+		    for (let i = 0 ; i < income.length ; i++) {
+		    	incomeElement = incomeElement.concat(`<tr>
+						<td style="text-align: left; padding-top: 10px;">`+income[i].payment_type_id+`</td>
+						<td style="text-align: left; padding-top: 10px;">`+income[i].payment_type_name+`</td>
+						<td style="text-align: right; padding-top: 10px;">`+formatValue(income[i].amount)+`</td>
+					</tr>`)
+		    }
+		    for (let i = 0 ; i < expense.length ; i++) {
+		    	expenseElement = expenseElement.concat(`<tr>
+						<td style="text-align: left; padding-top: 10px;">`+expense[i].payment_type_id+`</td>
+						<td style="text-align: left; padding-top: 10px;">`+expense[i].payment_type_name+`</td>
+						<td style="text-align: right; padding-top: 10px;">`+formatValue(expense[i].amount)+`</td>
+					</tr>`)
+		    }
+		    $('.payment-group-income thead tr').children().eq(2).text(formatValue(totalincome))
+		    $('.payment-group-income tbody').html(incomeElement)
+		    
+		    $('.payment-group-expense thead tr').children().eq(2).text(formatValue(totalexpense))
+		    $('.payment-group-expense tbody').html(expenseElement)
+		}
 		
 		
 		function changePayment(element) {
@@ -1062,6 +1121,50 @@ to {
 			$("#list_example").trigger("draw.dt");
 		
 	}
+		
+		function isNumeric(n) {
+            return !isNaN(parseFloat(n)) && isFinite(n);
+        }
+
+        function formatTime(string_input) {
+
+            if ((string_input.includes('.')) || (string_input.includes(':')) || isNumeric(string_input)) {
+                string_input = string_input.replace('.', ':');
+            } else {
+                return "00:00";
+            }
+
+            var str1 = string_input.split(':')[0];
+            var str2 = string_input.split(':')[1] == null ? "00": string_input.split(':')[1];
+
+
+            str1 = str1.length <= 3 ? str1 : "00";
+            str2 = str2.length > 2 ? "00" : ((str2 + "0".repeat(2 - str2.length)) > 59 ? "00" : (str2 + "0".repeat(2 - str2.length)));
+
+            if (!isNumeric(str1) || !isNumeric(str2)) {
+                return "00:00";
+            }
+            return str1 + ":" + str2;
+        }
+
+        function formatDate(string_input) {
+            if ((string_input.includes('.')) || (string_input.includes(':')) || isNumeric(string_input)) {
+                string_input = string_input.replace(':', '.');
+            } else {
+                return "00.00";
+            }
+
+            var str1 = string_input.split('.')[0];
+            var str2 = string_input.split('.')[1] == null ? "00": string_input.split('.')[1];
+
+            str1 = str1.length <= 3 ? str1 : "00";
+            str2 = str2.length > 2 ? "00" : ((str2 + "0".repeat(2 - str2.length)) > 99 ? "00" : (str2 + "0".repeat(2 - str2.length)));
+
+            if (!isNumeric(str1) || !isNumeric(str2)) {
+                return "00.00";
+            }
+            return str1 + "." + str2;
+        }
 		
 		
 		
@@ -1134,13 +1237,39 @@ to {
 			</tr>`);
 		})
 		
-		let saveButton = "";
-		if (d.status === "inprogress") {
-			saveButton = `<button type="button" style = "border: 1px solid #C2CAD8;" class="save-payment btn btn-light  float-lg-right m-2">บันทึก</button>`;
+		
+		let allButton = "";
+		
+		if (d.groupStatus === "2" || d.groupStatus === "3" || d.groupStatus === "4") {
+			if (d.status == "inprogress") {
+				allButton = `<button class="confirm-payment btn btn-success float-lg-right m-2 " disabled>ยืนยันรายการ</button>
+					<button type="button" style = "color : white;" class="waiting-payment btn btn-warning  float-lg-right m-2" disabled>รอชำระเงิน</button>
+					<button type="button" style = "border: 1px solid #C2CAD8;" class="save-payment btn btn-light  float-lg-right m-2" disabled>บันทึก</button>
+					<button type="button" style = "border: 1px solid #C2CAD8;" class="cancel-payment btn btn-light  float-lg-right m-2" disabled>ยกเลิก</button>`
+			}
+			else {
+				allButton = `<button class="confirm-payment btn btn-success float-lg-right m-2 " disabled>ยืนยันรายการ</button>
+					<button type="button" style = "color : white;" class="waiting-payment btn btn-warning  float-lg-right m-2" disabled>รอชำระเงิน</button>
+					<button type="button" style = "border: 1px solid #C2CAD8;" class="save-payment btn btn-light  float-lg-right m-2" disabled>แก้ไข</button>
+					<button type="button" style = "border: 1px solid #C2CAD8;" class="cancel-payment btn btn-light  float-lg-right m-2" disabled>ยกเลิก</button>`
+			}
+		
 		}
 		else {
-			saveButton = `<button type="button" style = "border: 1px solid #C2CAD8;" class="save-payment btn btn-light  float-lg-right m-2">แก้ไข</button>`
+			if (d.status == "inprogress") {
+				allButton = `<button class="confirm-payment btn btn-success float-lg-right m-2 ">ยืนยันรายการ</button>
+					<button type="button" style = "color : white;" class="waiting-payment btn btn-warning  float-lg-right m-2">รอชำระเงิน</button>
+					<button type="button" style = "border: 1px solid #C2CAD8;" class="save-payment btn btn-light  float-lg-right m-2">บันทึก</button>
+					<button type="button" style = "border: 1px solid #C2CAD8;" class="cancel-payment btn btn-light  float-lg-right m-2">ยกเลิก</button>`
+			}
+			else {
+				allButton = `<button class="confirm-payment btn btn-success float-lg-right m-2 ">ยืนยันรายการ</button>
+					<button type="button" style = "color : white;" class="waiting-payment btn btn-warning  float-lg-right m-2">รอชำระเงิน</button>
+					<button type="button" style = "border: 1px solid #C2CAD8;" class="save-payment btn btn-light  float-lg-right m-2">แก้ไข</button>
+					<button type="button" style = "border: 1px solid #C2CAD8;" class="cancel-payment btn btn-light  float-lg-right m-2">ยกเลิก</button>`
+			}
 		}
+
 		
 		
 		
@@ -1213,13 +1342,10 @@ to {
 		<div class = "col-12">
 			<p>หมายเหตุ :</p>
 				<input class="remark-detail form-control" value ="`+d.remark+`">
-			<p style = "color: #E7505A;">หมายเหตุ จากงวดที่แล้ว : -</p>
+			<p style = "color: #E7505A;">หมายเหตุ จากงวดที่แล้ว : `+d.historyRemark+`</p>
 		</div>
 		<div class="clearfix my-3">
-			<button class="confirm-payment btn btn-success  float-lg-right m-2">ยืนยันรายการ</button>
-			<button type="button" style = "color : white;" class="waiting-payment btn btn-warning  float-lg-right m-2">รอชำระเงิน</button>`
-			+saveButton+
-			`<button type="button" style = "border: 1px solid #C2CAD8;" class="cancel-payment btn btn-light  float-lg-right m-2">ยกเลิก</button>
+			`+allButton+`
 		</div>
 	</div>
 		`

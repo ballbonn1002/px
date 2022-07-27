@@ -159,7 +159,7 @@ Highcharts.chart('container', {
           series: {
               borderWidth: 0,
               dataLabels: {
-                  enabled: true
+                  enabled: false
               }
           }
       },
