@@ -1169,49 +1169,57 @@ public class PayrollReportAction extends ActionSupport {
 		try {
 			String year = request.getParameter("year");
 			JSONArray arr_superlist = new JSONArray();
-			JSONArray arr_superlist1 = new JSONArray();
 			JSONArray arr_list = new JSONArray();
 			JSONArray arr_list1 = new JSONArray();
-			JSONArray arr_list2 = new JSONArray();
 			JSONObject obj_data = new JSONObject();
 			JSONObject obj_data1 = new JSONObject();
-			JSONObject obj_data2 = new JSONObject();
 			
 			List<BigDecimal> income = payment_groupDAO.paymentchartIn(year);
 			List<BigDecimal> expend = payment_groupDAO.paymentchartEx(year);
 			JSONArray indrilldowns = payment_groupDAO.inDrilldowns(year);
 			JSONArray exdrilldowns = payment_groupDAO.exDrilldowns(year);
-			log.debug(indrilldowns);
-			log.debug(exdrilldowns);
+			//log.debug(indrilldowns);
+			//log.debug(exdrilldowns);
+			
 			
 			String[] month = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
 			String[] month1 = {"Jan1","Feb2","Mar3","Apr4","May5","Jun6","Jul7","Aug8","Sep9","Oct10","Nov11","Dec12"};
 			
 			
 			for(int i=0; i<income.size(); i++) {
-				
 				JSONObject obj_cell = new JSONObject();
-				obj_cell.put("name", month[i]);
-				obj_cell.put("y", income.get(i));
+				obj_cell.put("name", month[i]);	
 				obj_cell.put("color", "#28A745");
+			if(income.get(i) == null) {
+				obj_cell.put("drilldown", "");
+				obj_cell.put("y", "");
+			}else {
 				obj_cell.put("drilldown", month[i]);
+				obj_cell.put("y", income.get(i));
+			}
 				obj_cell.put("data",indrilldowns.get(i));
 				arr_list.put(obj_cell);
 			}
-			obj_data.put("agentinfo",arr_list);
+			obj_data.put("Data",arr_list);
 			obj_data.put("name", "รายการได้");
 			arr_superlist.put(obj_data);
 
 			for(int i=0; i < expend.size(); i++) {
 				JSONObject obj_cell1 = new JSONObject();
 				obj_cell1.put("name", month[i]);
-				obj_cell1.put("y", expend.get(i));
+				
+			if(expend.get(i) == null) {
+				obj_cell1.put("drilldown", "");
+				obj_cell1.put("y", "");
+			}else {
 				obj_cell1.put("drilldown", month1[i]);
+				obj_cell1.put("y", expend.get(i));
+				}
 				obj_cell1.put("color", "#E7505A");
 				obj_cell1.put("data",exdrilldowns.get(i));
 				arr_list1.put(obj_cell1);
 			}
-			obj_data1.put("agentinfo",arr_list1);
+			obj_data1.put("Data",arr_list1);
 			obj_data1.put("name", "รายการหัก");
 			arr_superlist.put(obj_data1);
 

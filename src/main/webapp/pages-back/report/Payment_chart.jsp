@@ -129,22 +129,14 @@ function yearPick(){
 			 for(var j = 0;j < paymentJson.length;j++){
 				 var chartSeriesData = [];
 				
-			 
-			 for (var i = 0;i <paymentJson[j].agentinfo.length; i++){
-				 
-			     var series_name = paymentJson[j].agentinfo[i].name;
-			     
-			     var drill_id = paymentJson[j].agentinfo[i].drilldown;
-			    
-			      var series_data = paymentJson[j].agentinfo[i].y;
-			     
-			      series_data = typeof series_data == 'undefined'? 0:series_data;
-			    
-			      var drill_data = paymentJson[j].agentinfo[i].data;
-			      
-			      var color_data = paymentJson[j].agentinfo[i].color;
-			     
-			      
+			 for (var i = 0;i <paymentJson[j].Data.length; i++){
+			     var series_name = paymentJson[j].Data[i].name;
+			     var drill_id = paymentJson[j].Data[i].drilldown;
+			     var series_data = paymentJson[j].Data[i].y;
+			     series_data = typeof series_data == 'undefined'? 0:series_data;
+			     var drill_data = paymentJson[j].Data[i].data;
+			     var color_data = paymentJson[j].Data[i].color;
+
 			      chartSeriesData.push({
 		                 name: series_name,
 		                 y: parseFloat(series_data),
@@ -156,11 +148,9 @@ function yearPick(){
 			             data : drill_data,
 			             id: drill_id,
 			             name: series_name,
-
 			         });
 			     }
 			 	arr_series.push({"name":name[j],"data":chartSeriesData})
-			 	
 			 }
 			 setChart(arr_series,chartDrilldownData);
 		}
@@ -215,9 +205,7 @@ Highcharts.chart("paymentChart", {
       	  style: {
                 color: '#333333',
                 fontFamily: ' Ubuntu,sans-serif',
-                fontSize: '16px',
-                
-                
+                fontSize: '16px',  
             }
         }
 	  },
@@ -241,17 +229,11 @@ Highcharts.chart("paymentChart", {
               }
           }
       },
-      
     series: chartSeriesData,
     
    drilldown:{
        series: chartDrilldownData
     }
-   
-    
 });
 }
-    
-    
- 
 </script>
