@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.cubesofttech.dao.PermissionDAO;
 import com.cubesofttech.model.Page;
 import com.cubesofttech.model.Permission;
+import com.cubesofttech.model.Sysuser;
 import com.cubesofttech.model.User;
 import com.cubesofttech.util.DateUtil;
 import com.google.gson.Gson;
@@ -47,8 +48,8 @@ public class PermissionAction extends ActionSupport{
 	
 	public String changePerActive() {
 		try { 
-			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login 
-			String logonUser = ur.getId(); // Username login
+			Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser"); // Username login log.debug(ur);
+			String logonUser = ur.getUser_id(); // Username login
 			
 			Permission permission= new Permission();
 			String Id_permission = request.getParameter("permission_Id");
@@ -81,8 +82,8 @@ public class PermissionAction extends ActionSupport{
 	}
 	public String changeView() {
 		try { 
-			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login 
-			String logonUser = ur.getId(); // Username login
+			Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser"); // Username login log.debug(ur);
+			String logonUser = ur.getUser_id(); // Username login
 			
 			Permission permission= new Permission();
 			String Id_permission = request.getParameter("permission_Id");
@@ -116,8 +117,8 @@ public class PermissionAction extends ActionSupport{
 	}
 	public String changeCreateUpdate() {
 		try { 
-			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login 
-			String logonUser = ur.getId(); // Username login
+			Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser"); // Username login log.debug(ur);
+			String logonUser = ur.getUser_id(); // Username login
 			
 			Permission permission= new Permission();
 			String Id_permission = request.getParameter("permission_Id");
@@ -151,8 +152,8 @@ public class PermissionAction extends ActionSupport{
 	}
 	public String changeDelete() {
 		try { 
-			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login 
-			String logonUser = ur.getId(); // Username login
+			Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser"); // Username login log.debug(ur);
+			String logonUser = ur.getUser_id(); // Username login
 			
 			Permission permission= new Permission();
 			String Id_permission = request.getParameter("permission_Id");
@@ -186,8 +187,8 @@ public class PermissionAction extends ActionSupport{
 	}
 	public String changeApprove() {
 		try { 
-			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login 
-			String logonUser = ur.getId(); // Username login
+			Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser"); // Username login log.debug(ur);
+			String logonUser = ur.getUser_id(); // Username login
 			
 			Permission permission= new Permission();
 			String Id_permission = request.getParameter("permission_Id");
@@ -221,8 +222,8 @@ public class PermissionAction extends ActionSupport{
 	}
 	public String changeStatus() {
 		try {
-			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login 
-			String logonUser = ur.getId(); // Username login
+			Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser"); // Username login log.debug(ur);
+			String logonUser = ur.getUser_id(); // Username login
 			
 			Permission permission =new Permission();
 			String id_page_group = request.getParameter("page_group_id");

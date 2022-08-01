@@ -20,6 +20,7 @@ import com.cubesofttech.dao.Sys_roleDAO;
 import com.cubesofttech.model.Page;
 import com.cubesofttech.model.PageGroup;
 import com.cubesofttech.model.Sys_role;
+import com.cubesofttech.model.Sysuser;
 import com.cubesofttech.model.User;
 import com.cubesofttech.util.DateUtil;
 import com.google.gson.Gson;
@@ -59,8 +60,9 @@ public class Sys_roleAction extends ActionSupport{
 	public String saveSys_role() {
 		try {
 			
-			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login 
-			String logonUser = ur.getId(); // Username login
+			Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser"); // Username login 
+			log.debug(ur);
+			String logonUser = ur.getUser_id(); // Username login
 			
 			
 			Sys_role sys_roleList = new Sys_role();
@@ -206,8 +208,9 @@ public class Sys_roleAction extends ActionSupport{
 	public String updateSys_role() {
 		try {
 
-			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login 
-			String logonUser = ur.getId(); // Username login
+			Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser"); // Username login 
+			log.debug(ur);
+			String logonUser = ur.getUser_id(); // Username login
 			
 			String newName = request.getParameter("Name");
 			log.debug(newName);

@@ -84,7 +84,7 @@ tr{
                                 <div class="col-md-4"  >
                                 
                                		 
-                                <a href="" class="btn btn-secondary" type="reset" style="width:96px;margin: 0px 4px; ">&nbsp;ยกเลิก</a>
+                                <a href="role_management" class="btn btn-secondary" type="reset" style="width:96px;margin: 0px 4px; ">&nbsp;ยกเลิก</a>
                                 <button type="submit" class="btn btn-success" style="width:96px;margin: 0px 4px;" id="btn1">บันทึก</button>
                                 </div>
                             </div>
