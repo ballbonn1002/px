@@ -17,6 +17,7 @@ import com.cubesofttech.dao.DepartmentDAO;
 import com.cubesofttech.dao.PositionDAO;
 import com.cubesofttech.model.Department;
 import com.cubesofttech.model.Position;
+import com.cubesofttech.model.Sysuser;
 import com.cubesofttech.model.User;
 import com.cubesofttech.util.DateUtil;
 import com.google.gson.Gson;
@@ -89,8 +90,9 @@ public class PositionAction extends ActionSupport {
 	
 	public String savePosition() {
 		try{
-			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login 
-			String logonUser = ur.getId(); // Username login 
+			Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser"); // Username login 
+			log.debug(ur);
+			String logonUser = ur.getUser_id(); // Username login 
 
 			Position position = new Position();
 			String positionId = request.getParameter("positionId");
@@ -132,6 +134,7 @@ public class PositionAction extends ActionSupport {
 			//request.setAttribute(Position, positionList);
 			//return SUCCESS;
 			
+			log.debug(positionCheck);
 			Gson gson = new Gson(); 
             String json = gson.toJson(positionCheck); 
             request.setAttribute("json", json);	

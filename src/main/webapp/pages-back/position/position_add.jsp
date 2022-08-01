@@ -142,6 +142,7 @@ function datechenge() {
 
 function sendData(){
 	var form_data = $("#form_send").serializeArray();
+	console.log(form_data);
 	$.ajax({
 		url : "savePosition",
 		method : "POST",
