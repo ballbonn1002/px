@@ -39,6 +39,7 @@ import com.cubesofttech.model.Payment;
 import com.cubesofttech.model.Payment_detail;
 import com.cubesofttech.model.Payment_group;
 import com.cubesofttech.model.Payment_type;
+import com.cubesofttech.model.Sysuser;
 import com.cubesofttech.model.User;
 import com.cubesofttech.model.UserPaymentConfig;
 import com.cubesofttech.service.CalcService;
@@ -104,8 +105,8 @@ public class PayrollAction extends ActionSupport {
 
 	public String formPayroll() {
 		try {
-			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login
-			String logonUser = ur.getId(); // Username login
+			Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser");
+			String logonUser = ur.getUser_id(); // Username login
 			String paymentGroupId = request.getParameter("paymentGroupId");
 			Payment_group paymentGroup = payment_groupDAO.findById(Integer.parseInt(paymentGroupId));
 			request.setAttribute("paymentGroup", paymentGroup);
@@ -129,8 +130,8 @@ public class PayrollAction extends ActionSupport {
 
 	public String cancelPayrollGroup() {
 		try {
-			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login
-			String logonUser = ur.getId(); // Username login
+			Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser");
+			String logonUser = ur.getUser_id(); // Username login
 			String paymentGroupId = request.getParameter("paymentGroupId");
 			Map<String, String> obj = new HashMap<>();
 			Payment_group payment_group = payment_groupDAO.findById(Integer.parseInt(paymentGroupId));
@@ -167,8 +168,8 @@ public class PayrollAction extends ActionSupport {
 
 	public String getTable() {
 		try {
-			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login
-			String logonUser = ur.getId(); // Username login
+			Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser");
+			String logonUser = ur.getUser_id(); // Username login
 			String paymentGroupId = request.getParameter("paymentGroupId");
 
 			List<Map<String, Object>> baseData = paymentDAO.getPaymentTable(Integer.parseInt(paymentGroupId));
@@ -392,8 +393,8 @@ public class PayrollAction extends ActionSupport {
 	public String editPayroll() {
 		Map<String, String> obj = new HashMap<>();
 		try {
-			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login
-			String logonUser = ur.getId(); // Username login
+			Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser");
+			String logonUser = ur.getUser_id(); // Username login
 
 			// update Payment Group
 			String paymentGroupId = request.getParameter("paymentGroupId");
@@ -589,8 +590,8 @@ public class PayrollAction extends ActionSupport {
 
 	public String addPayroll() {
 		try {
-			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login
-			String logonUser = ur.getId(); // Username login
+			Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser");
+			String logonUser = ur.getUser_id(); // Username login
 
 			java.sql.Date currentDate = new java.sql.Date(Calendar.getInstance().getTime().getTime()); // current Date
 			// log.debug(currentDate);
@@ -806,8 +807,8 @@ public class PayrollAction extends ActionSupport {
 
 	public String userPayment() {
 		try {
-			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login
-			String logonUser = ur.getId(); // Username logi
+			Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser");
+			String logonUser = ur.getUser_id(); // Username logi
 			String data = request.getParameter("data");
 			String function = request.getParameter("function");
 			JSONParser parser = new JSONParser();
@@ -934,8 +935,8 @@ public class PayrollAction extends ActionSupport {
 
 	public String savePayroll() {
 		try {
-			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login
-			String logonUser = ur.getId(); // Username login
+			Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser");
+			String logonUser = ur.getUser_id(); // Username login
 			String paymentGroupId = request.getParameter("paymentGroupId");
 			String payroll_name = request.getParameter("payroll_name");
 			String payroll_start_date = request.getParameter("payroll_start_date");
@@ -975,8 +976,8 @@ public class PayrollAction extends ActionSupport {
 
 	public String savePayrollGroup() {
 		try {
-			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login
-			String logonUser = ur.getId(); // Username login
+			Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser");
+			String logonUser = ur.getUser_id(); // Username login
 			String paymentGroupId = request.getParameter("paymentGroupId");
 			String function = request.getParameter("function");
 			Payment_group payment_group = payment_groupDAO.findById(Integer.parseInt(paymentGroupId));

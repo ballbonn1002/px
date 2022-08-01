@@ -90,7 +90,7 @@ public class UserAction extends ActionSupport {
 	@Autowired
 	private SysuserDAO sysuserDAO;
 
-	private User onlineUser = (User) request.getSession().getAttribute("onlineUser");
+	private Sysuser onlineUser = (Sysuser) request.getSession().getAttribute("onlineUser");
 
 	private String confirmpassword;
 
@@ -489,8 +489,8 @@ public class UserAction extends ActionSupport {
 
 	public String performEdit() {
 		try {
-			User ur = (User) request.getSession().getAttribute("onlineUser");
-			String logonUser = ur.getId();
+			Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser");
+			String logonUser = ur.getUser_id();
 			log.info(logonUser);
 
 			FileUpload fileupload = new FileUpload();
@@ -856,8 +856,8 @@ public class UserAction extends ActionSupport {
 
 	public String Edit_myprofile() {
 		try {
-			User ur = (User) request.getSession().getAttribute("onlineUser");
-			String logonUser = ur.getId();
+			Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser");
+			String logonUser = ur.getUser_id();
 			log.info(logonUser);
 
 			User u = userDAO.findById(user_id);
@@ -948,11 +948,11 @@ public class UserAction extends ActionSupport {
 	public String open_myprofile() {
 		try {
 
-			User ur = (User) request.getSession().getAttribute("onlineUser");
-			String logonUser = ur.getId();
+			Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser");
+			String logonUser = ur.getUser_id();
 			request.setAttribute("logonUser", logonUser);
 
-			userId = ur.getId();
+			userId = ur.getUser_id();
 			user = userDAO.findById(userId);
 
 			List<Department> departmentList = departmentDAO.findAll();
@@ -967,7 +967,7 @@ public class UserAction extends ActionSupport {
 				yearNow = yearNow - 543;
 			}
 
-			List<Borrow> borrows = borrowDAO.findBorrowByUser(onlineUser.getId());
+			List<Borrow> borrows = borrowDAO.findBorrowByUser(onlineUser.getUser_id());
 
 			log.info("borrows=" + borrows);
 
@@ -1124,12 +1124,11 @@ public class UserAction extends ActionSupport {
 
 	public String myleave() {
 		try {
-			User ur = new User();
 			String userLogin = null;
 			String type = request.getParameter("type");
 			if (type == null) {
-				ur = (User) request.getSession().getAttribute("onlineUser");
-				userLogin = ur.getId();
+				Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser");
+				String logonUser = ur.getUser_id();
 			} else {
 				userLogin = request.getParameter("name1");
 			}
@@ -1394,8 +1393,8 @@ public String CheckIDuser() {
        } 
 public String save_sysuser() {
     try {
-    		User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login 
-    		String loginUser = ur.getId(); // Username login
+    		Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser"); // Username login 
+    		String loginUser = ur.getUser_id(); // Username login
     		
                 Sysuser sysuser = new Sysuser();
                 String userid = request.getParameter("IDuser");
