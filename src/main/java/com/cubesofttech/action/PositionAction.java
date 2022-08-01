@@ -170,8 +170,9 @@ public class PositionAction extends ActionSupport {
 	
 	public String PositionUpdate(){
 		try{
-			User ur = (User) request.getSession().getAttribute("onlineUser"); // Username login 
-			String logonUser = ur.getId(); // Username login 
+			Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser"); // Username login 
+			log.debug(ur);
+			String logonUser = ur.getUser_id(); // Username login 
 			
 			Position position = new Position();
 			String positionId = request.getParameter("positionId");
