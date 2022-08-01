@@ -128,6 +128,15 @@ public class HolidayDAOImpl implements HolidayDAO {
 		session.save(holiday);
 		session.flush();
 	}
+	
+	@Override
+	public void saveOrUpdate(Holiday holiday) throws Exception {
+		// TODO Auto-generated method stub
+		Session session = this.sessionFactory.getCurrentSession();
+	
+		session.saveOrUpdate(holiday);
+		session.flush();
+	}
 
 	@Override
 	public void update(Holiday holiday) throws Exception {

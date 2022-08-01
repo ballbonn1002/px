@@ -11,6 +11,7 @@ public interface HolidayDAO {
 	public List<Holiday> findMonth() throws Exception;
 	public List<Holiday> findAllHoliday() throws Exception;
 	public void save(Holiday holiday) throws Exception;
+	public void saveOrUpdate(Holiday holiday) throws Exception;
 	public void update(Holiday holiday) throws Exception;
 	public void delete(Holiday holiday) throws Exception;
 	public List<Holiday> searchBycolumn(String column,String keyword) throws Exception;

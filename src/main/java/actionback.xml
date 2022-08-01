@@ -902,7 +902,7 @@
 
 		<!-- Migration Data -->				
 		<action name="migrate"
-			class="com.cubesofttech.action.UserAction" method="">
+			class="com.cubesofttech.action.MigrateAction" method="">
 			<result name="success" type="tiles">migrate</result>
 			<result name="error">/index.jsp</result>
 		</action>

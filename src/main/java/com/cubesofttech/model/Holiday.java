@@ -36,6 +36,14 @@ public class Holiday implements Serializable {
 	public String head;
 	@Column(name = "description", length = 2000)
 	public String description;
+    @Column(name = "user_create")
+    private String userCreate;	
+    @Column(name = "user_update")
+    private String userUpdate;	
+    @Column(name = "time_create")
+    private java.sql.Timestamp timeCreate;	
+    @Column(name = "time_update")
+    private java.sql.Timestamp timeUpdate;	
 	
 	
  public Long getId_date() {
@@ -80,6 +88,30 @@ public class Holiday implements Serializable {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public String getUserCreate() {
+		return userCreate;
+	}
+	public void setUserCreate(String userCreate) {
+		this.userCreate = userCreate;
+	}
+	public String getUserUpdate() {
+		return userUpdate;
+	}
+	public void setUserUpdate(String userUpdate) {
+		this.userUpdate = userUpdate;
+	}
+	public java.sql.Timestamp getTimeCreate() {
+		return timeCreate;
+	}
+	public void setTimeCreate(java.sql.Timestamp timeCreate) {
+		this.timeCreate = timeCreate;
+	}
+	public java.sql.Timestamp getTimeUpdate() {
+		return timeUpdate;
+	}
+	public void setTimeUpdate(java.sql.Timestamp timeUpdate) {
+		this.timeUpdate = timeUpdate;
 	}
 
 

@@ -15,6 +15,7 @@ import com.cubesofttech.dao.FunctionDAO;
 import com.cubesofttech.dao.MigrateDAO;
 import com.cubesofttech.dao.UserDAO;
 import com.cubesofttech.model.Migrate;
+import com.cubesofttech.model.Sysuser;
 import com.cubesofttech.model.User;
 import com.google.gson.Gson;
 import com.opensymphony.xwork2.ActionSupport;
@@ -32,8 +33,8 @@ public class MigrateAction extends ActionSupport {
 	public String migrateData() {
 		try {
 			String action = request.getParameter("action") == null ? "" : request.getParameter("action") ;
-			User user = (User) request.getSession().getAttribute("onlineUser");
-			String userId = user.getId(); 
+			Sysuser user = (Sysuser) request.getSession().getAttribute("onlineUser");
+			String userId = user.getSys_user_id(); 
 			String migrateResult = migrateDAO.migrateData(action,userId);
 					
 			JSONObject responseText = new JSONObject();

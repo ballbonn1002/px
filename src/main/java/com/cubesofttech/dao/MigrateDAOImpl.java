@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.cubesofttech.model.Department;
+import com.cubesofttech.model.Holiday;
 import com.cubesofttech.model.LeaveType;
 import com.cubesofttech.model.Leaves;
 import com.cubesofttech.model.Migrate;
@@ -399,6 +400,60 @@ public class MigrateDAOImpl implements MigrateDAO {
 			detailWorkHours.setTime_create(new java.sql.Timestamp(System.currentTimeMillis()));
 			detailWorkHours.setTime_update(new java.sql.Timestamp(System.currentTimeMillis()));
 			migrateDetailList.add(detailWorkHours);
+			//==========================================//
+			
+			//========== Table Holiday ============//
+			table = "holiday";
+			JSONObject holiday_error = new JSONObject();
+			holiday_error.put("table", table);
+			JSONArray holiday_id_err = new JSONArray();
+			int selectNumHoliday = 0;
+			int insertNumHoliday = 0;
+			int errorNumHoliday = 0;
+			
+			String sqlHoliday = "select * from holiday where time_update >= '"+lastedMigrate+"'";					
+			Statement stmtHoliday = con.createStatement();
+			ResultSet rsHoliday = stmtHoliday.executeQuery(sqlHoliday);
+			while (rsHoliday.next()) {
+				selectNumHoliday++;
+				try {			
+					//Set value to model object
+					Holiday holiday = new Holiday();
+					holiday.setId_date(rsHoliday.getLong("id_date"));
+					holiday.setStart_date(rsHoliday.getDate("start_date"));
+					holiday.setEnd_date(rsHoliday.getDate("end_date"));
+					holiday.setHead(rsHoliday.getString("head"));
+					holiday.setDescription(rsHoliday.getString("description"));																			
+					holiday.setUserCreate(rsHoliday.getString("user_create"));
+					holiday.setUserUpdate(rsHoliday.getString("user_update"));
+					holiday.setTimeCreate(rsHoliday.getTimestamp("time_create"));
+					holiday.setTimeUpdate(rsHoliday.getTimestamp("time_update"));
+					
+					//execute insert or update to payroll
+					holidayDAO.saveOrUpdate(holiday);
+					insertNumHoliday++;
+				}catch (Exception e) {
+					holiday_id_err.put(rsHoliday.getString("id_date"));
+					errorNumHoliday++;
+				}
+			}
+			holiday_error.put("id", holiday_id_err);
+			holiday_error.put("error", errorNumHoliday);
+			jsonError.put(holiday_error);
+			
+			//Set record to migrate_detail
+			Migrate_detail detailHoliday = new Migrate_detail();
+			detailHoliday.setStatus(errorNumHoliday == 0 ? "1" : "0");
+			detailHoliday.setSelect_from(table);
+			detailHoliday.setInsert_to(table);
+			detailHoliday.setSelect_num(Integer.toString(selectNumHoliday));
+			detailHoliday.setInsert_num(Integer.toString(insertNumHoliday));
+			detailHoliday.setError_num(Integer.toString(errorNumHoliday));
+			detailHoliday.setUser_create(userId);
+			detailHoliday.setUser_update(userId);
+			detailHoliday.setTime_create(new java.sql.Timestamp(System.currentTimeMillis()));
+			detailHoliday.setTime_update(new java.sql.Timestamp(System.currentTimeMillis()));
+			migrateDetailList.add(detailHoliday);
 			//==========================================//
 			
 			//========== Table User ============//
